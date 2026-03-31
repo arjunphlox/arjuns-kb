@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:52:45Z"
-analyzed_at: "2026-03-31T16:52:45Z"
+added_at: "2026-01-04T20:24:25Z"
+analyzed_at: "2026-01-04T20:24:25Z"
 
 tags:
   - { tag: "vexus", category: "subject", weight: 0.8 }

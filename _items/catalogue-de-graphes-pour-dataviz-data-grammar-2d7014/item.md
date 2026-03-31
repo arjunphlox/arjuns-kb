@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/83894451/Catalogue-de-graphes-pour-
 slug: "catalogue-de-graphes-pour-dataviz-data-grammar-2d7014"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Catalogue de graphes pour dataviz : data grammar"
-og_image: null
+summary: "Graphic Design, Art Direction, Illustration, Adobe Illustrator, Adobe Photoshop Lightroom"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:42Z"
-analyzed_at: "2026-03-31T16:57:42Z"
+added_at: "2026-01-21T19:26:24Z"
+analyzed_at: "2026-01-21T19:26:24Z"
 
 tags:
   - { tag: "catalogue", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "matter-of-2be5a1"
 domain: "matterof.online"
 author: null
 summary: "Saved from matterof.online: Matter Of"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:15:29Z"
-analyzed_at: "2026-03-31T17:15:29Z"
+added_at: "2026-03-20T19:43:42Z"
+analyzed_at: "2026-03-20T19:43:42Z"
 
 tags:
   - { tag: "matter", category: "subject", weight: 0.8 }

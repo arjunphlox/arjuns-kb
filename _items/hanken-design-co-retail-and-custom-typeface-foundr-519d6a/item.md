@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:27:55Z"
-analyzed_at: "2026-03-31T15:27:55Z"
+added_at: "2026-02-04T23:39:39Z"
+analyzed_at: "2026-02-04T23:39:39Z"
 
 tags:
   - { tag: "hanken", category: "subject", weight: 0.8 }

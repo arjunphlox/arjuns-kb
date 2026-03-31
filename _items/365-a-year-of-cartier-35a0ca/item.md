@@ -5,12 +5,12 @@ slug: "365-a-year-of-cartier-35a0ca"
 domain: "365ayearof.cartier.com"
 author: null
 summary: "Saved from 365ayearof.cartier.com: 365 - A year of Cartier"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:05:20Z"
-analyzed_at: "2026-03-31T18:05:20Z"
+added_at: "2026-03-04T06:47:38Z"
+analyzed_at: "2026-03-04T06:47:38Z"
 
 tags:
   - { tag: "year", category: "subject", weight: 0.8 }

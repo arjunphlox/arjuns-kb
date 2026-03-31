@@ -4,13 +4,13 @@ source_url: "https://www.framer.com/marketplace/plugins/depth-grid/"
 slug: "depth-grid-framer-marketplace-9ec325"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: Depth Grid — Framer Marketplace"
-og_image: null
+summary: "Looking to enhance your designs with stunning perspective grids and tunnels? Depth Grid is the perfect tool to add depth and visual impact to your projects in a few clicks."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:39Z"
-analyzed_at: "2026-03-31T17:11:39Z"
+added_at: "2026-03-20T15:35:49Z"
+analyzed_at: "2026-03-20T15:35:49Z"
 
 tags:
   - { tag: "depth", category: "subject", weight: 0.8 }

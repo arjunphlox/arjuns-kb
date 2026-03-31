@@ -5,12 +5,12 @@ slug: "14islands-creative-design-technology-agency-6d3b79"
 domain: "14islands.com"
 author: null
 summary: "Saved from 14islands.com: 14islands | Creative design & technology agency"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:17:39Z"
-analyzed_at: "2026-03-31T17:17:39Z"
+added_at: "2026-01-30T16:29:21Z"
+analyzed_at: "2026-01-30T16:29:21Z"
 
 tags:
   - { tag: "islands", category: "subject", weight: 0.8 }

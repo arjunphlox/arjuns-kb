@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:02:09Z"
-analyzed_at: "2026-03-31T18:02:09Z"
+added_at: "2026-02-08T15:31:13Z"
+analyzed_at: "2026-02-08T15:31:13Z"
 
 tags:
   - { tag: "incident", category: "subject", weight: 0.8 }

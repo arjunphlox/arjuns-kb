@@ -6,12 +6,12 @@ domain: "interroban.gg"
 author: null
 summary: "A post about markdown, one of may favourite bits of software
 "
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:24:20Z"
-analyzed_at: "2026-03-31T15:24:20Z"
+added_at: "2026-01-28T17:26:13Z"
+analyzed_at: "2026-01-28T17:26:13Z"
 
 tags:
   - { tag: "luke", category: "subject", weight: 0.8 }

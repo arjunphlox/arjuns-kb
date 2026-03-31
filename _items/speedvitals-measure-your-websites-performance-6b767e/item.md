@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:40:43Z"
-analyzed_at: "2026-03-31T17:40:43Z"
+added_at: "2026-03-06T10:34:18Z"
+analyzed_at: "2026-03-06T10:34:18Z"
 
 tags:
   - { tag: "speedvitals", category: "subject", weight: 0.8 }

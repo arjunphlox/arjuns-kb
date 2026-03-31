@@ -5,12 +5,12 @@ slug: "kostya-farbers-website-9b3414"
 domain: "kostyafarber.com"
 author: null
 summary: "A blog and portfolio site for Kostya Farber"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:00:56Z"
-analyzed_at: "2026-03-31T18:00:56Z"
+added_at: "2026-01-10T03:06:00Z"
+analyzed_at: "2026-01-10T03:06:00Z"
 
 tags:
   - { tag: "kostya", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/201458569/Webflow-Released"
 slug: "webflow-released-8db88a"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Webflow Released"
-og_image: null
+summary: "3D Motion, Motion Graphics, Creative Direction, Maxon Cinema 4D, Octane Render, Adobe Photoshop, Adobe After Effects"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:20:34Z"
-analyzed_at: "2026-03-31T15:20:34Z"
+added_at: "2026-03-05T18:07:31Z"
+analyzed_at: "2026-03-05T18:07:31Z"
 
 tags:
   - { tag: "webflow", category: "subject", weight: 0.8 }

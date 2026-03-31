@@ -4,13 +4,13 @@ source_url: "https://www.almond.studio/"
 slug: "studio-almond-shopify-plus-experts-b24a42"
 domain: "almond.studio"
 author: null
-summary: "Saved from almond.studio: Studio Almond | Shopify Plus Experts"
+summary: "Leading Ecommerce Studio based in Auckland, New Zealand. We specialise in design and UX led sites for fashion, lifestyle, wellness and FMCG brands, all powered by Shopify."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:16:03Z"
-analyzed_at: "2026-03-31T17:16:03Z"
+added_at: "2026-01-03T15:35:04Z"
+analyzed_at: "2026-01-03T15:35:04Z"
 
 tags:
   - { tag: "studio", category: "subject", weight: 0.8 }

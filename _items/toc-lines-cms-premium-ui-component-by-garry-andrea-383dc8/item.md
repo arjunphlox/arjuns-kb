@@ -4,13 +4,13 @@ source_url: "https://www.framer.com/marketplace/components/toc-lines-cms/"
 slug: "toc-lines-cms-premium-ui-component-by-garry-andrea-383dc8"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: TOC Lines (CMS): Premium UI Component by Garry Andreano — Framer Marketplace"
-og_image: null
+summary: "A table of contents that expands/retracts (on hover or tap) into a subtle, vertically positioned collection of horizontal lines of different lengths, corresponding to CMS headings."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:09Z"
-analyzed_at: "2026-03-31T17:11:09Z"
+added_at: "2026-02-11T20:54:06Z"
+analyzed_at: "2026-02-11T20:54:06Z"
 
 tags:
   - { tag: "toc", category: "subject", weight: 0.8 }

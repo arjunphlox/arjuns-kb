@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:14:39Z"
-analyzed_at: "2026-03-31T17:14:39Z"
+added_at: "2026-02-11T23:24:47Z"
+analyzed_at: "2026-02-11T23:24:47Z"
 
 tags:
   - { tag: "crafting", category: "subject", weight: 0.8 }

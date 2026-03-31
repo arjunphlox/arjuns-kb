@@ -4,13 +4,13 @@ source_url: "http://www.behance.net/gallery/Youngs-Seafood/9238855"
 slug: "pinterestelement-75149a"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: PinterestElement"
-og_image: null
+summary: "Rebrand of Young’s Seafood, the UK’s leading branded producer and distributor of seafood. With the heritage and experience of over 200 years, they understand the importance of sustainability within th"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:25:23Z"
-analyzed_at: "2026-03-31T15:25:23Z"
+added_at: "2026-01-18T11:15:07Z"
+analyzed_at: "2026-01-18T11:15:07Z"
 
 tags:
   - { tag: "pinterestelement", category: "subject", weight: 0.8 }

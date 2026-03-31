@@ -4,13 +4,13 @@ source_url: "https://www.gohigh.co.in/products/new-gohigh-skylight-smart-app-con
 slug: "gohighcoin-49b615"
 domain: "gohigh.co.in"
 author: null
-summary: "Saved from gohigh.co.in: gohigh.co.in"
-og_image: null
+summary: "Best smart LED strips light online at GoHigh with 15 million colors to get long lasting lighting effect to your home. Works with Alexa & Google home."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:32:17Z"
-analyzed_at: "2026-03-31T17:32:17Z"
+added_at: "2026-03-28T14:15:13Z"
+analyzed_at: "2026-03-28T14:15:13Z"
 
 tags:
   - { tag: "gohigh", category: "subject", weight: 0.8 }

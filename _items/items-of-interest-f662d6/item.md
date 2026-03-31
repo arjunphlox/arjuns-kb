@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/46789913/Items-of-Interest?tracking
 slug: "items-of-interest-f662d6"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Items of Interest"
-og_image: null
+summary: "A conceptual data visualisation poster for the Signal Noise Private i exhibition that cross-referenced captured Twitter data with a DoHS keyword list to show how what we say online can be misinterpret"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:48Z"
-analyzed_at: "2026-03-31T16:57:48Z"
+added_at: "2026-01-12T01:57:29Z"
+analyzed_at: "2026-01-12T01:57:29Z"
 
 tags:
   - { tag: "items", category: "subject", weight: 0.8 }

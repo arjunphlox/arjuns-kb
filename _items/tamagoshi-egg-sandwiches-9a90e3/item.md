@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/168030199/Tamagoshi-Egg-Sandwiches"
 slug: "tamagoshi-egg-sandwiches-9a90e3"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Tamagoshi Egg Sandwiches"
-og_image: null
+summary: "Graphic Design, Illustration, Branding, Adobe Illustrator, Adobe Photoshop"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:34Z"
-analyzed_at: "2026-03-31T17:00:34Z"
+added_at: "2026-03-11T16:19:03Z"
+analyzed_at: "2026-03-11T16:19:03Z"
 
 tags:
   - { tag: "tamagoshi", category: "subject", weight: 0.8 }

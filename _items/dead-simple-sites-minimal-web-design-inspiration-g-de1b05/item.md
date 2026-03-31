@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:12:25Z"
-analyzed_at: "2026-03-31T18:12:25Z"
+added_at: "2026-01-03T23:53:17Z"
+analyzed_at: "2026-01-03T23:53:17Z"
 
 tags:
   - { tag: "dead", category: "subject", weight: 0.8 }

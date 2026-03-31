@@ -4,13 +4,13 @@ source_url: "https://amzn.asia/d/h87EmIy"
 slug: "teenage-engineering-opxy-portable-synthesizer-samp-5fabed"
 domain: "amzn.asia"
 author: null
-summary: "Saved from amzn.asia: teenage engineering OP–XY portable synthesizer, sampler and 64-step sequencer with built-in speaker, microphone and brain™ feature : Amazon.sg: Musical Instruments"
+summary: "teenage engineering OP–XY portable synthesizer, sampler and 64-step sequencer with built-in speaker, microphone and brain™ feature : Amazon.sg: Musical Instruments"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:14Z"
-analyzed_at: "2026-03-31T17:30:14Z"
+added_at: "2026-01-31T02:38:25Z"
+analyzed_at: "2026-01-31T02:38:25Z"
 
 tags:
   - { tag: "teenage", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://amzn.in/d/cb6a0mM"
 slug: "amazonin-cd5be4"
 domain: "amzn.in"
 author: null
-summary: "Saved from amzn.in: Amazon.in"
+summary: "Amazon.in: Buy ZWO Seestar S50 Smart Telescope - All-in-One Portable Astronomy Telescope with Tripod, Built-in Camera & WiFi App Control for Astrophotography & Stargazing online at low price in India."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:27:00Z"
-analyzed_at: "2026-03-31T17:27:00Z"
+added_at: "2026-03-06T19:24:49Z"
+analyzed_at: "2026-03-06T19:24:49Z"
 
 tags:
   - { tag: "amazon", category: "subject", weight: 0.8 }

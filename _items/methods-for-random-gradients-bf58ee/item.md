@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:23:14Z"
-analyzed_at: "2026-03-31T17:23:14Z"
+added_at: "2026-01-27T16:58:40Z"
+analyzed_at: "2026-01-27T16:58:40Z"
 
 tags:
   - { tag: "methods", category: "subject", weight: 0.8 }

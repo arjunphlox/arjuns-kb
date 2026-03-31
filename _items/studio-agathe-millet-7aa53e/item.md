@@ -4,13 +4,13 @@ source_url: "https://agathemillet.fr/"
 slug: "studio-agathe-millet-7aa53e"
 domain: "agathemillet.fr"
 author: null
-summary: "Saved from agathemillet.fr: Studio Agathe Millet"
-og_image: null
+summary: "Designer Graphique et Directrice Artistique freelance, je développe toutes sortes de projets imprimés ou numériques. Basée entre Montpellier et Bordeaux, je travaille également à distance."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:59:32Z"
-analyzed_at: "2026-03-31T17:59:32Z"
+added_at: "2026-01-08T09:05:44Z"
+analyzed_at: "2026-01-08T09:05:44Z"
 
 tags:
   - { tag: "studio", category: "subject", weight: 0.8 }

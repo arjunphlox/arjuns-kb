@@ -15,8 +15,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:03Z"
-analyzed_at: "2026-03-31T16:54:03Z"
+added_at: "2026-01-13T22:39:38Z"
+analyzed_at: "2026-01-13T22:39:38Z"
 
 tags:
   - { tag: "tailwindcss", category: "subject", weight: 0.8 }

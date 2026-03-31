@@ -4,13 +4,13 @@ source_url: "https://automattic.com/"
 slug: "automattic-making-the-web-a-better-place-8933ff"
 domain: "automattic.com"
 author: null
-summary: "Saved from automattic.com: Automattic – Making the web a better place"
-og_image: null
+summary: "Making the web a better place"
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:25:55Z"
-analyzed_at: "2026-03-31T13:25:55Z"
+added_at: "2026-03-16T03:51:22Z"
+analyzed_at: "2026-03-16T03:51:22Z"
 
 tags:
   - { tag: "automattic", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:34Z"
-analyzed_at: "2026-03-31T17:28:34Z"
+added_at: "2026-01-15T16:36:42Z"
+analyzed_at: "2026-01-15T16:36:42Z"
 
 tags:
   - { tag: "pincard", category: "subject", weight: 0.8 }

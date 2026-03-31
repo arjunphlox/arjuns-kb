@@ -5,12 +5,12 @@ slug: "app-make-time-4f2f7c"
 domain: "maketime.blog"
 author: null
 summary: "Explore Make Time tools, training, and resources built to help individuals and teams redesign their time and get more done without burnout."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:36:09Z"
-analyzed_at: "2026-03-31T17:36:09Z"
+added_at: "2026-03-10T09:31:29Z"
+analyzed_at: "2026-03-10T09:31:29Z"
 
 tags:
   - { tag: "app", category: "subject", weight: 0.8 }

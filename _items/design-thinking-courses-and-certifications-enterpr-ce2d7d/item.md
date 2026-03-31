@@ -4,13 +4,13 @@ source_url: "https://www.ibm.com/design/thinking/"
 slug: "design-thinking-courses-and-certifications-enterpr-ce2d7d"
 domain: "ibm.com"
 author: null
-summary: "Saved from ibm.com: Design thinking courses and certifications - Enterprise Design Thinking"
-og_image: null
+summary: "Discover IBM's Enterprise Design Thinking framework—a scalable, human-centered framework that helps teams align on user outcomes, accelerates collaboration, and drives innovation at speed and scale."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:03:39Z"
-analyzed_at: "2026-03-31T17:03:39Z"
+added_at: "2026-02-23T06:57:26Z"
+analyzed_at: "2026-02-23T06:57:26Z"
 
 tags:
   - { tag: "design", category: "subject", weight: 0.8 }

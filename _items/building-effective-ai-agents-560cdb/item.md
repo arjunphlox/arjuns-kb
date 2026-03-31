@@ -4,13 +4,13 @@ source_url: "https://www.anthropic.com/engineering/building-effective-agents"
 slug: "building-effective-ai-agents-560cdb"
 domain: "anthropic.com"
 author: null
-summary: "Saved from anthropic.com: Building Effective AI Agents"
-og_image: null
+summary: "Discover how Anthropic approaches the development of reliable AI agents. Learn about our research on agent capabilities, safety considerations, and technical framework for building trustworthy AI."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:20:47Z"
-analyzed_at: "2026-03-31T17:20:47Z"
+added_at: "2026-02-12T01:31:57Z"
+analyzed_at: "2026-02-12T01:31:57Z"
 
 tags:
   - { tag: "building", category: "subject", weight: 0.8 }

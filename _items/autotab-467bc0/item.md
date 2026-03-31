@@ -5,12 +5,12 @@ slug: "autotab-467bc0"
 domain: "autotab.com"
 author: null
 summary: "General AI agent that learns and works like a human."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:25:23Z"
-analyzed_at: "2026-03-31T17:25:23Z"
+added_at: "2026-02-06T04:46:02Z"
+analyzed_at: "2026-02-06T04:46:02Z"
 
 tags:
   - { tag: "autotab", category: "subject", weight: 0.8 }

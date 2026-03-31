@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:04:10Z"
-analyzed_at: "2026-03-31T18:04:10Z"
+added_at: "2026-02-10T21:01:29Z"
+analyzed_at: "2026-02-10T21:01:29Z"
 
 tags:
   - { tag: "communication", category: "subject", weight: 0.8 }

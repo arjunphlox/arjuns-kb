@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:05:31Z"
-analyzed_at: "2026-03-31T17:05:31Z"
+added_at: "2026-02-06T08:43:30Z"
+analyzed_at: "2026-02-06T08:43:30Z"
 
 tags:
   - { tag: "vercel", category: "subject", weight: 0.8 }

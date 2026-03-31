@@ -5,12 +5,12 @@ slug: "a-vietnamese-studio-rebrands-pet-food-inspired-by--3881a5"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: A Vietnamese studio rebrands pet-food inspired by the wagging tails and pointy ears of our furry friends"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:54Z"
-analyzed_at: "2026-03-31T17:00:54Z"
+added_at: "2026-03-19T05:15:35Z"
+analyzed_at: "2026-03-19T05:15:35Z"
 
 tags:
   - { tag: "vietnamese", category: "subject", weight: 0.8 }

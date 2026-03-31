@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:15:58Z"
-analyzed_at: "2026-03-31T17:15:58Z"
+added_at: "2026-02-19T08:08:53Z"
+analyzed_at: "2026-02-19T08:08:53Z"
 
 tags:
   - { tag: "lca", category: "subject", weight: 0.8 }

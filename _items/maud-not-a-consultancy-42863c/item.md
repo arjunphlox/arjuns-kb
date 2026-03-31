@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/200877265/MAUD-Not-a-Consultancy"
 slug: "maud-not-a-consultancy-42863c"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: MAUD • Not a Consultancy"
-og_image: null
+summary: "Branding, Logo Design, Graphic Design, Adobe Illustrator, Adobe Photoshop"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:59:41Z"
-analyzed_at: "2026-03-31T16:59:41Z"
+added_at: "2026-02-12T05:35:22Z"
+analyzed_at: "2026-02-12T05:35:22Z"
 
 tags:
   - { tag: "maud", category: "subject", weight: 0.8 }

@@ -11,8 +11,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:07Z"
-analyzed_at: "2026-03-31T17:30:07Z"
+added_at: "2026-03-13T21:10:49Z"
+analyzed_at: "2026-03-13T21:10:49Z"
 
 tags:
   - { tag: "kokuyo", category: "subject", weight: 0.8 }

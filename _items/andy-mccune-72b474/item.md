@@ -4,13 +4,13 @@ source_url: "https://andymccune.com/"
 slug: "andy-mccune-72b474"
 domain: "andymccune.com"
 author: null
-summary: "Saved from andymccune.com: Andy McCune"
-og_image: null
+summary: "Andy McCune is the founder and CEO of Cosmos. Investing in design-led companies."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:11:22Z"
-analyzed_at: "2026-03-31T18:11:22Z"
+added_at: "2026-01-08T10:13:43Z"
+analyzed_at: "2026-01-08T10:13:43Z"
 
 tags:
   - { tag: "andy", category: "subject", weight: 0.8 }

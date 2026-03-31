@@ -4,13 +4,13 @@ source_url: "https://www.smashingmagazine.com/2022/09/realities-myths-contrast-c
 slug: "the-realities-and-myths-of-contrast-and-color-smas-340091"
 domain: "smashingmagazine.com"
 author: null
-summary: "Saved from smashingmagazine.com: The Realities And Myths Of Contrast And Color — Smashing Magazine"
-og_image: null
+summary: "In this article, Andrew Somers, a 35-year veteran of the Hollywood film and television industry, shares his experience about the hard-fought battles and lessons learned designing for illuminated prese"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:20:53Z"
-analyzed_at: "2026-03-31T15:20:53Z"
+added_at: "2026-01-29T10:52:02Z"
+analyzed_at: "2026-01-29T10:52:02Z"
 
 tags:
   - { tag: "realities", category: "subject", weight: 0.8 }

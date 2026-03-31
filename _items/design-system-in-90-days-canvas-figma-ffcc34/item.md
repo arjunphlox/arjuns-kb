@@ -4,13 +4,13 @@ source_url: "https://www.figma.com/community/file/1275210165201477676"
 slug: "design-system-in-90-days-canvas-figma-ffcc34"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: 🎨 Design System in 90 Days Canvas | Figma"
+summary: "A canvas I’ve used with many enterprise clients to help them get a design system product up and running—and adopted!—in 90 days or less. This canvas is part of the “Design System in 90 Days” program a"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:23Z"
-analyzed_at: "2026-03-31T17:19:23Z"
+added_at: "2026-03-07T04:42:34Z"
+analyzed_at: "2026-03-07T04:42:34Z"
 
 tags:
   - { tag: "design", category: "subject", weight: 0.8 }

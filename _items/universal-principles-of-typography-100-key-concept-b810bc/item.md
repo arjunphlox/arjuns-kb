@@ -4,13 +4,13 @@ source_url: "https://www.amazon.com/Universal-Principles-Typography-Concepts-Cho
 slug: "universal-principles-of-typography-100-key-concept-b810bc"
 domain: "amazon.com"
 author: null
-summary: "Saved from amazon.com: Universal Principles of Typography: 100 Key Concepts for Choosing and Using Type (Rockport Universal)"
+summary: "Universal Principles of Typography: 100 Key Concepts for Choosing and Using Type (Rockport Universal) [Stocks, Elliot Jay, Lupton, Ellen] on Amazon.com. *FREE* shipping on qualifying offers. Universal"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:23:32Z"
-analyzed_at: "2026-03-31T15:23:32Z"
+added_at: "2026-01-11T16:42:13Z"
+analyzed_at: "2026-01-11T16:42:13Z"
 
 tags:
   - { tag: "universal", category: "subject", weight: 0.8 }

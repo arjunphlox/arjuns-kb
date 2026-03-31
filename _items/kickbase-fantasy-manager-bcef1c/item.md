@@ -4,13 +4,13 @@ source_url: "https://www.kickbase.com/"
 slug: "kickbase-fantasy-manager-bcef1c"
 domain: "kickbase.com"
 author: null
-summary: "Saved from kickbase.com: Kickbase Fantasy Manager"
+summary: "Enjoy your love for the game on a whole new level. Don’t just watch the game, become part of it. Be a Manager. Play against friends, or the community."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:01:33Z"
-analyzed_at: "2026-03-31T18:01:33Z"
+added_at: "2026-02-17T13:07:09Z"
+analyzed_at: "2026-02-17T13:07:09Z"
 
 tags:
   - { tag: "kickbase", category: "subject", weight: 0.8 }

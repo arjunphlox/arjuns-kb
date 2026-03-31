@@ -5,12 +5,12 @@ slug: "ownpath-studios-design-development-studio-7622e6"
 domain: "ownpath.com"
 author: null
 summary: "ownpath Studios helps enterprises and fast-growing startups design and build websites, digital products, design systems, and brand identities. Trusted by Hero MotoCorp, PhonePe, and Philips Innovation"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:03:14Z"
-analyzed_at: "2026-03-31T17:03:14Z"
+added_at: "2026-03-28T01:09:33Z"
+analyzed_at: "2026-03-28T01:09:33Z"
 
 tags:
   - { tag: "ownpath", category: "subject", weight: 0.8 }

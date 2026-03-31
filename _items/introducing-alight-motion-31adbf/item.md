@@ -5,12 +5,12 @@ slug: "introducing-alight-motion-31adbf"
 domain: "alightmotion.com"
 author: null
 summary: "Saved from alightmotion.com: Introducing Alight Motion"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:34:29Z"
-analyzed_at: "2026-03-31T17:34:29Z"
+added_at: "2026-02-12T22:01:56Z"
+analyzed_at: "2026-02-12T22:01:56Z"
 
 tags:
   - { tag: "introducing", category: "subject", weight: 0.8 }

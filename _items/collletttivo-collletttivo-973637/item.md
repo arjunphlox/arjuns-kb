@@ -4,13 +4,13 @@ source_url: "https://www.collletttivo.it/"
 slug: "collletttivo-collletttivo-973637"
 domain: "collletttivo.it"
 author: null
-summary: "Saved from collletttivo.it: Collletttivo · Collletttivo"
+summary: "Collletttivo is an Open-Source type foundry and a network of people promoting the practice of type design through mutual exchange and collaboration."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:28:03Z"
-analyzed_at: "2026-03-31T15:28:03Z"
+added_at: "2026-02-02T21:59:22Z"
+analyzed_at: "2026-02-02T21:59:22Z"
 
 tags:
   - { tag: "collletttivo", category: "subject", weight: 0.8 }

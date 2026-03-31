@@ -4,13 +4,13 @@ source_url: "https://schultzschultz.com/tools/"
 slug: "schultzschultz-tools-4e9574"
 domain: "schultzschultz.com"
 author: null
-summary: "Saved from schultzschultz.com: Schultzschultz - Tools"
-og_image: null
+summary: "We are a design studio from Frankfurt, Germany. We create unique visual solutions for clients worldwide since 2007."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:37:59Z"
-analyzed_at: "2026-03-31T17:37:59Z"
+added_at: "2026-03-28T07:12:31Z"
+analyzed_at: "2026-03-28T07:12:31Z"
 
 tags:
   - { tag: "schultzschultz", category: "subject", weight: 0.8 }

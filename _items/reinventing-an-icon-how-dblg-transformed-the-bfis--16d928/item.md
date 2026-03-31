@@ -5,12 +5,12 @@ slug: "reinventing-an-icon-how-dblg-transformed-the-bfis--16d928"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: Reinventing an icon: how DBLG transformed the BFI’s “cascade” symbol for London Film Festival"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:46Z"
-analyzed_at: "2026-03-31T17:00:46Z"
+added_at: "2026-01-11T09:08:41Z"
+analyzed_at: "2026-01-11T09:08:41Z"
 
 tags:
   - { tag: "reinventing", category: "subject", weight: 0.8 }

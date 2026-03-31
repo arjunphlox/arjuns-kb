@@ -5,12 +5,12 @@ slug: "roughups-98cffa"
 domain: "roughups.com"
 author: null
 summary: "Create interactive wireframes with your iPad and Apple Pencil"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:34:30Z"
-analyzed_at: "2026-03-31T17:34:30Z"
+added_at: "2026-03-08T22:11:17Z"
+analyzed_at: "2026-03-08T22:11:17Z"
 
 tags:
   - { tag: "roughups", category: "subject", weight: 0.8 }

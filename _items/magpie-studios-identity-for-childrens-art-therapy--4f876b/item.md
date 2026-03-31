@@ -5,12 +5,12 @@ slug: "magpie-studios-identity-for-childrens-art-therapy--4f876b"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: Magpie Studio’s identity for children’s art therapy practice Magic Canvas balances “play with professionalism”"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:48Z"
-analyzed_at: "2026-03-31T17:00:48Z"
+added_at: "2026-01-02T02:07:02Z"
+analyzed_at: "2026-01-02T02:07:02Z"
 
 tags:
   - { tag: "magpie", category: "subject", weight: 0.8 }

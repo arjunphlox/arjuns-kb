@@ -5,12 +5,12 @@ slug: "numbers-dont-lie-the-rise-of-sports-betting-analyt-b7051a"
 domain: "oddityviz.com"
 author: null
 summary: "Sports betting has long relied on hunches, gut feelings and rudimentary analysis."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:56:19Z"
-analyzed_at: "2026-03-31T16:56:19Z"
+added_at: "2026-02-25T14:45:09Z"
+analyzed_at: "2026-02-25T14:45:09Z"
 
 tags:
   - { tag: "numbers", category: "subject", weight: 0.8 }

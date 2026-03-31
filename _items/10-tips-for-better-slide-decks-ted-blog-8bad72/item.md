@@ -5,12 +5,12 @@ slug: "10-tips-for-better-slide-decks-ted-blog-8bad72"
 domain: "blog.ted.com"
 author: null
 summary: "Want to make a great slidedeck? A TED staffer shares some big-picture things to think about, and some helpful tactical tips."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:03:05Z"
-analyzed_at: "2026-03-31T17:03:05Z"
+added_at: "2026-01-08T03:45:12Z"
+analyzed_at: "2026-01-08T03:45:12Z"
 
 tags:
   - { tag: "tips", category: "subject", weight: 0.8 }

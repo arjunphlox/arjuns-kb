@@ -5,12 +5,12 @@ slug: "speedcurve-the-psychology-of-site-speed-and-human--afa7b9"
 domain: "speedcurve.com"
 author: null
 summary: "If you don"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:22:30Z"
-analyzed_at: "2026-03-31T15:22:30Z"
+added_at: "2026-01-04T06:32:20Z"
+analyzed_at: "2026-01-04T06:32:20Z"
 
 tags:
   - { tag: "speedcurve", category: "subject", weight: 0.8 }

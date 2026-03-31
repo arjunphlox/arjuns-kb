@@ -5,12 +5,12 @@ slug: "carl-barenbrug-product-design-creative-direction-21d4fd"
 domain: "carlbarenbrug.com"
 author: null
 summary: "A product designer and creative director at Minimalissimo and 099"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:11:18Z"
-analyzed_at: "2026-03-31T18:11:18Z"
+added_at: "2026-02-15T05:35:57Z"
+analyzed_at: "2026-02-15T05:35:57Z"
 
 tags:
   - { tag: "carl", category: "subject", weight: 0.8 }

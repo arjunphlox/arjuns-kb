@@ -5,12 +5,12 @@ slug: "pixelier-mache-cc3f89"
 domain: "pixeliermache.com"
 author: null
 summary: "Framer website templates crafted to tell a story."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:12Z"
-analyzed_at: "2026-03-31T17:11:12Z"
+added_at: "2026-03-20T20:03:38Z"
+analyzed_at: "2026-03-20T20:03:38Z"
 
 tags:
   - { tag: "pixelier", category: "subject", weight: 0.8 }

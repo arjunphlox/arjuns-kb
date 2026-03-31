@@ -5,12 +5,12 @@ slug: "studio-shizarus-logo-for-iranian-art-and-heritage--4f5010"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: Studio Shizaru’s logo for Iranian art and heritage platform Simurghnameh mimics birds flocking in flight"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:59:39Z"
-analyzed_at: "2026-03-31T16:59:39Z"
+added_at: "2026-03-20T05:31:51Z"
+analyzed_at: "2026-03-20T05:31:51Z"
 
 tags:
   - { tag: "studio", category: "subject", weight: 0.8 }

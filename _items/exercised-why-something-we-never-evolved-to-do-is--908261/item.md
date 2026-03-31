@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:23:11Z"
-analyzed_at: "2026-03-31T15:23:11Z"
+added_at: "2026-01-27T17:03:53Z"
+analyzed_at: "2026-01-27T17:03:53Z"
 
 tags:
   - { tag: "exercised", category: "subject", weight: 0.8 }

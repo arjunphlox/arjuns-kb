@@ -4,13 +4,13 @@ source_url: "http://www.welie.com/patterns/"
 slug: "interaction-design-pattern-library-weliecom-8533a5"
 domain: "welie.com"
 author: null
-summary: "Saved from welie.com: Interaction Design Pattern Library - Welie.com"
+summary: "Interaction Design pattern library. More than 120 patterns for web designers. All patterns include examples, explanations and even links to literature and code"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:47Z"
-analyzed_at: "2026-03-31T15:26:47Z"
+added_at: "2026-02-14T07:50:32Z"
+analyzed_at: "2026-02-14T07:50:32Z"
 
 tags:
   - { tag: "interaction", category: "subject", weight: 0.8 }

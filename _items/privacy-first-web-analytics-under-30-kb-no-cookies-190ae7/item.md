@@ -5,12 +5,12 @@ slug: "privacy-first-web-analytics-under-30-kb-no-cookies-190ae7"
 domain: "databuddy.cc"
 author: null
 summary: "Web analytics, error tracking, and feature flags in one script under 30 KB. No cookies, no consent banners, GDPR compliant by default. Set up in 5 minutes. Open-source Google Analytics alternative."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:04:40Z"
-analyzed_at: "2026-03-31T17:04:40Z"
+added_at: "2026-03-18T12:09:36Z"
+analyzed_at: "2026-03-18T12:09:36Z"
 
 tags:
   - { tag: "privacy", category: "subject", weight: 0.8 }

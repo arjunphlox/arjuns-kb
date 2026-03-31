@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:20Z"
-analyzed_at: "2026-03-31T17:11:20Z"
+added_at: "2026-02-23T14:07:28Z"
+analyzed_at: "2026-02-23T14:07:28Z"
 
 tags:
   - { tag: "textclip", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:53:59Z"
-analyzed_at: "2026-03-31T16:53:59Z"
+added_at: "2026-03-21T22:08:31Z"
+analyzed_at: "2026-03-21T22:08:31Z"
 
 tags:
   - { tag: "proportio", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "fluid-responsive-design-utopia-d515ac"
 domain: "utopia.fyi"
 author: null
 summary: "Saved from utopia.fyi: Fluid Responsive Design | Utopia"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:22:44Z"
-analyzed_at: "2026-03-31T15:22:44Z"
+added_at: "2026-02-10T21:54:13Z"
+analyzed_at: "2026-02-10T21:54:13Z"
 
 tags:
   - { tag: "fluid", category: "subject", weight: 0.8 }

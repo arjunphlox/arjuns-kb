@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:07:39Z"
-analyzed_at: "2026-03-31T18:07:39Z"
+added_at: "2026-02-12T11:03:15Z"
+analyzed_at: "2026-02-12T11:03:15Z"
 
 tags:
   - { tag: "skreddersydd", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:37Z"
-analyzed_at: "2026-03-31T17:19:37Z"
+added_at: "2026-01-06T16:42:32Z"
+analyzed_at: "2026-01-06T16:42:32Z"
 
 tags:
   - { tag: "supa", category: "subject", weight: 0.8 }

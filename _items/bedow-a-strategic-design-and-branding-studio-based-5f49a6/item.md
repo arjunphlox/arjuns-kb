@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:16:15Z"
-analyzed_at: "2026-03-31T17:16:15Z"
+added_at: "2026-02-17T01:49:28Z"
+analyzed_at: "2026-02-17T01:49:28Z"
 
 tags:
   - { tag: "bedow", category: "subject", weight: 0.8 }

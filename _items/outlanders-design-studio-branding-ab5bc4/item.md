@@ -5,12 +5,12 @@ slug: "outlanders-design-studio-branding-ab5bc4"
 domain: "outlandersdesign.com"
 author: null
 summary: "Saved from outlandersdesign.com: Outlanders Design Studio | branding"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:15:47Z"
-analyzed_at: "2026-03-31T17:15:47Z"
+added_at: "2026-02-01T08:15:42Z"
+analyzed_at: "2026-02-01T08:15:42Z"
 
 tags:
   - { tag: "outlanders", category: "subject", weight: 0.8 }

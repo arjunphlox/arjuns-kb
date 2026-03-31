@@ -5,12 +5,12 @@ slug: "atlassian-design-a0a5db"
 domain: "atlassian.design"
 author: null
 summary: "Saved from atlassian.design: Atlassian Design"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:10Z"
-analyzed_at: "2026-03-31T16:54:10Z"
+added_at: "2026-03-07T10:51:18Z"
+analyzed_at: "2026-03-07T10:51:18Z"
 
 tags:
   - { tag: "atlassian", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:52:19Z"
-analyzed_at: "2026-03-31T17:52:19Z"
+added_at: "2026-01-20T11:56:04Z"
+analyzed_at: "2026-01-20T11:56:04Z"
 
 tags:
   - { tag: "bogdan", category: "subject", weight: 0.8 }

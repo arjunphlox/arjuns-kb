@@ -4,13 +4,13 @@ source_url: "https://lab24.ilsole24ore.com/qualita-della-vita/?refresh_ce=1"
 slug: "qualit-della-vita-2023-la-classifica-delle-provinc-f7076d"
 domain: "lab24.ilsole24ore.com"
 author: null
-summary: "Saved from lab24.ilsole24ore.com: Qualità della vita 2023: la classifica delle province italiane dove si vive meglio. Udine la migliore nel 2023 | Il Sole 24 ORE"
-og_image: null
+summary: "Qual è la provincia dove si vive meglio in Italia? La classifica annuale sulla qualità della vita vede nelle prime posizioni:  Trento, Bolzano e Udine"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:20Z"
-analyzed_at: "2026-03-31T16:57:20Z"
+added_at: "2026-03-29T17:19:42Z"
+analyzed_at: "2026-03-29T17:19:42Z"
 
 tags:
   - { tag: "qualit", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "generative-hut-home-of-generative-art-and-pen-plot-c69b5d"
 domain: "generativehut.com"
 author: null
 summary: "Saved from generativehut.com: Generative Hut, home of generative art and pen plotters"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:55:34Z"
-analyzed_at: "2026-03-31T16:55:34Z"
+added_at: "2026-02-05T16:28:00Z"
+analyzed_at: "2026-02-05T16:28:00Z"
 
 tags:
   - { tag: "generative", category: "subject", weight: 0.8 }

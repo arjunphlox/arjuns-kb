@@ -5,12 +5,12 @@ slug: "slot-the-digital-layer-browser-532599"
 domain: "slotapp.me"
 author: null
 summary: "Unique digital content, interactive modules and itineraries to make traveling exciting in a new way."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:21:11Z"
-analyzed_at: "2026-03-31T15:21:11Z"
+added_at: "2026-01-19T14:34:29Z"
+analyzed_at: "2026-01-19T14:34:29Z"
 
 tags:
   - { tag: "slot", category: "subject", weight: 0.8 }

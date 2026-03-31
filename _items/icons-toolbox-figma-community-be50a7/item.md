@@ -4,13 +4,16 @@ source_url: "https://www.figma.com/community/plugin/1026762327285154536/icons-to
 slug: "icons-toolbox-figma-community-be50a7"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: Icons Toolbox | Figma Community"
+summary: "Set of tools to save you from redoing the same thing over and over again while designing or using your favorite icons.
+
+Tools:
+Save frame sizes and icons max-width preferences in a form of a button to"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:24Z"
-analyzed_at: "2026-03-31T17:19:24Z"
+added_at: "2026-01-03T17:30:05Z"
+analyzed_at: "2026-01-03T17:30:05Z"
 
 tags:
   - { tag: "icons", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/82966197/Join-the-Conversation?trac
 slug: "join-the-conversation-e63962"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Join the Conversation"
-og_image: null
+summary: "During the first trimester of the year we had the pleasure of working with the design team at a well-known tech platform on some internal tests to develop graphics and movement that would encapsulate "
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:52Z"
-analyzed_at: "2026-03-31T17:00:52Z"
+added_at: "2026-02-14T09:50:11Z"
+analyzed_at: "2026-02-14T09:50:11Z"
 
 tags:
   - { tag: "join", category: "subject", weight: 0.8 }

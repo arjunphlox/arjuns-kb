@@ -5,12 +5,12 @@ slug: "upfront-wat-echt-is-wint-d8d638"
 domain: "upfront.nl"
 author: null
 summary: "Voeding is de brandstof voor al je prestaties, dus daar beginnen we: geen onzin claims, geen kleine lettertjes op de achterkant. Eerlijke, functionele ingrediënten, duidelijk vermeld op de voorkant va"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:07:30Z"
-analyzed_at: "2026-03-31T18:07:30Z"
+added_at: "2026-02-10T22:44:52Z"
+analyzed_at: "2026-02-10T22:44:52Z"
 
 tags:
   - { tag: "upfront", category: "subject", weight: 0.8 }

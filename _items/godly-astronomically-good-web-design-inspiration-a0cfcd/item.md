@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:12:21Z"
-analyzed_at: "2026-03-31T18:12:21Z"
+added_at: "2026-01-16T23:49:35Z"
+analyzed_at: "2026-01-16T23:49:35Z"
 
 tags:
   - { tag: "godly", category: "subject", weight: 0.8 }

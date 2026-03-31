@@ -5,12 +5,12 @@ slug: "the-art-of-documentary-929152"
 domain: "theartofdocumentary.com"
 author: null
 summary: "Start your filmmaking journey"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:01:31Z"
-analyzed_at: "2026-03-31T17:01:31Z"
+added_at: "2026-03-29T09:48:07Z"
+analyzed_at: "2026-03-29T09:48:07Z"
 
 tags:
   - { tag: "art", category: "subject", weight: 0.8 }

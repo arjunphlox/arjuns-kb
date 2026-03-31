@@ -6,12 +6,12 @@ domain: "interroban.gg"
 author: null
 summary: "A sensible metaphor by Matthew about how AI and automation can make designers more effective.
 "
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:21:46Z"
-analyzed_at: "2026-03-31T17:21:46Z"
+added_at: "2026-02-16T04:34:09Z"
+analyzed_at: "2026-02-16T04:34:09Z"
 
 tags:
   - { tag: "luke", category: "subject", weight: 0.8 }

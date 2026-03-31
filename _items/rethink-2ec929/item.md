@@ -5,12 +5,12 @@ slug: "rethink-2ec929"
 domain: "rethinkideas.com"
 author: null
 summary: "Rethink is an independent creative agency based out of Vancouver, Toronto, Montreal, and New York. We relentlessly pursue work the world talks about."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:21:25Z"
-analyzed_at: "2026-03-31T15:21:25Z"
+added_at: "2026-01-15T17:48:01Z"
+analyzed_at: "2026-01-15T17:48:01Z"
 
 tags:
   - { tag: "rethink", category: "subject", weight: 0.8 }

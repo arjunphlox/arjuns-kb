@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:27:18Z"
-analyzed_at: "2026-03-31T13:27:18Z"
+added_at: "2026-02-05T22:40:38Z"
+analyzed_at: "2026-02-05T22:40:38Z"
 
 tags:
   - { tag: "interviewing", category: "subject", weight: 0.8 }

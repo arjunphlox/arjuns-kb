@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:01:42Z"
-analyzed_at: "2026-03-31T17:01:42Z"
+added_at: "2026-03-02T17:51:56Z"
+analyzed_at: "2026-03-02T17:51:56Z"
 
 tags:
   - { tag: "typography", category: "subject", weight: 0.8 }

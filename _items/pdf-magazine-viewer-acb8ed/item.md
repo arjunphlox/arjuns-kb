@@ -5,12 +5,12 @@ slug: "pdf-magazine-viewer-acb8ed"
 domain: "pdfzine.xyz"
 author: null
 summary: "PDF Magazine Viewer created using create-react-app"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:36:52Z"
-analyzed_at: "2026-03-31T17:36:52Z"
+added_at: "2026-03-12T10:23:12Z"
+analyzed_at: "2026-03-12T10:23:12Z"
 
 tags:
   - { tag: "pdf", category: "subject", weight: 0.8 }

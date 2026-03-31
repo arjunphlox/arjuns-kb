@@ -18,8 +18,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:28:45Z"
-analyzed_at: "2026-03-31T15:28:45Z"
+added_at: "2026-03-11T07:33:25Z"
+analyzed_at: "2026-03-11T07:33:25Z"
 
 tags:
   - { tag: "designing", category: "subject", weight: 0.8 }

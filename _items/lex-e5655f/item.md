@@ -5,12 +5,12 @@ slug: "lex-e5655f"
 domain: "lex.page"
 author: null
 summary: "Saved from lex.page: Lex"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:41:25Z"
-analyzed_at: "2026-03-31T17:41:25Z"
+added_at: "2026-02-09T20:32:04Z"
+analyzed_at: "2026-02-09T20:32:04Z"
 
 tags:
   - { tag: "lex", category: "subject", weight: 0.8 }

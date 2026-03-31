@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:55Z"
-analyzed_at: "2026-03-31T17:28:55Z"
+added_at: "2026-01-12T01:44:41Z"
+analyzed_at: "2026-01-12T01:44:41Z"
 
 tags:
   - { tag: "comfort", category: "subject", weight: 0.8 }

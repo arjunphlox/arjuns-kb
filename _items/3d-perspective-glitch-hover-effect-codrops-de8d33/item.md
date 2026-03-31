@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:05:00Z"
-analyzed_at: "2026-03-31T17:05:00Z"
+added_at: "2026-03-16T20:16:49Z"
+analyzed_at: "2026-03-16T20:16:49Z"
 
 tags:
   - { tag: "perspective", category: "subject", weight: 0.8 }

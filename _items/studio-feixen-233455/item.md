@@ -5,12 +5,12 @@ slug: "studio-feixen-233455"
 domain: "studiofeixen.ch"
 author: null
 summary: "Studio Feixen is a Swiss multidisciplinary design studio working across various fields, including graphic design, type design, animation, product design, and spatial design."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:16:26Z"
-analyzed_at: "2026-03-31T17:16:26Z"
+added_at: "2026-01-20T03:32:13Z"
+analyzed_at: "2026-01-20T03:32:13Z"
 
 tags:
   - { tag: "studio", category: "subject", weight: 0.8 }

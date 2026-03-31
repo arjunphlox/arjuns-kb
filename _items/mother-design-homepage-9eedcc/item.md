@@ -5,12 +5,12 @@ slug: "mother-design-homepage-9eedcc"
 domain: "motherdesign.com"
 author: null
 summary: "Mother Design is a global branding and design agency specializing in strategy, design, digital experiences, and marketing. We empower businesses to connect with their audience and achieve lasting impa"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:18:26Z"
-analyzed_at: "2026-03-31T17:18:26Z"
+added_at: "2026-02-13T13:39:16Z"
+analyzed_at: "2026-02-13T13:39:16Z"
 
 tags:
   - { tag: "mother", category: "subject", weight: 0.8 }

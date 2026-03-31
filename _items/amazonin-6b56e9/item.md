@@ -4,13 +4,13 @@ source_url: "https://www.amazon.in/Bluetooth-Belt-Driven-Turntable-Recording-Hea
 slug: "amazonin-6b56e9"
 domain: "amazon.in"
 author: null
-summary: "Saved from amazon.in: Amazon.in"
+summary: "Record Player for Vinyl with External Speakers, Bluetooth 3 Speed Vintage Belt-Driven 33 45 78 RPM Turntable with Stereo Speakers, MP3 PC Recording, RCA Line-Out, AUX-in Headphone Out, White : Amazon."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:26:56Z"
-analyzed_at: "2026-03-31T17:26:56Z"
+added_at: "2026-02-01T17:02:32Z"
+analyzed_at: "2026-02-01T17:02:32Z"
 
 tags:
   - { tag: "amazon", category: "subject", weight: 0.8 }

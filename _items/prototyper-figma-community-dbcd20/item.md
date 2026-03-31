@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:34Z"
-analyzed_at: "2026-03-31T17:19:34Z"
+added_at: "2026-03-30T20:17:41Z"
+analyzed_at: "2026-03-30T20:17:41Z"
 
 tags:
   - { tag: "prototyper", category: "subject", weight: 0.8 }

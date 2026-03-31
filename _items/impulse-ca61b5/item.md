@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:57Z"
-analyzed_at: "2026-03-31T16:57:57Z"
+added_at: "2026-01-10T11:42:44Z"
+analyzed_at: "2026-01-10T11:42:44Z"
 
 tags:
   - { tag: "impulse", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://www.lummi.ai/photo/digital-render-of-geometric-arches-s8jm"
 slug: "lummi-photo-digital-render-of-geometric-arches-84265f"
 domain: "lummi.ai"
 author: null
-summary: "Saved from lummi.ai: Lummi Photo - Digital Render of Geometric Arches"
-og_image: null
+summary: "Explore high-quality, royalty-free stock images on Lummi. Download stunning photos, illustrations, and HD videos for any creative project."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:42:20Z"
-analyzed_at: "2026-03-31T17:42:20Z"
+added_at: "2026-02-28T09:41:26Z"
+analyzed_at: "2026-02-28T09:41:26Z"
 
 tags:
   - { tag: "lummi", category: "subject", weight: 0.8 }

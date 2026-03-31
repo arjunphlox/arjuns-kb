@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/103106035/Universal-Pictures-Brand-
 slug: "universal-pictures-brand-identity-refinement-b598b6"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Universal Pictures Brand Identity Refinement"
-og_image: null
+summary: "Graphic Design, Adobe Illustrator"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:47Z"
-analyzed_at: "2026-03-31T17:00:47Z"
+added_at: "2026-02-17T20:00:56Z"
+analyzed_at: "2026-02-17T20:00:56Z"
 
 tags:
   - { tag: "universal", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://www.framer.com/marketplace/plugins/metaviewer/?via=v0urdh8&
 slug: "metaviewer-plugin-by-julien-vier-framer-marketplac-4491f3"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: MetaViewer: Plugin by Julien Vier — Framer Marketplace"
-og_image: null
+summary: "Get instant insights on your website’s metadata to boost your SEO and drive more organic traffic, without leaving the canvas."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:07Z"
-analyzed_at: "2026-03-31T17:11:07Z"
+added_at: "2026-01-08T18:02:04Z"
+analyzed_at: "2026-01-08T18:02:04Z"
 
 tags:
   - { tag: "metaviewer", category: "subject", weight: 0.8 }

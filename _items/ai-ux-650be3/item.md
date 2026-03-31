@@ -1,5 +1,5 @@
 ---
-title: "AI UX"
+title: "Redirecting..."
 source_url: "https://app.clipmate.ai/public/6KrQgoseerhA2NhZS3RJGg58lFi1/LJTVoKTYw4_8luYBoTnur"
 slug: "ai-ux-650be3"
 domain: "app.clipmate.ai"
@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:22:20Z"
-analyzed_at: "2026-03-31T17:22:20Z"
+added_at: "2026-02-12T16:57:10Z"
+analyzed_at: "2026-02-12T16:57:10Z"
 
 tags:
   - { tag: "gen-ai", category: "domain", weight: 0.7 }

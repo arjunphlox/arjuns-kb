@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:38:52Z"
-analyzed_at: "2026-03-31T17:38:52Z"
+added_at: "2026-01-28T05:36:47Z"
+analyzed_at: "2026-01-28T05:36:47Z"
 
 tags:
   - { tag: "typeshare", category: "subject", weight: 0.8 }

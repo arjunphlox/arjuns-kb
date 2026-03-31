@@ -4,13 +4,13 @@ source_url: "https://projectone.tv/"
 slug: "the-project-one-71e58a"
 domain: "projectone.tv"
 author: null
-summary: "Saved from projectone.tv: The Project One"
+summary: "The Mercedes-AMG ONE: A car that made history, before it was even built."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:02:51Z"
-analyzed_at: "2026-03-31T18:02:51Z"
+added_at: "2026-01-25T20:44:34Z"
+analyzed_at: "2026-01-25T20:44:34Z"
 
 tags:
   - { tag: "project", category: "subject", weight: 0.8 }

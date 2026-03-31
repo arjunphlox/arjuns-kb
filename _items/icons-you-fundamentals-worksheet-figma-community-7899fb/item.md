@@ -4,13 +4,15 @@ source_url: "https://www.figma.com/community/file/868494350497530898"
 slug: "icons-you-fundamentals-worksheet-figma-community-7899fb"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: Icons & You – Fundamentals Worksheet | Figma Community"
+summary: "Are your icons a weird mish-mash of styles? Did a client give you a brand set you have to match for a mobile app? How even???
+
+Wonder no more, as we go through some basics around UI icons, and how to "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:47Z"
-analyzed_at: "2026-03-31T17:19:47Z"
+added_at: "2026-01-25T14:17:09Z"
+analyzed_at: "2026-01-25T14:17:09Z"
 
 tags:
   - { tag: "icons", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:23:02Z"
-analyzed_at: "2026-03-31T15:23:02Z"
+added_at: "2026-01-23T06:10:28Z"
+analyzed_at: "2026-01-23T06:10:28Z"
 
 tags:
   - { tag: "practical", category: "subject", weight: 0.8 }

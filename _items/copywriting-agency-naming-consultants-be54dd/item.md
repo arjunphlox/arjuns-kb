@@ -5,12 +5,12 @@ slug: "copywriting-agency-naming-consultants-be54dd"
 domain: "reedwords.com"
 author: null
 summary: "We help brands and businesses stand out with expert copywriting, naming, and verbal identity. Discover how Reed Words strengthens your brand through the power of language."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:16:40Z"
-analyzed_at: "2026-03-31T17:16:40Z"
+added_at: "2026-03-27T00:00:11Z"
+analyzed_at: "2026-03-27T00:00:11Z"
 
 tags:
   - { tag: "copywriting", category: "subject", weight: 0.8 }

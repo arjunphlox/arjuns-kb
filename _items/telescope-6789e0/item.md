@@ -5,12 +5,12 @@ slug: "telescope-6789e0"
 domain: "telescope.fyi"
 author: null
 summary: "Saved from telescope.fyi: Telescope"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:01:54Z"
-analyzed_at: "2026-03-31T18:01:54Z"
+added_at: "2026-02-17T14:35:28Z"
+analyzed_at: "2026-02-17T14:35:28Z"
 
 tags:
   - { tag: "telescope", category: "subject", weight: 0.8 }

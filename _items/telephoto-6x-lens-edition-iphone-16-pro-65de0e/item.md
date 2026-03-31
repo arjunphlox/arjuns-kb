@@ -4,13 +4,13 @@ source_url: "https://www.sandmarc.com/products/telephoto-6x-lens-edition-iphone-
 slug: "telephoto-6x-lens-edition-iphone-16-pro-65de0e"
 domain: "sandmarc.com"
 author: null
-summary: "Saved from sandmarc.com: Telephoto 6x Lens Edition - iPhone 16 Pro"
-og_image: null
+summary: "Capture ultra zoom photography with the Telephoto 6x. With an adjustable focus wheel, the Telephoto lens prioritizes expansive reach & brings distant scenes closer than ever. Perfect for wildlife phot"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:37Z"
-analyzed_at: "2026-03-31T17:28:37Z"
+added_at: "2026-02-25T14:35:05Z"
+analyzed_at: "2026-02-25T14:35:05Z"
 
 tags:
   - { tag: "telephoto", category: "subject", weight: 0.8 }

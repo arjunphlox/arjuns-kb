@@ -5,12 +5,12 @@ slug: "jacob-mckee-home-160415"
 domain: "jacobmckee.com"
 author: null
 summary: "Saved from jacobmckee.com: Jacob McKee — Home"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:58:15Z"
-analyzed_at: "2026-03-31T17:58:15Z"
+added_at: "2026-03-10T11:54:04Z"
+analyzed_at: "2026-03-10T11:54:04Z"
 
 tags:
   - { tag: "jacob", category: "subject", weight: 0.8 }

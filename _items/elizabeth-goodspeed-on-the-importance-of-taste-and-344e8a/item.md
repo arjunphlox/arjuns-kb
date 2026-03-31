@@ -5,12 +5,12 @@ slug: "elizabeth-goodspeed-on-the-importance-of-taste-and-344e8a"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: Elizabeth Goodspeed on the importance of taste – and how to acquire it"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:23:00Z"
-analyzed_at: "2026-03-31T17:23:00Z"
+added_at: "2026-02-08T16:56:31Z"
+analyzed_at: "2026-02-08T16:56:31Z"
 
 tags:
   - { tag: "elizabeth", category: "subject", weight: 0.8 }

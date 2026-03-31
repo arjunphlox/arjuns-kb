@@ -5,12 +5,12 @@ slug: "luma-91b810"
 domain: "lu.ma"
 author: null
 summary: "Discover and host memorable events effortlessly with Luma. Invite friends, sell tickets, and find great events happening near you."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:40:35Z"
-analyzed_at: "2026-03-31T17:40:35Z"
+added_at: "2026-01-01T15:09:28Z"
+analyzed_at: "2026-01-01T15:09:28Z"
 
 tags:
   - { tag: "luma", category: "subject", weight: 0.8 }

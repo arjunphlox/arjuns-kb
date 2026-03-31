@@ -5,12 +5,12 @@ slug: "rebrand-stellar-brand-bento-inspiration-4aeab5"
 domain: "rebrand.gallery"
 author: null
 summary: "Rebrand is a collection of the best design systems, brand bento overviews and brand bento grids. We curate top-tier identity overviews that sum up a brand in one image."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:59:26Z"
-analyzed_at: "2026-03-31T16:59:26Z"
+added_at: "2026-01-10T22:43:11Z"
+analyzed_at: "2026-01-10T22:43:11Z"
 
 tags:
   - { tag: "rebrand", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "tommy-delarosbil-senior-product-designer-8beb81"
 domain: "tommydelarosbil.com"
 author: null
 summary: "Saved from tommydelarosbil.com: Tommy Delarosbil, Senior Product Designer"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:00:02Z"
-analyzed_at: "2026-03-31T18:00:02Z"
+added_at: "2026-03-24T04:58:59Z"
+analyzed_at: "2026-03-24T04:58:59Z"
 
 tags:
   - { tag: "tommy", category: "subject", weight: 0.8 }

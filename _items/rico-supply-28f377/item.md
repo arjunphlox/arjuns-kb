@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:20:29Z"
-analyzed_at: "2026-03-31T15:20:29Z"
+added_at: "2026-02-14T22:01:09Z"
+analyzed_at: "2026-02-14T22:01:09Z"
 
 tags:
   - { tag: "rico", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:30Z"
-analyzed_at: "2026-03-31T17:30:30Z"
+added_at: "2026-01-06T05:37:23Z"
+analyzed_at: "2026-01-06T05:37:23Z"
 
 tags:
   - { tag: "iphone", category: "subject", weight: 0.8 }

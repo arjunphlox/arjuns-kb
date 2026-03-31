@@ -4,13 +4,13 @@ source_url: "https://www.martin-laxenaire.fr/"
 slug: "martin-laxenaire-creative-front-end-developer-fb94cc"
 domain: "martin-laxenaire.fr"
 author: null
-summary: "Saved from martin-laxenaire.fr: Martin Laxenaire | Creative front-end developer"
-og_image: null
+summary: "Martin Laxenaire is a french creative freelance front end developer focusing on interactivity and user experience."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:10:09Z"
-analyzed_at: "2026-03-31T18:10:09Z"
+added_at: "2026-01-29T17:47:24Z"
+analyzed_at: "2026-01-29T17:47:24Z"
 
 tags:
   - { tag: "martin", category: "subject", weight: 0.8 }

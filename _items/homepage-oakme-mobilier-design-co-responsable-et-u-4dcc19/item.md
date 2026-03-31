@@ -5,12 +5,12 @@ slug: "homepage-oakme-mobilier-design-co-responsable-et-u-4dcc19"
 domain: "oakame.com"
 author: null
 summary: "indoor and outdoor furniture made from reclaimed oak recovered from ancient European buildings. Oakâme designs unique, sustainable and handcrafted pieces."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:05:35Z"
-analyzed_at: "2026-03-31T18:05:35Z"
+added_at: "2026-02-28T07:05:18Z"
+analyzed_at: "2026-02-28T07:05:18Z"
 
 tags:
   - { tag: "homepage", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "cost-of-living-0f78f9"
 domain: "numbeo.com"
 author: null
 summary: "Saved from numbeo.com: Cost of Living"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:33:22Z"
-analyzed_at: "2026-03-31T17:33:22Z"
+added_at: "2026-03-05T23:51:14Z"
+analyzed_at: "2026-03-05T23:51:14Z"
 
 tags:
   - { tag: "cost", category: "subject", weight: 0.8 }

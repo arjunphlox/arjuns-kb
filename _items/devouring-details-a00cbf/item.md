@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:25Z"
-analyzed_at: "2026-03-31T15:26:25Z"
+added_at: "2026-01-03T15:13:58Z"
+analyzed_at: "2026-01-03T15:13:58Z"
 
 tags:
   - { tag: "devouring", category: "subject", weight: 0.8 }

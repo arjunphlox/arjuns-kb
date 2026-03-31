@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:50Z"
-analyzed_at: "2026-03-31T17:00:50Z"
+added_at: "2026-02-19T02:21:37Z"
+analyzed_at: "2026-02-19T02:21:37Z"
 
 tags:
   - { tag: "campaign", category: "subject", weight: 0.8 }

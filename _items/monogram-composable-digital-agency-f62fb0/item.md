@@ -4,13 +4,13 @@ source_url: "https://monogram.io/"
 slug: "monogram-composable-digital-agency-f62fb0"
 domain: "monogram.io"
 author: null
-summary: "Saved from monogram.io: Monogram | Composable digital agency"
-og_image: null
+summary: "Monogram is a digital agency from Atlanta, specializing in designing and engineering composable web development, headless ecommerce, and web apps."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:17:10Z"
-analyzed_at: "2026-03-31T17:17:10Z"
+added_at: "2026-02-06T05:06:59Z"
+analyzed_at: "2026-02-06T05:06:59Z"
 
 tags:
   - { tag: "monogram", category: "subject", weight: 0.8 }

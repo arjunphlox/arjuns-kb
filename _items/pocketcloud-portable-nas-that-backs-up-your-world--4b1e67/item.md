@@ -5,12 +5,12 @@ slug: "pocketcloud-portable-nas-that-backs-up-your-world--4b1e67"
 domain: "kickstarter.com"
 author: null
 summary: "One-Click Backup | Up to 16TB Storage | Expandable with Modular Design | Flexible Backup Methods"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:57Z"
-analyzed_at: "2026-03-31T17:28:57Z"
+added_at: "2026-03-21T10:53:50Z"
+analyzed_at: "2026-03-21T10:53:50Z"
 
 tags:
   - { tag: "pocketcloud", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "home-c22367"
 domain: "youremailcouldbebetter.com"
 author: null
 summary: "Your Email Could Be Better! Ready to improve your team’s communication? Need a quick, professional way of pointing out email missteps? We’ve got a solution."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:24:27Z"
-analyzed_at: "2026-03-31T15:24:27Z"
+added_at: "2026-02-13T14:19:54Z"
+analyzed_at: "2026-02-13T14:19:54Z"
 
 tags:
   - { tag: "home", category: "subject", weight: 0.8 }

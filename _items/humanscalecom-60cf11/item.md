@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:22Z"
-analyzed_at: "2026-03-31T17:28:22Z"
+added_at: "2026-02-19T08:16:28Z"
+analyzed_at: "2026-02-19T08:16:28Z"
 
 tags:
   - { tag: "humanscale", category: "subject", weight: 0.8 }

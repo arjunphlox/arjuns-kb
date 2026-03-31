@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/75636503/Spotify-2018-Wrapped"
 slug: "spotify-2018-wrapped-4b6a03"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: Spotify 2018 Wrapped"
-og_image: null
+summary: "Hundreds of millions of music fans listen to Spotify. But no two fans listened exactly the same. So how could we recap each fan’s year in a way that was unique to them?With 2018 Wrapped, Spotify invit"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:53Z"
-analyzed_at: "2026-03-31T17:00:53Z"
+added_at: "2026-02-23T20:37:22Z"
+analyzed_at: "2026-02-23T20:37:22Z"
 
 tags:
   - { tag: "spotify", category: "subject", weight: 0.8 }

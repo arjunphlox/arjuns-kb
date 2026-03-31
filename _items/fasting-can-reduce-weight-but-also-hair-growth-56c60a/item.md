@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:19:57Z"
-analyzed_at: "2026-03-31T15:19:57Z"
+added_at: "2026-03-24T01:46:16Z"
+analyzed_at: "2026-03-24T01:46:16Z"
 
 tags:
   - { tag: "fasting", category: "subject", weight: 0.8 }

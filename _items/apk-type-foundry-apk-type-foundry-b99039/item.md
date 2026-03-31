@@ -5,12 +5,12 @@ slug: "apk-type-foundry-apk-type-foundry-b99039"
 domain: "apk-type.com"
 author: null
 summary: "APK TypeAPK Type is the independent type foundry founded by Dutch design studio Autograph Peter Korsman. We design and offer distinctive typefaces and font families (retail and custom) for use in prin"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:27:00Z"
-analyzed_at: "2026-03-31T15:27:00Z"
+added_at: "2026-01-20T06:35:03Z"
+analyzed_at: "2026-01-20T06:35:03Z"
 
 tags:
   - { tag: "apk", category: "subject", weight: 0.8 }

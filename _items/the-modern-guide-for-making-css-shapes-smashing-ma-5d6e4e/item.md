@@ -4,13 +4,14 @@ source_url: "https://www.smashingmagazine.com/2024/05/modern-guide-making-css-sh
 slug: "the-modern-guide-for-making-css-shapes-smashing-ma-5d6e4e"
 domain: "smashingmagazine.com"
 author: null
-summary: "Saved from smashingmagazine.com: The Modern Guide For Making CSS Shapes — Smashing Magazine"
-og_image: null
+summary: "In this comprehensive guide, Temani Afif explores different techniques for creating common shapes with the smallest and most flexible code possible.
+"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:05:30Z"
-analyzed_at: "2026-03-31T17:05:30Z"
+added_at: "2026-03-27T05:46:49Z"
+analyzed_at: "2026-03-27T05:46:49Z"
 
 tags:
   - { tag: "modern", category: "subject", weight: 0.8 }

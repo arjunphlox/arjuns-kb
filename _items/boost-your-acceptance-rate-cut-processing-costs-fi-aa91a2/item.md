@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:12:06Z"
-analyzed_at: "2026-03-31T18:12:06Z"
+added_at: "2026-01-06T08:28:42Z"
+analyzed_at: "2026-01-06T08:28:42Z"
 
 tags:
   - { tag: "boost", category: "subject", weight: 0.8 }

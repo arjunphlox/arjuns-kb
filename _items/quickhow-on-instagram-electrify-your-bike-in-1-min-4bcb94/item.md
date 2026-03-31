@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:52Z"
-analyzed_at: "2026-03-31T17:30:52Z"
+added_at: "2026-01-28T04:48:43Z"
+analyzed_at: "2026-01-28T04:48:43Z"
 
 tags:
   - { tag: "quickhow", category: "subject", weight: 0.8 }

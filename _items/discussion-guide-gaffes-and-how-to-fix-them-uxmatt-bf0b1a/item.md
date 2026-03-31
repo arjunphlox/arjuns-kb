@@ -5,12 +5,12 @@ slug: "discussion-guide-gaffes-and-how-to-fix-them-uxmatt-bf0b1a"
 domain: "uxmatters.com"
 author: null
 summary: "Web magazine about user experience matters, providing insights and inspiration for the user experience community"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:27:26Z"
-analyzed_at: "2026-03-31T13:27:26Z"
+added_at: "2026-02-01T12:48:41Z"
+analyzed_at: "2026-02-01T12:48:41Z"
 
 tags:
   - { tag: "discussion", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:12:52Z"
-analyzed_at: "2026-03-31T17:12:52Z"
+added_at: "2026-02-12T21:01:51Z"
+analyzed_at: "2026-02-12T21:01:51Z"
 
 tags:
   - { tag: "framer", category: "subject", weight: 0.8 }

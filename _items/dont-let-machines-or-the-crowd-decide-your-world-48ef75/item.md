@@ -5,12 +5,12 @@ slug: "dont-let-machines-or-the-crowd-decide-your-world-48ef75"
 domain: "hottakes.space"
 author: null
 summary: "Saved from hottakes.space: Don't let machines or the crowd decide your world"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:00:12Z"
-analyzed_at: "2026-03-31T18:00:12Z"
+added_at: "2026-02-08T08:14:31Z"
+analyzed_at: "2026-02-08T08:14:31Z"
 
 tags:
   - { tag: "don", category: "subject", weight: 0.8 }

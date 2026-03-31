@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/New-Leaf-PackagingBranding/9028033"
 slug: "pinterestelement-2657d8"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: PinterestElement"
-og_image: null
+summary: "Branding and packaging for a fictional market catering to people with food allergies."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:25:29Z"
-analyzed_at: "2026-03-31T15:25:29Z"
+added_at: "2026-01-25T09:30:53Z"
+analyzed_at: "2026-01-25T09:30:53Z"
 
 tags:
   - { tag: "pinterestelement", category: "subject", weight: 0.8 }

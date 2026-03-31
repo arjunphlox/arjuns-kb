@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:53:08Z"
-analyzed_at: "2026-03-31T17:53:08Z"
+added_at: "2026-03-02T16:03:17Z"
+analyzed_at: "2026-03-02T16:03:17Z"
 
 tags:
   - { tag: "chronicle", category: "subject", weight: 0.8 }

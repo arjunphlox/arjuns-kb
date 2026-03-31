@@ -5,12 +5,12 @@ slug: "fontvisual-font-preview-tool-for-crafters-and-desi-5d1ef8"
 domain: "fontvisual.com"
 author: null
 summary: "The font preview tool for your customized products. Easily embed on your website or share the link to your customers. Save valuable time for your business."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:38:48Z"
-analyzed_at: "2026-03-31T17:38:48Z"
+added_at: "2026-03-01T05:30:10Z"
+analyzed_at: "2026-03-01T05:30:10Z"
 
 tags:
   - { tag: "fontvisual", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "zeal-chair-lagom-ab84d6"
 domain: "lagom.in"
 author: null
 summary: "Saved from lagom.in: ZEAL Chair – Lagom"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:29:36Z"
-analyzed_at: "2026-03-31T17:29:36Z"
+added_at: "2026-01-02T15:14:27Z"
+analyzed_at: "2026-01-02T15:14:27Z"
 
 tags:
   - { tag: "zeal", category: "subject", weight: 0.8 }

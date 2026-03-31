@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:57:34Z"
-analyzed_at: "2026-03-31T17:57:34Z"
+added_at: "2026-01-16T18:47:33Z"
+analyzed_at: "2026-01-16T18:47:33Z"
 
 tags:
   - { tag: "julius", category: "subject", weight: 0.8 }

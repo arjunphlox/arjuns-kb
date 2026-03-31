@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:33:56Z"
-analyzed_at: "2026-03-31T17:33:56Z"
+added_at: "2026-01-28T03:52:23Z"
+analyzed_at: "2026-01-28T03:52:23Z"
 
 tags:
   - { tag: "embedding", category: "subject", weight: 0.8 }

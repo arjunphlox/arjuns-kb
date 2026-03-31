@@ -4,13 +4,13 @@ source_url: "https://www.wetheknot.com/"
 slug: "wetheknot-sustainable-fashion-made-in-portugal-51f1ee"
 domain: "wetheknot.com"
 author: null
-summary: "Saved from wetheknot.com: wetheknot · Sustainable fashion made in Portugal"
+summary: "wetheknot designs premium quality clothing, made to last. A slow fashion brand from Lisbon, working with organic & recycled fabrics. Made in Portugal."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:05:09Z"
-analyzed_at: "2026-03-31T18:05:09Z"
+added_at: "2026-02-13T10:09:29Z"
+analyzed_at: "2026-02-13T10:09:29Z"
 
 tags:
   - { tag: "wetheknot", category: "subject", weight: 0.8 }

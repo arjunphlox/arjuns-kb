@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:22:54Z"
-analyzed_at: "2026-03-31T17:22:54Z"
+added_at: "2026-03-27T01:55:43Z"
+analyzed_at: "2026-03-27T01:55:43Z"
 
 tags:
   - { tag: "business", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "reimagining-design-education-in-the-age-of-ai-7e08f8"
 domain: "carly.substack.com"
 author: null
 summary: "Saved from carly.substack.com: Reimagining design education in the age of AI"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:02:16Z"
-analyzed_at: "2026-03-31T17:02:16Z"
+added_at: "2026-03-16T11:29:44Z"
+analyzed_at: "2026-03-16T11:29:44Z"
 
 tags:
   - { tag: "reimagining", category: "subject", weight: 0.8 }

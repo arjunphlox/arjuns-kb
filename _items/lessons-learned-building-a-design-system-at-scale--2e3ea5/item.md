@@ -5,12 +5,12 @@ slug: "lessons-learned-building-a-design-system-at-scale--2e3ea5"
 domain: "booking.design"
 author: null
 summary: "Saved from booking.design: Lessons learned building a design system at scale | by Arda Karacizmeli | Booking.com — UX Design"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:26Z"
-analyzed_at: "2026-03-31T16:54:26Z"
+added_at: "2026-02-21T20:22:12Z"
+analyzed_at: "2026-02-21T20:22:12Z"
 
 tags:
   - { tag: "lessons", category: "subject", weight: 0.8 }

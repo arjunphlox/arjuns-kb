@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/21748447/Milk-Honey-Land-Depot-WPF?
 slug: "pinterestelement-f5988a"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: PinterestElement"
-og_image: null
+summary: "Packaging design for russian local farm "
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:25:32Z"
-analyzed_at: "2026-03-31T15:25:32Z"
+added_at: "2026-01-01T05:33:28Z"
+analyzed_at: "2026-01-01T05:33:28Z"
 
 tags:
   - { tag: "pinterestelement", category: "subject", weight: 0.8 }

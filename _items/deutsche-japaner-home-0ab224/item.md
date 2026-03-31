@@ -5,12 +5,12 @@ slug: "deutsche-japaner-home-0ab224"
 domain: "deutscheundjapaner.com"
 author: null
 summary: "Saved from deutscheundjapaner.com: Deutsche & Japaner | Home"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:15:27Z"
-analyzed_at: "2026-03-31T17:15:27Z"
+added_at: "2026-01-28T23:55:47Z"
+analyzed_at: "2026-01-28T23:55:47Z"
 
 tags:
   - { tag: "deutsche", category: "subject", weight: 0.8 }

@@ -4,13 +4,14 @@ source_url: "https://www.figma.com/community/file/843916328104333682"
 slug: "a-selection-of-google-fonts-figma-community-adc294"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: A selection of Google Fonts | Figma Community"
+summary: "The perfect serif and sans-serif Google Fonts for your next project
+Explore our curated collection of Google Fonts, specially selected to enhance your digital projects. Each font comes with a meticulo"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:42Z"
-analyzed_at: "2026-03-31T17:19:42Z"
+added_at: "2026-03-20T00:49:30Z"
+analyzed_at: "2026-03-20T00:49:30Z"
 
 tags:
   - { tag: "selection", category: "subject", weight: 0.8 }

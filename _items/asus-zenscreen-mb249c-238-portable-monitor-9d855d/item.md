@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:27:41Z"
-analyzed_at: "2026-03-31T17:27:41Z"
+added_at: "2026-01-14T14:30:00Z"
+analyzed_at: "2026-01-14T14:30:00Z"
 
 tags:
   - { tag: "asus", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/643625/IBM-2007-2008-Corporate-Resp
 slug: "ibm-2007-2008-corporate-responsibility-report-90ddda"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: IBM 2007-2008 Corporate Responsibility Report"
-og_image: null
+summary: "This Responsibility Report showcases IBM’s broad portfolio in thought leadership. It was designed to be an accessible compendium incorporating a diverse range sustainability issues, case-studies, metr"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:44Z"
-analyzed_at: "2026-03-31T16:57:44Z"
+added_at: "2026-02-20T22:01:42Z"
+analyzed_at: "2026-02-20T22:01:42Z"
 
 tags:
   - { tag: "ibm", category: "subject", weight: 0.8 }

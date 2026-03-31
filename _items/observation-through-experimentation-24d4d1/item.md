@@ -5,12 +5,12 @@ slug: "observation-through-experimentation-24d4d1"
 domain: "tommydelarosbil.com"
 author: null
 summary: "Saved from tommydelarosbil.com: Observation Through Experimentation"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:27:10Z"
-analyzed_at: "2026-03-31T13:27:10Z"
+added_at: "2026-01-26T04:57:59Z"
+analyzed_at: "2026-01-26T04:57:59Z"
 
 tags:
   - { tag: "observation", category: "subject", weight: 0.8 }

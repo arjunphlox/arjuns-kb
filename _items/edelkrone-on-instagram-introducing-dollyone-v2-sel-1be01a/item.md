@@ -11,8 +11,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:26:48Z"
-analyzed_at: "2026-03-31T17:26:48Z"
+added_at: "2026-01-24T15:26:27Z"
+analyzed_at: "2026-01-24T15:26:27Z"
 
 tags:
   - { tag: "edelkrone", category: "subject", weight: 0.8 }

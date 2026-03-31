@@ -5,12 +5,12 @@ slug: "modalz-modalz-modalz-5c0f92"
 domain: "modalzmodalzmodalz.com"
 author: null
 summary: "All the reasons you don"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:21Z"
-analyzed_at: "2026-03-31T15:26:21Z"
+added_at: "2026-01-18T19:54:57Z"
+analyzed_at: "2026-01-18T19:54:57Z"
 
 tags:
   - { tag: "modalz", category: "subject", weight: 0.8 }

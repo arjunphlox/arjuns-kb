@@ -5,12 +5,12 @@ slug: "buy-linen-book-table-lamp-foldable-desk-lamp-bedsi-c09929"
 domain: "figliving.com"
 author: null
 summary: "Saved from figliving.com: Buy Linen Book Table Lamp - Foldable Desk Lamp, Bedside Lamp"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:29:34Z"
-analyzed_at: "2026-03-31T17:29:34Z"
+added_at: "2026-03-10T18:31:34Z"
+analyzed_at: "2026-03-10T18:31:34Z"
 
 tags:
   - { tag: "buy", category: "subject", weight: 0.8 }

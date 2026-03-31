@@ -5,12 +5,12 @@ slug: "brandmark-logo-maker-the-most-advanced-ai-logo-des-af8a0a"
 domain: "brandmark.io"
 author: null
 summary: "Create a unique logo, business card and social media graphics in less than a minute. Build your brand identity with our generative AI."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:09:30Z"
-analyzed_at: "2026-03-31T18:09:30Z"
+added_at: "2026-03-19T14:50:30Z"
+analyzed_at: "2026-03-19T14:50:30Z"
 
 tags:
   - { tag: "brandmark", category: "subject", weight: 0.8 }

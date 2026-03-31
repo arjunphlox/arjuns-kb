@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:03:44Z"
-analyzed_at: "2026-03-31T18:03:44Z"
+added_at: "2026-01-26T20:00:59Z"
+analyzed_at: "2026-01-26T20:00:59Z"
 
 tags:
   - { tag: "kidsuper", category: "subject", weight: 0.8 }

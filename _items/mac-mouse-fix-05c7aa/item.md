@@ -4,13 +4,13 @@ source_url: "https://macmousefix.com/en/"
 slug: "mac-mouse-fix-05c7aa"
 domain: "macmousefix.com"
 author: null
-summary: "Saved from macmousefix.com: Mac Mouse Fix"
-og_image: null
+summary: "Make Your $10 Mouse Better Than an Apple Trackpad"
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:34:48Z"
-analyzed_at: "2026-03-31T17:34:48Z"
+added_at: "2026-01-15T18:25:35Z"
+analyzed_at: "2026-01-15T18:25:35Z"
 
 tags:
   - { tag: "mac", category: "subject", weight: 0.8 }

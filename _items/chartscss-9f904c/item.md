@@ -5,12 +5,12 @@ slug: "chartscss-9f904c"
 domain: "chartscss.org"
 author: null
 summary: "CSS data visualization framework"
-og_image: null
+og_image: "og-image.svg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:18Z"
-analyzed_at: "2026-03-31T16:57:18Z"
+added_at: "2026-01-21T18:29:04Z"
+analyzed_at: "2026-01-21T18:29:04Z"
 
 tags:
   - { tag: "charts", category: "subject", weight: 0.8 }

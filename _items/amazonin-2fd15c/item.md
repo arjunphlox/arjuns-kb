@@ -4,13 +4,13 @@ source_url: "https://www.amazon.in/JBL-Wireless-Portable-Bluetooth-Speaker/dp/B0
 slug: "amazonin-2fd15c"
 domain: "amazon.in"
 author: null
-summary: "Saved from amazon.in: amazon.in"
+summary: "JBL Go 4, Wireless Ultra Portable Bluetooth Speaker, Pro Sound, Vibrant Colors, Water & Dust Proof, Type C (Without Mic, Black) : Amazon.in: Electronics"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:47Z"
-analyzed_at: "2026-03-31T17:30:47Z"
+added_at: "2026-01-03T08:54:31Z"
+analyzed_at: "2026-01-03T08:54:31Z"
 
 tags:
   - { tag: "amazon", category: "subject", weight: 0.8 }

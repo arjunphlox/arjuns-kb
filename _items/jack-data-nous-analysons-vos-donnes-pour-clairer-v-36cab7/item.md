@@ -5,12 +5,12 @@ slug: "jack-data-nous-analysons-vos-donnes-pour-clairer-v-36cab7"
 domain: "jack-data.fr"
 author: null
 summary: "Le cabinet expert en datascience. Découvrez notre activité d'accompagnement des entreprises dans l'exploitation de leurs données à des finalités de prises de décisions."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:02:31Z"
-analyzed_at: "2026-03-31T18:02:31Z"
+added_at: "2026-03-15T22:35:16Z"
+analyzed_at: "2026-03-15T22:35:16Z"
 
 tags:
   - { tag: "jack", category: "subject", weight: 0.8 }

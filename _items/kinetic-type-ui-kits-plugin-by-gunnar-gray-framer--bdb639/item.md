@@ -4,13 +4,13 @@ source_url: "https://www.framer.com/marketplace/plugins/textfx-studio/"
 slug: "kinetic-type-ui-kits-plugin-by-gunnar-gray-framer--bdb639"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: Kinetic Type: UI Kits Plugin by Gunnar Gray — Framer Marketplace"
-og_image: null
+summary: "One-click text animations. Kinetic Type gives you 19 preset animation effects along with full control to customize, scroll-triggered animations, and hover interactions."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:11:06Z"
-analyzed_at: "2026-03-31T17:11:06Z"
+added_at: "2026-03-14T16:43:28Z"
+analyzed_at: "2026-03-14T16:43:28Z"
 
 tags:
   - { tag: "kinetic", category: "subject", weight: 0.8 }

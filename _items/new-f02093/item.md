@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:14:59Z"
-analyzed_at: "2026-03-31T17:14:59Z"
+added_at: "2026-03-21T09:50:46Z"
+analyzed_at: "2026-03-21T09:50:46Z"
 
 tags:
   - { tag: "firms", category: "domain", weight: 0.7 }

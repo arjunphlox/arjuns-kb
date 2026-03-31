@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:26Z"
-analyzed_at: "2026-03-31T15:26:26Z"
+added_at: "2026-03-29T16:08:15Z"
+analyzed_at: "2026-03-29T16:08:15Z"
 
 tags:
   - { tag: "patterns", category: "subject", weight: 0.8 }

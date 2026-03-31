@@ -5,12 +5,12 @@ slug: "poster-homepage-284567"
 domain: "posterco.tv"
 author: null
 summary: "Post-Production company based in the heart of Paris, dedicated to audiovisual production, advertisement, digital content, music video feature films & documentaries."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:01:31Z"
-analyzed_at: "2026-03-31T18:01:31Z"
+added_at: "2026-02-10T05:27:19Z"
+analyzed_at: "2026-02-10T05:27:19Z"
 
 tags:
   - { tag: "poster", category: "subject", weight: 0.8 }

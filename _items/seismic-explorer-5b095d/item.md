@@ -5,12 +5,12 @@ slug: "seismic-explorer-5b095d"
 domain: "seismic-explorer.concord.org"
 author: null
 summary: "Saved from seismic-explorer.concord.org: Seismic Explorer"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:36:46Z"
-analyzed_at: "2026-03-31T17:36:46Z"
+added_at: "2026-03-28T15:53:12Z"
+analyzed_at: "2026-03-28T15:53:12Z"
 
 tags:
   - { tag: "seismic", category: "subject", weight: 0.8 }

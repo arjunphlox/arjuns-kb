@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:28:06Z"
-analyzed_at: "2026-03-31T17:28:06Z"
+added_at: "2026-01-06T10:28:29Z"
+analyzed_at: "2026-01-06T10:28:29Z"
 
 tags:
   - { tag: "erle", category: "subject", weight: 0.8 }

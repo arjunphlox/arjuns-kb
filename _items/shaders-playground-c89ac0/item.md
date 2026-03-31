@@ -5,12 +5,12 @@ slug: "shaders-playground-c89ac0"
 domain: "shaders.framer.ai"
 author: null
 summary: " "
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:12:03Z"
-analyzed_at: "2026-03-31T17:12:03Z"
+added_at: "2026-03-13T08:13:12Z"
+analyzed_at: "2026-03-13T08:13:12Z"
 
 tags:
   - { tag: "shaders", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:14:45Z"
-analyzed_at: "2026-03-31T17:14:45Z"
+added_at: "2026-01-18T08:22:00Z"
+analyzed_at: "2026-01-18T08:22:00Z"
 
 tags:
   - { tag: "studio", category: "subject", weight: 0.8 }

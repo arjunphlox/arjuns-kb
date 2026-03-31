@@ -5,12 +5,12 @@ slug: "shopify-editions-summer-23-802a74"
 domain: "shopify.com"
 author: null
 summary: "Powering what’s possible in commerce with 100+ product updates for developers and businesses of all sizes"
-og_image: null
+og_image: "og-image.webp"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:07:41Z"
-analyzed_at: "2026-03-31T18:07:41Z"
+added_at: "2026-01-16T00:53:29Z"
+analyzed_at: "2026-01-16T00:53:29Z"
 
 tags:
   - { tag: "shopify", category: "subject", weight: 0.8 }

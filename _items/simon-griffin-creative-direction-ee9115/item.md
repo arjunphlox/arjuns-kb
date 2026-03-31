@@ -5,12 +5,12 @@ slug: "simon-griffin-creative-direction-ee9115"
 domain: "simongriffin.co.uk"
 author: null
 summary: "Experienced UK based graphic designer, specialising in brand identity creation and development, packaging, print, spatial and digital design."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:54:53Z"
-analyzed_at: "2026-03-31T17:54:53Z"
+added_at: "2026-03-24T14:59:46Z"
+analyzed_at: "2026-03-24T14:59:46Z"
 
 tags:
   - { tag: "simon", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "your-experts-wont-train-your-ai-you-have-to-interv-14ceb9"
 domain: "99ravens.agency"
 author: null
 summary: "Saved from 99ravens.agency: Your Experts Won't Train Your AI. You Have to Interview Them. | 99Ravens"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:20:45Z"
-analyzed_at: "2026-03-31T17:20:45Z"
+added_at: "2026-01-02T23:03:55Z"
+analyzed_at: "2026-01-02T23:03:55Z"
 
 tags:
   - { tag: "experts", category: "subject", weight: 0.8 }

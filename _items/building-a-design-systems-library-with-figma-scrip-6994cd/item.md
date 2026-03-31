@@ -5,12 +5,12 @@ slug: "building-a-design-systems-library-with-figma-scrip-6994cd"
 domain: "eng.lyft.com"
 author: null
 summary: "Saved from eng.lyft.com: Building a Design Systems Library with Figma & Scripter | by Alex Lockwood | Lyft Engineering"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:58Z"
-analyzed_at: "2026-03-31T16:54:58Z"
+added_at: "2026-01-10T04:27:40Z"
+analyzed_at: "2026-01-10T04:27:40Z"
 
 tags:
   - { tag: "building", category: "subject", weight: 0.8 }

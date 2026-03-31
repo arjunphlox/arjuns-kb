@@ -4,13 +4,17 @@ source_url: "https://www.figma.com/community/file/1161621065197114331/100-figma-
 slug: "100-figma-design-tips-figma-396a74"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: 100 Figma Design Tips | Figma"
+summary: "I am sharing all my not-so-secret Figma design tips.
+
+I believe each of these small big Figma design tips will help to make your Figma design workflow smart, fast, and super productive.
+
+If you find t"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:14Z"
-analyzed_at: "2026-03-31T17:19:14Z"
+added_at: "2026-03-23T08:15:21Z"
+analyzed_at: "2026-03-23T08:15:21Z"
 
 tags:
   - { tag: "design", category: "subject", weight: 0.8 }

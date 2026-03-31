@@ -5,12 +5,12 @@ slug: "every-shortcut-for-designers-centralized-and-searc-b75c02"
 domain: "shortcuts.design"
 author: null
 summary: "Shortcuts.design is the ultimate shortcut reference for designers. Charge your workflow with all the shortcuts of your favorite tools in one place 🚀"
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:13:40Z"
-analyzed_at: "2026-03-31T17:13:40Z"
+added_at: "2026-01-01T13:50:48Z"
+analyzed_at: "2026-01-01T13:50:48Z"
 
 tags:
   - { tag: "shortcut", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "to-design-and-develop-an-interactive-globe-f650f8"
 domain: "stripe.com"
 author: null
 summary: "Stripe’s approach to creating a 1:40 million-scale, interactive 3D model of the earth."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:05:15Z"
-analyzed_at: "2026-03-31T17:05:15Z"
+added_at: "2026-03-11T22:55:49Z"
+analyzed_at: "2026-03-11T22:55:49Z"
 
 tags:
   - { tag: "design", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "3-sided-coin-digital-strategy-design-research-stud-e66ff0"
 domain: "3sided.co.in"
 author: null
 summary: "An Indian studio that finds fun ways to solve serious business problems. UI and product design for ecommerce, startups, AI, XR, fintech and more. Say hello!"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:04:57Z"
-analyzed_at: "2026-03-31T18:04:57Z"
+added_at: "2026-01-31T21:26:01Z"
+analyzed_at: "2026-01-31T21:26:01Z"
 
 tags:
   - { tag: "sided", category: "subject", weight: 0.8 }

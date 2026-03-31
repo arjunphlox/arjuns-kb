@@ -5,12 +5,12 @@ slug: "general-type-studio-2ef17f"
 domain: "generaltypestudio.com"
 author: null
 summary: "Type foundry based in New York. Fonts by Stéphane Elbaz."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:27:40Z"
-analyzed_at: "2026-03-31T15:27:40Z"
+added_at: "2026-03-08T20:09:42Z"
+analyzed_at: "2026-03-08T20:09:42Z"
 
 tags:
   - { tag: "general", category: "subject", weight: 0.8 }

@@ -4,13 +4,13 @@ source_url: "https://hg2dc.com/"
 slug: "the-hitchhikers-guide-to-digital-colour-ever-wonde-dd0b61"
 domain: "hg2dc.com"
 author: null
-summary: "Saved from hg2dc.com: The Hitchhiker's Guide to Digital Colour – Ever wonder just what is happening when you are pushing pixels around? This is a series of articles to help you, the image maker, survi"
-og_image: null
+summary: "Ever wonder just what is happening when you are pushing pixels around? This is a series of articles to help you, the image maker, survive in a world full of bulls*it regarding digital colour. If yo…"
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:22Z"
-analyzed_at: "2026-03-31T15:26:22Z"
+added_at: "2026-02-05T23:39:31Z"
+analyzed_at: "2026-02-05T23:39:31Z"
 
 tags:
   - { tag: "hitchhiker", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "free-textures-for-photoshop-png-jpg-2026-resource--ec26d3"
 domain: "resourceboy.com"
 author: null
 summary: "Free download of the best and highest resolution PNG / JPG Textures. ✓ Free for personal and commercial use. ✓ 4K - 8K Resolution"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:53:08Z"
-analyzed_at: "2026-03-31T16:53:08Z"
+added_at: "2026-03-12T01:06:24Z"
+analyzed_at: "2026-03-12T01:06:24Z"
 
 tags:
   - { tag: "free", category: "subject", weight: 0.8 }

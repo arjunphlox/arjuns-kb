@@ -4,13 +4,13 @@ source_url: "https://www.figliving.com/products/echo-sphere-paper-mache-table-la
 slug: "buy-echo-sphere-table-lamp-paper-mache-desk-lamp-f-792e31"
 domain: "figliving.com"
 author: null
-summary: "Saved from figliving.com: Buy Echo Sphere Table Lamp - Paper Mache Desk Lamp - FIG Living"
-og_image: null
+summary: "The Eco Sphere Table Lamp is eco-friendly and elegant, which adds warm, ambient lighting to any space. Discover sustainable style with Fig Living."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:29:37Z"
-analyzed_at: "2026-03-31T17:29:37Z"
+added_at: "2026-02-17T15:34:55Z"
+analyzed_at: "2026-02-17T15:34:55Z"
 
 tags:
   - { tag: "buy", category: "subject", weight: 0.8 }

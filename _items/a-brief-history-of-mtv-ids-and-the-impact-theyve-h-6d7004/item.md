@@ -5,12 +5,12 @@ slug: "a-brief-history-of-mtv-ids-and-the-impact-theyve-h-6d7004"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: A brief history of MTV IDs and the impact they’ve had on the creative world"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:00:55Z"
-analyzed_at: "2026-03-31T17:00:55Z"
+added_at: "2026-01-03T10:33:40Z"
+analyzed_at: "2026-01-03T10:33:40Z"
 
 tags:
   - { tag: "brief", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "sams-fancy-math-equations-in-tokens-studio-be3ecc"
 domain: "samiamdesigns.substack.com"
 author: null
 summary: "Saved from samiamdesigns.substack.com: Sam's fancy math equations in Tokens Studio"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:01Z"
-analyzed_at: "2026-03-31T16:54:01Z"
+added_at: "2026-01-25T10:56:19Z"
+analyzed_at: "2026-01-25T10:56:19Z"
 
 tags:
   - { tag: "sam", category: "subject", weight: 0.8 }

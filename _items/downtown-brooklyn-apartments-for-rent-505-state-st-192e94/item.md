@@ -5,12 +5,12 @@ slug: "downtown-brooklyn-apartments-for-rent-505-state-st-192e94"
 domain: "505statestreet.com"
 author: null
 summary: "Saved from 505statestreet.com: Downtown Brooklyn Apartments for Rent | 505 State Street"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:06:06Z"
-analyzed_at: "2026-03-31T18:06:06Z"
+added_at: "2026-03-23T09:57:22Z"
+analyzed_at: "2026-03-23T09:57:22Z"
 
 tags:
   - { tag: "downtown", category: "subject", weight: 0.8 }

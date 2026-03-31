@@ -5,12 +5,12 @@ slug: "apk-avionica-apk-type-foundry-874664"
 domain: "apk-type.com"
 author: null
 summary: "Saved from apk-type.com: APK Avionica - APK Type Foundry"
-og_image: null
+og_image: "og-image.svg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:27:47Z"
-analyzed_at: "2026-03-31T15:27:47Z"
+added_at: "2026-03-31T05:02:44Z"
+analyzed_at: "2026-03-31T05:02:44Z"
 
 tags:
   - { tag: "apk", category: "subject", weight: 0.8 }

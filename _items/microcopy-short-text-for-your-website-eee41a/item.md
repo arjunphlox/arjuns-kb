@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:26:08Z"
-analyzed_at: "2026-03-31T13:26:08Z"
+added_at: "2026-02-19T08:59:49Z"
+analyzed_at: "2026-02-19T08:59:49Z"
 
 tags:
   - { tag: "microcopy", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "shopify-editions-winter-24-716cab"
 domain: "shopify.com"
 author: null
 summary: "The Winter ’24 Edition is here. Elevate your commerce business with 100+ new product updates from Shopify."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:08:41Z"
-analyzed_at: "2026-03-31T18:08:41Z"
+added_at: "2026-02-03T11:33:21Z"
+analyzed_at: "2026-02-03T11:33:21Z"
 
 tags:
   - { tag: "shopify", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "responsively-app-a-web-developers-browser-7f0206"
 domain: "responsively.app"
 author: null
 summary: "A dev-tool that aids faster and precise responsive web development."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:37:03Z"
-analyzed_at: "2026-03-31T17:37:03Z"
+added_at: "2026-02-24T17:45:59Z"
+analyzed_at: "2026-02-24T17:45:59Z"
 
 tags:
   - { tag: "responsively", category: "subject", weight: 0.8 }

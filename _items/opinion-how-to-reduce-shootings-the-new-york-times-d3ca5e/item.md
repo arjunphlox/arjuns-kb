@@ -5,12 +5,12 @@ slug: "opinion-how-to-reduce-shootings-the-new-york-times-d3ca5e"
 domain: "nytimes.com"
 author: null
 summary: "Saved from nytimes.com: Opinion | How to Reduce Shootings - The New York Times"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:56:00Z"
-analyzed_at: "2026-03-31T16:56:00Z"
+added_at: "2026-02-25T07:55:32Z"
+analyzed_at: "2026-02-25T07:55:32Z"
 
 tags:
   - { tag: "opinion", category: "subject", weight: 0.8 }

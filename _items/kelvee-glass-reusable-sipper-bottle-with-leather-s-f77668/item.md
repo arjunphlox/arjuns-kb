@@ -4,13 +4,13 @@ source_url: "https://amzn.in/d/0dz5uGDw"
 slug: "kelvee-glass-reusable-sipper-bottle-with-leather-s-f77668"
 domain: "amzn.in"
 author: null
-summary: "Saved from amzn.in: KELVEE Glass Reusable Sipper Bottle with Leather Sleeve Glass Coffee Mug with Silicone Straw and Leakproof Lid Tumbler for Coffee,Tea, Milk Beverages 435ml…"
+summary: "Amazon.in: Buy KELVEE Glass Reusable Sipper Bottle with Leather Sleeve Glass Coffee Mug with Silicone Straw and Leakproof Lid Tumbler for Coffee,Tea, Milk Beverages 435ml… online at low price in India"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:31:09Z"
-analyzed_at: "2026-03-31T17:31:09Z"
+added_at: "2026-01-22T23:51:42Z"
+analyzed_at: "2026-01-22T23:51:42Z"
 
 tags:
   - { tag: "kelvee", category: "subject", weight: 0.8 }

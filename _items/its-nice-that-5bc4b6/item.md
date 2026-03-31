@@ -5,12 +5,12 @@ slug: "its-nice-that-5bc4b6"
 domain: "itsnicethat.com"
 author: null
 summary: "Saved from itsnicethat.com: It's Nice That"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:23:52Z"
-analyzed_at: "2026-03-31T13:23:52Z"
+added_at: "2026-03-13T10:04:07Z"
+analyzed_at: "2026-03-13T10:04:07Z"
 
 tags:
   - { tag: "nice", category: "subject", weight: 0.8 }

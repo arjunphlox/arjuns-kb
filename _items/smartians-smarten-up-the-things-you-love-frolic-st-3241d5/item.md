@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:31:47Z"
-analyzed_at: "2026-03-31T17:31:47Z"
+added_at: "2026-02-08T11:05:43Z"
+analyzed_at: "2026-02-08T11:05:43Z"
 
 tags:
   - { tag: "smartians", category: "subject", weight: 0.8 }

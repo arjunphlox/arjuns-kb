@@ -4,13 +4,15 @@ source_url: "https://www.figma.com/community/file/1121465690423787489"
 slug: "source-starter-kit-30-figma-community-35e84e"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: Source Starter Kit 3.0 | Figma Community"
+summary: "Source Starter Kit is a free and customizable starter file for your Figma projects.
+
+It will help you kickstart your next design system with atomic and interactive components built following industry "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:46Z"
-analyzed_at: "2026-03-31T17:19:46Z"
+added_at: "2026-03-31T21:23:15Z"
+analyzed_at: "2026-03-31T21:23:15Z"
 
 tags:
   - { tag: "source", category: "subject", weight: 0.8 }

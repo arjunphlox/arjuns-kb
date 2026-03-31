@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:30:19Z"
-analyzed_at: "2026-03-31T17:30:19Z"
+added_at: "2026-03-25T18:31:39Z"
+analyzed_at: "2026-03-25T18:31:39Z"
 
 tags:
   - { tag: "memobottle", category: "subject", weight: 0.8 }

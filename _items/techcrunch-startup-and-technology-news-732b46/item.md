@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:24:31Z"
-analyzed_at: "2026-03-31T13:24:31Z"
+added_at: "2026-03-14T17:16:04Z"
+analyzed_at: "2026-03-14T17:16:04Z"
 
 tags:
   - { tag: "techcrunch", category: "subject", weight: 0.8 }

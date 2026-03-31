@@ -11,8 +11,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:05:33Z"
-analyzed_at: "2026-03-31T17:05:33Z"
+added_at: "2026-03-14T11:47:30Z"
+analyzed_at: "2026-03-14T11:47:30Z"
 
 tags:
   - { tag: "compliance", category: "subject", weight: 0.8 }

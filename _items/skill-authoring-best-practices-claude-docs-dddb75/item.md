@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:20:50Z"
-analyzed_at: "2026-03-31T17:20:50Z"
+added_at: "2026-01-09T14:48:37Z"
+analyzed_at: "2026-01-09T14:48:37Z"
 
 tags:
   - { tag: "skill", category: "subject", weight: 0.8 }

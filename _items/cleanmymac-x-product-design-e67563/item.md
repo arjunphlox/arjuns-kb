@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/141590791/CleanMyMac-X-Product-Desi
 slug: "cleanmymac-x-product-design-e67563"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: CleanMyMac X. Product Design."
-og_image: null
+summary: "Product Design, UI/UX, Figma, Sketch, Origami Studio, Logic Pro X"
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:26:46Z"
-analyzed_at: "2026-03-31T15:26:46Z"
+added_at: "2026-02-02T15:29:17Z"
+analyzed_at: "2026-02-02T15:29:17Z"
 
 tags:
   - { tag: "cleanmymac", category: "subject", weight: 0.8 }

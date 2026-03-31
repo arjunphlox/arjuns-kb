@@ -4,13 +4,13 @@ source_url: "https://www.amazon.in/insta360-Link-2C-AI-powerd-Webcam/dp/B0DGQW6P
 slug: "insta360-link-2c-the-ai-powerd-4k-webcam-amazonin--3c289c"
 domain: "amazon.in"
 author: null
-summary: "Saved from amazon.in: insta360 Link 2C - The AI-powerd 4K Webcam : Amazon.in: Computers & Accessories"
+summary: "Insta360 Link 2C - 4K Webcam for PC/Mac, 1/2' Sensor, Auto Framing, HDR, AI Noise-Canceling Mic, Gesture Control for Streaming, Video Calls, Gaming, Works with Zoom, Teams, Twitch & More : Amazon.in: "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:29:58Z"
-analyzed_at: "2026-03-31T17:29:58Z"
+added_at: "2026-01-05T06:36:57Z"
+analyzed_at: "2026-01-05T06:36:57Z"
 
 tags:
   - { tag: "insta", category: "subject", weight: 0.8 }

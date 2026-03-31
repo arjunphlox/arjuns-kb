@@ -4,13 +4,13 @@ source_url: "https://responsivewebdesign.com/podcast/ibm-carbon/"
 slug: "ibm-carbon-responsive-web-design-9ba564"
 domain: "responsivewebdesign.com"
 author: null
-summary: "Saved from responsivewebdesign.com: IBM Carbon — Responsive Web Design"
+summary: "How does a massive organization manage to unify countless responsive products? Mari Johannessen and Bethany Schwanke tell us how IBM created its Carbon design system."
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:54:35Z"
-analyzed_at: "2026-03-31T16:54:35Z"
+added_at: "2026-02-04T10:00:25Z"
+analyzed_at: "2026-02-04T10:00:25Z"
 
 tags:
   - { tag: "ibm", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "mattoboard-fc9c84"
 domain: "mattoboard.com"
 author: null
 summary: "Saved from mattoboard.com: Mattoboard"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:41:16Z"
-analyzed_at: "2026-03-31T17:41:16Z"
+added_at: "2026-03-16T14:13:01Z"
+analyzed_at: "2026-03-16T14:13:01Z"
 
 tags:
   - { tag: "mattoboard", category: "subject", weight: 0.8 }

@@ -5,12 +5,12 @@ slug: "signifly-digital-marketing-innovation-agency-f6bc30"
 domain: "signifly.com"
 author: null
 summary: "Saved from signifly.com: Signifly: Digital Marketing & Innovation Agency"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:15:46Z"
-analyzed_at: "2026-03-31T17:15:46Z"
+added_at: "2026-01-12T13:12:50Z"
+analyzed_at: "2026-01-12T13:12:50Z"
 
 tags:
   - { tag: "signifly", category: "subject", weight: 0.8 }

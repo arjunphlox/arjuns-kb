@@ -5,12 +5,12 @@ slug: "cyberfund-518899"
 domain: "cyber.fund"
 author: null
 summary: "Saved from cyber.fund: cyber•Fund"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:02:33Z"
-analyzed_at: "2026-03-31T18:02:33Z"
+added_at: "2026-02-14T04:12:13Z"
+analyzed_at: "2026-02-14T04:12:13Z"
 
 tags:
   - { tag: "cyber", category: "subject", weight: 0.8 }

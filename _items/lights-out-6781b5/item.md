@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:33:41Z"
-analyzed_at: "2026-03-31T17:33:41Z"
+added_at: "2026-03-17T20:31:14Z"
+analyzed_at: "2026-03-17T20:31:14Z"
 
 tags:
   - { tag: "lights", category: "subject", weight: 0.8 }

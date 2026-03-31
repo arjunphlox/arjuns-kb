@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:02:15Z"
-analyzed_at: "2026-03-31T17:02:15Z"
+added_at: "2026-03-31T09:20:34Z"
+analyzed_at: "2026-03-31T09:20:34Z"
 
 tags:
   - { tag: "rive", category: "subject", weight: 0.8 }

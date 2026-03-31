@@ -5,12 +5,12 @@ slug: "become-a-more-technical-product-manager-by-colin-m-b8b9b5"
 domain: "lennysnewsletter.com"
 author: null
 summary: "Saved from lennysnewsletter.com: Become a more technical product manager - by Colin Matthews"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:02:56Z"
-analyzed_at: "2026-03-31T17:02:56Z"
+added_at: "2026-01-02T22:37:00Z"
+analyzed_at: "2026-01-02T22:37:00Z"
 
 tags:
   - { tag: "become", category: "subject", weight: 0.8 }

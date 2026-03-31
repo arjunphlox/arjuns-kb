@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:25:12Z"
-analyzed_at: "2026-03-31T15:25:12Z"
+added_at: "2026-01-05T10:59:44Z"
+analyzed_at: "2026-01-05T10:59:44Z"
 
 tags:
   - { tag: "crit", category: "subject", weight: 0.8 }

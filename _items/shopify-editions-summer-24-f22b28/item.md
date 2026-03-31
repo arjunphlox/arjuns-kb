@@ -5,12 +5,12 @@ slug: "shopify-editions-summer-24-f22b28"
 domain: "shopify.com"
 author: null
 summary: "Meet the most unified, most intuitive, most powerful Shopify yet."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:05:43Z"
-analyzed_at: "2026-03-31T18:05:43Z"
+added_at: "2026-02-01T02:00:40Z"
+analyzed_at: "2026-02-01T02:00:40Z"
 
 tags:
   - { tag: "shopify", category: "subject", weight: 0.8 }

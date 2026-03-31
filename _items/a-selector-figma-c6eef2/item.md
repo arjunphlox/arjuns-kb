@@ -4,13 +4,15 @@ source_url: "https://www.figma.com/community/plugin/968465923536935510/a-selecto
 slug: "a-selector-figma-c6eef2"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: A Selector | Figma"
+summary: "A powerful tool for finding and selecting elements, you can flexibly cross select various elements by various attributes of the element. Supported languages: Chinese, English, Spanish.
+
+一个强大的查找和选择元素的工"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:23Z"
-analyzed_at: "2026-03-31T17:19:23Z"
+added_at: "2026-01-03T01:28:15Z"
+analyzed_at: "2026-01-03T01:28:15Z"
 
 tags:
   - { tag: "selector", category: "subject", weight: 0.8 }

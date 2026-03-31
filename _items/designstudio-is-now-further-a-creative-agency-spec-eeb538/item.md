@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:17:11Z"
-analyzed_at: "2026-03-31T17:17:11Z"
+added_at: "2026-01-26T13:25:38Z"
+analyzed_at: "2026-01-26T13:25:38Z"
 
 tags:
   - { tag: "designstudio", category: "subject", weight: 0.8 }

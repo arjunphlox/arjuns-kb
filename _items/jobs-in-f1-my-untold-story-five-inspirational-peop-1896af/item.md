@@ -9,8 +9,8 @@ og_image: "og-image.webp"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:25:20Z"
-analyzed_at: "2026-03-31T13:25:20Z"
+added_at: "2026-03-13T02:00:43Z"
+analyzed_at: "2026-03-13T02:00:43Z"
 
 tags:
   - { tag: "jobs", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:22:02Z"
-analyzed_at: "2026-03-31T17:22:02Z"
+added_at: "2026-01-19T15:53:12Z"
+analyzed_at: "2026-01-19T15:53:12Z"
 
 tags:
   - { tag: "glips", category: "subject", weight: 0.8 }

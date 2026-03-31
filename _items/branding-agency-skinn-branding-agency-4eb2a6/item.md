@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:17:35Z"
-analyzed_at: "2026-03-31T17:17:35Z"
+added_at: "2026-03-21T09:32:20Z"
+analyzed_at: "2026-03-21T09:32:20Z"
 
 tags:
   - { tag: "branding", category: "subject", weight: 0.8 }

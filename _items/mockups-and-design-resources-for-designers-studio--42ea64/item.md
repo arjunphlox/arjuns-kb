@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:53:00Z"
-analyzed_at: "2026-03-31T16:53:00Z"
+added_at: "2026-01-19T17:45:13Z"
+analyzed_at: "2026-01-19T17:45:13Z"
 
 tags:
   - { tag: "mockups", category: "subject", weight: 0.8 }

@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:23:23Z"
-analyzed_at: "2026-03-31T15:23:23Z"
+added_at: "2026-01-16T05:58:41Z"
+analyzed_at: "2026-01-16T05:58:41Z"
 
 tags:
   - { tag: "publications", category: "subject", weight: 0.8 }

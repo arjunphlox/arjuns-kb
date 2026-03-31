@@ -5,12 +5,12 @@ slug: "locofyai-design-to-code-with-ai-frontend-developme-e9851e"
 domain: "locofy.ai"
 author: null
 summary: "Locofy converts your Figma & Penpot designs into developer-friendly code. It supports React, React Native, HTML-CSS, Flutter, Vue, Angular, Next.js, etc. SOC2 + ISO certified. Deploy on-prem or cloud."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:51:39Z"
-analyzed_at: "2026-03-31T16:51:39Z"
+added_at: "2026-03-28T06:17:40Z"
+analyzed_at: "2026-03-28T06:17:40Z"
 
 tags:
   - { tag: "locofy", category: "subject", weight: 0.8 }

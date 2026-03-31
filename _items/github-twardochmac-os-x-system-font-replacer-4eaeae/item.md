@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:24:11Z"
-analyzed_at: "2026-03-31T15:24:11Z"
+added_at: "2026-02-24T14:19:19Z"
+analyzed_at: "2026-02-24T14:19:19Z"
 
 tags:
   - { tag: "twardoch", category: "subject", weight: 0.8 }

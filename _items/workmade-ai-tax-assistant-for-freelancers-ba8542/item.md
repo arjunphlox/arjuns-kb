@@ -5,12 +5,12 @@ slug: "workmade-ai-tax-assistant-for-freelancers-ba8542"
 domain: "workmade.com"
 author: null
 summary: "Stop worrying about taxes. WorkMade automates your business finances year-round."
-og_image: null
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:12:08Z"
-analyzed_at: "2026-03-31T18:12:08Z"
+added_at: "2026-01-21T23:07:50Z"
+analyzed_at: "2026-01-21T23:07:50Z"
 
 tags:
   - { tag: "workmade", category: "subject", weight: 0.8 }

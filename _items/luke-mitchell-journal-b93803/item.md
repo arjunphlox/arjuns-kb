@@ -5,12 +5,12 @@ slug: "luke-mitchell-journal-b93803"
 domain: "interroban.gg"
 author: null
 summary: "Personal website and blog of Luke Mitchell, a design director, product designer, and UI developer."
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:56:04Z"
-analyzed_at: "2026-03-31T17:56:04Z"
+added_at: "2026-03-11T17:17:51Z"
+analyzed_at: "2026-03-11T17:17:51Z"
 
 tags:
   - { tag: "luke", category: "subject", weight: 0.8 }

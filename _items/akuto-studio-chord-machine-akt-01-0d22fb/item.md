@@ -9,8 +9,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:08:13Z"
-analyzed_at: "2026-03-31T18:08:13Z"
+added_at: "2026-03-29T04:16:27Z"
+analyzed_at: "2026-03-29T04:16:27Z"
 
 tags:
   - { tag: "akuto", category: "subject", weight: 0.8 }

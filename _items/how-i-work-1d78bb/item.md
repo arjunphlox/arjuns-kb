@@ -4,13 +4,13 @@ source_url: "https://www.behance.net/gallery/17650857/How-I-Work"
 slug: "how-i-work-1d78bb"
 domain: "behance.net"
 author: null
-summary: "Saved from behance.net: How I Work"
-og_image: null
+summary: "The documentation of my Master's Thesis. "
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T16:57:47Z"
-analyzed_at: "2026-03-31T16:57:47Z"
+added_at: "2026-03-27T00:14:06Z"
+analyzed_at: "2026-03-27T00:14:06Z"
 
 tags:
   - { tag: "work", category: "subject", weight: 0.8 }

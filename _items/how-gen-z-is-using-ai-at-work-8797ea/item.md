@@ -4,13 +4,13 @@ source_url: "https://www.fastcompany.com/91122903/how-gen-z-is-using-ai-at-work"
 slug: "how-gen-z-is-using-ai-at-work-8797ea"
 domain: "fastcompany.com"
 author: null
-summary: "Saved from fastcompany.com: How Gen Z is using AI at work"
-og_image: null
+summary: "New survey data suggests that Gen Z workers know more about AI and are more likely to have used generative AI, compared to their colleagues."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:24:16Z"
-analyzed_at: "2026-03-31T17:24:16Z"
+added_at: "2026-03-02T22:24:58Z"
+analyzed_at: "2026-03-02T22:24:58Z"
 
 tags:
   - { tag: "gen", category: "subject", weight: 0.8 }

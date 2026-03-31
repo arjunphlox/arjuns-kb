@@ -6,12 +6,12 @@ domain: "interroban.gg"
 author: null
 summary: "Christopher on sharing online and how he approaches it.
 "
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:24:15Z"
-analyzed_at: "2026-03-31T15:24:15Z"
+added_at: "2026-03-25T06:21:33Z"
+analyzed_at: "2026-03-25T06:21:33Z"
 
 tags:
   - { tag: "luke", category: "subject", weight: 0.8 }

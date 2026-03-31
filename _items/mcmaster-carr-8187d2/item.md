@@ -9,8 +9,8 @@ og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:25:56Z"
-analyzed_at: "2026-03-31T13:25:56Z"
+added_at: "2026-03-24T16:04:35Z"
+analyzed_at: "2026-03-24T16:04:35Z"
 
 tags:
   - { tag: "mcmaster", category: "subject", weight: 0.8 }

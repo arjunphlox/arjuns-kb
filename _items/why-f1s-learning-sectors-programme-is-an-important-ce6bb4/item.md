@@ -9,8 +9,8 @@ og_image: "og-image.webp"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T13:25:15Z"
-analyzed_at: "2026-03-31T13:25:15Z"
+added_at: "2026-02-02T00:40:47Z"
+analyzed_at: "2026-02-02T00:40:47Z"
 
 tags:
   - { tag: "why", category: "subject", weight: 0.8 }

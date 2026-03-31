@@ -4,13 +4,13 @@ source_url: "https://www.figma.com/community/file/935939481286039829"
 slug: "20-speed-tips-figma-community-f814ba"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: 20 Speed tips | Figma Community"
+summary: "I collected my favorite tips and tricks I find myself using just about every day while designing in Figma. Sometimes I find myself with only a few minutes between meetings to make a quick sketch or fi"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:47Z"
-analyzed_at: "2026-03-31T17:19:47Z"
+added_at: "2026-01-07T19:11:22Z"
+analyzed_at: "2026-01-07T19:11:22Z"
 
 tags:
   - { tag: "speed", category: "subject", weight: 0.8 }

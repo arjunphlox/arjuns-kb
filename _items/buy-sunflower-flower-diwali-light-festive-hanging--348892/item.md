@@ -4,13 +4,13 @@ source_url: "https://www.figliving.com/products/sunflower-star-light-for-diwali-
 slug: "buy-sunflower-flower-diwali-light-festive-hanging--348892"
 domain: "figliving.com"
 author: null
-summary: "Saved from figliving.com: Buy Sunflower Flower Diwali Light - Festive Hanging Star Light"
-og_image: null
+summary: "Add charm to your Diwali decor with the Sunflower Flower Diwali Light. This hand-pleated origami lampshade is a perfect festive gift, offering a modern touch."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:29:33Z"
-analyzed_at: "2026-03-31T17:29:33Z"
+added_at: "2026-01-18T18:35:24Z"
+analyzed_at: "2026-01-18T18:35:24Z"
 
 tags:
   - { tag: "buy", category: "subject", weight: 0.8 }

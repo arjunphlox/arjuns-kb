@@ -5,12 +5,12 @@ slug: "maxitype-fd624f"
 domain: "maxitype.com"
 author: null
 summary: "Maxitype is a collaborative and independent Swiss type foundry founded in 2020 to encourage type design research. We offer retail and bespoke typefaces, paying special attention to contemporary visual"
-og_image: null
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:28:13Z"
-analyzed_at: "2026-03-31T15:28:13Z"
+added_at: "2026-03-20T16:03:13Z"
+analyzed_at: "2026-03-20T16:03:13Z"
 
 tags:
   - { tag: "maxitype", category: "subject", weight: 0.8 }

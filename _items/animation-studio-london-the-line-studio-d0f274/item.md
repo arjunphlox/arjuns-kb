@@ -4,13 +4,13 @@ source_url: "https://thelinestudio.com/"
 slug: "animation-studio-london-the-line-studio-d0f274"
 domain: "thelinestudio.com"
 author: null
-summary: "Saved from thelinestudio.com: Animation Studio London | THE LINE Studio"
-og_image: null
+summary: "We are a BAFTA-nominated animation studio based in London. We specialise in 2D animation, 3D animation, commercials, films, & games."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T18:05:49Z"
-analyzed_at: "2026-03-31T18:05:49Z"
+added_at: "2026-03-21T11:00:41Z"
+analyzed_at: "2026-03-21T11:00:41Z"
 
 tags:
   - { tag: "animation", category: "subject", weight: 0.8 }

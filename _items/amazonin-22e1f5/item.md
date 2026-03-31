@@ -4,13 +4,13 @@ source_url: "https://www.amazon.in/dp/B07BVZ4TN7?tag=yankodesig044-21&geniuslink
 slug: "amazonin-22e1f5"
 domain: "amazon.in"
 author: null
-summary: "Saved from amazon.in: amazon.in"
+summary: "WHOOSH WHOOSH! Award-Winning Screen Cleaner â‚¬â€œ Safe for All Screens â‚¬â€œ Smartphones, iPads, Eyeglasses, Kindle, LED, LCD & TVs â‚¬â€œ Includes 2 Bottles 3.4oz,0.3.oz +3 Antimicrob : Amazon.in: "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:32:20Z"
-analyzed_at: "2026-03-31T17:32:20Z"
+added_at: "2026-03-21T12:30:22Z"
+analyzed_at: "2026-03-21T12:30:22Z"
 
 tags:
   - { tag: "amazon", category: "subject", weight: 0.8 }

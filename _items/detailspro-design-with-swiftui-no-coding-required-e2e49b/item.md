@@ -9,8 +9,8 @@ og_image: null
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:34:32Z"
-analyzed_at: "2026-03-31T17:34:32Z"
+added_at: "2026-02-14T21:59:11Z"
+analyzed_at: "2026-02-14T21:59:11Z"
 
 tags:
   - { tag: "detailspro", category: "subject", weight: 0.8 }

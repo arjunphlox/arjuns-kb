@@ -11,8 +11,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:19:04Z"
-analyzed_at: "2026-03-31T17:19:04Z"
+added_at: "2026-03-07T18:52:40Z"
+analyzed_at: "2026-03-07T18:52:40Z"
 
 tags:
   - { tag: "prototype", category: "subject", weight: 0.8 }

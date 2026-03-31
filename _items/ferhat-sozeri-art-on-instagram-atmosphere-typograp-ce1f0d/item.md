@@ -17,8 +17,8 @@ og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T15:28:39Z"
-analyzed_at: "2026-03-31T15:28:39Z"
+added_at: "2026-02-17T17:14:09Z"
+analyzed_at: "2026-02-17T17:14:09Z"
 
 tags:
   - { tag: "ferhat", category: "subject", weight: 0.8 }

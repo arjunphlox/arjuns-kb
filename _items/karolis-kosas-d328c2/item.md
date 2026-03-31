@@ -4,13 +4,13 @@ source_url: "http://karoliskosas.com/"
 slug: "karolis-kosas-d328c2"
 domain: "karoliskosas.com"
 author: null
-summary: "Saved from karoliskosas.com: Karolis Kosas"
-og_image: null
+summary: "Karolis Kosas — product designer in San Francisco."
+og_image: "og-image.png"
 status: active
 link_last_checked: "2026-03-31"
 location: null
-added_at: "2026-03-31T17:57:44Z"
-analyzed_at: "2026-03-31T17:57:44Z"
+added_at: "2026-03-28T09:35:58Z"
+analyzed_at: "2026-03-28T09:35:58Z"
 
 tags:
   - { tag: "karolis", category: "subject", weight: 0.8 }
