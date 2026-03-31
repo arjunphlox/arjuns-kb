@@ -21,6 +21,7 @@ tags:
   - { tag: "track", category: "subject", weight: 0.5 }
   - { tag: "holds", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "singapore", category: "location", weight: 0.6 }
 ---
 
 ## Summary

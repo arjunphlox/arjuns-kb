@@ -1,0 +1,35 @@
+---
+title: "Rethink"
+source_url: "https://www.rethinkideas.com/"
+slug: "rethink-2ec929"
+domain: "rethinkideas.com"
+author: null
+summary: "Rethink is an independent creative agency based out of Vancouver, Toronto, Montreal, and New York. We relentlessly pursue work the world talks about."
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T15:21:25Z"
+analyzed_at: "2026-03-31T15:21:25Z"
+
+tags:
+  - { tag: "rethink", category: "subject", weight: 0.8 }
+  - { tag: "vancouver", category: "domain", weight: 0.7 }
+  - { tag: "independent", category: "subject", weight: 0.5 }
+  - { tag: "creative", category: "subject", weight: 0.5 }
+  - { tag: "agency", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "canada", category: "location", weight: 0.6 }
+---
+
+## Summary
+Rethink is an independent creative agency based out of Vancouver, Toronto, Montreal, and New York. We relentlessly pursue work the world talks about.
+
+## Key Details
+- **Source:** [rethinkideas.com](https://www.rethinkideas.com/)
+- **Title:** Rethink
+- **Description:** Rethink is an independent creative agency based out of Vancouver, Toronto, Montreal, and New York. We relentlessly pursue work the world talks about.
+
+## Visual Assets
+_No image available_

@@ -19,6 +19,7 @@ tags:
   - { tag: "step", category: "subject", weight: 0.6 }
   - { tag: "process", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "cinematic", category: "mood", weight: 0.5 }
 ---
 
 ## Summary

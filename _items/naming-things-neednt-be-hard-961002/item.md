@@ -1,0 +1,33 @@
+---
+title: "Naming things needn’t be hard"
+source_url: "https://classnames.paulrobertlloyd.com/"
+slug: "naming-things-neednt-be-hard-961002"
+domain: "classnames.paulrobertlloyd.com"
+author: null
+summary: "Saved from classnames.paulrobertlloyd.com: Naming things needn’t be hard"
+og_image: "og-image.png"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:05:43Z"
+analyzed_at: "2026-03-31T17:05:43Z"
+
+tags:
+  - { tag: "naming", category: "subject", weight: 0.8 }
+  - { tag: "technology", category: "domain", weight: 0.7 }
+  - { tag: "things", category: "subject", weight: 0.7 }
+  - { tag: "needn", category: "subject", weight: 0.6 }
+  - { tag: "hard", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Saved from classnames.paulrobertlloyd.com: Naming things needn’t be hard
+
+## Key Details
+- **Source:** [classnames.paulrobertlloyd.com](https://classnames.paulrobertlloyd.com/)
+- **Title:** Naming things needn’t be hard
+
+
+## Visual Assets
+![OG Image](og-image.png)

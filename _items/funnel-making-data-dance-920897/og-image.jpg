@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Lager_1" version="1.1" viewBox="0 0 940 940">
+  
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+      }
+
+      .st1 {
+        fill: #013f33;
+      }
+
+      .st2 {
+        clip-path: url(#clippath-1);
+      }
+
+      .st3 {
+        fill: #fff;
+      }
+
+      .st4 {
+        fill: red;
+      }
+
+      .st5 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="st0" x="83" y="416" width="774" height="108"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="st0" x="83" y="416" width="774" height="108"/>
+    </clipPath>
+  </defs>
+  <rect class="st1" x="-2" y="-2" width="944" height="944"/>
+  <rect class="st4" x="1208.2308" y="275.6923" width="0" height="2.1978"/>
+  <g class="st5">
+    <polygon class="st3" points="749 416 749 524 821 524 821 488 785 488 785 416 749 416"/>
+    <rect class="st3" x="650" y="416" width="72" height="36"/>
+    <rect class="st3" x="650" y="488" width="72" height="36"/>
+    <g class="st2">
+      <path class="st3" d="M614,470c0-9.941,8.059-18,18-18s18,8.059,18,18-8.059,18-18,18-18-8.059-18-18"/>
+      <path class="st3" d="M821,506c0-9.941,8.059-18,18-18s18,8.059,18,18-8.059,18-18,18-18-8.059-18-18"/>
+      <rect class="st3" x="155" y="416" width="36" height="36"/>
+      <rect class="st3" x="83" y="416" width="36" height="108"/>
+      <path class="st3" d="M155,470c0,9.941-8.059,18-18,18s-18-8.059-18-18,8.059-18,18-18,18,8.059,18,18"/>
+      <rect class="st3" x="218" y="416" width="36" height="72"/>
+      <rect class="st3" x="290" y="416" width="36" height="108"/>
+      <path class="st3" d="M290,506c0,9.941-8.059,18-18,18s-18-8.059-18-18,8.059-18,18-18,18,8.059,18,18"/>
+      <rect class="st3" x="425" y="452" width="36" height="72"/>
+      <rect class="st3" x="353" y="416" width="36" height="108"/>
+      <path class="st3" d="M389,434c0-9.941,8.059-18,18-18s18,8.059,18,18-8.059,18-18,18-18-8.059-18-18"/>
+      <rect class="st3" x="560" y="452" width="36" height="72"/>
+      <rect class="st3" x="488" y="416" width="36" height="108"/>
+      <path class="st3" d="M524,434c0-9.941,8.059-18,18-18s18,8.059,18,18-8.059,18-18,18-18-8.059-18-18"/>
+    </g>
+  </g>
+</svg>

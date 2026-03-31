@@ -1,0 +1,37 @@
+---
+title: "Great, cinematic video made easy. Great with Apple Log. Packed with presets and LUT support and real pro tools."
+source_url: "https://www.shotwithkino.com/"
+slug: "great-cinematic-video-made-easy-great-with-apple-l-db2853"
+domain: "shotwithkino.com"
+author: null
+summary: "Great, cinematic video made easy. Great with Apple Log. Packed with presets and LUT support and real pro tools."
+og_image: "og-image.png"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T18:07:44Z"
+analyzed_at: "2026-03-31T18:07:44Z"
+
+tags:
+  - { tag: "great", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "cinematic", category: "subject", weight: 0.7 }
+  - { tag: "video", category: "subject", weight: 0.6 }
+  - { tag: "easy", category: "subject", weight: 0.5 }
+  - { tag: "great", category: "subject", weight: 0.5 }
+  - { tag: "apple", category: "subject", weight: 0.5 }
+  - { tag: "packed", category: "subject", weight: 0.5 }
+  - { tag: "presets", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Great, cinematic video made easy. Great with Apple Log. Packed with presets and LUT support and real pro tools.
+
+## Key Details
+- **Source:** [shotwithkino.com](https://www.shotwithkino.com/)
+- **Title:** Great, cinematic video made easy. Great with Apple Log. Packed with presets and LUT support and real pro tools.
+- **Description:** Great, cinematic video made easy. Great with Apple Log. Packed with presets and LUT support and real pro tools.
+
+## Visual Assets
+![OG Image](og-image.png)

@@ -1,0 +1,37 @@
+---
+title: "Resn - Digital Experience Agency | Ideation, Design, and Development"
+source_url: "https://resn.co.nz/#"
+slug: "resn-digital-experience-agency-ideation-design-and-3a3308"
+domain: "resn.co.nz"
+author: null
+summary: "Resn is a creative studio bringing brand, content and digital experiences to life through stories shaped with global brands and emerging innovators."
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T18:08:41Z"
+analyzed_at: "2026-03-31T18:08:41Z"
+
+tags:
+  - { tag: "resn", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "digital", category: "subject", weight: 0.7 }
+  - { tag: "experience", category: "subject", weight: 0.6 }
+  - { tag: "agency", category: "subject", weight: 0.5 }
+  - { tag: "ideation", category: "subject", weight: 0.5 }
+  - { tag: "creative", category: "subject", weight: 0.5 }
+  - { tag: "studio", category: "subject", weight: 0.5 }
+  - { tag: "bringing", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Resn is a creative studio bringing brand, content and digital experiences to life through stories shaped with global brands and emerging innovators.
+
+## Key Details
+- **Source:** [resn.co.nz](https://resn.co.nz/#)
+- **Title:** Resn - Digital Experience Agency | Ideation, Design, and Development
+- **Description:** Resn is a creative studio bringing brand, content and digital experiences to life through stories shaped with global brands and emerging innovators.
+
+## Visual Assets
+![OG Image](og-image.jpg)

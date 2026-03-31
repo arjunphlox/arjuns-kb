@@ -20,6 +20,7 @@ tags:
   - { tag: "stunt", category: "subject", weight: 0.5 }
   - { tag: "scenes", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "cinematic", category: "mood", weight: 0.5 }
 ---
 
 ## Summary

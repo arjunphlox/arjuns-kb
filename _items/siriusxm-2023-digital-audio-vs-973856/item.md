@@ -1,0 +1,36 @@
+---
+title: "SiriusXM - 2023 Digital Audio vs..."
+source_url: "https://audioreport2023.siriusxmmedia.com/"
+slug: "siriusxm-2023-digital-audio-vs-973856"
+domain: "audioreport2023.siriusxmmedia.com"
+author: null
+summary: "Your data-driven guide to comparing digital audio to tried-and-true marketing media."
+og_image: "og-image.png"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T18:02:24Z"
+analyzed_at: "2026-03-31T18:02:24Z"
+
+tags:
+  - { tag: "siriusxm", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "digital", category: "subject", weight: 0.7 }
+  - { tag: "audio", category: "subject", weight: 0.6 }
+  - { tag: "data", category: "subject", weight: 0.5 }
+  - { tag: "driven", category: "subject", weight: 0.5 }
+  - { tag: "guide", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "data-driven", category: "style", weight: 0.65 }
+---
+
+## Summary
+Your data-driven guide to comparing digital audio to tried-and-true marketing media.
+
+## Key Details
+- **Source:** [audioreport2023.siriusxmmedia.com](https://audioreport2023.siriusxmmedia.com/)
+- **Title:** SiriusXM - 2023 Digital Audio vs...
+- **Description:** Your data-driven guide to comparing digital audio to tried-and-true marketing media.
+
+## Visual Assets
+![OG Image](og-image.png)

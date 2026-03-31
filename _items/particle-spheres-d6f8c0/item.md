@@ -17,6 +17,7 @@ tags:
   - { tag: "generative-graphics", category: "domain", weight: 0.7 }
   - { tag: "spheres", category: "subject", weight: 0.7 }
   - { tag: "codepen", category: "format", weight: 0.4 }
+  - { tag: "generative", category: "style", weight: 0.6 }
 ---
 
 ## Summary

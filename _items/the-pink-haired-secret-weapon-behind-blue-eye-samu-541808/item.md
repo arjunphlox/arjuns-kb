@@ -21,6 +21,7 @@ tags:
   - { tag: "behind", category: "subject", weight: 0.5 }
   - { tag: "edge", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "cinematic", category: "mood", weight: 0.5 }
 ---
 
 ## Summary

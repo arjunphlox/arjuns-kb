@@ -23,6 +23,7 @@ tags:
   - { tag: "formula", category: "subject", weight: 0.5 }
   - { tag: "collaboration", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "uk", category: "location", weight: 0.6 }
 ---
 
 ## Summary

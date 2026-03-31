@@ -17,6 +17,8 @@ tags:
   - { tag: "web-interactions", category: "domain", weight: 0.7 }
   - { tag: "dev", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "interactive", category: "style", weight: 0.6 }
+  - { tag: "animated", category: "style", weight: 0.6 }
 ---
 
 ## Summary

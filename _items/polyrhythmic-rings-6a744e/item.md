@@ -20,6 +20,7 @@ tags:
   - { tag: "tunes", category: "subject", weight: 0.5 }
   - { tag: "visuals", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "vercel", category: "tool", weight: 0.7 }
 ---
 
 ## Summary

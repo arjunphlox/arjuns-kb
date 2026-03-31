@@ -25,6 +25,9 @@ tags:
   - { tag: "analog", category: "subject", weight: 0.6 }
   - { tag: "elegant", category: "mood", weight: 0.7 }
   - { tag: "contemporary", category: "style", weight: 0.65 }
+  - { tag: "clean", category: "style", weight: 0.65 }
+  - { tag: "professional", category: "mood", weight: 0.55 }
+  - { tag: "subtle", category: "mood", weight: 0.55 }
 ---
 
 ## Summary

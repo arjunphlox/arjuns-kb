@@ -1,0 +1,34 @@
+---
+title: "GitHub Universe"
+source_url: "https://githubuniverse.com/"
+slug: "github-universe-bcc579"
+domain: "githubuniverse.com"
+author: null
+summary: "GitHub's global developer event is back. Join the world's fair of software."
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T18:09:24Z"
+analyzed_at: "2026-03-31T18:09:24Z"
+
+tags:
+  - { tag: "universe", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "global", category: "subject", weight: 0.5 }
+  - { tag: "developer", category: "subject", weight: 0.5 }
+  - { tag: "event", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "github", category: "tool", weight: 0.7 }
+---
+
+## Summary
+GitHub's global developer event is back. Join the world's fair of software.
+
+## Key Details
+- **Source:** [githubuniverse.com](https://githubuniverse.com/)
+- **Title:** GitHub Universe
+- **Description:** GitHub's global developer event is back. Join the world's fair of software.
+
+## Visual Assets
+![OG Image](og-image.jpg)

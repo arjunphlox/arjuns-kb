@@ -20,6 +20,7 @@ tags:
   - { tag: "motion", category: "subject", weight: 0.5 }
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.65 }
 ---
 
 ## Summary

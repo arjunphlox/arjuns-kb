@@ -25,6 +25,13 @@ tags:
   - { tag: "red", category: "color", weight: 0.7 }
   - { tag: "editorial", category: "style", weight: 0.75 }
   - { tag: "instagram", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "clean", category: "style", weight: 0.65 }
+  - { tag: "bold", category: "style", weight: 0.65 }
+  - { tag: "serif", category: "style", weight: 0.65 }
+  - { tag: "display", category: "style", weight: 0.65 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.55 }
 ---
 
 ## Summary

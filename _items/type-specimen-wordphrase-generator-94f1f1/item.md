@@ -20,6 +20,7 @@ tags:
   - { tag: "phrase", category: "subject", weight: 0.5 }
   - { tag: "generator", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
 ---
 
 ## Summary

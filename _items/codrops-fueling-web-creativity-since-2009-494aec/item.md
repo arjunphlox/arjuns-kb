@@ -23,6 +23,8 @@ tags:
   - { tag: "latest", category: "subject", weight: 0.5 }
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "interactive", category: "style", weight: 0.6 }
+  - { tag: "animated", category: "style", weight: 0.6 }
 ---
 
 ## Summary

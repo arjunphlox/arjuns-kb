@@ -1,0 +1,31 @@
+---
+title: "My Framer Site"
+source_url: "https://audio-wave.framer.website/"
+slug: "my-framer-site-3204e3"
+domain: "audio-wave.framer.website"
+author: null
+summary: "Made with Framer"
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:11:22Z"
+analyzed_at: "2026-03-31T17:11:22Z"
+
+tags:
+  - { tag: "framer", category: "subject", weight: 0.8 }
+  - { tag: "framer", category: "domain", weight: 0.7 }
+  - { tag: "site", category: "subject", weight: 0.7 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Made with Framer
+
+## Key Details
+- **Source:** [audio-wave.framer.website](https://audio-wave.framer.website/)
+- **Title:** My Framer Site
+- **Description:** Made with Framer
+
+## Visual Assets
+_No image available_

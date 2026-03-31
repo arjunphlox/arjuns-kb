@@ -21,6 +21,7 @@ tags:
   - { tag: "flexible", category: "subject", weight: 0.5 }
   - { tag: "data", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "data-driven", category: "style", weight: 0.65 }
 ---
 
 ## Summary

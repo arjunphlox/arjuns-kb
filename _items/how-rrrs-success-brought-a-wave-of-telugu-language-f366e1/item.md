@@ -23,6 +23,9 @@ tags:
   - { tag: "catalog", category: "subject", weight: 0.5 }
   - { tag: "content", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "cinematic", category: "mood", weight: 0.5 }
+  - { tag: "germany", category: "location", weight: 0.6 }
+  - { tag: "china", category: "location", weight: 0.6 }
 ---
 
 ## Summary

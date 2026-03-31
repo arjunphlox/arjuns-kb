@@ -1,0 +1,36 @@
+---
+title: "Patterns | Apple Developer Documentation"
+source_url: "https://developer.apple.com/design/human-interface-guidelines/patterns"
+slug: "patterns-apple-developer-documentation-945c36"
+domain: "developer.apple.com"
+author: null
+summary: "Get design guidance for supporting common user actions, tasks, and experiences."
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T15:26:26Z"
+analyzed_at: "2026-03-31T15:26:26Z"
+
+tags:
+  - { tag: "patterns", category: "subject", weight: 0.8 }
+  - { tag: "user-interface-design", category: "domain", weight: 0.7 }
+  - { tag: "apple", category: "subject", weight: 0.7 }
+  - { tag: "developer", category: "subject", weight: 0.6 }
+  - { tag: "documentation", category: "subject", weight: 0.5 }
+  - { tag: "design", category: "subject", weight: 0.5 }
+  - { tag: "guidance", category: "subject", weight: 0.5 }
+  - { tag: "supporting", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Get design guidance for supporting common user actions, tasks, and experiences.
+
+## Key Details
+- **Source:** [developer.apple.com](https://developer.apple.com/design/human-interface-guidelines/patterns)
+- **Title:** Patterns | Apple Developer Documentation
+- **Description:** Get design guidance for supporting common user actions, tasks, and experiences.
+
+## Visual Assets
+![OG Image](og-image.jpg)

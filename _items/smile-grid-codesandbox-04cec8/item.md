@@ -17,6 +17,8 @@ tags:
   - { tag: "generative-graphics", category: "domain", weight: 0.7 }
   - { tag: "grid", category: "subject", weight: 0.7 }
   - { tag: "codesandbox", category: "format", weight: 0.4 }
+  - { tag: "grid-based", category: "style", weight: 0.65 }
+  - { tag: "generative", category: "style", weight: 0.6 }
 ---
 
 ## Summary

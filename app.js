@@ -22,7 +22,8 @@
   };
 
   // Placeholder hues for cards without images
-  const PLACEHOLDER_HUES = [210, 260, 330, 160, 30, 190, 290, 50];
+  // Warm earthy hues for placeholders (terracotta, olive, amber, sage, clay, sand, copper, moss)
+  const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
@@ -37,7 +38,7 @@
 
   // --- Boot ---
   async function init() {
-    const res = await fetch('index.json');
+    const res = await fetch('index.json?v=' + Date.now());
     const data = await res.json();
     allItems = data.items;
     renderStats();
@@ -138,7 +139,7 @@
       } else {
         const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
         const letter = (item.title || '?')[0].toUpperCase();
-        thumbHtml = `<div class="card-placeholder" style="background:hsl(${hue},30%,18%)">${letter}</div>`;
+        thumbHtml = `<div class="card-placeholder" style="background:hsl(${hue},20%,16%)">${letter}</div>`;
       }
 
       const tagPills = topTags.map(t => {

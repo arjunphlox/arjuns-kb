@@ -1,0 +1,34 @@
+---
+title: "Robert Borghesi — Creative Dev"
+source_url: "https://robertborghesi.is/"
+slug: "robert-borghesi-creative-dev-abe5bf"
+domain: "robertborghesi.is"
+author: null
+summary: "Just an Okay Creative Dev"
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:58:29Z"
+analyzed_at: "2026-03-31T17:58:29Z"
+
+tags:
+  - { tag: "robert", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "borghesi", category: "subject", weight: 0.7 }
+  - { tag: "creative", category: "subject", weight: 0.6 }
+  - { tag: "dev", category: "subject", weight: 0.5 }
+  - { tag: "okay", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Just an Okay Creative Dev
+
+## Key Details
+- **Source:** [robertborghesi.is](https://robertborghesi.is/)
+- **Title:** Robert Borghesi — Creative Dev
+- **Description:** Just an Okay Creative Dev
+
+## Visual Assets
+![OG Image](og-image.jpg)

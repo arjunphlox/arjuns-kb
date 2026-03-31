@@ -19,6 +19,8 @@ tags:
   - { tag: "designs", category: "subject", weight: 0.5 }
   - { tag: "print", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "abstract", category: "style", weight: 0.65 }
+  - { tag: "cinematic", category: "mood", weight: 0.5 }
 ---
 
 ## Summary

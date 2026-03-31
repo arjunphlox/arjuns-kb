@@ -25,6 +25,8 @@ tags:
   - { tag: "vibrant", category: "mood", weight: 0.9 }
   - { tag: "digital-illustration", category: "domain", weight: 0.8 }
   - { tag: "tweet", category: "format", weight: 0.4 }
+  - { tag: "bold", category: "style", weight: 0.65 }
+  - { tag: "dramatic", category: "mood", weight: 0.55 }
 ---
 
 ## Summary

@@ -1,0 +1,29 @@
+---
+title: "60"
+source_url: "https://x.com/ovolosin82152/status/1896651348835492010?s=12"
+slug: "60-c1ca52"
+domain: "x.com"
+author: null
+summary: "Saved from x.com: 60"
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:44:29Z"
+analyzed_at: "2026-03-31T17:44:29Z"
+
+tags:
+  - { tag: "midjourney", category: "domain", weight: 0.7 }
+  - { tag: "tweet", category: "format", weight: 0.4 }
+---
+
+## Summary
+Saved from x.com: 60
+
+## Key Details
+- **Source:** [x.com](https://x.com/ovolosin82152/status/1896651348835492010?s=12)
+- **Title:** 60
+
+
+## Visual Assets
+_No image available_

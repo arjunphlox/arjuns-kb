@@ -21,6 +21,7 @@ tags:
   - { tag: "learning", category: "subject", weight: 0.5 }
   - { tag: "basics", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
 ---
 
 ## Summary

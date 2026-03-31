@@ -1,0 +1,34 @@
+---
+title: "The Realities And Myths Of Contrast And Color — Smashing Magazine"
+source_url: "https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/"
+slug: "the-realities-and-myths-of-contrast-and-color-smas-340091"
+domain: "smashingmagazine.com"
+author: null
+summary: "Saved from smashingmagazine.com: The Realities And Myths Of Contrast And Color — Smashing Magazine"
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T15:20:53Z"
+analyzed_at: "2026-03-31T15:20:53Z"
+
+tags:
+  - { tag: "realities", category: "subject", weight: 0.8 }
+  - { tag: "visual-design", category: "domain", weight: 0.7 }
+  - { tag: "myths", category: "subject", weight: 0.7 }
+  - { tag: "contrast", category: "subject", weight: 0.6 }
+  - { tag: "color", category: "subject", weight: 0.5 }
+  - { tag: "smashing", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Saved from smashingmagazine.com: The Realities And Myths Of Contrast And Color — Smashing Magazine
+
+## Key Details
+- **Source:** [smashingmagazine.com](https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/)
+- **Title:** The Realities And Myths Of Contrast And Color — Smashing Magazine
+
+
+## Visual Assets
+_No image available_

@@ -25,6 +25,8 @@ tags:
   - { tag: "wood", category: "subject", weight: 0.5 }
   - { tag: "created", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "crafted", category: "mood", weight: 0.55 }
+  - { tag: "uk", category: "location", weight: 0.6 }
 ---
 
 ## Summary

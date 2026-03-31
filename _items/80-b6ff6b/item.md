@@ -1,0 +1,29 @@
+---
+title: "80"
+source_url: "https://x.com/egeberkina/status/1893249498484187507?s=12"
+slug: "80-b6ff6b"
+domain: "x.com"
+author: null
+summary: "Saved from x.com: 80"
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:44:39Z"
+analyzed_at: "2026-03-31T17:44:39Z"
+
+tags:
+  - { tag: "midjourney", category: "domain", weight: 0.7 }
+  - { tag: "tweet", category: "format", weight: 0.4 }
+---
+
+## Summary
+Saved from x.com: 80
+
+## Key Details
+- **Source:** [x.com](https://x.com/egeberkina/status/1893249498484187507?s=12)
+- **Title:** 80
+
+
+## Visual Assets
+_No image available_

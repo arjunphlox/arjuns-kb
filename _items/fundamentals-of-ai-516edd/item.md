@@ -1,0 +1,30 @@
+---
+title: "Fundamentals of AI"
+source_url: "https://cognitiveclass.ai/learn/fundamentals-of-ai"
+slug: "fundamentals-of-ai-516edd"
+domain: "cognitiveclass.ai"
+author: null
+summary: "Saved from cognitiveclass.ai: Fundamentals of AI"
+og_image: null
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T17:21:28Z"
+analyzed_at: "2026-03-31T17:21:28Z"
+
+tags:
+  - { tag: "fundamentals", category: "subject", weight: 0.8 }
+  - { tag: "gen-ai", category: "domain", weight: 0.7 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Saved from cognitiveclass.ai: Fundamentals of AI
+
+## Key Details
+- **Source:** [cognitiveclass.ai](https://cognitiveclass.ai/learn/fundamentals-of-ai)
+- **Title:** Fundamentals of AI
+
+
+## Visual Assets
+_No image available_

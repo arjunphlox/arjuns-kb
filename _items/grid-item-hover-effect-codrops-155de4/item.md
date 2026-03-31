@@ -21,6 +21,9 @@ tags:
   - { tag: "codrops", category: "subject", weight: 0.5 }
   - { tag: "effects", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "grid-based", category: "style", weight: 0.65 }
+  - { tag: "interactive", category: "style", weight: 0.6 }
+  - { tag: "animated", category: "style", weight: 0.6 }
 ---
 
 ## Summary

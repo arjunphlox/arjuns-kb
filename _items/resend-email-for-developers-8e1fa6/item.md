@@ -1,0 +1,35 @@
+---
+title: "Resend · Email for developers"
+source_url: "https://resend.com/home"
+slug: "resend-email-for-developers-8e1fa6"
+domain: "resend.com"
+author: null
+summary: "The best way to reach humans instead of spam folders. Deliver transactional and marketing emails at scale."
+og_image: "og-image.png"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T18:09:04Z"
+analyzed_at: "2026-03-31T18:09:04Z"
+
+tags:
+  - { tag: "resend", category: "subject", weight: 0.8 }
+  - { tag: "websites", category: "domain", weight: 0.7 }
+  - { tag: "email", category: "subject", weight: 0.7 }
+  - { tag: "developers", category: "subject", weight: 0.6 }
+  - { tag: "reach", category: "subject", weight: 0.5 }
+  - { tag: "humans", category: "subject", weight: 0.5 }
+  - { tag: "instead", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+The best way to reach humans instead of spam folders. Deliver transactional and marketing emails at scale.
+
+## Key Details
+- **Source:** [resend.com](https://resend.com/home)
+- **Title:** Resend · Email for developers
+- **Description:** The best way to reach humans instead of spam folders. Deliver transactional and marketing emails at scale.
+
+## Visual Assets
+![OG Image](og-image.png)

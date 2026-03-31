@@ -18,6 +18,7 @@ tags:
   - { tag: "illustration", category: "subject", weight: 0.7 }
   - { tag: "kit", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.65 }
 ---
 
 ## Summary

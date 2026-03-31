@@ -17,6 +17,7 @@ tags:
   - { tag: "news", category: "domain", weight: 0.7 }
   - { tag: "grid", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "grid-based", category: "style", weight: 0.65 }
 ---
 
 ## Summary
