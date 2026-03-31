@@ -1,0 +1,34 @@
+---
+title: "Get started | Learning Music"
+source_url: "https://learningmusic.ableton.com/index.html"
+slug: "get-started-learning-music-9deea8"
+domain: "learningmusic.ableton.com"
+author: null
+summary: "Explore the fundamentals of music via Ableton"
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T13:26:26Z"
+analyzed_at: "2026-03-31T13:26:26Z"
+
+tags:
+  - { tag: "started", category: "subject", weight: 0.8 }
+  - { tag: "music", category: "domain", weight: 0.7 }
+  - { tag: "learning", category: "subject", weight: 0.7 }
+  - { tag: "music", category: "subject", weight: 0.6 }
+  - { tag: "explore", category: "subject", weight: 0.5 }
+  - { tag: "fundamentals", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Explore the fundamentals of music via Ableton
+
+## Key Details
+- **Source:** [learningmusic.ableton.com](https://learningmusic.ableton.com/index.html)
+- **Title:** Get started | Learning Music
+- **Description:** Explore the fundamentals of music via Ableton
+
+## Visual Assets
+![OG Image](og-image.jpg)

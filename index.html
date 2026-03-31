@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arjun's Knowledge Base</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>Arjun's Knowledge Base</h1>
+    <div class="stats-bar" id="stats-bar"></div>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="search-row">
+        <input type="text" class="search-input" id="search-input" placeholder="Search items by title, summary, or tag...">
+      </div>
+      <div class="active-filters" id="active-filters"></div>
+      <button class="tag-drawer-toggle" id="tag-drawer-toggle">Browse tags</button>
+      <div class="tag-drawer" id="tag-drawer"></div>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <main class="grid-container">
+    <div class="items-count" id="items-count"></div>
+    <div class="masonry" id="masonry-grid"></div>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-panel">
+      <button class="modal-close">&times;</button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

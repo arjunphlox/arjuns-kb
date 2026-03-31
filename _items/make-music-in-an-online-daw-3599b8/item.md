@@ -1,0 +1,33 @@
+---
+title: "Make music in an online DAW"
+source_url: "https://soundation.com/"
+slug: "make-music-in-an-online-daw-3599b8"
+domain: "soundation.com"
+author: null
+summary: "Produce music online. Make beats, record audio, and collaborate."
+og_image: "og-image.jpg"
+status: active
+link_last_checked: "2026-03-31"
+location: null
+added_at: "2026-03-31T13:26:33Z"
+analyzed_at: "2026-03-31T13:26:33Z"
+
+tags:
+  - { tag: "music", category: "subject", weight: 0.8 }
+  - { tag: "music", category: "domain", weight: 0.7 }
+  - { tag: "online", category: "subject", weight: 0.7 }
+  - { tag: "daw", category: "subject", weight: 0.6 }
+  - { tag: "produce", category: "subject", weight: 0.5 }
+  - { tag: "website", category: "format", weight: 0.4 }
+---
+
+## Summary
+Produce music online. Make beats, record audio, and collaborate.
+
+## Key Details
+- **Source:** [soundation.com](https://soundation.com/)
+- **Title:** Make music in an online DAW
+- **Description:** Produce music online. Make beats, record audio, and collaborate.
+
+## Visual Assets
+![OG Image](og-image.jpg)
