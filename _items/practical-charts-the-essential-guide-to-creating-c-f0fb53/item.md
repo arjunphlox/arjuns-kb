@@ -4,7 +4,7 @@ source_url: "https://www.amazon.com/Practical-Charts-Essential-Compelling-Presen
 slug: "practical-charts-the-essential-guide-to-creating-c-f0fb53"
 domain: "amazon.com"
 author: null
-summary: "Saved from amazon.com: Practical Charts: The Essential Guide to Creating Clear, Compelling Charts for Reports and Presentations: Desbarats, Nicholas P: 9781738888306: Amazon.com: Books"
+summary: "Practical Charts: The Essential Guide to Creating Clear, Compelling Charts for Reports and Presentations [Desbarats, Nicholas P] on Amazon.com. *FREE* shipping on qualifying offers. Practical Charts: "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"

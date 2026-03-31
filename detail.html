@@ -222,6 +222,15 @@
       return d.innerHTML;
     }
 
+    function cleanSummary(text) {
+      if (!text) return text;
+      let cleaned = text.replace(/^[''""\s]+/, '').replace(/[''""\s]+$/, '');
+      cleaned = cleaned.replace(/^\d[\d,.KkMm]*\s*likes?,\s*\d[\d,.KkMm]*\s*comments?\s*-\s*\S+\s+on\s+\w+\s+\d{1,2},?\s+\d{4}[\s\u200E:]*[''""]?\s*/i, '');
+      cleaned = cleaned.replace(/^Saved from \S+:\s*/i, '');
+      cleaned = cleaned.replace(/^[''""\s]+/, '');
+      return cleaned.trim();
+    }
+
     function extractMarkdownBody(raw) {
       const match = raw.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/);
       return match ? match[1].trim() : raw.trim();
@@ -274,7 +283,7 @@
         $left.innerHTML = `<img class="detail-image" src="${item.image_path}" alt="" onerror="this.style.display='none'">`;
       } else if (item.summary && item.summary.length > 30 && !item.summary.startsWith('Saved from')) {
         const hue = PLACEHOLDER_HUES[Math.abs(slug.charCodeAt(0)) % PLACEHOLDER_HUES.length];
-        $left.innerHTML = `<div class="detail-text-hero" style="background:hsl(${hue},15%,13%)">${escHtml(item.summary)}</div>`;
+        $left.innerHTML = `<div class="detail-text-hero" style="background:hsl(${hue},15%,13%)">${escHtml(cleanSummary(item.summary))}</div>`;
       } else {
         const hue = PLACEHOLDER_HUES[Math.abs(slug.charCodeAt(0)) % PLACEHOLDER_HUES.length];
         const letter = (item.title || '?')[0].toUpperCase();
@@ -293,7 +302,7 @@
       html += `</div>`;
 
       if (item.summary) {
-        html += `<div class="detail-summary">${escHtml(item.summary)}</div>`;
+        html += `<div class="detail-summary">${escHtml(cleanSummary(item.summary))}</div>`;
       }
 
       html += `<div class="detail-tags">`;

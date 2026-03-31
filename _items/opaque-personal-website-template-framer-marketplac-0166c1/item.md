@@ -4,8 +4,8 @@ source_url: "https://www.framer.com/marketplace/templates/opaque/"
 slug: "opaque-personal-website-template-framer-marketplac-0166c1"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: Opaque - Personal Website Template — Framer Marketplace"
-og_image: null
+summary: "Designed for the multi-talented creative, Opaque provides ample room for expressing visuals, writing, and projects—with a minimalist vibe. The perfect starting point for a highly functional (and appro"
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null

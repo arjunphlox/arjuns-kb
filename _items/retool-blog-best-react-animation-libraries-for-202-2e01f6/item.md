@@ -4,8 +4,8 @@ source_url: "https://retool.com/blog/the-top-animation-libraries-for-react-in-20
 slug: "retool-blog-best-react-animation-libraries-for-202-2e01f6"
 domain: "retool.com"
 author: null
-summary: "Saved from retool.com: Retool Blog | Best React animation libraries for 2023"
-og_image: null
+summary: "From Framer Motion to react-spring and react-motion, we evaluated some of the best React animation libraries based on compatibility, presets, docs, performance, and more."
+og_image: "og-image.webp"
 status: active
 link_last_checked: "2026-03-31"
 location: null

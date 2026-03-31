@@ -228,6 +228,19 @@
     $grid.innerHTML = html;
   }
 
+  function cleanSummary(text) {
+    if (!text) return text;
+    // Strip leading/trailing quotes and whitespace first
+    let cleaned = text.replace(/^[''""\s]+/, '').replace(/[''""\s]+$/, '');
+    // Strip Instagram pattern: "14K likes, 35 comments - username on Date: 'actual content"
+    cleaned = cleaned.replace(/^\d[\d,.KkMm]*\s*likes?,\s*\d[\d,.KkMm]*\s*comments?\s*-\s*\S+\s+on\s+\w+\s+\d{1,2},?\s+\d{4}[\s\u200E:]*[''""]?\s*/i, '');
+    // Strip "Saved from domain:" prefix
+    cleaned = cleaned.replace(/^Saved from \S+:\s*/i, '');
+    // Strip any remaining leading quotes/whitespace
+    cleaned = cleaned.replace(/^[''""\s]+/, '');
+    return cleaned.trim();
+  }
+
   function truncateWords(text, maxWords) {
     const words = text.split(/\s+/);
     if (words.length <= maxWords) return text;
@@ -246,7 +259,7 @@
       thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy" onerror="this.parentElement.classList.add('img-error')">`;
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
-      const truncated = escHtml(truncateWords(item.summary, 200));
+      const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
       thumbHtml = `<div class="card-text-content" style="background:hsl(${hue},15%,13%)">${truncated}</div>`;
     } else {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
@@ -286,7 +299,7 @@
         ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
         ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
       </div>
-      ${item.summary ? `<div class="card-expanded-summary">${escHtml(item.summary)}</div>` : ''}
+      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
       <div class="card-expanded-tags">${tagPills}</div>
       ${item.source_url ? `<a class="card-expanded-source" href="${item.source_url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Visit source &rarr;</a>` : ''}
       <div class="card-expanded-md" data-slug="${item.slug}"></div>
@@ -324,9 +337,11 @@
         const mdRes = await fetch(`_items/${slug}/item.md`);
         if (mdRes.ok) {
           const raw = await mdRes.text();
-          const body = extractMarkdownBody(raw);
+          let body = extractMarkdownBody(raw);
           if (body) {
-            mdContainer.innerHTML = renderMarkdown(body);
+            // Remove redundant sections
+            body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
+            if (body) mdContainer.innerHTML = renderMarkdown(body);
           }
         }
       } catch { /* silent */ }
@@ -368,6 +383,20 @@
   }
 
   // --- Markdown helpers ---
+  function stripSections(md, names) {
+    const pattern = new RegExp('^##\\s+(' + names.join('|') + ')\\s*$', 'i');
+    const lines = md.split('\n');
+    const result = [];
+    let skipping = false;
+    for (const line of lines) {
+      if (/^##\s/.test(line)) {
+        skipping = pattern.test(line);
+      }
+      if (!skipping) result.push(line);
+    }
+    return result.join('\n').trim();
+  }
+
   function extractMarkdownBody(raw) {
     const match = raw.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/);
     return match ? match[1].trim() : raw.trim();

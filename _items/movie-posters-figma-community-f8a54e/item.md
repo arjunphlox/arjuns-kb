@@ -4,7 +4,9 @@ source_url: "https://www.figma.com/community/plugin/797471678566755597/movie-pos
 slug: "movie-posters-figma-community-f8a54e"
 domain: "figma.com"
 author: null
-summary: "Saved from figma.com: Movie Posters | Figma Community"
+summary: "Add a random popular movie or TV series poster.
+
+1. Select any vector object and run the plugin (repeat with as many objects as necessary). The plugin will fetch a poster image and add it as a filler "
 og_image: null
 status: active
 link_last_checked: "2026-03-31"

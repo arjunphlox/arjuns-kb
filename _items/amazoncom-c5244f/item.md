@@ -4,7 +4,7 @@ source_url: "https://www.amazon.com/Meike-MK-EFTR-C-Auto-Focus-Adapter-Variable/
 slug: "amazoncom-c5244f"
 domain: "amazon.com"
 author: null
-summary: "Saved from amazon.com: amazon.com"
+summary: "Amazon.com : Meike MK-EFTR-C VND Drop-in Filter Auto-Focus Mount Lens Adapter for Canon EF to EOSR with Variable ND Filter and UV Filter for EOS R R5 R6 RP R7 R10 C70 Cameras : Electronics"
 og_image: null
 status: active
 link_last_checked: "2026-03-31"

@@ -4,8 +4,8 @@ source_url: "https://www.framer.com/marketplace/templates/lando/"
 slug: "lando-free-portfolio-website-template-by-gustave-f-41270b"
 domain: "framer.com"
 author: null
-summary: "Saved from framer.com: Lando: Free Portfolio Website Template by Gustave Flowbert — Framer Marketplace"
-og_image: null
+summary: "Introducing Lando Portfolio Template, a strikingly designed Framer Website template perfect for showcasing your Agency or portfolio."
+og_image: "og-image.jpg"
 status: active
 link_last_checked: "2026-03-31"
 location: null
