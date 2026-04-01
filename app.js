@@ -76,6 +76,7 @@
   const $drawer = document.getElementById('tag-drawer');
   const $statsBar = document.getElementById('stats-bar');
   const $itemsCount = document.getElementById('items-count');
+  const $colorBar = document.getElementById('color-tags-bar');
 
   // --- Boot ---
   async function init() {
@@ -92,6 +93,7 @@
 
     buildRelatedIndex();
     renderStats();
+    renderColorBar();
     renderTagDrawer();
     renderGrid();
     bindEvents();
@@ -145,6 +147,32 @@
       `<span class="stat"><span class="stat-value">${allItems.length}</span> items</span>` +
       `<span class="stat"><span class="stat-value">${withImg}</span> with images</span>` +
       catHtml;
+  }
+
+  // --- Color Tags Bar ---
+  const COLOR_BAR_LIMIT = 20;
+  let colorBarExpanded = false;
+
+  function renderColorBar() {
+    const colorCounts = {};
+    allItems.forEach(i => i.tags.forEach(t => {
+      if (t.category === 'color') colorCounts[t.tag] = (colorCounts[t.tag] || 0) + 1;
+    }));
+    const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
+    if (sorted.length === 0) { $colorBar.style.display = 'none'; return; }
+
+    const visible = colorBarExpanded ? sorted : sorted.slice(0, COLOR_BAR_LIMIT);
+    const chips = visible.map(([tag, count]) => {
+      const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
+      const isActive = activeTags.some(a => a.tag === tag && a.category === 'color');
+      return `<span class="tag-chip tag-color${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="color"><span class="color-dot" style="background:${hex}"></span>${tag} <span class="chip-count">${count}</span></span>`;
+    }).join('');
+
+    const toggle = sorted.length > COLOR_BAR_LIMIT
+      ? `<span class="color-bar-toggle">${colorBarExpanded ? 'Less' : `+${sorted.length - COLOR_BAR_LIMIT} more`}</span>`
+      : '';
+
+    $colorBar.innerHTML = chips + toggle;
   }
 
   // --- Tag Drawer ---
@@ -518,6 +546,7 @@
       } else {
         activeTags.push({ tag, category: cat });
       }
+      renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();
@@ -526,6 +555,7 @@
     $activeFilters.addEventListener('click', function (e) {
       if (e.target.id === 'clear-filters' || e.target.closest('#clear-filters')) {
         activeTags = [];
+        renderColorBar();
         renderTagDrawer();
         renderActiveFilters();
         renderGrid();
@@ -535,6 +565,30 @@
       if (!pill) return;
       const idx = parseInt(pill.dataset.idx, 10);
       activeTags.splice(idx, 1);
+      renderColorBar();
+      renderTagDrawer();
+      renderActiveFilters();
+      renderGrid();
+    });
+
+    // Color bar clicks -> filter by color tag or toggle more/less
+    $colorBar.addEventListener('click', function (e) {
+      if (e.target.closest('.color-bar-toggle')) {
+        colorBarExpanded = !colorBarExpanded;
+        renderColorBar();
+        return;
+      }
+      const chip = e.target.closest('.tag-chip');
+      if (!chip) return;
+      const tag = chip.dataset.tag;
+      const cat = chip.dataset.cat;
+      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
+      if (idx >= 0) {
+        activeTags.splice(idx, 1);
+      } else {
+        activeTags.push({ tag, category: cat });
+      }
+      renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();

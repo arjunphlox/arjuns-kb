@@ -151,11 +151,36 @@ body {
 }
 .clear-filters-btn:hover { color: var(--text); border-color: var(--text-secondary); }
 
+/* === COLOR TAGS BAR === */
+.color-tags-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 0 8px;
+}
+.color-tags-bar .tag-chip {
+  padding: 3px 10px 3px 6px;
+}
+.color-bar-toggle {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+  transition: color 0.15s;
+  padding: 3px 4px;
+  user-select: none;
+}
+.color-bar-toggle:hover {
+  color: var(--text-secondary);
+}
+
 /* === TAG DRAWER === */
 .tag-drawer-toggle {
   background: transparent;
   border: none;
   color: var(--accent);
+  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
   font-size: 0.82rem;
   cursor: pointer;
   padding: 4px 0;
