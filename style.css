@@ -100,13 +100,20 @@ body {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 0.92rem;
-  padding: 10px 16px;
-  border-radius: 8px;
+  font-family: 'Platypi', Georgia, serif;
+  font-size: 1.4rem;
+  padding: 24px 24px;
+  height: 100px;
+  border-radius: 10px;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
-.search-input::placeholder { color: var(--text-dim); }
+.search-input::placeholder {
+  color: var(--text-dim);
+  font-family: 'Platypi', Georgia, serif;
+  font-size: 1.4rem;
+}
 .search-input:focus { border-color: var(--accent); }
 
 .active-filters {
@@ -208,7 +215,15 @@ body {
 .tag-tool     { background: var(--tag-tool-bg); color: var(--tag-tool-fg); }
 .tag-location { background: var(--tag-location-bg); color: var(--tag-location-fg); }
 .tag-mood     { background: var(--tag-mood-bg); color: var(--tag-mood-fg); }
-.tag-color    { border: 1px solid var(--border); color: var(--tag-color-fg); }
+.tag-color    { border: 1px solid var(--border); color: var(--tag-color-fg); display: inline-flex; align-items: center; gap: 4px; }
+.tag-color .color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
 
 /* === MASONRY GRID === */
 .grid-container {
@@ -222,6 +237,7 @@ body {
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .date-section-header span {
   font-size: 0.72rem;
@@ -229,6 +245,19 @@ body {
   color: var(--text-dim);
   letter-spacing: 0.03em;
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+}
+.week-show-link {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+  letter-spacing: 0.03em;
+  transition: color 0.15s;
+  text-decoration: none;
+  user-select: none;
+}
+.week-show-link:hover {
+  color: var(--text-secondary);
 }
 
 /* Masonry section within a date group */

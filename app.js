@@ -9,6 +9,7 @@
   let searchQuery = '';
   let tagDrawerOpen = false;
   let relatedIndex = {};     // slug -> Set of related slugs
+  let loadedWeeks = new Set(); // track which weeks have been rendered
 
   // --- Category colors (for pills) ---
   const CAT_CLASS = {
@@ -24,6 +25,48 @@
 
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
+
+  // Color name → CSS color for tag swatches
+  const COLOR_MAP = {
+    // Reds / pinks
+    red: '#c0392b', crimson: '#dc143c', burgundy: '#800020', maroon: '#800000',
+    scarlet: '#ff2400', ruby: '#e0115f', cherry: '#de3163', rose: '#ff007f',
+    blush: '#de5d83', coral: '#ff7f50', salmon: '#fa8072', pink: '#e8909c',
+    magenta: '#c20078', fuchsia: '#c154c1', mauve: '#e0b0ff', dusty_rose: '#dcae96',
+    'dusty-rose': '#dcae96', raspberry: '#e30b5c', wine: '#722f37', terracotta: '#e2725b',
+    // Oranges
+    orange: '#e67e22', tangerine: '#ff9966', peach: '#ffcba4', apricot: '#fbceb1',
+    amber: '#ffbf00', rust: '#b7410e', copper: '#b87333', burnt_orange: '#cc5500',
+    'burnt-orange': '#cc5500', sienna: '#a0522d',
+    // Yellows
+    yellow: '#f1c40f', gold: '#ffd700', golden: '#daa520', mustard: '#e1ad01',
+    lemon: '#fff44f', cream: '#fffdd0', butter: '#ffff99', saffron: '#f4c430',
+    honey: '#eb9605', wheat: '#f5deb3', sand: '#c2b280',
+    // Greens
+    green: '#27ae60', emerald: '#50c878', lime: '#32cd32', olive: '#808000',
+    sage: '#bcb88a', mint: '#98ff98', teal: '#008080', forest: '#228b22',
+    'forest-green': '#228b22', jade: '#00a86b', chartreuse: '#7fff00',
+    moss: '#8a9a5b', avocado: '#568203', pistachio: '#93c572', seafoam: '#93e9be',
+    // Blues
+    blue: '#2980b9', navy: '#001f3f', cobalt: '#0047ab', royal: '#4169e1',
+    'royal-blue': '#4169e1', sky: '#87ceeb', 'sky-blue': '#87ceeb',
+    azure: '#007fff', cerulean: '#007ba7', turquoise: '#40e0d0', aqua: '#00ffff',
+    indigo: '#4b0082', periwinkle: '#ccccff', slate: '#708090', 'slate-blue': '#6a5acd',
+    steel: '#4682b4', 'steel-blue': '#4682b4', powder: '#b0e0e6', 'powder-blue': '#b0e0e6',
+    // Purples
+    purple: '#8e44ad', violet: '#7f00ff', lavender: '#b57edc', plum: '#8e4585',
+    lilac: '#c8a2c8', amethyst: '#9966cc', orchid: '#da70d6', grape: '#6f2da8',
+    eggplant: '#614051', mulberry: '#c54b8c',
+    // Browns
+    brown: '#795548', chocolate: '#7b3f00', coffee: '#6f4e37', mocha: '#967969',
+    tan: '#d2b48c', taupe: '#483c32', caramel: '#ffd59a', cinnamon: '#d2691e',
+    walnut: '#773f1a', chestnut: '#954535', espresso: '#3c1414', umber: '#635147',
+    // Neutrals
+    black: '#1a1a1a', charcoal: '#36454f', 'dark-gray': '#555555',
+    gray: '#888888', grey: '#888888', silver: '#c0c0c0', 'light-gray': '#d3d3d3',
+    white: '#f5f5f5', ivory: '#fffff0', bone: '#e3dac9', pearl: '#eae0c8',
+    beige: '#f5f5dc', off_white: '#faf0e6', 'off-white': '#faf0e6',
+  };
 
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
@@ -130,7 +173,8 @@
           ${tags.map(([tag, count]) => {
             const cls = CAT_CLASS[cat] || 'tag-format';
             const isActive = activeTags.some(a => a.tag === tag && a.category === cat);
-            return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${tag} <span class="chip-count">${count}</span></span>`;
+            const dot = cat === 'color' ? `<span class="color-dot" style="background:${COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888'}"></span>` : '';
+            return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${dot}${tag} <span class="chip-count">${count}</span></span>`;
           }).join('')}
         </div>
       </div>`;
@@ -180,6 +224,44 @@
     return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
   }
 
+  function groupByWeek(items) {
+    const weeks = [];
+    let currentWeekKey = null;
+    let currentWeek = null;
+
+    items.forEach((item, idx) => {
+      const weekKey = getWeekKey(item.added_at);
+      if (weekKey !== currentWeekKey) {
+        currentWeekKey = weekKey;
+        currentWeek = {
+          key: weekKey,
+          label: formatWeekLabel(item.added_at) || 'Undated',
+          items: [],
+        };
+        weeks.push(currentWeek);
+      }
+      currentWeek.items.push({ item, idx });
+    });
+    return weeks;
+  }
+
+  function renderWeekCards(weekKey) {
+    const container = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
+    const showLink = $grid.querySelector(`.week-show-link[data-week="${weekKey}"]`);
+    if (!container) return;
+
+    const items = getFilteredItems();
+    const weekItems = items.filter(i => getWeekKey(i.added_at) === weekKey);
+
+    container.innerHTML = weekItems.map((item, idx) => renderCard(item, idx)).join('');
+    container.style.display = '';
+    loadedWeeks.add(weekKey);
+
+    if (showLink) showLink.remove();
+  }
+
+  const isSearchActive = () => searchQuery || activeTags.length > 0;
+
   function renderGrid() {
     const items = getFilteredItems();
     $itemsCount.innerHTML = `Showing <span>${items.length}</span> of ${allItems.length} items`;
@@ -189,41 +271,31 @@
       return;
     }
 
-    const groups = [];
-    let currentWeekKey = null;
+    const weeks = groupByWeek(items);
+    const searching = isSearchActive();
 
-    items.forEach((item, idx) => {
-      const weekKey = getWeekKey(item.added_at);
-      if (weekKey !== currentWeekKey) {
-        currentWeekKey = weekKey;
-        groups.push({
-          type: 'date-header',
-          dateKey: weekKey,
-          label: formatWeekLabel(item.added_at) || 'Undated',
-        });
-      }
-      groups.push({ type: 'item', item, idx });
-    });
+    // When searching/filtering, reset lazy state and show all results
+    if (searching) {
+      loadedWeeks = new Set(weeks.map(w => w.key));
+    } else {
+      // Default: only first week is loaded
+      loadedWeeks = new Set();
+      if (weeks.length > 0) loadedWeeks.add(weeks[0].key);
+    }
 
     let html = '';
-    let inMasonry = false;
-
-    groups.forEach(entry => {
-      if (entry.type === 'date-header') {
-        if (inMasonry) {
-          html += '</div>';
-          inMasonry = false;
-        }
-        html += `<div class="date-section-header"><span>${entry.label}</span></div>`;
-      } else {
-        if (!inMasonry) {
-          html += '<div class="masonry-section">';
-          inMasonry = true;
-        }
-        html += renderCard(entry.item, entry.idx);
+    weeks.forEach((week, wi) => {
+      const isLoaded = loadedWeeks.has(week.key);
+      const showLink = !isLoaded
+        ? `<span class="week-show-link" data-week="${week.key}">Show</span>`
+        : '';
+      html += `<div class="date-section-header"><span>${week.label}</span>${showLink}</div>`;
+      html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
+      if (isLoaded) {
+        html += week.items.map(e => renderCard(e.item, e.idx)).join('');
       }
+      html += '</div>';
     });
-    if (inMasonry) html += '</div>';
 
     $grid.innerHTML = html;
   }
@@ -288,10 +360,7 @@
     const tagPills = item.tags
       .sort((a, b) => b.weight - a.weight)
       .slice(0, 8)
-      .map(t => {
-        const cls = CAT_CLASS[t.category] || 'tag-format';
-        return `<span class="card-tag ${cls}">${t.tag}</span>`;
-      }).join('');
+      .map(t => renderTagPill(t.tag, t.category)).join('');
 
     const expandedHtml = `<div class="card-expanded-body">
       <div class="card-expanded-title">${escHtml(item.title)}</div>
@@ -471,6 +540,14 @@
       renderGrid();
     });
 
+    // Week "Show" links -> lazy load that week
+    $grid.addEventListener('click', function (e) {
+      const showLink = e.target.closest('.week-show-link');
+      if (!showLink) return;
+      e.stopPropagation();
+      renderWeekCards(showLink.dataset.week);
+    });
+
     // Card hover -> highlight related
     $grid.addEventListener('mouseenter', function (e) {
       const card = e.target.closest('.card');
@@ -505,6 +582,15 @@
   }
 
   // --- Utility ---
+  function renderTagPill(tag, category) {
+    const cls = CAT_CLASS[category] || 'tag-format';
+    if (category === 'color') {
+      const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
+      return `<span class="card-tag ${cls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
+    }
+    return `<span class="card-tag ${cls}">${tag}</span>`;
+  }
+
   function escHtml(str) {
     const d = document.createElement('div');
     d.textContent = str;

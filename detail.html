@@ -216,6 +216,26 @@
     };
     const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
+    const COLOR_MAP = {
+      red:'#c0392b',crimson:'#dc143c',burgundy:'#800020',maroon:'#800000',scarlet:'#ff2400',ruby:'#e0115f',cherry:'#de3163',rose:'#ff007f',blush:'#de5d83',coral:'#ff7f50',salmon:'#fa8072',pink:'#e8909c',magenta:'#c20078',fuchsia:'#c154c1',mauve:'#e0b0ff','dusty-rose':'#dcae96',raspberry:'#e30b5c',wine:'#722f37',terracotta:'#e2725b',
+      orange:'#e67e22',tangerine:'#ff9966',peach:'#ffcba4',apricot:'#fbceb1',amber:'#ffbf00',rust:'#b7410e',copper:'#b87333','burnt-orange':'#cc5500',sienna:'#a0522d',
+      yellow:'#f1c40f',gold:'#ffd700',golden:'#daa520',mustard:'#e1ad01',lemon:'#fff44f',cream:'#fffdd0',saffron:'#f4c430',honey:'#eb9605',sand:'#c2b280',
+      green:'#27ae60',emerald:'#50c878',lime:'#32cd32',olive:'#808000',sage:'#bcb88a',mint:'#98ff98',teal:'#008080',forest:'#228b22','forest-green':'#228b22',jade:'#00a86b',moss:'#8a9a5b',seafoam:'#93e9be',
+      blue:'#2980b9',navy:'#001f3f',cobalt:'#0047ab','royal-blue':'#4169e1','sky-blue':'#87ceeb',azure:'#007fff',cerulean:'#007ba7',turquoise:'#40e0d0',aqua:'#00ffff',indigo:'#4b0082',periwinkle:'#ccccff',slate:'#708090','slate-blue':'#6a5acd','steel-blue':'#4682b4',
+      purple:'#8e44ad',violet:'#7f00ff',lavender:'#b57edc',plum:'#8e4585',lilac:'#c8a2c8',amethyst:'#9966cc',orchid:'#da70d6',grape:'#6f2da8',eggplant:'#614051',
+      brown:'#795548',chocolate:'#7b3f00',coffee:'#6f4e37',mocha:'#967969',tan:'#d2b48c',taupe:'#483c32',caramel:'#ffd59a',cinnamon:'#d2691e',walnut:'#773f1a',chestnut:'#954535',espresso:'#3c1414',
+      black:'#1a1a1a',charcoal:'#36454f',gray:'#888',grey:'#888',silver:'#c0c0c0',white:'#f5f5f5',ivory:'#fffff0',bone:'#e3dac9',pearl:'#eae0c8',beige:'#f5f5dc','off-white':'#faf0e6',
+    };
+
+    function renderTagPill(tag, category) {
+      const cls = CAT_CLASS[category] || 'tag-format';
+      if (category === 'color') {
+        const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
+        return `<span class="card-tag ${cls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
+      }
+      return `<span class="card-tag ${cls}">${tag}</span>`;
+    }
+
     function escHtml(str) {
       const d = document.createElement('div');
       d.textContent = str;
@@ -307,8 +327,7 @@
 
       html += `<div class="detail-tags">`;
       item.tags.sort((a, b) => b.weight - a.weight).forEach(t => {
-        const cls = CAT_CLASS[t.category] || 'tag-format';
-        html += `<span class="card-tag ${cls}">${t.tag}</span>`;
+        html += renderTagPill(t.tag, t.category);
       });
       html += `</div>`;
 
