@@ -24,6 +24,12 @@ tags:
   - { tag: "metaphor", category: "subject", weight: 0.5 }
   - { tag: "matthew", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

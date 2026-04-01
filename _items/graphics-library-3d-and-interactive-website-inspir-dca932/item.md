@@ -24,6 +24,13 @@ tags:
   - { tag: "experiences", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "3d", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "silver", category: "color", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
 ---
 
 ## Summary

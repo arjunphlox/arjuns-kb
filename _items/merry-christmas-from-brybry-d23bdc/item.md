@@ -18,6 +18,15 @@ tags:
   - { tag: "christmas", category: "subject", weight: 0.7 }
   - { tag: "brybry", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "whimsical", category: "mood", weight: 0.8 }
+  - { tag: "warm", category: "mood", weight: 0.6 }
+  - { tag: "deep-purple", category: "color", weight: 0.75 }
+  - { tag: "indigo", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.06 }
+  - { tag: "ivory", category: "color", weight: 0.04 }
 ---
 
 ## Summary

@@ -23,6 +23,15 @@ tags:
   - { tag: "laser", category: "subject", weight: 0.5 }
   - { tag: "cutting", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "amber", category: "color", weight: 0.45 }
+  - { tag: "magenta", category: "color", weight: 0.35 }
+  - { tag: "lavender", category: "color", weight: 0.15 }
+  - { tag: "golden-yellow", category: "color", weight: 0.2 }
 ---
 
 ## Summary

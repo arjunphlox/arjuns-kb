@@ -20,6 +20,15 @@ tags:
   - { tag: "digital", category: "subject", weight: 0.5 }
   - { tag: "playground", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "photographic", category: "style", weight: 0.35 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.85 }
+  - { tag: "warm beige", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "dusty rose", category: "color", weight: 0.2 }
 ---
 
 ## Summary

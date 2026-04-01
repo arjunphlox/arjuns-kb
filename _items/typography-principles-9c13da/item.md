@@ -20,6 +20,15 @@ tags:
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "series", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "brutalist", category: "style", weight: 0.85 }
+  - { tag: "futuristic", category: "style", weight: 0.55 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "concrete-grey", category: "color", weight: 0.65 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "pearl-white", category: "color", weight: 0.12 }
+  - { tag: "rust", category: "color", weight: 0.08 }
 ---
 
 ## Summary

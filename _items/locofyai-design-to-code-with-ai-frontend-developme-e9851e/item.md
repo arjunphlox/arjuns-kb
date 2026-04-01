@@ -27,6 +27,12 @@ tags:
   - { tag: "react", category: "tool", weight: 0.7 }
   - { tag: "nextjs", category: "tool", weight: 0.7 }
   - { tag: "friendly", category: "mood", weight: 0.55 }
+  - { tag: "flat", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "cornflower blue", category: "color", weight: 0.9 }
+  - { tag: "white", category: "color", weight: 0.4 }
 ---
 
 ## Summary

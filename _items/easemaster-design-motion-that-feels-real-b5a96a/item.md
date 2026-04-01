@@ -26,6 +26,15 @@ tags:
   - { tag: "framer", category: "tool", weight: 0.7 }
   - { tag: "gsap", category: "tool", weight: 0.7 }
   - { tag: "tailwind", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "lime-green", category: "color", weight: 0.08 }
+  - { tag: "amber-yellow", category: "color", weight: 0.04 }
+  - { tag: "cornflower-blue", category: "color", weight: 0.03 }
 ---
 
 ## Summary

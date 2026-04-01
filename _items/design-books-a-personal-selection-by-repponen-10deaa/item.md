@@ -25,6 +25,15 @@ tags:
   - { tag: "collected", category: "subject", weight: 0.5 }
   - { tag: "time", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "brutalist", category: "style", weight: 0.6 }
+  - { tag: "bold", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "forest green", category: "color", weight: 0.55 }
+  - { tag: "crimson red", category: "color", weight: 0.25 }
+  - { tag: "charcoal black", category: "color", weight: 0.12 }
+  - { tag: "blush pink", category: "color", weight: 0.08 }
 ---
 
 ## Summary

@@ -21,6 +21,13 @@ tags:
   - { tag: "deep", category: "subject", weight: 0.5 }
   - { tag: "learning", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "moody", category: "mood", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.6 }
+  - { tag: "slate", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

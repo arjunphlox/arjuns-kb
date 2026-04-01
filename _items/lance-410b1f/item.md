@@ -19,6 +19,13 @@ tags:
   - { tag: "simple", category: "subject", weight: 0.5 }
   - { tag: "memorable", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "elegant", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "obsidian", category: "color", weight: 0.9 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

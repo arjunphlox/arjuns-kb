@@ -22,6 +22,15 @@ tags:
   - { tag: "rubele", category: "subject", weight: 0.5 }
   - { tag: "trasforma", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "calm", category: "mood", weight: 0.8 }
+  - { tag: "warm", category: "mood", weight: 0.65 }
+  - { tag: "emerald", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "sky-blue", category: "color", weight: 0.07 }
+  - { tag: "chestnut", category: "color", weight: 0.03 }
 ---
 
 ## Summary

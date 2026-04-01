@@ -21,6 +21,15 @@ tags:
   - { tag: "pro", category: "subject", weight: 0.5 }
   - { tag: "humanscale", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "clean", category: "mood", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.55 }
+  - { tag: "silver", category: "color", weight: 0.3 }
+  - { tag: "warm tan", category: "color", weight: 0.1 }
+  - { tag: "light grey", category: "color", weight: 0.05 }
 ---
 
 ## Summary

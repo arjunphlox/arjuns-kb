@@ -26,6 +26,15 @@ tags:
   - { tag: "figma", category: "tool", weight: 0.7 }
   - { tag: "visionos", category: "tool", weight: 0.7 }
   - { tag: "vision-pro", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "clean", category: "mood", weight: 0.8 }
+  - { tag: "pearl white", category: "color", weight: 0.5 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "silver", category: "color", weight: 0.15 }
+  - { tag: "azure blue", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -24,6 +24,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "dark", category: "mood", weight: 0.55 }
   - { tag: "light", category: "mood", weight: 0.55 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.15 }
+  - { tag: "teal", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

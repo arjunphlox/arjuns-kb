@@ -23,6 +23,15 @@ tags:
   - { tag: "powered", category: "subject", weight: 0.5 }
   - { tag: "open", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "playful", category: "mood", weight: 0.6 }
+  - { tag: "amber-yellow", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "crimson-red", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

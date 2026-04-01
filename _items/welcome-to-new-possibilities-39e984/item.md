@@ -20,6 +20,11 @@ tags:
   - { tag: "assembling", category: "subject", weight: 0.5 }
   - { tag: "ethos", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 1.0 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 1.0 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 1.0 }
 ---
 
 ## Summary

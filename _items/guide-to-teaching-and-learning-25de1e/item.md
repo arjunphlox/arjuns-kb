@@ -19,6 +19,14 @@ tags:
   - { tag: "learning", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "generative", category: "style", weight: 0.65 }
+  - { tag: "photographic", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "burnt-orange", category: "color", weight: 0.2 }
+  - { tag: "teal", category: "color", weight: 0.1 }
 ---
 
 ## Summary

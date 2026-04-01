@@ -21,6 +21,15 @@ tags:
   - { tag: "customer", category: "subject", weight: 0.5 }
   - { tag: "support", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.45 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.05 }
 ---
 
 ## Summary

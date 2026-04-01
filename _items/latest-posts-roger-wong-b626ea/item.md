@@ -22,6 +22,15 @@ tags:
   - { tag: "blog", category: "subject", weight: 0.5 }
   - { tag: "connects", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "retro", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "amber-gold", category: "color", weight: 0.2 }
+  - { tag: "emerald", category: "color", weight: 0.2 }
+  - { tag: "cornflower-blue", category: "color", weight: 0.2 }
+  - { tag: "tangerine", category: "color", weight: 0.2 }
 ---
 
 ## Summary

@@ -22,6 +22,15 @@ tags:
   - { tag: "pages", category: "subject", weight: 0.5 }
   - { tag: "isolation", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "hot-pink", category: "color", weight: 0.45 }
+  - { tag: "midnight-blue", category: "color", weight: 0.35 }
+  - { tag: "magenta", category: "color", weight: 0.15 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -26,6 +26,13 @@ tags:
   - { tag: "figma", category: "tool", weight: 0.7 }
   - { tag: "claude", category: "tool", weight: 0.7 }
   - { tag: "cursor", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.55 }
+  - { tag: "silver", category: "color", weight: 0.35 }
 ---
 
 ## Summary

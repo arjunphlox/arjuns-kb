@@ -23,6 +23,15 @@ tags:
   - { tag: "innovation", category: "subject", weight: 0.5 }
   - { tag: "operations", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "violet", category: "color", weight: 0.4 }
+  - { tag: "coral-orange", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

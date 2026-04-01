@@ -23,6 +23,13 @@ tags:
   - { tag: "germany", category: "location", weight: 0.6 }
   - { tag: "netherlands", category: "location", weight: 0.6 }
   - { tag: "finland", category: "location", weight: 0.6 }
+  - { tag: "hand-drawn", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "grunge", category: "style", weight: 0.6 }
+  - { tag: "dark", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
 ---
 
 ## Summary

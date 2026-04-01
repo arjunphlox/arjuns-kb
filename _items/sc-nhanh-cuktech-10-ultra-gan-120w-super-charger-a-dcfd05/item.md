@@ -33,6 +33,14 @@ tags:
   - { tag: "size", category: "subject", weight: 0.5 }
   - { tag: "port", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "charcoal", category: "color", weight: 0.6 }
+  - { tag: "slate", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

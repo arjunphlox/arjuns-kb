@@ -20,6 +20,14 @@ tags:
   - { tag: "download", category: "subject", weight: 0.5 }
   - { tag: "images", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

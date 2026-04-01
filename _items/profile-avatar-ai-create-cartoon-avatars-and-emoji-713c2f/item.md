@@ -23,6 +23,15 @@ tags:
   - { tag: "distinctive", category: "subject", weight: 0.5 }
   - { tag: "personalized", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.95 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "midnight-blue", category: "color", weight: 0.45 }
+  - { tag: "silver", category: "color", weight: 0.35 }
+  - { tag: "ice-blue", category: "color", weight: 0.15 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

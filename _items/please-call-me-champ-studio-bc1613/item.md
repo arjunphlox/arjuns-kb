@@ -23,6 +23,15 @@ tags:
   - { tag: "freelance", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.65 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "vivid-orange", category: "color", weight: 0.45 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.12 }
+  - { tag: "charcoal", category: "color", weight: 0.08 }
 ---
 
 ## Summary

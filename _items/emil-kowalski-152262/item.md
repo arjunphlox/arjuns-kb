@@ -21,6 +21,12 @@ tags:
   - { tag: "working", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "linear", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 1.0 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.9 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
 ---
 
 ## Summary

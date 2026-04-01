@@ -22,6 +22,15 @@ tags:
   - { tag: "beautiful", category: "subject", weight: 0.5 }
   - { tag: "creators", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "coral-pink", category: "color", weight: 0.3 }
+  - { tag: "sky-blue", category: "color", weight: 0.15 }
+  - { tag: "midnight-navy", category: "color", weight: 0.15 }
 ---
 
 ## Summary

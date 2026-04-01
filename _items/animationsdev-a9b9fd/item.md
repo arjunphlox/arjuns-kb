@@ -19,6 +19,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "interactive", category: "style", weight: 0.6 }
   - { tag: "animated", category: "style", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.6 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "amber", category: "color", weight: 0.12 }
+  - { tag: "ivory", category: "color", weight: 0.03 }
 ---
 
 ## Summary

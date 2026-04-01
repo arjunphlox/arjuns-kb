@@ -25,6 +25,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "luxurious", category: "mood", weight: 0.55 }
   - { tag: "canada", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 1.0 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.6 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "burnt-orange", category: "color", weight: 0.9 }
 ---
 
 ## Summary

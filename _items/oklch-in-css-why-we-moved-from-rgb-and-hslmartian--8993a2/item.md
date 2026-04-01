@@ -23,6 +23,15 @@ tags:
   - { tag: "module", category: "subject", weight: 0.5 }
   - { tag: "adds", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "jet-black", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "rainbow-spectrum", category: "color", weight: 0.08 }
+  - { tag: "silver", category: "color", weight: 0.05 }
 ---
 
 ## Summary

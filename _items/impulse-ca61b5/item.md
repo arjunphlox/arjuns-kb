@@ -20,6 +20,15 @@ tags:
   - { tag: "powerful", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.5 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "industrial", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "elegant", category: "mood", weight: 0.88 }
+  - { tag: "professional", category: "mood", weight: 0.82 }
+  - { tag: "charcoal", category: "color", weight: 0.45 }
+  - { tag: "limestone", category: "color", weight: 0.35 }
+  - { tag: "warm taupe", category: "color", weight: 0.12 }
+  - { tag: "amber", category: "color", weight: 0.08 }
 ---
 
 ## Summary

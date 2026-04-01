@@ -23,6 +23,14 @@ tags:
   - { tag: "species", category: "subject", weight: 0.5 }
   - { tag: "detection", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "futuristic", category: "style", weight: 0.55 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "terracotta", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "silver-gray", category: "color", weight: 0.25 }
 ---
 
 ## Summary

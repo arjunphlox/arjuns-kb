@@ -22,6 +22,14 @@ tags:
   - { tag: "around", category: "subject", weight: 0.5 }
   - { tag: "globe", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "navy", category: "color", weight: 0.3 }
+  - { tag: "burnt-orange", category: "color", weight: 0.2 }
 ---
 
 ## Summary

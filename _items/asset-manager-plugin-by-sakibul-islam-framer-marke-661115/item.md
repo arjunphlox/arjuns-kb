@@ -20,6 +20,15 @@ tags:
   - { tag: "sakibul", category: "subject", weight: 0.5 }
   - { tag: "islam", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "amber", category: "color", weight: 0.08 }
+  - { tag: "lavender", category: "color", weight: 0.04 }
+  - { tag: "ivory", category: "color", weight: 0.03 }
 ---
 
 ## Summary

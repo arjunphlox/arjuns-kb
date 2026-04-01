@@ -19,6 +19,15 @@ tags:
   - { tag: "profiles", category: "subject", weight: 0.5 }
   - { tag: "professionals", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "hand-drawn", category: "style", weight: 0.55 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "sage", category: "color", weight: 0.3 }
+  - { tag: "lavender", category: "color", weight: 0.2 }
+  - { tag: "dusty-rose", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -19,6 +19,15 @@ tags:
   - { tag: "bureau", category: "subject", weight: 0.5 }
   - { tag: "brave", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "retro", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "teal", category: "color", weight: 0.35 }
+  - { tag: "slate-blue", category: "color", weight: 0.25 }
+  - { tag: "coral", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -20,6 +20,15 @@ tags:
   - { tag: "distort", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "github", category: "tool", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "retro", category: "style", weight: 0.6 }
+  - { tag: "geometric", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "mint", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "coral-red", category: "color", weight: 0.08 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

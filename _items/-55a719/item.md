@@ -17,6 +17,15 @@ tags:
   - { tag: "curiosity", category: "subject", weight: 0.5 }
   - { tag: "life", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "mint green", category: "color", weight: 0.4 }
+  - { tag: "sky blue", category: "color", weight: 0.25 }
+  - { tag: "emerald", category: "color", weight: 0.2 }
+  - { tag: "coral pink", category: "color", weight: 0.15 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
 ---
 
 ## Summary

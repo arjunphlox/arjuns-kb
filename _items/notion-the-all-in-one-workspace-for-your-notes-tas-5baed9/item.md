@@ -23,6 +23,15 @@ tags:
   - { tag: "everyday", category: "subject", weight: 0.5 }
   - { tag: "space", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
+  - { tag: "cobalt", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

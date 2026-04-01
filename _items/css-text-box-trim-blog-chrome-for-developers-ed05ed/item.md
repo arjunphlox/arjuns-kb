@@ -23,6 +23,15 @@ tags:
   - { tag: "space", category: "subject", weight: 0.5 }
   - { tag: "around", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "illustrated", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.75 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.12 }
+  - { tag: "indigo", category: "color", weight: 0.08 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

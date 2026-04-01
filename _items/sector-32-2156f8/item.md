@@ -19,6 +19,15 @@ tags:
   - { tag: "piet", category: "subject", weight: 0.5 }
   - { tag: "dewijngaert", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.95 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "teal", category: "color", weight: 0.45 }
+  - { tag: "hot-pink", category: "color", weight: 0.3 }
+  - { tag: "coral-neon", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

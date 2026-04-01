@@ -21,6 +21,14 @@ tags:
   - { tag: "founder", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "playful", category: "mood", weight: 0.55 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "surrealist", category: "style", weight: 0.8 }
+  - { tag: "whimsical", category: "style", weight: 0.7 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "emerald", category: "color", weight: 0.35 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
+  - { tag: "slate-blue", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

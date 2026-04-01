@@ -23,6 +23,12 @@ tags:
   - { tag: "between", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "framer", category: "tool", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "vibrant", category: "mood", weight: 0.95 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "magenta", category: "color", weight: 0.9 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

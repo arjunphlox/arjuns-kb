@@ -27,6 +27,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.55 }
   - { tag: "uk", category: "location", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "warm", category: "mood", weight: 0.85 }
+  - { tag: "moody", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "sage", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "walnut", category: "color", weight: 0.2 }
 ---
 
 ## Summary

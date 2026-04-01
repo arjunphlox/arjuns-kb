@@ -23,6 +23,15 @@ tags:
   - { tag: "handle", category: "subject", weight: 0.5 }
   - { tag: "concurrent", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "crimson", category: "color", weight: 0.08 }
+  - { tag: "lavender", category: "color", weight: 0.05 }
+  - { tag: "ivory", category: "color", weight: 0.02 }
 ---
 
 ## Summary

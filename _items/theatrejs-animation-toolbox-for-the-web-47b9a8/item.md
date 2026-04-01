@@ -22,6 +22,14 @@ tags:
   - { tag: "visual", category: "subject", weight: 0.5 }
   - { tag: "interface", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "dramatic", category: "style", weight: 0.85 }
+  - { tag: "3d", category: "style", weight: 0.75 }
+  - { tag: "grunge", category: "style", weight: 0.6 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "slate", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

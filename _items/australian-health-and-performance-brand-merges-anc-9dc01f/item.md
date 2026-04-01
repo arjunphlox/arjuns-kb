@@ -26,6 +26,15 @@ tags:
   - { tag: "futuristic", category: "style", weight: 0.65 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
   - { tag: "australia", category: "location", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "burnt-orange", category: "color", weight: 0.35 }
+  - { tag: "coral-red", category: "color", weight: 0.25 }
+  - { tag: "magenta", category: "color", weight: 0.2 }
+  - { tag: "deep-burgundy", category: "color", weight: 0.15 }
 ---
 
 ## Summary

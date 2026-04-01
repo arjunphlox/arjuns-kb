@@ -23,6 +23,12 @@ tags:
   - { tag: "seamless", category: "subject", weight: 0.5 }
   - { tag: "interactions", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "navy", category: "color", weight: 0.85 }
+  - { tag: "powder blue", category: "color", weight: 0.75 }
 ---
 
 ## Summary

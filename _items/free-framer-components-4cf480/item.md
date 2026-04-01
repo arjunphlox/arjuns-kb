@@ -21,6 +21,15 @@ tags:
   - { tag: "projects", category: "subject", weight: 0.5 }
   - { tag: "react", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.4 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.65 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "teal", category: "color", weight: 0.25 }
+  - { tag: "magenta", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

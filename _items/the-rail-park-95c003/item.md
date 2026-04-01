@@ -17,6 +17,13 @@ tags:
   - { tag: "websites", category: "domain", weight: 0.7 }
   - { tag: "park", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "neon green", category: "color", weight: 0.95 }
+  - { tag: "white", category: "color", weight: 0.5 }
 ---
 
 ## Summary

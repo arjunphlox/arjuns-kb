@@ -23,6 +23,14 @@ tags:
   - { tag: "deepens", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "australia", category: "location", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "architectural", category: "style", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "elegant", category: "mood", weight: 0.75 }
+  - { tag: "cerulean", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "gold", category: "color", weight: 0.1 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

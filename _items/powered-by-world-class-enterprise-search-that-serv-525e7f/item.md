@@ -23,6 +23,14 @@ tags:
   - { tag: "immediate", category: "subject", weight: 0.5 }
   - { tag: "access", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.65 }
+  - { tag: "ivory", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "periwinkle", category: "color", weight: 0.15 }
 ---
 
 ## Summary

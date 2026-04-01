@@ -23,6 +23,15 @@ tags:
   - { tag: "takes", category: "subject", weight: 0.5 }
   - { tag: "results", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.45 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "burnt-orange", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.08 }
+  - { tag: "teal", category: "color", weight: 0.04 }
+  - { tag: "amber", category: "color", weight: 0.03 }
 ---
 
 ## Summary

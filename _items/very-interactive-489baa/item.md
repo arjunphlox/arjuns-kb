@@ -19,6 +19,13 @@ tags:
   - { tag: "resource", category: "subject", weight: 0.5 }
   - { tag: "generated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "silver-gray", category: "color", weight: 0.95 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -21,6 +21,14 @@ tags:
   - { tag: "service", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "australia", category: "location", weight: 0.3 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.4 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "terracotta", category: "color", weight: 0.2 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

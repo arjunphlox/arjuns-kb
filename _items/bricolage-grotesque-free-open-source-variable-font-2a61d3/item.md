@@ -26,6 +26,14 @@ tags:
   - { tag: "github", category: "tool", weight: 0.7 }
   - { tag: "uk", category: "location", weight: 0.6 }
   - { tag: "france", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.55 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "burnt-orange", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

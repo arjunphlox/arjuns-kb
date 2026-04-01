@@ -21,6 +21,15 @@ tags:
   - { tag: "research", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.45 }
+  - { tag: "navy", category: "color", weight: 0.4 }
+  - { tag: "sky-blue", category: "color", weight: 0.1 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

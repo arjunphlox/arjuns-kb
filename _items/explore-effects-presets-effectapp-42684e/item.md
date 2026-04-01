@@ -23,6 +23,14 @@ tags:
   - { tag: "available", category: "subject", weight: 0.5 }
   - { tag: "browse", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "futuristic", category: "mood", weight: 0.7 }
+  - { tag: "slate-blue", category: "color", weight: 0.5 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "navy", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -23,6 +23,15 @@ tags:
   - { tag: "sphere", category: "subject", weight: 0.5 }
   - { tag: "global", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "futuristic", category: "style", weight: 0.8 }
+  - { tag: "3d", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.5 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "sienna", category: "color", weight: 0.2 }
 ---
 
 ## Summary

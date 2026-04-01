@@ -21,6 +21,12 @@ tags:
   - { tag: "engineering", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "obsidian", category: "color", weight: 0.95 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

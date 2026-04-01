@@ -20,6 +20,14 @@ tags:
   - { tag: "intelligence", category: "subject", weight: 0.5 }
   - { tag: "principles", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "denim blue", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

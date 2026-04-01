@@ -18,6 +18,14 @@ tags:
   - { tag: "conversation", category: "subject", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.95 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "electric blue", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "cobalt", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -24,6 +24,15 @@ tags:
   - { tag: "curated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "luxurious", category: "mood", weight: 0.55 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "organic", category: "style", weight: 0.6 }
+  - { tag: "retro", category: "style", weight: 0.3 }
+  - { tag: "elegant", category: "mood", weight: 0.95 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "champagne", category: "color", weight: 0.25 }
+  - { tag: "sage", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

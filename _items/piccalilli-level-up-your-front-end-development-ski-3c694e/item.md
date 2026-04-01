@@ -23,6 +23,14 @@ tags:
   - { tag: "courses", category: "subject", weight: 0.5 }
   - { tag: "articles", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "bold", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "amber", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

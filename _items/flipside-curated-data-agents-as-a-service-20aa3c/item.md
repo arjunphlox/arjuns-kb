@@ -23,6 +23,14 @@ tags:
   - { tag: "grade", category: "subject", weight: 0.5 }
   - { tag: "blockchain", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.7 }
+  - { tag: "teal", category: "color", weight: 0.2 }
+  - { tag: "lavender", category: "color", weight: 0.1 }
 ---
 
 ## Summary

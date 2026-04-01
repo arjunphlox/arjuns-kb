@@ -23,6 +23,15 @@ tags:
   - { tag: "dropbox", category: "subject", weight: 0.5 }
   - { tag: "founder", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "futuristic", category: "style", weight: 0.7 }
+  - { tag: "illustrated", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "obsidian", category: "color", weight: 0.4 }
+  - { tag: "iridescent blue", category: "color", weight: 0.35 }
+  - { tag: "magenta", category: "color", weight: 0.15 }
+  - { tag: "warm tan", category: "color", weight: 0.1 }
 ---
 
 ## Summary

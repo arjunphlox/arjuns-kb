@@ -23,6 +23,13 @@ tags:
   - { tag: "chasing", category: "subject", weight: 0.5 }
   - { tag: "perfect", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.92 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "jet black", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.12 }
+  - { tag: "silver", category: "color", weight: 0.03 }
 ---
 
 ## Summary

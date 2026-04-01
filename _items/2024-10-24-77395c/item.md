@@ -19,6 +19,14 @@ tags:
   - { tag: "conf", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "nextjs", category: "tool", weight: 0.7 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "geometric", category: "style", weight: 0.85 }
+  - { tag: "futuristic", category: "style", weight: 0.75 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.85 }
+  - { tag: "midnight-black", category: "color", weight: 0.9 }
+  - { tag: "ice-blue", category: "color", weight: 0.4 }
 ---
 
 ## Summary

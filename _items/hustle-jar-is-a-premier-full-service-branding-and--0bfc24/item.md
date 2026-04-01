@@ -24,6 +24,15 @@ tags:
   - { tag: "agency", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "canada", category: "location", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.1 }
+  - { tag: "typographic", category: "style", weight: 0.05 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.75 }
+  - { tag: "coral red", category: "color", weight: 0.15 }
+  - { tag: "emerald green", category: "color", weight: 0.07 }
+  - { tag: "lavender", category: "color", weight: 0.03 }
 ---
 
 ## Summary

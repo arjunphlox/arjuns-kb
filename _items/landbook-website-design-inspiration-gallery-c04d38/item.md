@@ -23,6 +23,15 @@ tags:
   - { tag: "picked", category: "subject", weight: 0.5 }
   - { tag: "curated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "cream", category: "color", weight: 0.4 }
+  - { tag: "forest-green", category: "color", weight: 0.35 }
+  - { tag: "amber", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

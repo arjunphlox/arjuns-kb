@@ -22,6 +22,15 @@ tags:
   - { tag: "forefront", category: "subject", weight: 0.5 }
   - { tag: "science", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "elegant", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "warm taupe", category: "color", weight: 0.45 }
+  - { tag: "driftwood tan", category: "color", weight: 0.35 }
+  - { tag: "charcoal black", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

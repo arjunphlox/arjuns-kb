@@ -24,6 +24,14 @@ tags:
   - { tag: "components", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "3d", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.75 }
+  - { tag: "burnt-orange", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

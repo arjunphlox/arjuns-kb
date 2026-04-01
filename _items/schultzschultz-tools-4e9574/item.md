@@ -17,6 +17,13 @@ tags:
   - { tag: "digital-tools", category: "domain", weight: 0.7 }
   - { tag: "tools", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

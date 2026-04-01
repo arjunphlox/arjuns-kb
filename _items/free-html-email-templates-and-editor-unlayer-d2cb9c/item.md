@@ -23,6 +23,15 @@ tags:
   - { tag: "hundreds", category: "subject", weight: 0.5 }
   - { tag: "choose", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.55 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "cobalt", category: "color", weight: 0.25 }
+  - { tag: "coral", category: "color", weight: 0.25 }
+  - { tag: "violet", category: "color", weight: 0.15 }
 ---
 
 ## Summary

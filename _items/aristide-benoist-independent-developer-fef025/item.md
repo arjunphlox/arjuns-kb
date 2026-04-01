@@ -22,6 +22,14 @@ tags:
   - { tag: "motion", category: "subject", weight: 0.5 }
   - { tag: "interaction", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.8 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "moody", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "onyx", category: "color", weight: 0.7 }
+  - { tag: "silver", category: "color", weight: 0.35 }
 ---
 
 ## Summary

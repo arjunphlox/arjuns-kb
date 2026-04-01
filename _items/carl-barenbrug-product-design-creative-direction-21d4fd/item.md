@@ -23,6 +23,9 @@ tags:
   - { tag: "director", category: "subject", weight: 0.5 }
   - { tag: "minimalissimo", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.8 }
+  - { tag: "white", category: "color", weight: 1.0 }
 ---
 
 ## Summary

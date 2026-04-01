@@ -23,6 +23,15 @@ tags:
   - { tag: "remaking", category: "subject", weight: 0.5 }
   - { tag: "earth", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "vibrant", category: "mood", weight: 0.65 }
+  - { tag: "cobalt blue", category: "color", weight: 0.45 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "charcoal black", category: "color", weight: 0.15 }
+  - { tag: "cyan", category: "color", weight: 0.05 }
 ---
 
 ## Summary

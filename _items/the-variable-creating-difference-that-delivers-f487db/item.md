@@ -22,6 +22,15 @@ tags:
   - { tag: "partner", category: "subject", weight: 0.5 }
   - { tag: "brands", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "architectural", category: "style", weight: 0.85 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.65 }
+  - { tag: "steel-blue", category: "color", weight: 0.35 }
+  - { tag: "terracotta", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "slate", category: "color", weight: 0.15 }
 ---
 
 ## Summary

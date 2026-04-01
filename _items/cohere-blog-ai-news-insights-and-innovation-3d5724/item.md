@@ -24,6 +24,15 @@ tags:
   - { tag: "insightful", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "generative", category: "style", weight: 0.65 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "organic", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.6 }
+  - { tag: "coral", category: "color", weight: 0.4 }
+  - { tag: "lavender", category: "color", weight: 0.3 }
+  - { tag: "taupe", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

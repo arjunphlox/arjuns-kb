@@ -23,6 +23,15 @@ tags:
   - { tag: "desired", category: "subject", weight: 0.5 }
   - { tag: "result", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.5 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "hot-pink", category: "color", weight: 0.3 }
+  - { tag: "crimson", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

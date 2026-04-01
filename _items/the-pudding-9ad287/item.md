@@ -20,6 +20,15 @@ tags:
   - { tag: "visual", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "cool", category: "mood", weight: 0.55 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "retro", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "light gray", category: "color", weight: 0.4 }
+  - { tag: "amber yellow", category: "color", weight: 0.2 }
+  - { tag: "cobalt blue", category: "color", weight: 0.15 }
+  - { tag: "lavender pink", category: "color", weight: 0.1 }
 ---
 
 ## Summary

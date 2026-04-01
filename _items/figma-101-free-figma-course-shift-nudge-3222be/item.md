@@ -23,6 +23,15 @@ tags:
   - { tag: "twelve", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "figma", category: "tool", weight: 0.7 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "cyan", category: "color", weight: 0.25 }
+  - { tag: "coral", category: "color", weight: 0.15 }
+  - { tag: "violet", category: "color", weight: 0.2 }
 ---
 
 ## Summary

@@ -23,6 +23,15 @@ tags:
   - { tag: "easy", category: "subject", weight: 0.5 }
   - { tag: "drawing", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.5 }
+  - { tag: "editorial", category: "style", weight: 0.35 }
+  - { tag: "flat", category: "style", weight: 0.15 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "magenta", category: "color", weight: 0.25 }
+  - { tag: "cobalt", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

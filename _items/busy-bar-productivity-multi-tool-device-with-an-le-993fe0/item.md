@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "pixel-art", category: "style", weight: 0.65 }
   - { tag: "friendly", category: "mood", weight: 0.55 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "retro", category: "style", weight: 0.45 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.45 }
+  - { tag: "pearl-white", category: "color", weight: 0.35 }
+  - { tag: "amber", category: "color", weight: 0.12 }
+  - { tag: "sage", category: "color", weight: 0.08 }
 ---
 
 ## Summary

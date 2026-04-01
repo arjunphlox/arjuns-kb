@@ -23,6 +23,15 @@ tags:
   - { tag: "risk", category: "subject", weight: 0.5 }
   - { tag: "maintain", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "brutalist", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "bold", category: "mood", weight: 0.8 }
+  - { tag: "crimson", category: "color", weight: 0.4 }
+  - { tag: "amber", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

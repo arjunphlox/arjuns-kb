@@ -24,6 +24,14 @@ tags:
   - { tag: "curated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.65 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.45 }
+  - { tag: "forest-green", category: "color", weight: 0.25 }
+  - { tag: "crimson", category: "color", weight: 0.15 }
 ---
 
 ## Summary

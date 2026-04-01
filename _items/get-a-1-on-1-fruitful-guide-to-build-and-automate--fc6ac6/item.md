@@ -23,6 +23,14 @@ tags:
   - { tag: "system", category: "subject", weight: 0.5 }
   - { tag: "income", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "organic", category: "style", weight: 0.4 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.6 }
+  - { tag: "sky-blue", category: "color", weight: 0.7 }
+  - { tag: "cream", category: "color", weight: 0.25 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

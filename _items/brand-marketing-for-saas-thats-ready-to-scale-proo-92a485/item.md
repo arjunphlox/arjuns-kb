@@ -23,6 +23,15 @@ tags:
   - { tag: "market", category: "subject", weight: 0.5 }
   - { tag: "proof", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "violet", category: "color", weight: 0.35 }
+  - { tag: "mint", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
 ---
 
 ## Summary

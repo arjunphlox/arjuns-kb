@@ -20,6 +20,15 @@ tags:
   - { tag: "membership", category: "subject", weight: 0.5 }
   - { tag: "programme", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "energetic", category: "mood", weight: 0.95 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "acid-yellow", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "black", category: "color", weight: 0.12 }
+  - { tag: "ivory", category: "color", weight: 0.08 }
 ---
 
 ## Summary

@@ -24,6 +24,15 @@ tags:
   - { tag: "become", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "professional", category: "mood", weight: 0.55 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "cobalt blue", category: "color", weight: 0.3 }
+  - { tag: "magenta", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
 ---
 
 ## Summary

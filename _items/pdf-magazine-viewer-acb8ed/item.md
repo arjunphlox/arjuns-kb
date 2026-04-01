@@ -21,6 +21,13 @@ tags:
   - { tag: "create", category: "subject", weight: 0.5 }
   - { tag: "react", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "cool", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "cyan", category: "color", weight: 0.95 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

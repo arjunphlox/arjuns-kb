@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
   - { tag: "australia", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.55 }
+  - { tag: "vermillion", category: "color", weight: 0.25 }
+  - { tag: "slate", category: "color", weight: 0.15 }
 ---
 
 ## Summary

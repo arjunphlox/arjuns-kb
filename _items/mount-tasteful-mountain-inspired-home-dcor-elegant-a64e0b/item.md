@@ -24,6 +24,15 @@ tags:
   - { tag: "fire", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "elegant", category: "mood", weight: 0.55 }
+  - { tag: "organic", category: "style", weight: 0.8 }
+  - { tag: "sculptural", category: "style", weight: 0.7 }
+  - { tag: "hand-drawn", category: "style", weight: 0.3 }
+  - { tag: "moody", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "dusty-rose", category: "color", weight: 0.1 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -19,6 +19,14 @@ tags:
   - { tag: "guidelines", category: "subject", weight: 0.5 }
   - { tag: "following", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "elegant", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.6 }
+  - { tag: "blush-pink", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

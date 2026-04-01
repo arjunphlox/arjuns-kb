@@ -22,6 +22,14 @@ tags:
   - { tag: "generate", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "gradient", category: "style", weight: 0.65 }
+  - { tag: "organic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "peach", category: "color", weight: 0.45 }
+  - { tag: "lavender", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "mauve", category: "color", weight: 0.1 }
 ---
 
 ## Summary

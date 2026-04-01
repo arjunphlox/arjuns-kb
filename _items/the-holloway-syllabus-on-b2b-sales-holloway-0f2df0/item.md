@@ -22,6 +22,13 @@ tags:
   - { tag: "learn", category: "subject", weight: 0.5 }
   - { tag: "outs", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "navy", category: "color", weight: 0.4 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

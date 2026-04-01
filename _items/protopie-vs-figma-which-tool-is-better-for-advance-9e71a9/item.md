@@ -23,6 +23,15 @@ tags:
   - { tag: "differences", category: "subject", weight: 0.5 }
   - { tag: "between", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.3 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.6 }
+  - { tag: "lavender", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "coral-red", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

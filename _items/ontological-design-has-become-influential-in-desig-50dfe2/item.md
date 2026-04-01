@@ -23,6 +23,15 @@ tags:
   - { tag: "pluriverse", category: "subject", weight: 0.5 }
   - { tag: "radical", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "abstract", category: "style", weight: 0.5 }
+  - { tag: "moody", category: "mood", weight: 0.8 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "indigo", category: "color", weight: 0.35 }
+  - { tag: "sage", category: "color", weight: 0.25 }
+  - { tag: "periwinkle", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

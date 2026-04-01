@@ -23,6 +23,15 @@ tags:
   - { tag: "identity", category: "subject", weight: 0.5 }
   - { tag: "icons", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.25 }
+  - { tag: "tangerine", category: "color", weight: 0.2 }
+  - { tag: "lavender", category: "color", weight: 0.15 }
+  - { tag: "chartreuse", category: "color", weight: 0.15 }
 ---
 
 ## Summary

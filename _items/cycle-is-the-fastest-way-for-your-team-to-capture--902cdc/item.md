@@ -23,6 +23,15 @@ tags:
   - { tag: "feedback", category: "subject", weight: 0.5 }
   - { tag: "share", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "orchid", category: "color", weight: 0.4 }
+  - { tag: "periwinkle", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.15 }
+  - { tag: "teal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

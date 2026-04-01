@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "bold", category: "style", weight: 0.65 }
   - { tag: "netherlands", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "silver", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "jet-black", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -23,6 +23,14 @@ tags:
   - { tag: "saas", category: "subject", weight: 0.5 }
   - { tag: "businesses", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "coral-pink", category: "color", weight: 0.4 }
+  - { tag: "lavender", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "sage-green", category: "color", weight: 0.05 }
 ---
 
 ## Summary

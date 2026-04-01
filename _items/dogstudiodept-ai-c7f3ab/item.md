@@ -20,6 +20,15 @@ tags:
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "technology", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "midnight navy", category: "color", weight: 0.4 }
+  - { tag: "amber gold", category: "color", weight: 0.25 }
+  - { tag: "dusty rose", category: "color", weight: 0.15 }
+  - { tag: "slate teal", category: "color", weight: 0.2 }
 ---
 
 ## Summary

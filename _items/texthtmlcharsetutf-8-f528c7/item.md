@@ -20,6 +20,15 @@ tags:
   - { tag: "utf", category: "subject", weight: 0.5 }
   - { tag: "websites", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "collage", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "crimson", category: "color", weight: 0.25 }
+  - { tag: "cobalt", category: "color", weight: 0.2 }
+  - { tag: "emerald", category: "color", weight: 0.15 }
 ---
 
 ## Summary

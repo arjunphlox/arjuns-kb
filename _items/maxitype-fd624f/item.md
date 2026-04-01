@@ -22,6 +22,13 @@ tags:
   - { tag: "swiss-style", category: "style", weight: 0.65 }
   - { tag: "typographic", category: "style", weight: 0.6 }
   - { tag: "switzerland", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.95 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "neon green", category: "color", weight: 0.95 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

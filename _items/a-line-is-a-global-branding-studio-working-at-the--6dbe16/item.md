@@ -23,6 +23,12 @@ tags:
   - { tag: "strategy", category: "subject", weight: 0.5 }
   - { tag: "creativity", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 1.0 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "elegant", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "jet black", category: "color", weight: 0.9 }
+  - { tag: "pure white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

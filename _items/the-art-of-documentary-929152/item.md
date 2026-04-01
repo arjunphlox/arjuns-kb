@@ -20,6 +20,13 @@ tags:
   - { tag: "filmmaking", category: "subject", weight: 0.5 }
   - { tag: "journey", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.85 }
+  - { tag: "jet black", category: "color", weight: 0.85 }
+  - { tag: "ivory white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

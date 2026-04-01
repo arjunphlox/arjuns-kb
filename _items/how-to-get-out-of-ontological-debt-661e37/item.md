@@ -20,6 +20,15 @@ tags:
   - { tag: "product", category: "subject", weight: 0.5 }
   - { tag: "terminology", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "isometric", category: "style", weight: 0.95 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "warm", category: "mood", weight: 0.65 }
+  - { tag: "burnt-orange", category: "color", weight: 0.45 }
+  - { tag: "slate-blue", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

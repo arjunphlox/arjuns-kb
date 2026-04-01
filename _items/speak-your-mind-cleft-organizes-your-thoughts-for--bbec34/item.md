@@ -23,6 +23,15 @@ tags:
   - { tag: "memos", category: "subject", weight: 0.5 }
   - { tag: "powered", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "dark", category: "mood", weight: 0.7 }
+  - { tag: "dark-burgundy", category: "color", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.08 }
+  - { tag: "light-gray", category: "color", weight: 0.02 }
 ---
 
 ## Summary

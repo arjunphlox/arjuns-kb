@@ -21,6 +21,15 @@ tags:
   - { tag: "end", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "france", category: "location", weight: 0.3 }
+  - { tag: "retro", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.95 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "crimson", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.25 }
+  - { tag: "lime", category: "color", weight: 0.2 }
+  - { tag: "plum", category: "color", weight: 0.15 }
 ---
 
 ## Summary

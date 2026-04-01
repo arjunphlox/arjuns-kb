@@ -22,6 +22,15 @@ tags:
   - { tag: "tickets", category: "subject", weight: 0.5 }
   - { tag: "anywhere", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.6 }
+  - { tag: "white", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.07 }
+  - { tag: "light-gray", category: "color", weight: 0.03 }
 ---
 
 ## Summary

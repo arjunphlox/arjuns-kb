@@ -23,6 +23,13 @@ tags:
   - { tag: "them", category: "subject", weight: 0.5 }
   - { tag: "bland", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "hand-drawn", category: "style", weight: 0.45 }
+  - { tag: "elegant", category: "mood", weight: 0.88 }
+  - { tag: "calm", category: "mood", weight: 0.72 }
+  - { tag: "cobalt", category: "color", weight: 0.92 }
+  - { tag: "ivory", category: "color", weight: 0.08 }
 ---
 
 ## Summary

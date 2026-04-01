@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "moody", category: "mood", weight: 0.85 }
+  - { tag: "elegant", category: "mood", weight: 0.75 }
+  - { tag: "olive", category: "color", weight: 0.45 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "silver", category: "color", weight: 0.05 }
 ---
 
 ## Summary

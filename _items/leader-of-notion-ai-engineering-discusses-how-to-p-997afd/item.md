@@ -23,6 +23,14 @@ tags:
   - { tag: "humility", category: "subject", weight: 0.5 }
   - { tag: "clarity", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "sage", category: "color", weight: 0.3 }
+  - { tag: "coral", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.15 }
 ---
 
 ## Summary

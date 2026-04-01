@@ -23,6 +23,15 @@ tags:
   - { tag: "recommendations", category: "subject", weight: 0.5 }
   - { tag: "destinations", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "3d", category: "style", weight: 0.55 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "amber", category: "color", weight: 0.75 }
+  - { tag: "slate-blue", category: "color", weight: 0.12 }
+  - { tag: "charcoal", category: "color", weight: 0.08 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

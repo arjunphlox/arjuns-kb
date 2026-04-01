@@ -21,6 +21,15 @@ tags:
   - { tag: "shazam", category: "subject", weight: 0.5 }
   - { tag: "predictions", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "futuristic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "cobalt", category: "color", weight: 0.6 }
+  - { tag: "cyan", category: "color", weight: 0.25 }
+  - { tag: "slate", category: "color", weight: 0.1 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

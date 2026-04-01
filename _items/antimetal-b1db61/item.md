@@ -19,6 +19,13 @@ tags:
   - { tag: "happens", category: "subject", weight: 0.5 }
   - { tag: "after", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "midnight navy", category: "color", weight: 0.85 }
+  - { tag: "ivory white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -17,6 +17,13 @@ tags:
   - { tag: "packaging-design", category: "domain", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "tactile", category: "style", weight: 0.6 }
+  - { tag: "retro", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "navy", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.75 }
 ---
 
 ## Summary

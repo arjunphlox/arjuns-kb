@@ -17,6 +17,12 @@ tags:
   - { tag: "creative", category: "subject", weight: 0.5 }
   - { tag: "company", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "obsidian", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

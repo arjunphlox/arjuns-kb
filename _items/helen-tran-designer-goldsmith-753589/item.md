@@ -22,6 +22,15 @@ tags:
   - { tag: "executive", category: "subject", weight: 0.5 }
   - { tag: "entrepreneur", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "moody", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "jet-black", category: "color", weight: 0.7 }
+  - { tag: "warm-white", category: "color", weight: 0.3 }
 ---
 
 ## Summary

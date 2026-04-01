@@ -20,6 +20,15 @@ tags:
   - { tag: "user", category: "subject", weight: 0.5 }
   - { tag: "experience", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "illustrated", category: "style", weight: 0.55 }
+  - { tag: "retro", category: "style", weight: 0.5 }
+  - { tag: "warm", category: "mood", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.65 }
+  - { tag: "mint", category: "color", weight: 0.45 }
+  - { tag: "dark-green", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "walnut-brown", category: "color", weight: 0.1 }
 ---
 
 ## Summary

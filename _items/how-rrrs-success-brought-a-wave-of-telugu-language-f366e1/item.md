@@ -26,6 +26,15 @@ tags:
   - { tag: "cinematic", category: "mood", weight: 0.5 }
   - { tag: "germany", category: "location", weight: 0.6 }
   - { tag: "china", category: "location", weight: 0.6 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.45 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.35 }
+  - { tag: "steel-blue", category: "color", weight: 0.3 }
+  - { tag: "charcoal-black", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

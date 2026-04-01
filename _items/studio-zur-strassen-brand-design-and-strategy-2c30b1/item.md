@@ -23,6 +23,12 @@ tags:
   - { tag: "future", category: "subject", weight: 0.5 }
   - { tag: "brands", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 1.0 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "silver-gray", category: "color", weight: 0.9 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
 ---
 
 ## Summary

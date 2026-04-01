@@ -24,6 +24,15 @@ tags:
   - { tag: "leaders", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.55 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "slate-blue", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "white", category: "color", weight: 0.2 }
+  - { tag: "forest-green", category: "color", weight: 0.05 }
 ---
 
 ## Summary

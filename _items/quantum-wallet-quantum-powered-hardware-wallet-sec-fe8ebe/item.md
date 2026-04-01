@@ -23,6 +23,14 @@ tags:
   - { tag: "digital", category: "subject", weight: 0.5 }
   - { tag: "assets", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.9 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "midnight-black", category: "color", weight: 0.75 }
+  - { tag: "electric-blue", category: "color", weight: 0.2 }
+  - { tag: "slate-navy", category: "color", weight: 0.05 }
 ---
 
 ## Summary

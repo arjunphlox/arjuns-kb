@@ -25,6 +25,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "interactive", category: "style", weight: 0.6 }
   - { tag: "animated", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.65 }
+  - { tag: "dark teal", category: "color", weight: 0.25 }
+  - { tag: "charcoal black", category: "color", weight: 0.1 }
 ---
 
 ## Summary

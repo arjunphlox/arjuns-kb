@@ -20,6 +20,14 @@ tags:
   - { tag: "approach", category: "subject", weight: 0.5 }
   - { tag: "data", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.65 }
+  - { tag: "lime green", category: "color", weight: 0.5 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

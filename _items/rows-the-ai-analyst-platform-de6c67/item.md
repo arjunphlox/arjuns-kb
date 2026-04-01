@@ -21,6 +21,15 @@ tags:
   - { tag: "makers", category: "subject", weight: 0.5 }
   - { tag: "autonomy", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "amber-yellow", category: "color", weight: 0.45 }
+  - { tag: "deep-plum", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "sage-green", category: "color", weight: 0.05 }
 ---
 
 ## Summary

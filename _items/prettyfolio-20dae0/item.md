@@ -19,6 +19,14 @@ tags:
   - { tag: "portfolios", category: "subject", weight: 0.5 }
   - { tag: "curated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "illustrated", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "tomato-red", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "blush-pink", category: "color", weight: 0.05 }
 ---
 
 ## Summary

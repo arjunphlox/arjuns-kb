@@ -20,6 +20,13 @@ tags:
   - { tag: "best", category: "subject", weight: 0.5 }
   - { tag: "web", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.95 }
+  - { tag: "hand-drawn", category: "style", weight: 0.8 }
+  - { tag: "retro", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "whimsical", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.9 }
+  - { tag: "white", category: "color", weight: 0.3 }
 ---
 
 ## Summary

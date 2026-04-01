@@ -22,6 +22,13 @@ tags:
   - { tag: "parametric", category: "subject", weight: 0.5 }
   - { tag: "tools", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "dark", category: "mood", weight: 0.95 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "jet black", category: "color", weight: 0.9 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

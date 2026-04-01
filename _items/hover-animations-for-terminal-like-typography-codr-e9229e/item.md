@@ -24,6 +24,15 @@ tags:
   - { tag: "text", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "playful", category: "mood", weight: 0.55 }
+  - { tag: "futuristic", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "warm beige", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "off-white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

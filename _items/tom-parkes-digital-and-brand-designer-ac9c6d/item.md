@@ -20,6 +20,14 @@ tags:
   - { tag: "brand", category: "subject", weight: 0.5 }
   - { tag: "designer", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "organic", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.65 }
+  - { tag: "lime-cream", category: "color", weight: 0.6 }
+  - { tag: "charcoal black", category: "color", weight: 0.35 }
+  - { tag: "sage gray", category: "color", weight: 0.05 }
 ---
 
 ## Summary

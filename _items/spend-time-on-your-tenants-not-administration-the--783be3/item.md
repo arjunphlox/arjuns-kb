@@ -23,6 +23,14 @@ tags:
   - { tag: "owners", category: "subject", weight: 0.5 }
   - { tag: "administrators", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "lavender", category: "color", weight: 0.6 }
+  - { tag: "midnight-blue", category: "color", weight: 0.3 }
+  - { tag: "periwinkle", category: "color", weight: 0.1 }
 ---
 
 ## Summary

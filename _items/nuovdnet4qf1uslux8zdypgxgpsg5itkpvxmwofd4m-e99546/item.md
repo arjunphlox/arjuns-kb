@@ -22,6 +22,15 @@ tags:
   - { tag: "brands", category: "subject", weight: 0.5 }
   - { tag: "change", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "moody", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "scarlet", category: "color", weight: 0.5 }
+  - { tag: "slate-blue", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

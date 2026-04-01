@@ -18,6 +18,14 @@ tags:
   - { tag: "released", category: "subject", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "animated", category: "style", weight: 0.6 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "futuristic", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "midnight-navy", category: "color", weight: 0.6 }
+  - { tag: "electric-blue", category: "color", weight: 0.3 }
+  - { tag: "silver", category: "color", weight: 0.1 }
 ---
 
 ## Summary

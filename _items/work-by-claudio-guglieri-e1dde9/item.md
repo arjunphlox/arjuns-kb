@@ -19,6 +19,15 @@ tags:
   - { tag: "guglieri", category: "subject", weight: 0.6 }
   - { tag: "represents", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.65 }
+  - { tag: "jet-black", category: "color", weight: 0.7 }
+  - { tag: "ivory-white", category: "color", weight: 0.25 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.08 }
+  - { tag: "multicolor", category: "color", weight: 0.07 }
 ---
 
 ## Summary

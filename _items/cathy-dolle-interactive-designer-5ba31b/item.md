@@ -23,6 +23,14 @@ tags:
   - { tag: "creates", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "editorial", category: "style", weight: 0.9 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "surrealist", category: "style", weight: 0.7 }
+  - { tag: "moody", category: "mood", weight: 0.95 }
+  - { tag: "dramatic", category: "mood", weight: 0.88 }
+  - { tag: "charcoal", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "slate", category: "color", weight: 0.2 }
 ---
 
 ## Summary

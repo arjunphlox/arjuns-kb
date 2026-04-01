@@ -21,6 +21,15 @@ tags:
   - { tag: "built", category: "subject", weight: 0.5 }
   - { tag: "interactive", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "data-visualization", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "cobalt", category: "color", weight: 0.25 }
+  - { tag: "coral", category: "color", weight: 0.2 }
+  - { tag: "violet", category: "color", weight: 0.2 }
 ---
 
 ## Summary

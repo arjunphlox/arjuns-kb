@@ -23,6 +23,13 @@ tags:
   - { tag: "digital", category: "subject", weight: 0.5 }
   - { tag: "projects", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "bold", category: "mood", weight: 0.85 }
+  - { tag: "vivid orange", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

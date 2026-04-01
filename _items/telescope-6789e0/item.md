@@ -16,6 +16,12 @@ tags:
   - { tag: "telescope", category: "subject", weight: 0.8 }
   - { tag: "websites", category: "domain", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "hand-drawn", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "lime green", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

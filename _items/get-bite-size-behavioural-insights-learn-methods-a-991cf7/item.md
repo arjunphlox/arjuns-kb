@@ -23,6 +23,15 @@ tags:
   - { tag: "apply", category: "subject", weight: 0.5 }
   - { tag: "them", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "coral-red", category: "color", weight: 0.3 }
+  - { tag: "sky-blue", category: "color", weight: 0.3 }
+  - { tag: "sage-green", category: "color", weight: 0.2 }
+  - { tag: "golden-yellow", category: "color", weight: 0.15 }
 ---
 
 ## Summary

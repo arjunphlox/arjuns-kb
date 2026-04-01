@@ -22,6 +22,14 @@ tags:
   - { tag: "video", category: "subject", weight: 0.5 }
   - { tag: "editing", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "futuristic", category: "style", weight: 0.75 }
+  - { tag: "dark", category: "mood", weight: 0.95 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "jet black", category: "color", weight: 0.9 }
+  - { tag: "dark slate", category: "color", weight: 0.6 }
 ---
 
 ## Summary

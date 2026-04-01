@@ -24,6 +24,15 @@ tags:
   - { tag: "platform", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "firebase", category: "tool", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.55 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "deep indigo", category: "color", weight: 0.85 }
+  - { tag: "electric violet", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "white", category: "color", weight: 0.25 }
 ---
 
 ## Summary

@@ -21,6 +21,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
   - { tag: "canada", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "sky blue", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

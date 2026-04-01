@@ -23,6 +23,15 @@ tags:
   - { tag: "event", category: "subject", weight: 0.5 }
   - { tag: "hosted", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.55 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "acid-yellow", category: "color", weight: 0.45 }
+  - { tag: "silver", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "obsidian", category: "color", weight: 0.05 }
 ---
 
 ## Summary

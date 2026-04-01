@@ -18,6 +18,12 @@ tags:
   - { tag: "ros", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "sweden", category: "location", weight: 0.3 }
+  - { tag: "minimalist", category: "style", weight: 1.0 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.95 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

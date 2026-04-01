@@ -24,6 +24,14 @@ tags:
   - { tag: "collaboration", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "uk", category: "location", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "warm", category: "mood", weight: 0.65 }
+  - { tag: "teal", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "amber", category: "color", weight: 0.1 }
+  - { tag: "denim", category: "color", weight: 0.05 }
 ---
 
 ## Summary

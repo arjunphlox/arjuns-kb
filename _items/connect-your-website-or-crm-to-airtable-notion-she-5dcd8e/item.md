@@ -23,6 +23,14 @@ tags:
   - { tag: "whalesync", category: "subject", weight: 0.5 }
   - { tag: "code", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "midnight-navy", category: "color", weight: 0.85 }
+  - { tag: "sky-blue", category: "color", weight: 0.1 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

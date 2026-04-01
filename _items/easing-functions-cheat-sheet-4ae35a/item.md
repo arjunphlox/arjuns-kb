@@ -22,6 +22,12 @@ tags:
   - { tag: "speed", category: "subject", weight: 0.5 }
   - { tag: "animation", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "azure blue", category: "color", weight: 0.9 }
+  - { tag: "white", category: "color", weight: 0.5 }
 ---
 
 ## Summary

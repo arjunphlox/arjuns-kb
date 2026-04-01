@@ -18,6 +18,15 @@ tags:
   - { tag: "design", category: "subject", weight: 0.7 }
   - { tag: "systems", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.55 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "cream", category: "color", weight: 0.45 }
+  - { tag: "coral", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

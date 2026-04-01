@@ -20,6 +20,15 @@ tags:
   - { tag: "dataviz", category: "subject", weight: 0.5 }
   - { tag: "data", category: "subject", weight: 0.5 }
   - { tag: "behance", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "bubblegum-pink", category: "color", weight: 0.35 }
+  - { tag: "forest-green", category: "color", weight: 0.3 }
+  - { tag: "burnt-orange", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

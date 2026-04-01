@@ -20,6 +20,15 @@ tags:
   - { tag: "react", category: "subject", weight: 0.5 }
   - { tag: "animation", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.65 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "bubblegum-pink", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "emerald-green", category: "color", weight: 0.2 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -21,6 +21,14 @@ tags:
   - { tag: "little", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "retro", category: "style", weight: 0.4 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "whimsical", category: "mood", weight: 0.6 }
+  - { tag: "sage", category: "color", weight: 0.5 }
+  - { tag: "pearl", category: "color", weight: 0.4 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.2 }
 ---
 
 ## Summary

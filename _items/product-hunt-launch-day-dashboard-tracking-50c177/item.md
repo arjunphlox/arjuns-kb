@@ -23,6 +23,15 @@ tags:
   - { tag: "calendars", category: "subject", weight: 0.5 }
   - { tag: "upvote", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "peach", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "burnt-orange", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

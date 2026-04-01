@@ -21,6 +21,15 @@ tags:
   - { tag: "source", category: "subject", weight: 0.5 }
   - { tag: "products", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "cool", category: "mood", weight: 0.95 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "ice-blue", category: "color", weight: 0.2 }
+  - { tag: "periwinkle", category: "color", weight: 0.35 }
+  - { tag: "cornflower-blue", category: "color", weight: 0.25 }
+  - { tag: "cobalt", category: "color", weight: 0.2 }
 ---
 
 ## Summary

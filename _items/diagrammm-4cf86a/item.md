@@ -19,6 +19,13 @@ tags:
   - { tag: "visualization", category: "subject", weight: 0.5 }
   - { tag: "grammar", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "azure", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

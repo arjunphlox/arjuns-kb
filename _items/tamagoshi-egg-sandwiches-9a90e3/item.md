@@ -19,6 +19,13 @@ tags:
   - { tag: "sandwiches", category: "subject", weight: 0.6 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "energetic", category: "mood", weight: 0.92 }
+  - { tag: "vibrant", category: "mood", weight: 0.88 }
+  - { tag: "golden yellow", category: "color", weight: 0.92 }
+  - { tag: "jet black", category: "color", weight: 0.08 }
 ---
 
 ## Summary

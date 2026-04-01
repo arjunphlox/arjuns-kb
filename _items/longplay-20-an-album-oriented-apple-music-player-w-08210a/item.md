@@ -23,6 +23,15 @@ tags:
   - { tag: "schoenig", category: "subject", weight: 0.5 }
   - { tag: "massive", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.45 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.65 }
+  - { tag: "powder-blue", category: "color", weight: 0.45 }
+  - { tag: "burgundy", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

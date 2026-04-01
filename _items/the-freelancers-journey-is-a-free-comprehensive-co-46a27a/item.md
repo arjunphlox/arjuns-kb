@@ -24,6 +24,15 @@ tags:
   - { tag: "fulfilling", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "webflow", category: "tool", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "coral", category: "color", weight: 0.5 }
+  - { tag: "salmon", category: "color", weight: 0.3 }
+  - { tag: "deep-rose", category: "color", weight: 0.15 }
+  - { tag: "blush", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -21,6 +21,14 @@ tags:
   - { tag: "structures", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "3d", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.4 }
+  - { tag: "calm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.7 }
+  - { tag: "warm grey", category: "color", weight: 0.6 }
+  - { tag: "sand", category: "color", weight: 0.3 }
+  - { tag: "blush", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -20,6 +20,15 @@ tags:
   - { tag: "gallery", category: "subject", weight: 0.5 }
   - { tag: "iris", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "architectural", category: "style", weight: 0.75 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.85 }
+  - { tag: "sand", category: "color", weight: 0.85 }
+  - { tag: "warm beige", category: "color", weight: 0.7 }
+  - { tag: "taupe", category: "color", weight: 0.4 }
+  - { tag: "sage", category: "color", weight: 0.15 }
 ---
 
 ## Summary

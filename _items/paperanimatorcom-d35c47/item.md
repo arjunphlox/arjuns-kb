@@ -20,6 +20,15 @@ tags:
   - { tag: "paper", category: "subject", weight: 0.5 }
   - { tag: "effect", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.3 }
+  - { tag: "flat", category: "style", weight: 0.1 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "vibrant", category: "mood", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "lime-green", category: "color", weight: 0.2 }
+  - { tag: "dusty-rose", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

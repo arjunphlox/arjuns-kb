@@ -22,6 +22,15 @@ tags:
   - { tag: "visuals", category: "subject", weight: 0.5 }
   - { tag: "unlike", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "retro", category: "style", weight: 0.45 }
+  - { tag: "moody", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "violet", category: "color", weight: 0.3 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
+  - { tag: "iridescent", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -18,6 +18,13 @@ tags:
   - { tag: "through", category: "subject", weight: 0.7 }
   - { tag: "experimentation", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.9 }
 ---
 
 ## Summary

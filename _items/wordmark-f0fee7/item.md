@@ -20,6 +20,15 @@ tags:
   - { tag: "fonts", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "italy", category: "location", weight: 0.3 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "violet", category: "color", weight: 0.75 }
+  - { tag: "orange", category: "color", weight: 0.15 }
+  - { tag: "mint", category: "color", weight: 0.07 }
+  - { tag: "ivory", category: "color", weight: 0.03 }
 ---
 
 ## Summary

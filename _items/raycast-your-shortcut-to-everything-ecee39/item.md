@@ -21,6 +21,15 @@ tags:
   - { tag: "powerful", category: "subject", weight: 0.5 }
   - { tag: "productivity", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "crimson", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "obsidian", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -21,6 +21,15 @@ tags:
   - { tag: "effortless", category: "subject", weight: 0.5 }
   - { tag: "financial", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "3d", category: "style", weight: 0.6 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "midnight-blue", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "electric-blue", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "final-cut-pro", category: "tool", weight: 0.7 }
   - { tag: "animated", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "futuristic", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "jet-black", category: "color", weight: 0.5 }
+  - { tag: "cyan", category: "color", weight: 0.25 }
+  - { tag: "magenta", category: "color", weight: 0.15 }
+  - { tag: "cobalt", category: "color", weight: 0.1 }
 ---
 
 ## Summary

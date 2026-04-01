@@ -24,6 +24,15 @@ tags:
   - { tag: "retro", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "webflow", category: "tool", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.4 }
+  - { tag: "dramatic", category: "mood", weight: 0.85 }
+  - { tag: "moody", category: "mood", weight: 0.75 }
+  - { tag: "rust", category: "color", weight: 0.4 }
+  - { tag: "taupe", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

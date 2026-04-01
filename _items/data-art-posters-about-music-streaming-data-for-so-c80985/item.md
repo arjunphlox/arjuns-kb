@@ -24,6 +24,15 @@ tags:
   - { tag: "process", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "animated", category: "style", weight: 0.65 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.12 }
+  - { tag: "blush", category: "color", weight: 0.08 }
 ---
 
 ## Summary

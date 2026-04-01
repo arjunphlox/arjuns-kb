@@ -17,6 +17,15 @@ tags:
   - { tag: "firms", category: "domain", weight: 0.7 }
   - { tag: "india", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "crimson", category: "color", weight: 0.25 }
+  - { tag: "emerald", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

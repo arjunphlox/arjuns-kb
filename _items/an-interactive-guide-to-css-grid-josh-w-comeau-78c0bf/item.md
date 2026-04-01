@@ -24,6 +24,15 @@ tags:
   - { tag: "layouts", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "grid-based", category: "style", weight: 0.65 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.2 }
+  - { tag: "flat", category: "style", weight: 0.1 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.3 }
+  - { tag: "royal-purple", category: "color", weight: 0.6 }
+  - { tag: "deep-violet", category: "color", weight: 0.25 }
+  - { tag: "amber-yellow", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

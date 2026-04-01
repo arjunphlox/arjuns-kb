@@ -24,6 +24,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "figma", category: "tool", weight: 0.7 }
   - { tag: "3d", category: "style", weight: 0.65 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "violet", category: "color", weight: 0.6 }
+  - { tag: "scarlet", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.12 }
+  - { tag: "emerald", category: "color", weight: 0.08 }
 ---
 
 ## Summary

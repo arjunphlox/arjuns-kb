@@ -24,6 +24,14 @@ tags:
   - { tag: "foundries", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "charcoal", category: "color", weight: 0.45 }
+  - { tag: "lime-green", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "coral-orange", category: "color", weight: 0.1 }
 ---
 
 ## Summary

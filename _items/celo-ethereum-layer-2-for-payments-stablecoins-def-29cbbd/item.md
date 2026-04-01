@@ -23,6 +23,13 @@ tags:
   - { tag: "fast", category: "subject", weight: 0.5 }
   - { tag: "cost", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "electric yellow", category: "color", weight: 0.75 }
+  - { tag: "jet black", category: "color", weight: 0.25 }
 ---
 
 ## Summary

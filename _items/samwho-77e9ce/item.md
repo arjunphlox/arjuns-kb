@@ -18,6 +18,15 @@ tags:
   - { tag: "personal", category: "subject", weight: 0.5 }
   - { tag: "rose", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "golden-yellow", category: "color", weight: 0.75 }
+  - { tag: "turquoise", category: "color", weight: 0.12 }
+  - { tag: "dark-chocolate", category: "color", weight: 0.08 }
+  - { tag: "crimson-red", category: "color", weight: 0.05 }
 ---
 
 ## Summary

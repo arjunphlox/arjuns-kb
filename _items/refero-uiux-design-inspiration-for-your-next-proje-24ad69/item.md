@@ -23,6 +23,15 @@ tags:
   - { tag: "collection", category: "subject", weight: 0.5 }
   - { tag: "references", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "sage", category: "color", weight: 0.2 }
+  - { tag: "coral", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.15 }
 ---
 
 ## Summary

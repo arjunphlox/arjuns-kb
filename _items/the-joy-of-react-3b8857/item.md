@@ -21,6 +21,15 @@ tags:
   - { tag: "experience", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "cool", category: "mood", weight: 0.55 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "deep navy", category: "color", weight: 0.45 }
+  - { tag: "lavender", category: "color", weight: 0.3 }
+  - { tag: "magenta", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -23,6 +23,14 @@ tags:
   - { tag: "unit", category: "subject", weight: 0.5 }
   - { tag: "teams", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "cobalt blue", category: "color", weight: 0.6 }
+  - { tag: "cerulean", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

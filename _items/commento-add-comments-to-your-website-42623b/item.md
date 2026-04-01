@@ -19,6 +19,15 @@ tags:
   - { tag: "comments", category: "subject", weight: 0.6 }
   - { tag: "website", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "light-grey", category: "color", weight: 0.5 }
+  - { tag: "steel-blue", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

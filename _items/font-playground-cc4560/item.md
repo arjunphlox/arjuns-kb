@@ -20,6 +20,13 @@ tags:
   - { tag: "fiddling", category: "subject", weight: 0.5 }
   - { tag: "animating", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "vivid green", category: "color", weight: 0.95 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

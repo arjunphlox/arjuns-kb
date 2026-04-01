@@ -23,6 +23,15 @@ tags:
   - { tag: "revenue", category: "subject", weight: 0.5 }
   - { tag: "streamline", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.2 }
+  - { tag: "editorial", category: "style", weight: 0.1 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "energetic", category: "mood", weight: 0.25 }
+  - { tag: "amber-orange", category: "color", weight: 0.45 }
+  - { tag: "pearl-white", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "sage-green", category: "color", weight: 0.1 }
 ---
 
 ## Summary

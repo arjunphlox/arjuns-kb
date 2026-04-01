@@ -23,6 +23,13 @@ tags:
   - { tag: "lead", category: "subject", weight: 0.5 }
   - { tag: "development", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.7 }
+  - { tag: "silver-gray", category: "color", weight: 0.2 }
+  - { tag: "blush", category: "color", weight: 0.1 }
 ---
 
 ## Summary

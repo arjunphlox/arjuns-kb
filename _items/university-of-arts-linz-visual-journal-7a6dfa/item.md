@@ -23,6 +23,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
   - { tag: "italy", category: "location", weight: 0.3 }
+  - { tag: "editorial", category: "style", weight: 0.92 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.88 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "electric blue", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.08 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
+  - { tag: "pure white", category: "color", weight: 0.02 }
 ---
 
 ## Summary

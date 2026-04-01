@@ -20,6 +20,11 @@ tags:
   - { tag: "designer", category: "subject", weight: 0.5 }
   - { tag: "initiatives", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 1.0 }
+  - { tag: "flat", category: "style", weight: 1.0 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.95 }
+  - { tag: "burnt-orange", category: "color", weight: 1.0 }
 ---
 
 ## Summary

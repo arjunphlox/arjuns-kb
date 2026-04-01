@@ -22,6 +22,15 @@ tags:
   - { tag: "apps", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "airtable", category: "tool", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "magenta", category: "color", weight: 0.08 }
+  - { tag: "amber", category: "color", weight: 0.04 }
+  - { tag: "ivory", category: "color", weight: 0.03 }
 ---
 
 ## Summary

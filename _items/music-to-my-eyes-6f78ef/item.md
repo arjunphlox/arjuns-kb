@@ -22,6 +22,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
   - { tag: "brazil", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "elegant", category: "mood", weight: 0.75 }
+  - { tag: "jet black", category: "color", weight: 0.9 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

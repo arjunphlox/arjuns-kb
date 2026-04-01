@@ -22,6 +22,12 @@ tags:
   - { tag: "showcasing", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 1.0 }
+  - { tag: "hand-drawn", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.6 }
+  - { tag: "obsidian", category: "color", weight: 0.9 }
+  - { tag: "ivory", category: "color", weight: 0.8 }
 ---
 
 ## Summary

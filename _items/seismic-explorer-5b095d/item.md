@@ -17,6 +17,15 @@ tags:
   - { tag: "digital-tools", category: "domain", weight: 0.7 }
   - { tag: "explorer", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.8 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "burnt-orange", category: "color", weight: 0.35 }
+  - { tag: "forest-green", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "sky-blue", category: "color", weight: 0.15 }
 ---
 
 ## Summary

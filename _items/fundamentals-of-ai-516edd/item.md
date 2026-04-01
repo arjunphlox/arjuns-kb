@@ -16,6 +16,14 @@ tags:
   - { tag: "fundamentals", category: "subject", weight: 0.8 }
   - { tag: "gen-ai", category: "domain", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "futuristic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "cyan", category: "color", weight: 0.5 }
+  - { tag: "cobalt blue", category: "color", weight: 0.4 }
+  - { tag: "aqua", category: "color", weight: 0.1 }
 ---
 
 ## Summary

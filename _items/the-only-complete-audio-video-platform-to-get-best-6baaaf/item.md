@@ -23,6 +23,15 @@ tags:
   - { tag: "recording", category: "subject", weight: 0.5 }
   - { tag: "intuitive", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.55 }
+  - { tag: "photographic", category: "style", weight: 0.35 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "sky blue", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "white", category: "color", weight: 0.15 }
+  - { tag: "coral red", category: "color", weight: 0.05 }
 ---
 
 ## Summary

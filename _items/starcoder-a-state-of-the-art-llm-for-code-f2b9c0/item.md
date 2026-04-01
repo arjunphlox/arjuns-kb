@@ -23,6 +23,15 @@ tags:
   - { tag: "advance", category: "subject", weight: 0.5 }
   - { tag: "democratize", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "charcoal black", category: "color", weight: 0.7 }
+  - { tag: "amber gold", category: "color", weight: 0.2 }
+  - { tag: "slate gray", category: "color", weight: 0.07 }
+  - { tag: "violet purple", category: "color", weight: 0.03 }
 ---
 
 ## Summary

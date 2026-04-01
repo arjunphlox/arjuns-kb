@@ -26,6 +26,15 @@ tags:
   - { tag: "figma", category: "tool", weight: 0.7 }
   - { tag: "framer", category: "tool", weight: 0.7 }
   - { tag: "webflow", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "cobalt", category: "color", weight: 0.15 }
+  - { tag: "slate", category: "color", weight: 0.05 }
 ---
 
 ## Summary

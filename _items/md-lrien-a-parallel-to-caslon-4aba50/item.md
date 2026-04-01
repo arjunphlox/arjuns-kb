@@ -18,6 +18,15 @@ tags:
   - { tag: "parallel", category: "subject", weight: 0.7 }
   - { tag: "caslon", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "organic", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.8 }
+  - { tag: "dark olive", category: "color", weight: 0.55 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "bronze", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

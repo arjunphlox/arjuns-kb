@@ -21,6 +21,15 @@ tags:
   - { tag: "material", category: "subject", weight: 0.5 }
   - { tag: "book", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.65 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "golden-yellow", category: "color", weight: 0.55 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
+  - { tag: "warm-white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

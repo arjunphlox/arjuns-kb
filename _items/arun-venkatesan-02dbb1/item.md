@@ -20,6 +20,14 @@ tags:
   - { tag: "site", category: "subject", weight: 0.5 }
   - { tag: "dedicated", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.95 }
+  - { tag: "3d", category: "style", weight: 0.6 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.75 }
+  - { tag: "silver", category: "color", weight: 0.55 }
+  - { tag: "slate", category: "color", weight: 0.35 }
 ---
 
 ## Summary

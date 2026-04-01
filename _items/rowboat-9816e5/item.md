@@ -19,6 +19,15 @@ tags:
   - { tag: "fast", category: "subject", weight: 0.5 }
   - { tag: "understanding", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "calm", category: "mood", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "mauve", category: "color", weight: 0.35 }
+  - { tag: "slate-blue", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

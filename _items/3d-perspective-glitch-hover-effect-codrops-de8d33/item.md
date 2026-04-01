@@ -25,6 +25,14 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "3d", category: "style", weight: 0.65 }
   - { tag: "playful", category: "mood", weight: 0.55 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.5 }
+  - { tag: "crimson red", category: "color", weight: 0.25 }
+  - { tag: "golden yellow", category: "color", weight: 0.15 }
+  - { tag: "ivory white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

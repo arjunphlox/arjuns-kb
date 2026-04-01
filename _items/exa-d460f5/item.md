@@ -19,6 +19,14 @@ tags:
   - { tag: "retrieves", category: "subject", weight: 0.5 }
   - { tag: "realtime", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "royal blue", category: "color", weight: 0.9 }
+  - { tag: "ivory", category: "color", weight: 0.7 }
+  - { tag: "periwinkle", category: "color", weight: 0.3 }
 ---
 
 ## Summary

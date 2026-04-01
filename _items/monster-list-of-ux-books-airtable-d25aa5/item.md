@@ -26,6 +26,15 @@ tags:
   - { tag: "categorize", category: "subject", weight: 0.5 }
   - { tag: "shrl", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "sky blue", category: "color", weight: 0.3 }
+  - { tag: "crimson pink", category: "color", weight: 0.2 }
+  - { tag: "light grey", category: "color", weight: 0.15 }
 ---
 
 ## Summary

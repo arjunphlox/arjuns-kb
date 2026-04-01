@@ -21,6 +21,15 @@ tags:
   - { tag: "developers", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "react", category: "tool", weight: 0.7 }
+  - { tag: "3d", category: "style", weight: 0.95 }
+  - { tag: "illustrated", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "sky blue", category: "color", weight: 0.55 }
+  - { tag: "amber yellow", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.12 }
+  - { tag: "cobalt blue", category: "color", weight: 0.08 }
 ---
 
 ## Summary

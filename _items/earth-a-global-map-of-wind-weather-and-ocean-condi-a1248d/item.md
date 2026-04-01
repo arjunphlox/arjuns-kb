@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "animated", category: "style", weight: 0.65 }
   - { tag: "interactive", category: "style", weight: 0.65 }
+  - { tag: "data-visualization", category: "style", weight: 0.95 }
+  - { tag: "futuristic", category: "style", weight: 0.75 }
+  - { tag: "organic", category: "style", weight: 0.55 }
+  - { tag: "dramatic", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "lime-green", category: "color", weight: 0.45 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.12 }
+  - { tag: "lavender", category: "color", weight: 0.08 }
 ---
 
 ## Summary

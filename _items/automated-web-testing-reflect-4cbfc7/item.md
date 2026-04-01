@@ -22,6 +22,13 @@ tags:
   - { tag: "makes", category: "subject", weight: 0.5 }
   - { tag: "tests", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "midnight navy", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.12 }
+  - { tag: "deep indigo", category: "color", weight: 0.03 }
 ---
 
 ## Summary

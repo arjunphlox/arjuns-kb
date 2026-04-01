@@ -23,6 +23,15 @@ tags:
   - { tag: "projects", category: "subject", weight: 0.5 }
   - { tag: "nadieh", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "illustrated", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "mint", category: "color", weight: 0.35 }
+  - { tag: "coral", category: "color", weight: 0.25 }
+  - { tag: "sky blue", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -21,6 +21,15 @@ tags:
   - { tag: "portfolio", category: "subject", weight: 0.5 }
   - { tag: "belgium", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "glitch", category: "style", weight: 0.9 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "grunge", category: "style", weight: 0.4 }
+  - { tag: "moody", category: "mood", weight: 0.95 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "charcoal", category: "color", weight: 0.75 }
+  - { tag: "slate", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.07 }
+  - { tag: "indigo", category: "color", weight: 0.03 }
 ---
 
 ## Summary

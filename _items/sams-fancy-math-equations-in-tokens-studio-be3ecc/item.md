@@ -20,6 +20,14 @@ tags:
   - { tag: "equations", category: "subject", weight: 0.5 }
   - { tag: "tokens", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "cool", category: "mood", weight: 0.6 }
+  - { tag: "navy", category: "color", weight: 0.7 }
+  - { tag: "steel-blue", category: "color", weight: 0.5 }
+  - { tag: "silver", category: "color", weight: 0.3 }
 ---
 
 ## Summary

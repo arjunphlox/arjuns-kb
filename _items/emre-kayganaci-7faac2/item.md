@@ -20,6 +20,15 @@ tags:
   - { tag: "innovation", category: "subject", weight: 0.5 }
   - { tag: "designer", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "coral", category: "color", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.6 }
+  - { tag: "crimson", category: "color", weight: 0.5 }
+  - { tag: "sage", category: "color", weight: 0.4 }
 ---
 
 ## Summary

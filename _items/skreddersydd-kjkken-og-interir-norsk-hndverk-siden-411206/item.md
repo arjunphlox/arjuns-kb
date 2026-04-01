@@ -24,6 +24,15 @@ tags:
   - { tag: "herfra", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "norway", category: "location", weight: 0.3 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "organic", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "blonde-wood", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "terracotta", category: "color", weight: 0.1 }
 ---
 
 ## Summary

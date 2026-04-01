@@ -21,6 +21,14 @@ tags:
   - { tag: "school", category: "subject", weight: 0.5 }
   - { tag: "technology", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "brutalist", category: "style", weight: 0.75 }
+  - { tag: "grunge", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "bold", category: "mood", weight: 0.85 }
+  - { tag: "electric blue", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.12 }
+  - { tag: "cyan", category: "color", weight: 0.03 }
 ---
 
 ## Summary

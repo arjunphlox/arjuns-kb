@@ -23,6 +23,15 @@ tags:
   - { tag: "simple", category: "subject", weight: 0.5 }
   - { tag: "free", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.85 }
+  - { tag: "slate", category: "color", weight: 0.55 }
+  - { tag: "coral", category: "color", weight: 0.45 }
+  - { tag: "steel-blue", category: "color", weight: 0.35 }
 ---
 
 ## Summary

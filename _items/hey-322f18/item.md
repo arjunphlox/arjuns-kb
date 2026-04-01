@@ -20,6 +20,14 @@ tags:
   - { tag: "studio", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "spain", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "jet black", category: "color", weight: 0.85 }
+  - { tag: "amber", category: "color", weight: 0.07 }
+  - { tag: "coral", category: "color", weight: 0.04 }
+  - { tag: "orchid", category: "color", weight: 0.04 }
 ---
 
 ## Summary

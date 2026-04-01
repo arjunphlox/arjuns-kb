@@ -23,6 +23,15 @@ tags:
   - { tag: "projects", category: "subject", weight: 0.5 }
   - { tag: "build", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.75 }
+  - { tag: "crimson", category: "color", weight: 0.35 }
+  - { tag: "cobalt", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "pearl", category: "color", weight: 0.2 }
 ---
 
 ## Summary

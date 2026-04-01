@@ -23,6 +23,15 @@ tags:
   - { tag: "suitable", category: "subject", weight: 0.5 }
   - { tag: "adding", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.45 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "walnut-brown", category: "color", weight: 0.3 }
+  - { tag: "slate-grey", category: "color", weight: 0.25 }
+  - { tag: "warm-grey", category: "color", weight: 0.1 }
 ---
 
 ## Summary

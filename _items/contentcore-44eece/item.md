@@ -19,6 +19,15 @@ tags:
   - { tag: "content", category: "subject", weight: 0.5 }
   - { tag: "place", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.8 }
+  - { tag: "futuristic", category: "mood", weight: 0.75 }
+  - { tag: "obsidian", category: "color", weight: 0.6 }
+  - { tag: "pearl", category: "color", weight: 0.25 }
+  - { tag: "slate-blue", category: "color", weight: 0.1 }
+  - { tag: "silver", category: "color", weight: 0.05 }
 ---
 
 ## Summary

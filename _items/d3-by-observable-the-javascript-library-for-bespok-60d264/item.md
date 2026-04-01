@@ -21,6 +21,14 @@ tags:
   - { tag: "data", category: "subject", weight: 0.5 }
   - { tag: "visualization", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.45 }
+  - { tag: "coral", category: "color", weight: 0.35 }
+  - { tag: "burgundy", category: "color", weight: 0.2 }
 ---
 
 ## Summary

@@ -21,6 +21,15 @@ tags:
   - { tag: "product", category: "subject", weight: 0.5 }
   - { tag: "ireland", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.45 }
+  - { tag: "playful", category: "mood", weight: 0.75 }
+  - { tag: "warm", category: "mood", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.4 }
+  - { tag: "sky-blue", category: "color", weight: 0.25 }
+  - { tag: "emerald", category: "color", weight: 0.2 }
+  - { tag: "rose-pink", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -22,6 +22,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "uk", category: "location", weight: 0.6 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "geometric", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "jet black", category: "color", weight: 0.85 }
+  - { tag: "ghost white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

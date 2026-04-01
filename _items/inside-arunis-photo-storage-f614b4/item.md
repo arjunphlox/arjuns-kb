@@ -21,6 +21,13 @@ tags:
   - { tag: "setup", category: "subject", weight: 0.5 }
   - { tag: "lets", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "retro", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.65 }
+  - { tag: "cobalt blue", category: "color", weight: 0.75 }
+  - { tag: "white", category: "color", weight: 0.25 }
 ---
 
 ## Summary

@@ -21,6 +21,15 @@ tags:
   - { tag: "company", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "warm", category: "mood", weight: 0.6 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "warm-brown", category: "color", weight: 0.25 }
+  - { tag: "slate", category: "color", weight: 0.15 }
+  - { tag: "sage", category: "color", weight: 0.1 }
 ---
 
 ## Summary

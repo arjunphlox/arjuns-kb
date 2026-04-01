@@ -24,6 +24,15 @@ tags:
   - { tag: "descendants", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "france", category: "location", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.95 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.95 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "violet", category: "color", weight: 0.35 }
+  - { tag: "coral-orange", category: "color", weight: 0.25 }
+  - { tag: "magenta", category: "color", weight: 0.2 }
+  - { tag: "emerald", category: "color", weight: 0.15 }
 ---
 
 ## Summary

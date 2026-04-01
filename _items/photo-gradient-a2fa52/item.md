@@ -20,6 +20,14 @@ tags:
   - { tag: "beautiful", category: "subject", weight: 0.5 }
   - { tag: "gradients", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.4 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.55 }
+  - { tag: "cobalt", category: "color", weight: 0.45 }
+  - { tag: "coral", category: "color", weight: 0.4 }
+  - { tag: "mauve", category: "color", weight: 0.15 }
 ---
 
 ## Summary

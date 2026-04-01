@@ -23,6 +23,15 @@ tags:
   - { tag: "legibility", category: "subject", weight: 0.5 }
   - { tag: "text", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.6 }
+  - { tag: "lavender", category: "color", weight: 0.35 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.25 }
+  - { tag: "emerald", category: "color", weight: 0.15 }
+  - { tag: "pearl-white", category: "color", weight: 0.25 }
 ---
 
 ## Summary

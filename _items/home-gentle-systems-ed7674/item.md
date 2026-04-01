@@ -22,6 +22,15 @@ tags:
   - { tag: "studio", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "germany", category: "location", weight: 0.6 }
+  - { tag: "futuristic", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "illustrative", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "calm", category: "mood", weight: 0.6 }
+  - { tag: "emerald", category: "color", weight: 0.5 }
+  - { tag: "coral", category: "color", weight: 0.2 }
+  - { tag: "lavender", category: "color", weight: 0.2 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

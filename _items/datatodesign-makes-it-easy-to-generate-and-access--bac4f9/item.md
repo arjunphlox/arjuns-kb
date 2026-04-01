@@ -23,6 +23,15 @@ tags:
   - { tag: "content", category: "subject", weight: 0.5 }
   - { tag: "faster", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.55 }
+  - { tag: "flat", category: "style", weight: 0.3 }
+  - { tag: "typographic", category: "style", weight: 0.15 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.3 }
+  - { tag: "forest-green", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "emerald", category: "color", weight: 0.1 }
 ---
 
 ## Summary

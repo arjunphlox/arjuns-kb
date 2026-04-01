@@ -20,6 +20,12 @@ tags:
   - { tag: "time", category: "subject", weight: 0.5 }
   - { tag: "owned", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.92 }
+  - { tag: "ivory", category: "color", weight: 0.08 }
 ---
 
 ## Summary

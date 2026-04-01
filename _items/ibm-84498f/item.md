@@ -19,6 +19,13 @@ tags:
   - { tag: "global", category: "subject", weight: 0.5 }
   - { tag: "technology", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 1.0 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.95 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.95 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

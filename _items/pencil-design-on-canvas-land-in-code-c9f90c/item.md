@@ -23,6 +23,15 @@ tags:
   - { tag: "increases", category: "subject", weight: 0.5 }
   - { tag: "engineering", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
+  - { tag: "white", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.08 }
+  - { tag: "periwinkle", category: "color", weight: 0.07 }
 ---
 
 ## Summary

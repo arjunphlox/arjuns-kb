@@ -17,6 +17,15 @@ tags:
   - { tag: "gen-ai", category: "domain", weight: 0.7 }
   - { tag: "labs", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.65 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.45 }
+  - { tag: "forest-green", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

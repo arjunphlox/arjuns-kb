@@ -21,6 +21,15 @@ tags:
   - { tag: "modern", category: "subject", weight: 0.5 }
   - { tag: "look", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "slate-blue", category: "color", weight: 0.5 }
+  - { tag: "cornflower-blue", category: "color", weight: 0.25 }
+  - { tag: "blush-pink", category: "color", weight: 0.12 }
+  - { tag: "sage-green", category: "color", weight: 0.1 }
 ---
 
 ## Summary

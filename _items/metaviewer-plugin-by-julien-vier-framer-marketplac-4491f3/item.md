@@ -20,6 +20,14 @@ tags:
   - { tag: "vier", category: "subject", weight: 0.5 }
   - { tag: "framer", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "clean", category: "mood", weight: 0.85 }
+  - { tag: "sky-blue", category: "color", weight: 0.7 }
+  - { tag: "white", category: "color", weight: 0.25 }
+  - { tag: "cornflower-blue", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -23,6 +23,14 @@ tags:
   - { tag: "employees", category: "subject", weight: 0.5 }
   - { tag: "solution", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "deep-magenta", category: "color", weight: 0.7 }
+  - { tag: "plum", category: "color", weight: 0.2 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

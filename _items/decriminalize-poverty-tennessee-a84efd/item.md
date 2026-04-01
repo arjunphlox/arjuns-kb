@@ -18,6 +18,15 @@ tags:
   - { tag: "poverty", category: "subject", weight: 0.7 }
   - { tag: "tennessee", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.6 }
+  - { tag: "mint", category: "color", weight: 0.5 }
+  - { tag: "forest green", category: "color", weight: 0.3 }
+  - { tag: "lavender", category: "color", weight: 0.1 }
+  - { tag: "slate gray", category: "color", weight: 0.1 }
 ---
 
 ## Summary

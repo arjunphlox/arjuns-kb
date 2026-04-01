@@ -20,6 +20,15 @@ tags:
   - { tag: "creative", category: "subject", weight: 0.5 }
   - { tag: "director", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "coral-red", category: "color", weight: 0.35 }
+  - { tag: "purple", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "chartreuse", category: "color", weight: 0.1 }
 ---
 
 ## Summary

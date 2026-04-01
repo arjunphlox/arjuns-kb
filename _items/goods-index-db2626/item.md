@@ -21,6 +21,14 @@ tags:
   - { tag: "future", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "norway", category: "location", weight: 0.3 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "sage", category: "color", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.9 }
+  - { tag: "forest-green", category: "color", weight: 0.4 }
 ---
 
 ## Summary

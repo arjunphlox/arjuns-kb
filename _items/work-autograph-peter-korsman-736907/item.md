@@ -22,6 +22,14 @@ tags:
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "studio", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.6 }
+  - { tag: "silver", category: "color", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

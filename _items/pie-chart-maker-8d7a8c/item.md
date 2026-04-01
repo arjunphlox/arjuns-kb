@@ -21,6 +21,15 @@ tags:
   - { tag: "free", category: "subject", weight: 0.5 }
   - { tag: "easy", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.6 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.25 }
+  - { tag: "purple", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

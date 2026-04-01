@@ -15,6 +15,12 @@ analyzed_at: "2026-01-26T04:13:06Z"
 tags:
   - { tag: "gen-ai", category: "domain", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 1.0 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.95 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.9 }
+  - { tag: "charcoal", category: "color", weight: 0.7 }
 ---
 
 ## Summary

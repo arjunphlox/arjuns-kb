@@ -25,6 +25,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.55 }
   - { tag: "uk", category: "location", weight: 0.3 }
+  - { tag: "editorial", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "photographic", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "navy", category: "color", weight: 0.3 }
+  - { tag: "denim-blue", category: "color", weight: 0.1 }
+  - { tag: "amber", category: "color", weight: 0.05 }
 ---
 
 ## Summary

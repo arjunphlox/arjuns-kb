@@ -22,6 +22,15 @@ tags:
   - { tag: "deeply", category: "subject", weight: 0.5 }
   - { tag: "grounded", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "3d", category: "style", weight: 0.75 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.75 }
+  - { tag: "deep-violet", category: "color", weight: 0.45 }
+  - { tag: "midnight-black", category: "color", weight: 0.35 }
+  - { tag: "bright-purple", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

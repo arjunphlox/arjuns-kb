@@ -23,6 +23,15 @@ tags:
   - { tag: "cutting", category: "subject", weight: 0.5 }
   - { tag: "edge", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.55 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "dark teal", category: "color", weight: 0.45 }
+  - { tag: "violet", category: "color", weight: 0.25 }
+  - { tag: "slate blue", category: "color", weight: 0.2 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

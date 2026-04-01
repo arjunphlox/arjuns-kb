@@ -21,6 +21,15 @@ tags:
   - { tag: "love", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.55 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.55 }
+  - { tag: "playful", category: "mood", weight: 0.85 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "vermillion", category: "color", weight: 0.45 }
+  - { tag: "salmon", category: "color", weight: 0.25 }
+  - { tag: "sage", category: "color", weight: 0.12 }
+  - { tag: "powder-blue", category: "color", weight: 0.1 }
 ---
 
 ## Summary

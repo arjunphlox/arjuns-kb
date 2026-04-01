@@ -20,6 +20,15 @@ tags:
   - { tag: "manual", category: "subject", weight: 0.5 }
   - { tag: "better", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "calm", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.7 }
+  - { tag: "sky-blue", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.1 }
+  - { tag: "silver", category: "color", weight: 0.05 }
 ---
 
 ## Summary

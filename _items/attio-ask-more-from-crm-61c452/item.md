@@ -22,6 +22,14 @@ tags:
   - { tag: "data", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "data-driven", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "off-white", category: "color", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "slate", category: "color", weight: 0.1 }
 ---
 
 ## Summary

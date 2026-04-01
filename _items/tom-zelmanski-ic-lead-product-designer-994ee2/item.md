@@ -23,6 +23,15 @@ tags:
   - { tag: "experience", category: "subject", weight: 0.5 }
   - { tag: "build", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "whimsical", category: "mood", weight: 0.75 }
+  - { tag: "tangerine", category: "color", weight: 0.45 }
+  - { tag: "pearl", category: "color", weight: 0.3 }
+  - { tag: "steel-blue", category: "color", weight: 0.15 }
+  - { tag: "amber-yellow", category: "color", weight: 0.1 }
 ---
 
 ## Summary

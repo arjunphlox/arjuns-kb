@@ -23,6 +23,15 @@ tags:
   - { tag: "packed", category: "subject", weight: 0.5 }
   - { tag: "amazing", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "retro", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "vibrant", category: "mood", weight: 0.65 }
+  - { tag: "purple", category: "color", weight: 0.55 }
+  - { tag: "golden-yellow", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

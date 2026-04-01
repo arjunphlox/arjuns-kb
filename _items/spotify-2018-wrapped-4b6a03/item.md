@@ -18,6 +18,15 @@ tags:
   - { tag: "wrapped", category: "subject", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.95 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "vivid yellow", category: "color", weight: 0.35 }
+  - { tag: "electric purple", category: "color", weight: 0.4 }
+  - { tag: "lavender", category: "color", weight: 0.15 }
+  - { tag: "white", category: "color", weight: 0.1 }
 ---
 
 ## Summary

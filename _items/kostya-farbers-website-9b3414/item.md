@@ -21,6 +21,12 @@ tags:
   - { tag: "portfolio", category: "subject", weight: 0.5 }
   - { tag: "site", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.95 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.75 }
+  - { tag: "jet black", category: "color", weight: 0.85 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

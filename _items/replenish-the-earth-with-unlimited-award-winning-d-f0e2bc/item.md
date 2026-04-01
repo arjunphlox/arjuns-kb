@@ -24,6 +24,15 @@ tags:
   - { tag: "starting", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "webflow", category: "tool", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "illustrated", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.95 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "golden-yellow", category: "color", weight: 0.9 }
+  - { tag: "charcoal", category: "color", weight: 0.06 }
+  - { tag: "ivory", category: "color", weight: 0.03 }
+  - { tag: "terracotta", category: "color", weight: 0.01 }
 ---
 
 ## Summary

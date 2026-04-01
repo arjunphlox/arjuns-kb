@@ -21,6 +21,15 @@ tags:
   - { tag: "peruvian", category: "subject", weight: 0.5 }
   - { tag: "graphic", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "cool", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "cobalt blue", category: "color", weight: 0.75 }
+  - { tag: "white", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.03 }
+  - { tag: "coral", category: "color", weight: 0.02 }
 ---
 
 ## Summary

@@ -20,6 +20,15 @@ tags:
   - { tag: "quickest", category: "subject", weight: 0.5 }
   - { tag: "build", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "vermillion", category: "color", weight: 0.25 }
+  - { tag: "teal", category: "color", weight: 0.15 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

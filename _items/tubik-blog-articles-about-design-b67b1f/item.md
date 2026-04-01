@@ -20,6 +20,15 @@ tags:
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "studio", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "teal", category: "color", weight: 0.35 }
+  - { tag: "coral", category: "color", weight: 0.25 }
+  - { tag: "amber", category: "color", weight: 0.25 }
+  - { tag: "peach", category: "color", weight: 0.15 }
 ---
 
 ## Summary

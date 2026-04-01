@@ -23,6 +23,15 @@ tags:
   - { tag: "agencies", category: "subject", weight: 0.5 }
   - { tag: "advance", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "dark teal", category: "color", weight: 0.7 }
+  - { tag: "sky blue", category: "color", weight: 0.15 }
+  - { tag: "brick red", category: "color", weight: 0.1 }
+  - { tag: "white", category: "color", weight: 0.05 }
 ---
 
 ## Summary

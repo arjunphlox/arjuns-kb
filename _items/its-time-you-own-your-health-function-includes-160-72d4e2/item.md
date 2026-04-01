@@ -23,6 +23,15 @@ tags:
   - { tag: "tests", category: "subject", weight: 0.5 }
   - { tag: "personalized", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "burnt-sienna", category: "color", weight: 0.6 }
+  - { tag: "charcoal-brown", category: "color", weight: 0.25 }
+  - { tag: "sage-green", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

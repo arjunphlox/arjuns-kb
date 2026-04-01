@@ -22,6 +22,13 @@ tags:
   - { tag: "psychology", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "minimalist", category: "style", weight: 0.65 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "cream", category: "color", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.55 }
+  - { tag: "golden-yellow", category: "color", weight: 0.25 }
 ---
 
 ## Summary

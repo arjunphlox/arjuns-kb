@@ -19,6 +19,15 @@ tags:
   - { tag: "deep", category: "subject", weight: 0.6 }
   - { tag: "learning", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "futuristic", category: "style", weight: 0.7 }
+  - { tag: "organic", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "lavender", category: "color", weight: 0.3 }
+  - { tag: "sky-blue", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary

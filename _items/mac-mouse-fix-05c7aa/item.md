@@ -18,6 +18,14 @@ tags:
   - { tag: "mouse", category: "subject", weight: 0.7 }
   - { tag: "fix", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.6 }
+  - { tag: "azure blue", category: "color", weight: 0.7 }
+  - { tag: "white", category: "color", weight: 0.25 }
+  - { tag: "light gray", category: "color", weight: 0.05 }
 ---
 
 ## Summary

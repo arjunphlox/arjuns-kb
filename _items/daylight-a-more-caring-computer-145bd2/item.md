@@ -21,6 +21,14 @@ tags:
   - { tag: "calm", category: "subject", weight: 0.5 }
   - { tag: "designed", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "organic", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "warm", category: "mood", weight: 0.75 }
+  - { tag: "olive-green", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "amber", category: "color", weight: 0.12 }
+  - { tag: "cream", category: "color", weight: 0.08 }
 ---
 
 ## Summary

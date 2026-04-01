@@ -20,6 +20,13 @@ tags:
   - { tag: "blog", category: "subject", weight: 0.5 }
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "playful", category: "mood", weight: 0.65 }
+  - { tag: "golden yellow", category: "color", weight: 0.75 }
+  - { tag: "dark brown", category: "color", weight: 0.25 }
 ---
 
 ## Summary

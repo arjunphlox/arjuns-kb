@@ -23,6 +23,15 @@ tags:
   - { tag: "weekly", category: "subject", weight: 0.5 }
   - { tag: "instant", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.35 }
+  - { tag: "editorial", category: "style", weight: 0.25 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "dramatic", category: "mood", weight: 0.5 }
+  - { tag: "lime-green", category: "color", weight: 0.3 }
+  - { tag: "gold", category: "color", weight: 0.25 }
+  - { tag: "coral-pink", category: "color", weight: 0.25 }
+  - { tag: "crimson", category: "color", weight: 0.2 }
 ---
 
 ## Summary

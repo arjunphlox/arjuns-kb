@@ -19,6 +19,14 @@ tags:
   - { tag: "easy", category: "subject", weight: 0.5 }
   - { tag: "content", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.65 }
+  - { tag: "playful", category: "mood", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.6 }
+  - { tag: "purple", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "silver", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -18,6 +18,15 @@ tags:
   - { tag: "banka", category: "subject", weight: 0.7 }
   - { tag: "work", category: "subject", weight: 0.6 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.65 }
+  - { tag: "coral", category: "color", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "powder-pink", category: "color", weight: 0.2 }
+  - { tag: "cobalt", category: "color", weight: 0.15 }
 ---
 
 ## Summary

@@ -24,6 +24,14 @@ tags:
   - { tag: "visual", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "3d", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "cobalt blue", category: "color", weight: 0.4 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.2 }
+  - { tag: "navy", category: "color", weight: 0.05 }
 ---
 
 ## Summary

@@ -21,6 +21,15 @@ tags:
   - { tag: "interviews", category: "subject", weight: 0.5 }
   - { tag: "questions", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "flat", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.55 }
+  - { tag: "vermillion", category: "color", weight: 0.45 }
+  - { tag: "amber", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.2 }
+  - { tag: "lavender", category: "color", weight: 0.1 }
 ---
 
 ## Summary

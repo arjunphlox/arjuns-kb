@@ -24,6 +24,14 @@ tags:
   - { tag: "helped", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "crafted", category: "mood", weight: 0.55 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.6 }
+  - { tag: "cobalt blue", category: "color", weight: 0.5 }
+  - { tag: "white", category: "color", weight: 0.4 }
+  - { tag: "sky blue", category: "color", weight: 0.1 }
 ---
 
 ## Summary

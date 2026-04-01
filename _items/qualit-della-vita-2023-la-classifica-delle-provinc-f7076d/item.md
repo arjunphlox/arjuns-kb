@@ -20,6 +20,15 @@ tags:
   - { tag: "classifica", category: "subject", weight: 0.5 }
   - { tag: "delle", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "vibrant", category: "mood", weight: 0.65 }
+  - { tag: "teal", category: "color", weight: 0.35 }
+  - { tag: "dusty-rose", category: "color", weight: 0.3 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

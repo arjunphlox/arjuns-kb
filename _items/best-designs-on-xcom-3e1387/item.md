@@ -21,6 +21,15 @@ tags:
   - { tag: "design", category: "subject", weight: 0.5 }
   - { tag: "inspiration", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "elegant", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.6 }
+  - { tag: "pearl-white", category: "color", weight: 0.5 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.2 }
+  - { tag: "iridescent-lavender", category: "color", weight: 0.2 }
+  - { tag: "rose-pink", category: "color", weight: 0.1 }
 ---
 
 ## Summary

@@ -23,6 +23,15 @@ tags:
   - { tag: "cartes", category: "subject", weight: 0.5 }
   - { tag: "pour", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.85 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "playful", category: "mood", weight: 0.6 }
+  - { tag: "teal", category: "color", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "sage", category: "color", weight: 0.05 }
 ---
 
 ## Summary

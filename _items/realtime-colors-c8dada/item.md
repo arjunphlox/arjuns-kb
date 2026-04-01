@@ -20,6 +20,15 @@ tags:
   - { tag: "color", category: "subject", weight: 0.5 }
   - { tag: "palettes", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "flat", category: "style", weight: 0.75 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "dark", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "deep purple", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.35 }
+  - { tag: "violet", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

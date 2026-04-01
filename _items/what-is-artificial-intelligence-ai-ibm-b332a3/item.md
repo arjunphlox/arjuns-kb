@@ -21,6 +21,15 @@ tags:
   - { tag: "enables", category: "subject", weight: 0.5 }
   - { tag: "computers", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "3d", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "calm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "teal", category: "color", weight: 0.65 }
+  - { tag: "peach", category: "color", weight: 0.25 }
+  - { tag: "coral", category: "color", weight: 0.06 }
+  - { tag: "amber", category: "color", weight: 0.04 }
 ---
 
 ## Summary

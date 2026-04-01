@@ -23,6 +23,15 @@ tags:
   - { tag: "past", category: "subject", weight: 0.5 }
   - { tag: "year", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.65 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "forest-green", category: "color", weight: 0.25 }
+  - { tag: "terracotta", category: "color", weight: 0.2 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

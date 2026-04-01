@@ -19,6 +19,15 @@ tags:
   - { tag: "typeface", category: "subject", weight: 0.5 }
   - { tag: "started", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.95 }
+  - { tag: "editorial", category: "style", weight: 0.8 }
+  - { tag: "brutalist", category: "style", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.85 }
+  - { tag: "kelly-green", category: "color", weight: 0.35 }
+  - { tag: "crimson", category: "color", weight: 0.25 }
+  - { tag: "canary-yellow", category: "color", weight: 0.2 }
+  - { tag: "cyan", category: "color", weight: 0.15 }
 ---
 
 ## Summary

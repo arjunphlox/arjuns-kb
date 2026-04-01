@@ -20,6 +20,13 @@ tags:
   - { tag: "ways", category: "subject", weight: 0.5 }
   - { tag: "meets", category: "subject", weight: 0.5 }
   - { tag: "codesandbox", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.95 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "cyan", category: "color", weight: 0.85 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
 ---
 
 ## Summary

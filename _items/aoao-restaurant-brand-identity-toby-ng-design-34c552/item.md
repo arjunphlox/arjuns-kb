@@ -26,6 +26,15 @@ tags:
   - { tag: "brand-identity", category: "style", weight: 0.6 }
   - { tag: "raw", category: "mood", weight: 0.55 }
   - { tag: "japan", category: "location", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "elegant", category: "mood", weight: 0.9 }
+  - { tag: "moody", category: "mood", weight: 0.7 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "teal", category: "color", weight: 0.25 }
+  - { tag: "charcoal", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
 ---
 
 ## Summary

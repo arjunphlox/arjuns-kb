@@ -21,6 +21,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "abstract", category: "style", weight: 0.65 }
   - { tag: "cinematic", category: "mood", weight: 0.5 }
+  - { tag: "typographic", category: "style", weight: 1.0 }
+  - { tag: "editorial", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "bold", category: "mood", weight: 0.85 }
+  - { tag: "jet black", category: "color", weight: 0.6 }
+  - { tag: "pure white", category: "color", weight: 0.4 }
 ---
 
 ## Summary

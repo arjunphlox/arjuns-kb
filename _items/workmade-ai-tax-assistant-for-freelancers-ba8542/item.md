@@ -22,6 +22,14 @@ tags:
   - { tag: "worrying", category: "subject", weight: 0.5 }
   - { tag: "taxes", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "warm", category: "mood", weight: 0.85 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "terracotta", category: "color", weight: 0.45 }
+  - { tag: "amber", category: "color", weight: 0.3 }
+  - { tag: "ivory", category: "color", weight: 0.15 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
 ---
 
 ## Summary

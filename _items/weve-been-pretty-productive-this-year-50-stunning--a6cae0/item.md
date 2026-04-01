@@ -23,6 +23,15 @@ tags:
   - { tag: "brands", category: "subject", weight: 0.5 }
   - { tag: "worked", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "geometric", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.8 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "energetic", category: "mood", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.4 }
+  - { tag: "midnight-navy", category: "color", weight: 0.35 }
+  - { tag: "butter-yellow", category: "color", weight: 0.15 }
+  - { tag: "blush-pink", category: "color", weight: 0.1 }
 ---
 
 ## Summary

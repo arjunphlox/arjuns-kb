@@ -23,6 +23,14 @@ tags:
   - { tag: "lets", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "hand-drawn", category: "style", weight: 0.65 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.5 }
+  - { tag: "playful", category: "mood", weight: 0.9 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "navy", category: "color", weight: 0.4 }
+  - { tag: "periwinkle", category: "color", weight: 0.3 }
+  - { tag: "lime-green", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.15 }
 ---
 
 ## Summary

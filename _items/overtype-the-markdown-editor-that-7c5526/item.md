@@ -21,6 +21,15 @@ tags:
   - { tag: "textarea", category: "subject", weight: 0.5 }
   - { tag: "rendered", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "cool", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "navy", category: "color", weight: 0.6 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "lavender", category: "color", weight: 0.15 }
+  - { tag: "rose", category: "color", weight: 0.05 }
 ---
 
 ## Summary

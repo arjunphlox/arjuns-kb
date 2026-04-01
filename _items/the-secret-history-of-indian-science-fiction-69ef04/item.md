@@ -24,6 +24,15 @@ tags:
   - { tag: "there", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "india", category: "location", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.55 }
+  - { tag: "photographic", category: "style", weight: 0.3 }
+  - { tag: "editorial", category: "style", weight: 0.15 }
+  - { tag: "moody", category: "mood", weight: 0.65 }
+  - { tag: "dramatic", category: "mood", weight: 0.35 }
+  - { tag: "charcoal", category: "color", weight: 0.45 }
+  - { tag: "ivory", category: "color", weight: 0.3 }
+  - { tag: "gold", category: "color", weight: 0.15 }
+  - { tag: "iridescent", category: "color", weight: 0.1 }
 ---
 
 ## Summary

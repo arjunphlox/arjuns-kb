@@ -17,6 +17,12 @@ tags:
   - { tag: "websites", category: "domain", weight: 0.7 }
   - { tag: "montreal", category: "subject", weight: 0.7 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.85 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "chartreuse", category: "color", weight: 0.45 }
+  - { tag: "cobalt blue", category: "color", weight: 0.55 }
 ---
 
 ## Summary

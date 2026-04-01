@@ -23,6 +23,15 @@ tags:
   - { tag: "designers", category: "subject", weight: 0.5 }
   - { tag: "gradients", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.75 }
+  - { tag: "3d", category: "style", weight: 0.6 }
+  - { tag: "cool", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "midnight-black", category: "color", weight: 0.45 }
+  - { tag: "cobalt-blue", category: "color", weight: 0.35 }
+  - { tag: "sky-blue", category: "color", weight: 0.15 }
+  - { tag: "periwinkle", category: "color", weight: 0.05 }
 ---
 
 ## Summary

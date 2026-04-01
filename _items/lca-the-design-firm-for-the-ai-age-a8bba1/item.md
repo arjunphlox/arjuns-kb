@@ -22,6 +22,15 @@ tags:
   - { tag: "agents", category: "subject", weight: 0.5 }
   - { tag: "addictive", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "calm", category: "mood", weight: 0.85 }
+  - { tag: "warm", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.45 }
+  - { tag: "butter-yellow", category: "color", weight: 0.3 }
+  - { tag: "powder-blue", category: "color", weight: 0.15 }
+  - { tag: "forest-green", category: "color", weight: 0.1 }
 ---
 
 ## Summary

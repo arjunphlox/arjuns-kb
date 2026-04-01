@@ -23,6 +23,15 @@ tags:
   - { tag: "tools", category: "subject", weight: 0.5 }
   - { tag: "colors", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.7 }
+  - { tag: "deep-violet", category: "color", weight: 0.4 }
+  - { tag: "magenta", category: "color", weight: 0.35 }
+  - { tag: "orchid", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
 ---
 
 ## Summary

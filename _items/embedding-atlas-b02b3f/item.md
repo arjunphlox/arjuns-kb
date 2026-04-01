@@ -21,6 +21,15 @@ tags:
   - { tag: "large", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "github", category: "tool", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.7 }
+  - { tag: "sky blue", category: "color", weight: 0.5 }
+  - { tag: "cobalt blue", category: "color", weight: 0.35 }
+  - { tag: "ice white", category: "color", weight: 0.1 }
+  - { tag: "slate gray", category: "color", weight: 0.05 }
 ---
 
 ## Summary

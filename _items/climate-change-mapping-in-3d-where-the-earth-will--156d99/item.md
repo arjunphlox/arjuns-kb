@@ -26,6 +26,14 @@ tags:
   - { tag: "3d", category: "style", weight: 0.65 }
   - { tag: "interactive", category: "style", weight: 0.65 }
   - { tag: "germany", category: "location", weight: 0.3 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "crimson", category: "color", weight: 0.45 }
+  - { tag: "midnight-black", category: "color", weight: 0.3 }
+  - { tag: "deep-blue", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

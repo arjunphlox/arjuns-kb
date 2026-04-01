@@ -23,6 +23,15 @@ tags:
   - { tag: "frameworks", category: "subject", weight: 0.5 }
   - { tag: "generally", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.3 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "energetic", category: "mood", weight: 0.5 }
+  - { tag: "deep-purple", category: "color", weight: 0.7 }
+  - { tag: "crimson", category: "color", weight: 0.15 }
+  - { tag: "lavender", category: "color", weight: 0.1 }
+  - { tag: "sage-green", category: "color", weight: 0.05 }
 ---
 
 ## Summary

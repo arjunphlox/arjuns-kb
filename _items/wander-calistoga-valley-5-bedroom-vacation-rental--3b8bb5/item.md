@@ -24,6 +24,15 @@ tags:
   - { tag: "contemporary", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "usa", category: "location", weight: 0.6 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "organic", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.6 }
+  - { tag: "calm", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.8 }
+  - { tag: "slate", category: "color", weight: 0.35 }
+  - { tag: "amber", category: "color", weight: 0.3 }
+  - { tag: "sage", category: "color", weight: 0.25 }
+  - { tag: "cerulean", category: "color", weight: 0.1 }
 ---
 
 ## Summary

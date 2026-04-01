@@ -22,6 +22,15 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "framer", category: "tool", weight: 0.7 }
   - { tag: "playful", category: "mood", weight: 0.55 }
+  - { tag: "3d", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.6 }
+  - { tag: "dramatic", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "jet-black", category: "color", weight: 0.65 }
+  - { tag: "electric-blue", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.07 }
+  - { tag: "charcoal", category: "color", weight: 0.03 }
 ---
 
 ## Summary

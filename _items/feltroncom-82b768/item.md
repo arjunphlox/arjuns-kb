@@ -20,6 +20,14 @@ tags:
   - { tag: "designer", category: "subject", weight: 0.5 }
   - { tag: "nicholas", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "geometric", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.6 }
+  - { tag: "vibrant", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.55 }
+  - { tag: "coral", category: "color", weight: 0.85 }
+  - { tag: "slate", category: "color", weight: 0.1 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

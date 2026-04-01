@@ -19,6 +19,14 @@ tags:
   - { tag: "modalz", category: "subject", weight: 0.6 }
   - { tag: "reasons", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "retro", category: "style", weight: 0.75 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "cool", category: "mood", weight: 0.6 }
+  - { tag: "charcoal", category: "color", weight: 0.5 }
+  - { tag: "ivory", category: "color", weight: 0.35 }
+  - { tag: "silver", category: "color", weight: 0.15 }
 ---
 
 ## Summary

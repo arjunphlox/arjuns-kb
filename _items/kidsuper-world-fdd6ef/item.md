@@ -21,6 +21,14 @@ tags:
   - { tag: "built", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "unreal-engine", category: "tool", weight: 0.7 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "grunge", category: "style", weight: 0.4 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "energetic", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.5 }
+  - { tag: "powder blue", category: "color", weight: 0.35 }
+  - { tag: "jet black", category: "color", weight: 0.15 }
 ---
 
 ## Summary

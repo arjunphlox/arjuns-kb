@@ -23,6 +23,15 @@ tags:
   - { tag: "intuitive", category: "subject", weight: 0.5 }
   - { tag: "interfaces", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.7 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.8 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "violet", category: "color", weight: 0.75 }
+  - { tag: "ivory", category: "color", weight: 0.55 }
+  - { tag: "deep-purple", category: "color", weight: 0.35 }
 ---
 
 ## Summary

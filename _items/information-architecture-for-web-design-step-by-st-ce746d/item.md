@@ -21,6 +21,15 @@ tags:
   - { tag: "step", category: "subject", weight: 0.5 }
   - { tag: "science", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "calm", category: "mood", weight: 0.75 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "slate-blue", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.3 }
+  - { tag: "dusty-rose", category: "color", weight: 0.2 }
+  - { tag: "silver", category: "color", weight: 0.15 }
 ---
 
 ## Summary

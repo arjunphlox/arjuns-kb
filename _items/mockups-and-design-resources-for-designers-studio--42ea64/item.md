@@ -23,6 +23,15 @@ tags:
   - { tag: "high", category: "subject", weight: 0.5 }
   - { tag: "quality", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "photographic", category: "style", weight: 0.9 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "calm", category: "mood", weight: 0.7 }
+  - { tag: "burgundy", category: "color", weight: 0.75 }
+  - { tag: "pearl-white", category: "color", weight: 0.15 }
+  - { tag: "charcoal", category: "color", weight: 0.07 }
+  - { tag: "warm-sand", category: "color", weight: 0.03 }
 ---
 
 ## Summary

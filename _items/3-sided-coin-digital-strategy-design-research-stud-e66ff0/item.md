@@ -25,6 +25,13 @@ tags:
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "playful", category: "mood", weight: 0.55 }
   - { tag: "india", category: "location", weight: 0.6 }
+  - { tag: "illustrated", category: "style", weight: 0.9 }
+  - { tag: "flat", category: "style", weight: 0.8 }
+  - { tag: "geometric", category: "style", weight: 0.7 }
+  - { tag: "bold", category: "mood", weight: 0.9 }
+  - { tag: "charcoal black", category: "color", weight: 0.5 }
+  - { tag: "crimson red", category: "color", weight: 0.25 }
+  - { tag: "ivory", category: "color", weight: 0.25 }
 ---
 
 ## Summary

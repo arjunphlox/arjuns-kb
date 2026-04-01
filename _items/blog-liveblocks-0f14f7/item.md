@@ -20,6 +20,15 @@ tags:
   - { tag: "ideas", category: "subject", weight: 0.5 }
   - { tag: "insights", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.5 }
+  - { tag: "moody", category: "mood", weight: 0.9 }
+  - { tag: "dramatic", category: "mood", weight: 0.8 }
+  - { tag: "midnight-blue", category: "color", weight: 0.75 }
+  - { tag: "ice-blue", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.07 }
+  - { tag: "charcoal", category: "color", weight: 0.03 }
 ---
 
 ## Summary

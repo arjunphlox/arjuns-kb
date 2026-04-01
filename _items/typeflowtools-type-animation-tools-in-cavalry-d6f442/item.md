@@ -23,6 +23,15 @@ tags:
   - { tag: "online", category: "subject", weight: 0.5 }
   - { tag: "created", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "editorial", category: "style", weight: 0.6 }
+  - { tag: "futuristic", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "dark", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.85 }
+  - { tag: "jet-black", category: "color", weight: 0.7 }
+  - { tag: "violet", category: "color", weight: 0.25 }
+  - { tag: "multicolor", category: "color", weight: 0.2 }
 ---
 
 ## Summary

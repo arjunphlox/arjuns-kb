@@ -21,6 +21,15 @@ tags:
   - { tag: "coolest", category: "subject", weight: 0.5 }
   - { tag: "carefully", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "futuristic", category: "style", weight: 0.85 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "geometric", category: "style", weight: 0.5 }
+  - { tag: "cool", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "ivory", category: "color", weight: 0.85 }
+  - { tag: "crimson", category: "color", weight: 0.08 }
+  - { tag: "navy", category: "color", weight: 0.07 }
+  - { tag: "charcoal", category: "color", weight: 0.1 }
 ---
 
 ## Summary

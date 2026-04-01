@@ -23,6 +23,15 @@ tags:
   - { tag: "drops", category: "subject", weight: 0.5 }
   - { tag: "online", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.75 }
+  - { tag: "photographic", category: "style", weight: 0.65 }
+  - { tag: "minimalist", category: "style", weight: 0.45 }
+  - { tag: "professional", category: "mood", weight: 0.85 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.45 }
+  - { tag: "cobalt", category: "color", weight: 0.35 }
+  - { tag: "ivory", category: "color", weight: 0.12 }
+  - { tag: "obsidian", category: "color", weight: 0.08 }
 ---
 
 ## Summary

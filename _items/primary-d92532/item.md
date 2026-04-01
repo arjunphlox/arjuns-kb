@@ -17,6 +17,15 @@ tags:
   - { tag: "branding", category: "domain", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
   - { tag: "brand-identity", category: "style", weight: 0.6 }
+  - { tag: "editorial", category: "style", weight: 0.85 }
+  - { tag: "photographic", category: "style", weight: 0.7 }
+  - { tag: "minimalist", category: "style", weight: 0.55 }
+  - { tag: "warm", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "amber", category: "color", weight: 0.35 }
+  - { tag: "plum", category: "color", weight: 0.25 }
+  - { tag: "sage-green", category: "color", weight: 0.15 }
+  - { tag: "blush-pink", category: "color", weight: 0.15 }
 ---
 
 ## Summary

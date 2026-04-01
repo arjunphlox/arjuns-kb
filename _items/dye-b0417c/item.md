@@ -19,6 +19,15 @@ tags:
   - { tag: "theme", category: "subject", weight: 0.5 }
   - { tag: "color", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "illustrated", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.2 }
+  - { tag: "minimalist", category: "style", weight: 0.1 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "vibrant", category: "mood", weight: 0.7 }
+  - { tag: "hot-pink", category: "color", weight: 0.5 }
+  - { tag: "light-gray", category: "color", weight: 0.3 }
+  - { tag: "charcoal", category: "color", weight: 0.15 }
+  - { tag: "ivory", category: "color", weight: 0.05 }
 ---
 
 ## Summary

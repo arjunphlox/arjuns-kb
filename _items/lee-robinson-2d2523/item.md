@@ -19,6 +19,15 @@ tags:
   - { tag: "developer", category: "subject", weight: 0.5 }
   - { tag: "writer", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "photographic", category: "style", weight: 0.5 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "energetic", category: "mood", weight: 0.8 }
+  - { tag: "professional", category: "mood", weight: 0.7 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "neon-green", category: "color", weight: 0.35 }
+  - { tag: "deep-navy", category: "color", weight: 0.2 }
+  - { tag: "purple", category: "color", weight: 0.05 }
 ---
 
 ## Summary

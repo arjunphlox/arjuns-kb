@@ -23,6 +23,15 @@ tags:
   - { tag: "around", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "tactile", category: "style", weight: 0.6 }
+  - { tag: "3d", category: "style", weight: 0.8 }
+  - { tag: "minimalist", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "elegant", category: "mood", weight: 0.7 }
+  - { tag: "amber-yellow", category: "color", weight: 0.4 }
+  - { tag: "ivory-white", category: "color", weight: 0.3 }
+  - { tag: "charcoal-black", category: "color", weight: 0.2 }
+  - { tag: "warm-gold", category: "color", weight: 0.1 }
 ---
 
 ## Summary

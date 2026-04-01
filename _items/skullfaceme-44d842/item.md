@@ -19,6 +19,14 @@ tags:
   - { tag: "leader", category: "subject", weight: 0.5 }
   - { tag: "visual", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "typographic", category: "style", weight: 0.9 }
+  - { tag: "hand-drawn", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.5 }
+  - { tag: "vibrant", category: "mood", weight: 0.9 }
+  - { tag: "playful", category: "mood", weight: 0.8 }
+  - { tag: "violet", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.12 }
+  - { tag: "lavender", category: "color", weight: 0.03 }
 ---
 
 ## Summary

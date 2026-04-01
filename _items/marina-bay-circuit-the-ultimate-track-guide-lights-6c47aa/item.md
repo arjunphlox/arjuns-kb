@@ -22,6 +22,15 @@ tags:
   - { tag: "holds", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
   - { tag: "singapore", category: "location", weight: 0.6 }
+  - { tag: "typographic", category: "style", weight: 0.85 }
+  - { tag: "editorial", category: "style", weight: 0.7 }
+  - { tag: "flat", category: "style", weight: 0.4 }
+  - { tag: "dramatic", category: "mood", weight: 0.9 }
+  - { tag: "energetic", category: "mood", weight: 0.75 }
+  - { tag: "crimson", category: "color", weight: 0.45 }
+  - { tag: "charcoal", category: "color", weight: 0.4 }
+  - { tag: "ivory", category: "color", weight: 0.1 }
+  - { tag: "slate", category: "color", weight: 0.05 }
 ---
 
 ## Summary

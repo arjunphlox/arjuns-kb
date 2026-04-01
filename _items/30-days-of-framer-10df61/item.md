@@ -20,6 +20,15 @@ tags:
   - { tag: "learn", category: "subject", weight: 0.5 }
   - { tag: "practice", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.75 }
+  - { tag: "futuristic", category: "style", weight: 0.45 }
+  - { tag: "dark", category: "mood", weight: 0.85 }
+  - { tag: "professional", category: "mood", weight: 0.75 }
+  - { tag: "charcoal", category: "color", weight: 0.75 }
+  - { tag: "dusty-rose", category: "color", weight: 0.12 }
+  - { tag: "teal", category: "color", weight: 0.08 }
+  - { tag: "sage", category: "color", weight: 0.05 }
 ---
 
 ## Summary

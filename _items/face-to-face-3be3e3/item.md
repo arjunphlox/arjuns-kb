@@ -20,6 +20,13 @@ tags:
   - { tag: "digital", category: "subject", weight: 0.5 }
   - { tag: "transformation", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "editorial", category: "style", weight: 0.9 }
+  - { tag: "photographic", category: "style", weight: 0.85 }
+  - { tag: "moody", category: "mood", weight: 0.92 }
+  - { tag: "dramatic", category: "mood", weight: 0.88 }
+  - { tag: "crimson", category: "color", weight: 0.75 }
+  - { tag: "amber", category: "color", weight: 0.2 }
+  - { tag: "charcoal", category: "color", weight: 0.05 }
 ---
 
 ## Summary

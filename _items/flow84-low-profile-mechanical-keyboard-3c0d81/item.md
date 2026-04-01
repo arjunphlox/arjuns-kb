@@ -23,6 +23,14 @@ tags:
   - { tag: "gasket", category: "subject", weight: 0.5 }
   - { tag: "mount", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "3d", category: "style", weight: 0.7 }
+  - { tag: "futuristic", category: "style", weight: 0.4 }
+  - { tag: "clean", category: "mood", weight: 0.9 }
+  - { tag: "professional", category: "mood", weight: 0.8 }
+  - { tag: "ivory", category: "color", weight: 0.75 }
+  - { tag: "slate", category: "color", weight: 0.2 }
+  - { tag: "silver", category: "color", weight: 0.05 }
 ---
 
 ## Summary

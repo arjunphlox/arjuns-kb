@@ -16,6 +16,13 @@ tags:
   - { tag: "work", category: "subject", weight: 0.8 }
   - { tag: "data-visualisation", category: "domain", weight: 0.7 }
   - { tag: "behance", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.9 }
+  - { tag: "geometric", category: "style", weight: 0.85 }
+  - { tag: "typographic", category: "style", weight: 0.6 }
+  - { tag: "professional", category: "mood", weight: 0.9 }
+  - { tag: "cool", category: "mood", weight: 0.75 }
+  - { tag: "jet-black", category: "color", weight: 0.85 }
+  - { tag: "white", category: "color", weight: 0.15 }
 ---
 
 ## Summary

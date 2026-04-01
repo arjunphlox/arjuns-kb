@@ -22,6 +22,15 @@ tags:
   - { tag: "generate", category: "subject", weight: 0.5 }
   - { tag: "brand", category: "subject", weight: 0.5 }
   - { tag: "website", category: "format", weight: 0.4 }
+  - { tag: "minimalist", category: "style", weight: 0.8 }
+  - { tag: "typographic", category: "style", weight: 0.7 }
+  - { tag: "editorial", category: "style", weight: 0.5 }
+  - { tag: "elegant", category: "mood", weight: 0.85 }
+  - { tag: "moody", category: "mood", weight: 0.7 }
+  - { tag: "deep-purple", category: "color", weight: 0.4 }
+  - { tag: "crimson", category: "color", weight: 0.35 }
+  - { tag: "slate-blue", category: "color", weight: 0.15 }
+  - { tag: "amber", category: "color", weight: 0.1 }
 ---
 
 ## Summary
