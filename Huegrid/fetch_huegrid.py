@@ -14,7 +14,7 @@ CLUSTER_ID = 228268163
 GRAPHQL_URL = "https://api.www.cosmos.so/graphql"
 PAGE_SIZE = 40
 
-BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Arjun's KB/Huegrid"
+BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Stello/Huegrid"
 IMAGES_DIR = os.path.join(BASE_DIR, "images")
 OUTPUT_MD = os.path.join(BASE_DIR, "Huegrid.md")
 

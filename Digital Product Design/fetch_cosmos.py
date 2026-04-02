@@ -13,7 +13,7 @@ CLUSTER_ID = "292283556"
 GRAPHQL_URL = "https://api.www.cosmos.so/graphql"
 PAGE_SIZE = 40
 
-BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Arjun's KB/Digital Product Design"
+BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Stello/Digital Product Design"
 IMAGES_DIR = os.path.join(BASE_DIR, "images")
 OUTPUT_MD = os.path.join(BASE_DIR, "Digital Product Design.md")
 

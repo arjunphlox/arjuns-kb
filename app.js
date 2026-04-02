@@ -1,4 +1,4 @@
-/* === Arjun's Knowledge Base — App Logic === */
+/* === Stello — App Logic === */
 
 (function () {
   'use strict';
@@ -609,7 +609,7 @@
       clearTimeout(hoverTimeout);
       hoverTimeout = setTimeout(() => {
         highlightRelated(card.dataset.slug);
-      }, 150);
+      }, 2000);
     }, true);
 
     $grid.addEventListener('mouseleave', function (e) {
@@ -651,6 +651,455 @@
     return d.innerHTML;
   }
 
+  // --- Capture: Paste handler ---
+  function bindPasteHandler() {
+    document.addEventListener('paste', (e) => {
+      // Skip if any input or textarea is focused (search, settings, import modal)
+      const active = document.activeElement;
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
+      // Skip if settings panel or import modal is open
+      if (document.getElementById('settings-panel').classList.contains('open')) return;
+      if (document.getElementById('import-modal').classList.contains('open')) return;
+
+      const text = e.clipboardData.getData('text/plain');
+      const files = e.clipboardData.files;
+
+      const urls = text ? text.match(/https?:\/\/[^\s<>"']+/g) : null;
+
+      if (files && files.length > 0) {
+        for (const file of files) {
+          if (file.type.startsWith('image/')) captureImage(file);
+        }
+        e.preventDefault();
+      } else if (urls && urls.length > 0) {
+        e.preventDefault();
+        if (urls.length === 1) captureURL(urls[0]);
+        else captureBulkURLs(urls);
+      } else if (text && text.trim() && text.trim().length > 5) {
+        e.preventDefault();
+        captureText(text.trim());
+      }
+    });
+  }
+
+  function insertPlaceholder(id) {
+    const firstSection = $grid.querySelector('.masonry-section');
+    if (!firstSection) return;
+    const ph = document.createElement('div');
+    ph.className = 'card card-adding';
+    ph.dataset.placeholderId = id;
+    ph.innerHTML = `<div class="card-visual-area"><div class="card-placeholder adding-pulse"><span>Adding\u2026</span></div></div>`;
+    firstSection.prepend(ph);
+  }
+
+  function replacePlaceholder(id, item) {
+    const ph = $grid.querySelector(`[data-placeholder-id="${id}"]`);
+    if (ph) {
+      ph.outerHTML = renderCard(item, 0);
+    } else {
+      // Fallback: prepend to first section
+      const firstSection = $grid.querySelector('.masonry-section');
+      if (firstSection) firstSection.insertAdjacentHTML('afterbegin', renderCard(item, 0));
+    }
+    // Add to allItems for search/filter consistency
+    allItems.unshift(item);
+    renderStats();
+    renderColorBar();
+  }
+
+  async function captureURL(urlStr) {
+    const id = 'ph-' + Date.now();
+    insertPlaceholder(id);
+    try {
+      const res = await fetch('/api/capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'url', content: urlStr }),
+      });
+      const item = await res.json();
+      if (res.status === 409) {
+        removePlaceholder(id);
+        showToast('Item already exists: ' + (item.existing?.title || urlStr));
+        return;
+      }
+      if (!res.ok) {
+        removePlaceholder(id);
+        showToast('Capture failed');
+        return;
+      }
+      replacePlaceholder(id, item);
+      showToast('Added: ' + item.title);
+      // Poll for analysis completion
+      pollForReview(item.slug);
+    } catch (err) {
+      removePlaceholder(id);
+      showToast('Error: ' + err.message);
+    }
+  }
+
+  async function captureImage(file) {
+    const id = 'ph-' + Date.now() + Math.random();
+    insertPlaceholder(id);
+    try {
+      const buf = await file.arrayBuffer();
+      const res = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': file.type },
+        body: buf,
+      });
+      const item = await res.json();
+      if (!res.ok) { removePlaceholder(id); showToast('Image capture failed'); return; }
+      replacePlaceholder(id, item);
+      showToast('Added image');
+      pollForReview(item.slug);
+    } catch (err) {
+      removePlaceholder(id);
+      showToast('Error: ' + err.message);
+    }
+  }
+
+  async function captureText(text) {
+    const id = 'ph-' + Date.now();
+    insertPlaceholder(id);
+    try {
+      const res = await fetch('/api/capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'text', content: text }),
+      });
+      const item = await res.json();
+      if (!res.ok) { removePlaceholder(id); showToast('Text capture failed'); return; }
+      replacePlaceholder(id, item);
+      showToast('Added note: ' + item.title);
+    } catch (err) {
+      removePlaceholder(id);
+      showToast('Error: ' + err.message);
+    }
+  }
+
+  function removePlaceholder(id) {
+    const ph = $grid.querySelector(`[data-placeholder-id="${id}"]`);
+    if (ph) ph.remove();
+  }
+
+  // --- Bulk capture ---
+  async function captureBulkURLs(urls) {
+    // Insert placeholders for all
+    const ids = urls.map((_, i) => 'bulk-' + Date.now() + '-' + i);
+    ids.forEach(id => insertPlaceholder(id));
+    showToast(`Adding ${urls.length} items...`);
+
+    try {
+      const res = await fetch('/api/capture-bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urls }),
+      });
+      const { batchId } = await res.json();
+
+      // Listen to SSE stream
+      const evtSource = new EventSource(`/api/capture-stream?batch=${batchId}`);
+      let completed = 0;
+
+      evtSource.addEventListener('item-added', (e) => {
+        const data = JSON.parse(e.data);
+        const phId = ids[data.index];
+        if (data.item && !data.item.is_duplicate && !data.error) {
+          replacePlaceholder(phId, data.item);
+          pollForReview(data.item.slug);
+        } else {
+          removePlaceholder(phId);
+        }
+        completed++;
+      });
+
+      evtSource.addEventListener('batch-done', () => {
+        evtSource.close();
+        showToast(`Done! Added ${completed} items.`);
+      });
+
+      evtSource.onerror = () => {
+        evtSource.close();
+        // Clean remaining placeholders
+        ids.forEach(id => removePlaceholder(id));
+      };
+    } catch (err) {
+      ids.forEach(id => removePlaceholder(id));
+      showToast('Bulk capture failed');
+    }
+  }
+
+  // --- Question card (in-grid) ---
+  let pendingReviews = [];
+
+  function pollForReview(slug) {
+    setTimeout(async () => {
+      try {
+        const res = await fetch('index.json?v=' + Date.now());
+        const data = await res.json();
+        const item = data.items.find(i => i.slug === slug);
+        if (item && item.needs_review) {
+          pendingReviews.push(item);
+          // Insert question card into grid next to the item's card
+          insertQuestionCard(item);
+        }
+        // Update local item data + refresh card
+        if (item) {
+          const idx = allItems.findIndex(i => i.slug === slug);
+          if (idx >= 0) allItems[idx] = item;
+          const cardEl = $grid.querySelector(`.card[data-slug="${slug}"]:not(.card-question)`);
+          if (cardEl) cardEl.outerHTML = renderCard(item, 0);
+        }
+      } catch { /* silent */ }
+    }, 15000);
+  }
+
+  function renderQuestionCardHtml(item) {
+    const imgHtml = item.has_image && item.image_path
+      ? `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy">`
+      : `<div class="card-placeholder" style="min-height:80px">${(item.title || '?')[0].toUpperCase()}</div>`;
+
+    return `<div class="card card-question card-expanded" data-slug="${item.slug}" data-question="true">
+      <div class="card-visual-area">${imgHtml}</div>
+      <div class="card-expanded-body" style="display:block">
+        <div class="card-expanded-title">${escHtml(item.title)}</div>
+        <div class="card-expanded-meta">
+          ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
+          ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
+        </div>
+        ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
+        <div class="question-form">
+          <p class="question-label">Why did you save this?</p>
+          <div class="question-options">
+            <button class="q-toggle" data-value="visual-inspiration">Visual inspiration</button>
+            <button class="q-toggle" data-value="useful-tool">Useful tool</button>
+            <button class="q-toggle" data-value="knowledge-reference">Knowledge reference</button>
+            <button class="q-toggle" data-value="style-catalog">Style catalog</button>
+            <button class="q-toggle" data-value="conceptual-reference">Conceptual reference</button>
+            <button class="q-toggle" data-value="practical-benchmark">Practical benchmark</button>
+            <input class="q-custom-reason" type="text" placeholder="Other reason\u2026">
+          </div>
+          <p class="question-label">What makes it work?</p>
+          <textarea class="question-text" placeholder="Optional \u2014 what caught your eye?"></textarea>
+          <div class="question-actions">
+            <button class="q-save">Save</button>
+            <button class="q-skip">Skip</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function insertQuestionCard(item) {
+    // Find the item's card in the grid and insert question card right after it
+    const itemCard = $grid.querySelector(`.card[data-slug="${item.slug}"]:not(.card-question)`);
+    const target = itemCard ? itemCard : $grid.querySelector('.masonry-section');
+    if (!target) return;
+
+    const temp = document.createElement('div');
+    temp.innerHTML = renderQuestionCardHtml(item);
+    const qCard = temp.firstElementChild;
+
+    if (itemCard) {
+      itemCard.after(qCard);
+    } else {
+      target.prepend(qCard);
+    }
+
+    bindQuestionCard(qCard, item);
+  }
+
+  function bindQuestionCard(qCard, item) {
+    // Toggle buttons
+    qCard.querySelectorAll('.q-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => { e.stopPropagation(); btn.classList.toggle('active'); });
+    });
+
+    // Prevent card click from toggling expansion
+    qCard.addEventListener('click', (e) => e.stopPropagation());
+
+    // Save
+    qCard.querySelector('.q-save').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const selected = [...qCard.querySelectorAll('.q-toggle.active')].map(b => b.dataset.value);
+      const customReason = qCard.querySelector('.q-custom-reason').value.trim();
+      if (customReason) selected.push(customReason.toLowerCase().replace(/\s+/g, '-'));
+      const text = qCard.querySelector('.question-text').value;
+      await fetch('/api/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: item.slug, why_saved: selected, what_works: text }),
+      });
+      dismissQuestionCard(qCard, item);
+    });
+
+    // Skip
+    qCard.querySelector('.q-skip').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await fetch('/api/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: item.slug, why_saved: [], what_works: '' }),
+      });
+      dismissQuestionCard(qCard, item);
+    });
+  }
+
+  function dismissQuestionCard(qCard, item) {
+    qCard.remove();
+    pendingReviews = pendingReviews.filter(r => r.slug !== item.slug);
+  }
+
+  // --- Toast notifications ---
+  function showToast(msg) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.className = 'toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('toast-visible');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('toast-visible'), 3000);
+  }
+
+  // --- Import modal ---
+  function bindImportModal() {
+    const $importBtn = document.getElementById('import-btn');
+    const $importModal = document.getElementById('import-modal');
+    if (!$importBtn || !$importModal) return;
+
+    $importBtn.addEventListener('click', () => {
+      $importModal.classList.toggle('open');
+    });
+
+    // Close on backdrop click
+    $importModal.addEventListener('click', (e) => {
+      if (e.target === $importModal) $importModal.classList.remove('open');
+    });
+
+    // Textarea import
+    const $importSubmit = $importModal.querySelector('.import-submit');
+    const $importText = $importModal.querySelector('.import-textarea');
+    if ($importSubmit && $importText) {
+      $importSubmit.addEventListener('click', () => {
+        const text = $importText.value;
+        const urls = text.match(/https?:\/\/[^\s<>"']+/g);
+        if (urls && urls.length > 0) {
+          captureBulkURLs(urls);
+          $importText.value = '';
+          $importModal.classList.remove('open');
+        } else {
+          showToast('No URLs found');
+        }
+      });
+    }
+
+    // File upload (CSV / Markdown)
+    const $fileInput = $importModal.querySelector('.import-file');
+    if ($fileInput) {
+      $fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const text = reader.result;
+          const urls = text.match(/https?:\/\/[^\s<>"')]+/g);
+          if (urls && urls.length > 0) {
+            // Dedupe
+            const unique = [...new Set(urls)];
+            captureBulkURLs(unique);
+            $importModal.classList.remove('open');
+            showToast(`Importing ${unique.length} URLs from file...`);
+          } else {
+            showToast('No URLs found in file');
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = ''; // reset
+      });
+    }
+
+    // Drag and drop
+    const $dropZone = $importModal.querySelector('.import-drop-zone');
+    if ($dropZone) {
+      $dropZone.addEventListener('dragover', (e) => { e.preventDefault(); $dropZone.classList.add('drag-over'); });
+      $dropZone.addEventListener('dragleave', () => $dropZone.classList.remove('drag-over'));
+      $dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        $dropZone.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const urls = reader.result.match(/https?:\/\/[^\s<>"')]+/g);
+            if (urls) {
+              const unique = [...new Set(urls)];
+              captureBulkURLs(unique);
+              $importModal.classList.remove('open');
+            }
+          };
+          reader.readAsText(file);
+        }
+      });
+    }
+  }
+
+  // --- Settings panel ---
+  function bindSettingsPanel() {
+    const $settingsBtn = document.getElementById('settings-btn');
+    const $settingsPanel = document.getElementById('settings-panel');
+    if (!$settingsBtn || !$settingsPanel) return;
+
+    $settingsBtn.addEventListener('click', async () => {
+      const isOpen = $settingsPanel.classList.toggle('open');
+      if (isOpen) {
+        // Load current config
+        try {
+          const res = await fetch('/api/config');
+          const config = await res.json();
+          const $keyInput = $settingsPanel.querySelector('.settings-key');
+          const $profileInput = $settingsPanel.querySelector('.settings-profile');
+          const $status = $settingsPanel.querySelector('.settings-status');
+          if (config.active_profile && config.profiles[config.active_profile]) {
+            const p = config.profiles[config.active_profile];
+            $keyInput.placeholder = p.has_key ? `Key: ${p.key_preview}` : 'Enter API key...';
+            $profileInput.value = config.active_profile;
+          }
+          $status.textContent = config.active_profile ? `Active: ${config.active_profile}` : 'No API key configured';
+        } catch { /* silent */ }
+      }
+    });
+
+    const $saveKey = $settingsPanel.querySelector('.settings-save');
+    if ($saveKey) {
+      $saveKey.addEventListener('click', async () => {
+        const key = $settingsPanel.querySelector('.settings-key').value;
+        const profile = $settingsPanel.querySelector('.settings-profile').value || 'default';
+        if (!key) { showToast('Enter an API key'); return; }
+        try {
+          await fetch('/api/config', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ profile, key }),
+          });
+          $settingsPanel.querySelector('.settings-key').value = '';
+          $settingsPanel.querySelector('.settings-status').textContent = `Saved! Active: ${profile}`;
+          showToast('API key saved');
+        } catch {
+          showToast('Failed to save key');
+        }
+      });
+    }
+  }
+
   // --- Start ---
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+    bindPasteHandler();
+    bindImportModal();
+    bindSettingsPanel();
+  });
 })();

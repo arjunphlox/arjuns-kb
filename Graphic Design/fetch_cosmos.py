@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 CLUSTER_ID = 2121356043
 GRAPHQL_URL = "https://api.www.cosmos.so/graphql"
-OUTPUT_DIR = "/Users/arjunphlox/Documents/Personal Projects/Arjun's KB/Graphic Design"
+OUTPUT_DIR = "/Users/arjunphlox/Documents/Personal Projects/Stello/Graphic Design"
 IMAGES_DIR = os.path.join(OUTPUT_DIR, "images")
 MD_PATH = os.path.join(OUTPUT_DIR, "Graphic Design.md")
 PAGE_SIZE = 40

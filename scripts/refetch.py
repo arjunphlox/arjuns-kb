@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arjun's KB — Re-fetch script for items without images
+Stello — Re-fetch script for items without images
 
 Re-attempts OG metadata + image fetching for items that don't have images.
 Skips domains known to block scraping (Twitter/X, Instagram, etc.).

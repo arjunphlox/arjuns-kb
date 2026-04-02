@@ -12,7 +12,7 @@ GitHub is the source of truth for all projects.
 
 ---
 
-## Arjun's KB
+## Stello
 
 ### Ready to execute
 - [ ] **Visual card variants** — Visually distinguish cards by content type (typefaces, products, articles, tools). Use `domain` tag to determine type. Subtle border/accent/icon differences per type.
@@ -32,10 +32,28 @@ GitHub is the source of truth for all projects.
 
 ---
 
-## Other Projects (to import from Replit)
+## Project Imports (Replit → Local-First)
 
-_Add projects here as you migrate them. For each, note:_
-- [ ] **Project name** — one-line description. Replit URL: `...` → GitHub repo: `...`
+Import order matters — Tessor first (source of truth), then downstream projects.
+
+### Session 1: Tessor (Design System Workbench)
+- [ ] **Clone & clean** — `HueGrid/Tessor` (private GitHub repo) → `~/Documents/HueGrid/Tessor/`
+- **Pre-req:** Install gh CLI (`brew install gh && gh auth login`) or use git clone with SSH
+- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 1
+
+### Session 2: Maree (SVG Pattern Generator)
+- [ ] **Import & clean** — Replit export → `~/Documents/HueGrid/Maree/`
+- **Pre-req:** Export zip from Replit, place in ~/Downloads/
+- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 2
+
+### Session 3: Phlox Site (Tessor-Powered Portfolio)
+- [ ] **Import & clean** — Replit export → `~/Documents/Personal Projects/Phlox Site/`
+- **Pre-req:** Export zip from Replit (the full Tessor version, NOT arjunphlox-site on GitHub)
+- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 3
+
+### Post-import
+- [ ] **Tessor ↔ KB integration** — Use Tessor design tokens in KB's CSS (plan in Claude Chat first)
+- [ ] **sync-all.sh** — Optional script at `~/Documents/HueGrid/sync-all.sh` to sync Maree + Phlox Site from local Tessor
 
 ---
 

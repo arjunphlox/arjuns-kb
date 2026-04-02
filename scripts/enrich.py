@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arjun's KB — Tag Enrichment Script
+Stello — Tag Enrichment Script
 
 Adds style, mood, tool, color, and location tags to items that only have
 subject/domain/format tags from the auto-tagger.

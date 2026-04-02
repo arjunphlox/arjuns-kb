@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arjun's KB — Item Analysis Pipeline
+Stello — Item Analysis Pipeline
 
 Reads collection markdown files, extracts URLs, checks for duplicates,
 and generates rich item.md files with weighted categorized tags.
@@ -351,29 +351,29 @@ def generate_tags_from_metadata(title, url, og_meta, collection_name):
         col_tag = collection_name.lower().replace(" ", "-")
         tags.append({"tag": col_tag, "category": "domain", "weight": 0.7})
 
+    # Common stop words + noise words
+    stops = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for",
+             "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
+             "has", "have", "had", "do", "does", "did", "will", "would", "could",
+             "should", "may", "might", "can", "this", "that", "it", "its", "not",
+             "no", "so", "if", "as", "into", "about", "up", "out", "all", "more",
+             "also", "how", "what", "when", "where", "who", "which", "than", "then",
+             "just", "like", "over", "such", "very", "your", "my", "our", "their",
+             "new", "one", "two", "three", "four", "five", "first", "last", "most",
+             "other", "some", "any", "each", "every", "both", "few", "many",
+             "inside", "story", "part", "page", "view", "click", "here", "see",
+             "use", "using", "used", "make", "made", "get", "got", "know",
+             "codesandbox", "codepen", "github", "medium", "www", "http", "https"}
+
+    # Platform names to exclude (already captured as format tags)
+    platform_noise = {d.replace(".com", "").replace(".io", "").replace(".net", "")
+                      for d in format_map.keys()} if domain else set()
+    stops.update(platform_noise)
+
     # Extract keywords from title for subject tags
     if title:
         # Decode HTML entities first
         clean_title = html.unescape(title)
-
-        # Common stop words + noise words
-        stops = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for",
-                 "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
-                 "has", "have", "had", "do", "does", "did", "will", "would", "could",
-                 "should", "may", "might", "can", "this", "that", "it", "its", "not",
-                 "no", "so", "if", "as", "into", "about", "up", "out", "all", "more",
-                 "also", "how", "what", "when", "where", "who", "which", "than", "then",
-                 "just", "like", "over", "such", "very", "your", "my", "our", "their",
-                 "new", "one", "two", "three", "four", "five", "first", "last", "most",
-                 "other", "some", "any", "each", "every", "both", "few", "many",
-                 "inside", "story", "part", "page", "view", "click", "here", "see",
-                 "use", "using", "used", "make", "made", "get", "got", "know",
-                 "codesandbox", "codepen", "github", "medium", "www", "http", "https"}
-
-        # Platform names to exclude (already captured as format tags)
-        platform_noise = {d.replace(".com", "").replace(".io", "").replace(".net", "")
-                          for d in format_map.keys()}
-        stops.update(platform_noise)
 
         words = re.findall(r'[a-zA-Z]{3,}', clean_title.lower())
         # Filter: not stop word, not too short, not a middot/html artifact
@@ -656,6 +656,145 @@ def cmd_analyze(md_path, batch_size=None):
     print(f"\n Analyzed {analyzed} items. Run 'analyze.py index' to rebuild search index.")
 
 
+def cmd_capture(url_str):
+    """Quick-capture a single URL. Outputs JSON to stdout for the server."""
+    existing = get_analyzed_items()
+
+    # Check duplicate
+    is_dup, confidence, match = check_duplicate(url_str, "", existing)
+    if is_dup:
+        result = {
+            "is_duplicate": True,
+            "slug": match.get("slug", ""),
+            "title": match.get("title", ""),
+            "confidence": confidence,
+        }
+        print(json.dumps(result))
+        return
+
+    # Fetch OG metadata
+    og_meta = fetch_og_metadata(url_str)
+    status = og_meta.get("_status", "error")
+
+    # Determine title
+    title = ""
+    if status == "fetched":
+        title = og_meta.get("og:title", og_meta.get("title", ""))
+        if title:
+            title = html.unescape(title)
+            title = re.sub(r'\s+', ' ', title).strip()  # collapse whitespace/newlines
+    if not title:
+        domain = extract_domain(url_str) or "unknown"
+        title = f"Saved from {domain}"
+
+    # Generate slug
+    slug = generate_slug(title, url_str)
+    domain = extract_domain(url_str)
+
+    # Create item directory
+    ITEMS_DIR.mkdir(exist_ok=True)
+    item_dir = ITEMS_DIR / slug
+    item_dir.mkdir(exist_ok=True)
+
+    # Download OG image
+    og_image_file = None
+    image_path = None
+    has_image = False
+    og_image_url = og_meta.get("og:image") if status == "fetched" else None
+    if og_image_url:
+        if og_image_url.startswith("//"):
+            og_image_url = "https:" + og_image_url
+        elif og_image_url.startswith("/"):
+            from urllib.parse import urlparse
+            parsed = urlparse(url_str)
+            og_image_url = f"{parsed.scheme}://{parsed.netloc}{og_image_url}"
+
+        ext = ".jpg"
+        if ".png" in og_image_url.lower():
+            ext = ".png"
+        elif ".webp" in og_image_url.lower():
+            ext = ".webp"
+
+        img_path = item_dir / f"og-image{ext}"
+        if download_og_image(og_image_url, img_path):
+            og_image_file = f"og-image{ext}"
+            image_path = f"_items/{slug}/og-image{ext}"
+            has_image = True
+
+    # Generate minimal tags (format + domain only, full tags come from enrichment)
+    tags = generate_tags_from_metadata(title, url_str, og_meta if status == "fetched" else None, None)
+
+    # Build summary
+    og_desc = ""
+    if status == "fetched":
+        og_desc = og_meta.get("og:description", og_meta.get("description", ""))
+        if og_desc:
+            og_desc = html.unescape(og_desc)
+    summary = og_desc if og_desc else f"Saved from {domain or 'unknown source'}"
+    summary = summary[:200]
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Build tags YAML
+    tags_yaml = ""
+    for t in tags:
+        tags_yaml += f'  - {{ tag: "{t["tag"]}", category: "{t["category"]}", weight: {t["weight"]} }}\n'
+
+    # Write item.md
+    og_img_field = f'"{og_image_file}"' if og_image_file else "null"
+    content = f'''---
+title: "{title.replace('"', "'")}"
+source_url: "{url_str}"
+slug: "{slug}"
+domain: {f'"{domain}"' if domain else 'null'}
+author: null
+summary: "{summary.replace('"', "'")}"
+og_image: {og_img_field}
+status: active
+link_last_checked: "{now[:10]}"
+location: null
+added_at: "{now}"
+analyzed_at: null
+needs_review: true
+
+tags:
+{tags_yaml.rstrip()}
+---
+
+## Summary
+{summary}
+
+## Key Details
+- **Source:** [{domain or "Unknown"}]({url_str})
+- **Title:** {title}
+{f"- **Description:** {og_desc[:150]}" if og_desc else ""}
+
+## Visual Assets
+{f"![OG Image]({og_image_file})" if og_image_file else "_No image available_"}
+'''
+    with open(item_dir / "item.md", "w") as f:
+        f.write(content)
+
+    # Output JSON for server
+    result = {
+        "slug": slug,
+        "title": title,
+        "source_url": url_str,
+        "domain": domain,
+        "author": None,
+        "summary": summary,
+        "status": "active",
+        "location": None,
+        "added_at": now,
+        "has_image": has_image,
+        "image_path": image_path,
+        "tags": tags,
+        "is_duplicate": False,
+        "needs_review": True,
+    }
+    print(json.dumps(result))
+
+
 def cmd_status():
     """Show overall analysis progress."""
     if not ITEMS_DIR.exists():
@@ -705,6 +844,12 @@ if __name__ == "__main__":
             sys.exit(1)
         batch = int(sys.argv[3]) if len(sys.argv) > 3 else None
         cmd_analyze(sys.argv[2], batch)
+
+    elif command == "capture":
+        if len(sys.argv) < 3:
+            print("Usage: analyze.py capture <url>")
+            sys.exit(1)
+        cmd_capture(sys.argv[2])
 
     elif command == "index":
         build_index()

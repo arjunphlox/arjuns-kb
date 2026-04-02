@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arjun's KB — Link Health Checker
+Stello — Link Health Checker
 
 Checks source_url for each item via HTTP HEAD (falling back to GET),
 updates status and link_last_checked fields in frontmatter.

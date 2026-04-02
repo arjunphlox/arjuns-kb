@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arjun's KB — Vision-based tag enrichment using Claude API
+Stello — Vision-based tag enrichment using Claude API
 
 Analyzes OG images with Claude's vision to generate color, style, and mood tags.
 
@@ -227,12 +227,199 @@ def update_item_file(item_path, new_tags):
     return True
 
 
+TITLE_PROMPT = """Look at this image and give it a short, descriptive title (3-5 words).
+The title should describe what the image shows — e.g., "Geometric Pattern Grid", "Dark Typography Specimen", "Minimalist Watch Design".
+Return ONLY the title text, nothing else."""
+
+
+def enrich_single(slug):
+    """Enrich a single item by slug. Outputs JSON to stdout for the server."""
+    item_dir = ITEMS_DIR / slug
+    item_md = item_dir / "item.md"
+    if not item_md.exists():
+        print(json.dumps({"error": "Item not found"}))
+        return
+
+    image_path = find_image(item_dir)
+    data = parse_item(item_md)
+    if not data:
+        print(json.dumps({"error": "Could not parse item"}))
+        return
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        print(json.dumps({"error": "No API key"}))
+        return
+
+    import anthropic
+    client = anthropic.Anthropic(api_key=api_key)
+
+    result = {"slug": slug}
+    new_tags = []
+
+    # Vision enrichment if image exists
+    if image_path:
+        try:
+            image_b64, media_type = encode_image(image_path)
+            if image_b64:
+                vision_result = call_claude_vision(client, image_b64, media_type, data["title"], data["tags"])
+                new_tags = merge_new_tags(data["tags"], vision_result)
+                if new_tags:
+                    update_item_file(item_md, new_tags)
+
+                # Generate smart title for image-only items (no source URL or placeholder title)
+                title = data.get("title", "")
+                if title.startswith("Image upload") or title.startswith("Saved from"):
+                    smart_title = generate_smart_title(client, image_b64, media_type)
+                    if smart_title:
+                        update_title_in_file(item_md, smart_title)
+                        result["title"] = smart_title
+        except Exception as e:
+            result["vision_error"] = str(e)[:100]
+
+    # Determine needs_review based on novelty criteria
+    all_tags = data["tags"] + new_tags
+    needs_review = should_review(slug, all_tags)
+    update_needs_review(item_md, needs_review)
+    result["needs_review"] = needs_review
+
+    # Return all tags for index update
+    all_tag_dicts = data["tags"] + new_tags
+    result["tags"] = all_tag_dicts
+
+    print(json.dumps(result))
+
+
+def generate_smart_title(client, image_b64, media_type):
+    """Use Claude vision to generate a descriptive title for an image."""
+    try:
+        message = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=50,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "image", "source": {"type": "base64", "media_type": media_type, "data": image_b64}},
+                    {"type": "text", "text": TITLE_PROMPT},
+                ],
+            }],
+        )
+        return message.content[0].text.strip().strip('"').strip("'")
+    except Exception:
+        return None
+
+
+def update_title_in_file(item_path, new_title):
+    """Update the title in item.md frontmatter."""
+    with open(item_path, "r") as f:
+        content = f.read()
+    content = re.sub(
+        r'^title:\s*"[^"]*"',
+        f'title: "{new_title.replace(chr(34), chr(39))}"',
+        content,
+        count=1,
+        flags=re.MULTILINE
+    )
+    with open(item_path, "w") as f:
+        f.write(content)
+
+
+def update_needs_review(item_path, needs_review):
+    """Update the needs_review field in frontmatter."""
+    with open(item_path, "r") as f:
+        content = f.read()
+    if "needs_review:" in content:
+        content = re.sub(
+            r'needs_review:\s*\w+',
+            f'needs_review: {"true" if needs_review else "false"}',
+            content,
+            count=1
+        )
+    else:
+        # Insert before tags:
+        content = content.replace("\ntags:", f"\nneeds_review: {'true' if needs_review else 'false'}\n\ntags:")
+    with open(item_path, "w") as f:
+        f.write(content)
+
+
+def should_review(slug, tags):
+    """Determine if this item should trigger a question card.
+
+    Returns True if the item brings novel signal that could improve tagging.
+    """
+    # Count tags by category
+    cats = {}
+    for t in tags:
+        cat = t.get("category", "")
+        cats[cat] = cats.get(cat, 0) + 1
+
+    total_tags = len(tags)
+    high_weight = sum(1 for t in tags if t.get("weight", 0) >= 0.6)
+
+    # Low tag confidence — fewer than 3 tags total
+    if total_tags < 3:
+        return True
+
+    # Ambiguous — all weights below 0.5
+    if all(t.get("weight", 0) < 0.5 for t in tags):
+        return True
+
+    # Check if domain is new (first item from this source)
+    domain_tags = [t["tag"] for t in tags if t.get("category") == "format"]
+    item_domain = None
+    item_dir = ITEMS_DIR / slug
+    item_md = item_dir / "item.md"
+    if item_md.exists():
+        with open(item_md, "r") as f:
+            for line in f:
+                m = re.match(r'^domain:\s*"?([^"]*)"?', line.strip())
+                if m:
+                    item_domain = m.group(1)
+                    break
+
+    if item_domain:
+        domain_count = 0
+        for d in ITEMS_DIR.iterdir():
+            if not d.is_dir() or d.name == slug:
+                continue
+            md = d / "item.md"
+            if md.exists():
+                with open(md, "r") as f:
+                    for line in f:
+                        if f'domain: "{item_domain}"' in line:
+                            domain_count += 1
+                            break
+                if domain_count >= 3:
+                    break
+        if domain_count == 0:
+            return True
+
+    # Confident and diverse — skip review
+    if total_tags >= 8 and high_weight >= 4 and len(cats) >= 3:
+        return False
+
+    # Periodic calibration — every ~20 items
+    total_items = sum(1 for d in ITEMS_DIR.iterdir() if d.is_dir())
+    if total_items % 20 == 0:
+        return True
+
+    return False
+
+
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 vision_enrich.py preview|run [--limit N]")
+        print("Usage: python3 vision_enrich.py preview|run|enrich-single [--limit N]")
         sys.exit(1)
 
     mode = sys.argv[1]
+
+    if mode == "enrich-single":
+        if len(sys.argv) < 3:
+            print("Usage: vision_enrich.py enrich-single <slug>")
+            sys.exit(1)
+        enrich_single(sys.argv[2])
+        return
+
     limit = None
     if "--limit" in sys.argv:
         idx = sys.argv.index("--limit")

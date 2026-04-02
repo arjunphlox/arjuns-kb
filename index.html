@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arjun's Knowledge Base</title>
+  <title>Stello</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -13,7 +13,15 @@
 
   <!-- Header -->
   <header class="header">
-    <h1>Arjun's Knowledge Base</h1>
+    <div class="header-row">
+      <h1>Stello</h1>
+      <div class="header-actions">
+        <button class="header-btn" id="import-btn" title="Import URLs">+</button>
+        <button class="header-btn" id="settings-btn" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.2"/><path d="M13.5 8a5.5 5.5 0 01-.3 1.8l1.5 1.2-1 1.7-1.8-.6a5.5 5.5 0 01-1.6.9L10 14.8H8l-.3-1.8a5.5 5.5 0 01-1.6-.9l-1.8.6-1-1.7 1.5-1.2A5.5 5.5 0 014.5 8c0-.6.1-1.2.3-1.8L3.3 5l1-1.7 1.8.6a5.5 5.5 0 011.6-.9L8 1.2h2l.3 1.8c.6.2 1.1.5 1.6.9l1.8-.6 1 1.7-1.5 1.2c.2.6.3 1.2.3 1.8z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+      </div>
+    </div>
     <div class="stats-bar" id="stats-bar"></div>
   </header>
 
@@ -30,12 +38,43 @@
     </div>
   </div>
 
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settings-panel">
+    <h3>API Key Configuration</h3>
+    <div class="settings-field">
+      <label>Profile name</label>
+      <input type="text" class="settings-profile" value="personal" placeholder="Profile name">
+    </div>
+    <div class="settings-field">
+      <label>Anthropic API key</label>
+      <input type="password" class="settings-key" placeholder="sk-ant-api03-...">
+    </div>
+    <div class="settings-actions">
+      <button class="settings-save">Save</button>
+      <span class="settings-status"></span>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="import-modal" id="import-modal">
+    <div class="import-content">
+      <h3>Import URLs</h3>
+      <textarea class="import-textarea" placeholder="Paste URLs here, one per line..."></textarea>
+      <button class="import-submit">Import URLs</button>
+      <div class="import-divider"><span>or</span></div>
+      <div class="import-drop-zone">
+        <p>Drop a CSV or Markdown file here</p>
+        <input type="file" class="import-file" accept=".csv,.md,.txt,.markdown">
+      </div>
+    </div>
+  </div>
+
   <!-- Grid -->
   <main class="grid-container">
     <div class="items-count" id="items-count"></div>
     <div id="masonry-grid"></div>
   </main>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

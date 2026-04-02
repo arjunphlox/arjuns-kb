@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Item Detail — Arjun's Knowledge Base</title>
+  <title>Item Detail — Stello</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -256,6 +256,20 @@
       return match ? match[1].trim() : raw.trim();
     }
 
+    function stripSections(md, names) {
+      const pattern = new RegExp('^##\\s+(' + names.join('|') + ')\\s*$', 'i');
+      const lines = md.split('\n');
+      const result = [];
+      let skipping = false;
+      for (const line of lines) {
+        if (/^##\s/.test(line)) {
+          skipping = pattern.test(line);
+        }
+        if (!skipping) result.push(line);
+      }
+      return result.join('\n').trim();
+    }
+
     function renderMarkdown(md) {
       let html = md;
       html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
@@ -295,7 +309,7 @@
         return;
       }
 
-      document.title = item.title + ' — Arjun\'s KB';
+      document.title = item.title + ' — Stello';
 
       // Left panel: image / text / placeholder
       const $left = document.getElementById('detail-left');
@@ -344,7 +358,8 @@
         const mdRes = await fetch(`_items/${slug}/item.md`);
         if (mdRes.ok) {
           const raw = await mdRes.text();
-          const body = extractMarkdownBody(raw);
+          let body = extractMarkdownBody(raw);
+          body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
           document.getElementById('detail-body').innerHTML = body ? renderMarkdown(body) : '';
         } else {
           document.getElementById('detail-body').innerHTML = '';

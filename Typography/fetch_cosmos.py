@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 CLUSTER_ID = "244784689"
 GRAPHQL_URL = "https://api.www.cosmos.so/graphql"
-BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Arjun's KB/Typography"
+BASE_DIR = "/Users/arjunphlox/Documents/Personal Projects/Stello/Typography"
 IMAGES_DIR = os.path.join(BASE_DIR, "images")
 MD_PATH = os.path.join(BASE_DIR, "Typography.md")
 
