@@ -21,9 +21,17 @@ GitHub is the source of truth for all projects.
 - [ ] **User notes on items** — Editable text field on detail page, saved back to item.md. Needs local server.
 
 ### Needs planning (do in Claude Chat first)
+- [ ] **Personal authentication/login** — Auth system for Stello. Needs architecture decision: local-only vs cloud, session management, credential storage.
+- [ ] **New user account and onboarding** — First-run experience, account creation flow, initial content setup. Depends on auth system.
+- [ ] **Integrating Tessor configuration panel** — Bring Tessor design tokens/config UI into Stello. Depends on Tessor project state.
 - [ ] **Semantic search** — Embeddings + vector search for fuzzy retrieval. Needs architecture decision: client-side vs server-side, which embedding model.
 - [ ] **Smart ranking** — Boost items by tag weight + retrieval frequency. Needs click tracking, storage, ranking algorithm.
 - [ ] **Progressive automation** — Paste URL → fully analyzed item with zero manual steps. End-to-end pipeline.
+
+### Quick wins
+- [ ] **Reviewing item cards without images** — Audit and fix cards that have no OG image. Improve fallback display or re-fetch images.
+- [ ] **Better tag navigation and management** — Improve tag browsing, filtering, bulk editing, and tag cleanup tools.
+- [ ] **UI bugs & refinements** — Collect and fix visual glitches, layout issues, and polish rough edges.
 
 ### Maintenance (run periodically via Claude Code)
 - [ ] `python3 scripts/link_check.py run` — check for dead links (every 7 days)
@@ -32,36 +40,34 @@ GitHub is the source of truth for all projects.
 
 ---
 
-## Project Imports (Replit → Local-First)
+## Worktree guide
 
-Import order matters — Tessor first (source of truth), then downstream projects.
+Use a worktree session when the work is **experimental, risky, or parallel-safe**. Use main when it's **sequential, small, or maintenance**.
 
-### Session 1: Tessor (Design System Workbench)
-- [ ] **Clone & clean** — `HueGrid/Tessor` (private GitHub repo) → `~/Documents/HueGrid/Tessor/`
-- **Pre-req:** Install gh CLI (`brew install gh && gh auth login`) or use git clone with SSH
-- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 1
-
-### Session 2: Maree (SVG Pattern Generator)
-- [ ] **Import & clean** — Replit export → `~/Documents/HueGrid/Maree/`
-- **Pre-req:** Export zip from Replit, place in ~/Downloads/
-- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 2
-
-### Session 3: Phlox Site (Tessor-Powered Portfolio)
-- [ ] **Import & clean** — Replit export → `~/Documents/Personal Projects/Phlox Site/`
-- **Pre-req:** Export zip from Replit (the full Tessor version, NOT arjunphlox-site on GitHub)
-- **Prompt:** See `~/.claude/plans/purring-pondering-elephant.md` → Session 3
-
-### Post-import
-- [ ] **Tessor ↔ KB integration** — Use Tessor design tokens in KB's CSS (plan in Claude Chat first)
-- [ ] **sync-all.sh** — Optional script at `~/Documents/HueGrid/sync-all.sh` to sync Maree + Phlox Site from local Tessor
+| Task | Worktree? | Why |
+|---|---|---|
+| Visual card variants | No | Sequential UI feature, builds on main |
+| Tag-based "more like this" | No | Builds on existing relatedIndex in app.js |
+| User notes on items | No | Small, contained server + UI change |
+| Reviewing cards without images | No | Audit + fixes, low risk |
+| Better tag navigation | No | Incremental UI improvement |
+| UI bugs & refinements | No | Small targeted fixes |
+| Personal auth/login | **Yes** | Adds auth layer across server + frontend, may need iteration, easy to discard if approach changes |
+| New user account & onboarding | **Yes** | Depends on auth, large scope, experimental UX flows |
+| Tessor config panel integration | **Yes** | Sweeping CSS/component changes, may conflict with UI work on main |
+| Semantic search | **Yes** | High uncertainty — embeddings, vector store, new search UI. Prototype in isolation |
+| Smart ranking | **Yes** | Needs click tracking infra, algorithm tuning. Experimental |
+| Progressive automation | No | Pipeline work, extends existing scripts on main |
+| Dark mode / theme system | **Yes** | Broad CSS changes, develop in isolation |
+| Performance overhaul | **Yes** | Virtual scrolling, lazy loading — experimental, needs benchmarking |
 
 ---
 
 ## How to use this file
 
 **From Claude Chat (mobile):**
-> "I want to plan the visual card variants feature for arjuns-kb.
-> Here's the repo: github.com/arjunphlox/arjuns-kb
+> "I want to plan the visual card variants feature for Stello.
+> Here's the repo: github.com/arjunphlox/stello
 > Here's the backlog item: [paste the item]
 > Give me a ready-to-execute prompt for Claude Code."
 
