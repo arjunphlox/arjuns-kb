@@ -25,11 +25,17 @@
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
-  // Hash-based stagger offset for organic card positioning
-  function staggerOffset(slug) {
-    let hash = 0;
-    for (let i = 0; i < slug.length; i++) hash = ((hash << 5) - hash + slug.charCodeAt(i)) | 0;
-    return Math.abs(hash) % 5;
+  // Brick/offset pattern: uniform cards, alternating row positions
+  // Even rows: 4 slots at cols 1, 8, 15, 21
+  // Odd rows:  3 slots at cols 4, 11, 17
+  const BRICK_EVEN = [1, 8, 15, 21];
+  const BRICK_ODD  = [4, 11, 17];
+  const CARD_SPAN = 5;
+
+  function brickPosition(idx) {
+    const cycle = idx % 7; // 4 even + 3 odd = 7 per cycle
+    if (cycle < 4) return { col: BRICK_EVEN[cycle], span: CARD_SPAN };
+    return { col: BRICK_ODD[cycle - 4], span: CARD_SPAN };
   }
 
   // Color name → CSS color for tag swatches
@@ -311,7 +317,7 @@
       const showLink = !isLoaded
         ? `<span class="week-show-link" data-week="${week.key}">Show</span>`
         : '';
-      html += `<div class="date-section-header"><span>${week.label}</span>${showLink}</div>`;
+      html += `<div class="date-section-header" style="grid-column: 1 / -1"><span>${week.label}</span>${showLink}</div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
         html += week.items.map(e => renderCard(e.item, e.idx)).join('');
@@ -371,16 +377,10 @@
       <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M9 1h6v6M7 15H1V9M15 1L9 7M1 15l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>`;
 
-    // Card footer — always visible metadata
-    const footerTags = item.tags
-      .filter(t => t.category !== 'color' && t.category !== 'format')
-      .sort((a, b) => b.weight - a.weight)
-      .slice(0, 2);
-    const footerTagsHtml = footerTags.map(t => renderTagPill(t.tag, t.category)).join('');
+    // Card footer — minimal metadata
     const cardFooter = `<div class="card-footer">
       <div class="card-footer-title">${escHtml(item.title)}</div>
       ${item.domain ? `<div class="card-footer-domain">${escHtml(item.domain)}</div>` : ''}
-      ${footerTags.length ? `<div class="card-footer-tags">${footerTagsHtml}</div>` : ''}
     </div>`;
 
     // Expanded detail area (hidden by default, shown on click)
@@ -402,9 +402,9 @@
     </div>`;
 
     const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
-    const stagger = ` stagger-${staggerOffset(item.slug)}`;
+    const pos = brickPosition(idx);
 
-    return `<div class="card${cardClass}${stagger}" data-slug="${item.slug}">
+    return `<div class="card${cardClass}" data-slug="${item.slug}" style="grid-column: ${pos.col} / span ${pos.span}">
       <div class="card-visual-area">
         ${thumbHtml}
         ${expandIcon}
