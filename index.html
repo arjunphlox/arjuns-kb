@@ -14,27 +14,30 @@
   <!-- Header -->
   <header class="header">
     <div class="header-row">
-      <h1>Stello</h1>
+      <h1>Stello <span class="header-count" id="header-count"></span></h1>
       <div class="header-actions">
+        <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        <button class="header-btn" id="filter-panel-btn" title="Filters">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 3h14M4 8h8M6 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
         <button class="header-btn" id="import-btn" title="Import URLs">+</button>
         <button class="header-btn" id="settings-btn" title="Settings">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.2"/><path d="M13.5 8a5.5 5.5 0 01-.3 1.8l1.5 1.2-1 1.7-1.8-.6a5.5 5.5 0 01-1.6.9L10 14.8H8l-.3-1.8a5.5 5.5 0 01-1.6-.9l-1.8.6-1-1.7 1.5-1.2A5.5 5.5 0 014.5 8c0-.6.1-1.2.3-1.8L3.3 5l1-1.7 1.8.6a5.5 5.5 0 011.6-.9L8 1.2h2l.3 1.8c.6.2 1.1.5 1.6.9l1.8-.6 1 1.7-1.5 1.2c.2.6.3 1.2.3 1.8z" stroke="currentColor" stroke-width="1.2"/></svg>
         </button>
       </div>
     </div>
-    <div class="stats-bar" id="stats-bar"></div>
+    <div class="active-filters" id="active-filters"></div>
   </header>
 
-  <!-- Filter Bar -->
-  <div class="filter-bar">
-    <div class="filter-bar-inner">
-      <div class="search-row">
-        <input type="text" class="search-input" id="search-input" placeholder="Search items by title, summary, or tag...">
-      </div>
-      <div class="color-tags-bar" id="color-tags-bar"></div>
-      <div class="active-filters" id="active-filters"></div>
-      <button class="tag-drawer-toggle" id="tag-drawer-toggle">Browse tags</button>
-      <div class="tag-drawer" id="tag-drawer"></div>
+  <!-- Filter Panel (slides from left) -->
+  <div class="filter-panel" id="filter-panel">
+    <div class="filter-panel-header">
+      <h3>Filters</h3>
+      <button class="filter-panel-close" id="filter-panel-close">&times;</button>
+    </div>
+    <div class="filter-panel-body">
+      <div id="filter-color-tags"></div>
+      <div id="filter-tag-drawer"></div>
     </div>
   </div>
 

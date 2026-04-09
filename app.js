@@ -7,7 +7,6 @@
   let allItems = [];
   let activeTags = [];      // [{tag, category}]
   let searchQuery = '';
-  let tagDrawerOpen = false;
   let relatedIndex = {};     // slug -> Set of related slugs
   let loadedWeeks = new Set(); // track which weeks have been rendered
 
@@ -25,6 +24,13 @@
 
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
+
+  // Hash-based stagger offset for organic card positioning
+  function staggerOffset(slug) {
+    let hash = 0;
+    for (let i = 0; i < slug.length; i++) hash = ((hash << 5) - hash + slug.charCodeAt(i)) | 0;
+    return Math.abs(hash) % 5;
+  }
 
   // Color name → CSS color for tag swatches
   const COLOR_MAP = {
@@ -72,11 +78,11 @@
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
   const $activeFilters = document.getElementById('active-filters');
-  const $drawerToggle = document.getElementById('tag-drawer-toggle');
-  const $drawer = document.getElementById('tag-drawer');
-  const $statsBar = document.getElementById('stats-bar');
   const $itemsCount = document.getElementById('items-count');
-  const $colorBar = document.getElementById('color-tags-bar');
+  const $headerCount = document.getElementById('header-count');
+  const $filterPanel = document.getElementById('filter-panel');
+  const $colorBar = document.getElementById('filter-color-tags');
+  const $drawer = document.getElementById('filter-tag-drawer');
 
   // --- Boot ---
   async function init() {
@@ -132,21 +138,9 @@
     });
   }
 
-  // --- Stats ---
+  // --- Stats (inline count) ---
   function renderStats() {
-    const withImg = allItems.filter(i => i.has_image).length;
-    const cats = {};
-    allItems.forEach(i => i.tags.forEach(t => {
-      cats[t.category] = (cats[t.category] || 0) + 1;
-    }));
-    let catHtml = Object.entries(cats)
-      .sort((a, b) => b[1] - a[1])
-      .map(([c, n]) => `<span class="stat"><span class="stat-value">${n}</span> ${c}</span>`)
-      .join('');
-    $statsBar.innerHTML =
-      `<span class="stat"><span class="stat-value">${allItems.length}</span> items</span>` +
-      `<span class="stat"><span class="stat-value">${withImg}</span> with images</span>` +
-      catHtml;
+    $headerCount.textContent = `\u00b7 ${allItems.length.toLocaleString()}`;
   }
 
   // --- Color Tags Bar ---
@@ -347,42 +341,47 @@
     return words.slice(0, maxWords).join(' ') + '...';
   }
 
+  function cssSlug(slug) {
+    return slug.replace(/[^a-zA-Z0-9-]/g, '-');
+  }
+
   function renderCard(item, idx) {
     let thumbHtml;
     const hasImage = item.has_image && item.image_path;
+    const vtName = `card-${cssSlug(item.slug)}`;
 
     const hasTextContent = !hasImage && item.summary
       && item.summary.length > 30
       && !item.summary.startsWith('Saved from');
 
     if (hasImage) {
-      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy" onerror="this.parentElement.classList.add('img-error')">`;
+      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy" style="view-transition-name:${vtName}" onerror="this.parentElement.classList.add('img-error')">`;
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
-      thumbHtml = `<div class="card-text-content" style="background:hsl(${hue},15%,13%)">${truncated}</div>`;
+      thumbHtml = `<div class="card-text-content" style="view-transition-name:${vtName};background:hsl(${hue},15%,13%)">${truncated}</div>`;
     } else {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const letter = (item.title || '?')[0].toUpperCase();
-      thumbHtml = `<div class="card-placeholder" style="background:hsl(${hue},20%,16%)">${letter}</div>`;
+      thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
     }
-
-    // Hover overlay with source URL only
-    const overlayHtml = item.domain ? `<div class="card-overlay">
-      <div class="card-overlay-text">
-        <div class="card-domain">${escHtml(item.domain)}</div>
-      </div>
-    </div>` : '';
 
     // Expand icon (opens full detail page)
     const expandIcon = `<a class="card-expand-icon" href="detail.html?slug=${item.slug}" onclick="event.stopPropagation()">
       <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M9 1h6v6M7 15H1V9M15 1L9 7M1 15l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>`;
 
-    // Fallback title for non-image, non-text cards
-    const fallbackTitle = !hasImage && !hasTextContent
-      ? `<div class="card-fallback-title">${escHtml(item.title)}</div>`
-      : '';
+    // Card footer — always visible metadata
+    const footerTags = item.tags
+      .filter(t => t.category !== 'color' && t.category !== 'format')
+      .sort((a, b) => b.weight - a.weight)
+      .slice(0, 2);
+    const footerTagsHtml = footerTags.map(t => renderTagPill(t.tag, t.category)).join('');
+    const cardFooter = `<div class="card-footer">
+      <div class="card-footer-title">${escHtml(item.title)}</div>
+      ${item.domain ? `<div class="card-footer-domain">${escHtml(item.domain)}</div>` : ''}
+      ${footerTags.length ? `<div class="card-footer-tags">${footerTagsHtml}</div>` : ''}
+    </div>`;
 
     // Expanded detail area (hidden by default, shown on click)
     const tagPills = item.tags
@@ -403,14 +402,14 @@
     </div>`;
 
     const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
+    const stagger = ` stagger-${staggerOffset(item.slug)}`;
 
-    return `<div class="card${cardClass}" data-slug="${item.slug}">
+    return `<div class="card${cardClass}${stagger}" data-slug="${item.slug}">
       <div class="card-visual-area">
         ${thumbHtml}
-        ${overlayHtml}
         ${expandIcon}
       </div>
-      ${fallbackTitle}
+      ${cardFooter}
       ${expandedHtml}
     </div>`;
   }
@@ -529,10 +528,12 @@
       renderGrid();
     });
 
-    $drawerToggle.addEventListener('click', function () {
-      tagDrawerOpen = !tagDrawerOpen;
-      $drawer.classList.toggle('open', tagDrawerOpen);
-      this.textContent = tagDrawerOpen ? 'Hide tags' : 'Browse tags';
+    // Filter panel toggle
+    document.getElementById('filter-panel-btn').addEventListener('click', function () {
+      $filterPanel.classList.toggle('open');
+    });
+    document.getElementById('filter-panel-close').addEventListener('click', function () {
+      $filterPanel.classList.remove('open');
     });
 
     $drawer.addEventListener('click', function (e) {
