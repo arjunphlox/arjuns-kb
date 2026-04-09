@@ -1,17 +1,5 @@
 # Backlog
 
-Plan features in Claude Chat (mobile), execute in Claude Code (desktop).
-GitHub is the source of truth for all projects.
-
-## Workflow
-
-1. **Plan** (Claude Chat, mobile) — brainstorm, spec, design. Reference repo via GitHub URL.
-   End each Chat session with a ready-to-execute prompt for Claude Code.
-2. **Execute** (Claude Code, desktop) — paste the prompt, implement, test, commit, push.
-3. **Review** (either) — check the live site, note issues, add to backlog.
-
----
-
 ## Stello
 
 ### Ready to execute
@@ -20,7 +8,7 @@ GitHub is the source of truth for all projects.
 - [ ] **Tag-based "more like this"** — Dedicated panel showing related items for a selected item. Relatedness index already exists, just needs UI.
 - [ ] **User notes on items** — Editable text field on detail page, saved back to item.md. Needs local server.
 
-### Needs planning (do in Claude Chat first)
+### Needs planning
 - [ ] **Personal authentication/login** — Auth system for Stello. Needs architecture decision: local-only vs cloud, session management, credential storage.
 - [ ] **New user account and onboarding** — First-run experience, account creation flow, initial content setup. Depends on auth system.
 - [ ] **Integrating Tessor configuration panel** — Bring Tessor design tokens/config UI into Stello. Depends on Tessor project state.
@@ -61,18 +49,3 @@ Use a worktree session when the work is **experimental, risky, or parallel-safe*
 | Dark mode / theme system | **Yes** | Broad CSS changes, develop in isolation |
 | Performance overhaul | **Yes** | Virtual scrolling, lazy loading — experimental, needs benchmarking |
 
----
-
-## How to use this file
-
-**From Claude Chat (mobile):**
-> "I want to plan the visual card variants feature for Stello.
-> Here's the repo: github.com/arjunphlox/stello
-> Here's the backlog item: [paste the item]
-> Give me a ready-to-execute prompt for Claude Code."
-
-**From Claude Code (desktop):**
-> Paste the prompt from Chat. Claude Code has full local context and executes it.
-
-**After completing a task:**
-> Check it off in this file, commit, push.
