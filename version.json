@@ -1,0 +1,7 @@
+{
+  "version": "2026.001",
+  "released_at": "2026-04-16",
+  "changelog": "Initial release — auth, capture, enrichment, sync-to-local.",
+  "migration": null,
+  "breaking_changes": []
+}
