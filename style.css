@@ -122,9 +122,8 @@ body {
   flex-wrap: wrap;
   gap: 6px;
   min-height: 0;
-  margin-bottom: 12px;
 }
-.active-filters:empty { display: none; margin: 0; }
+.active-filters:empty { display: none; }
 .active-filter-pill {
   display: inline-flex;
   align-items: center;
@@ -139,7 +138,7 @@ body {
   transition: opacity 0.15s;
 }
 .active-filter-pill:hover { opacity: 0.85; }
-.active-filter-pill .x { font-weight: 700; margin-left: 2px; }
+.active-filter-pill .x { font-weight: 700; }
 
 .clear-filters-btn {
   background: transparent;
@@ -176,15 +175,21 @@ body {
 .color-bar-toggle:hover {
   color: var(--text-secondary);
 }
+#filter-tag-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .tag-category-group {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 .tag-category-label {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-dim);
-  margin-bottom: 5px;
   font-weight: 600;
 }
 .tag-chips {
@@ -388,6 +393,9 @@ body.resizing .panel { transition: none; }
   flex: 1 1 auto;
   overflow-y: auto;
   padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Sticky footer: tags (left) + date/week (right), stays at bottom of panel */
@@ -432,7 +440,6 @@ body.resizing .panel { transition: none; }
 
 /* Image at top of panel body — same inset as content, rounded */
 .panel-image {
-  margin: 0 0 16px;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -708,7 +715,9 @@ body.resizing .panel { transition: none; }
 /* === EXPANDED DETAIL CONTENT (used inside panels) === */
 .card-expanded-body {
   /* Rendered only inside .panel-body; hidden in grid via template not emitting it */
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .card-expanded-title {
@@ -716,7 +725,6 @@ body.resizing .panel { transition: none; }
   font-weight: 600;
   color: var(--text);
   line-height: 1.35;
-  margin-bottom: 4px;
 }
 .card-expanded-meta {
   display: flex;
@@ -724,19 +732,16 @@ body.resizing .panel { transition: none; }
   gap: 10px;
   font-size: 0.72rem;
   color: var(--text-dim);
-  margin-bottom: 8px;
 }
 .card-expanded-summary {
   font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.55;
-  margin-bottom: 10px;
 }
 .card-expanded-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-bottom: 10px;
 }
 /* Markdown content inside expanded card */
 .card-expanded-md {
@@ -745,7 +750,6 @@ body.resizing .panel { transition: none; }
   color: var(--text-secondary);
   border-top: 1px solid var(--border);
   padding-top: 8px;
-  margin-top: 4px;
 }
 .card-expanded-md:empty {
   display: none;
@@ -915,19 +919,19 @@ body.resizing .panel { transition: none; }
   border-color: var(--accent) !important;
 }
 .question-form {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .question-label {
   font-size: 0.72rem;
   color: var(--text-secondary);
-  margin-bottom: 6px;
   font-weight: 500;
 }
 .question-options {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-bottom: 12px;
 }
 .q-toggle {
   background: var(--bg);
@@ -979,7 +983,6 @@ body.resizing .panel { transition: none; }
   font-size: 0.75rem;
   resize: vertical;
   min-height: 36px;
-  margin-bottom: 8px;
 }
 .question-text:focus {
   outline: none;
@@ -1035,13 +1038,14 @@ body.resizing .panel { transition: none; }
 
 /* === SETTINGS FIELDS (in tool panel) === */
 .settings-field {
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .settings-field label {
   display: block;
   font-size: 0.7rem;
   color: var(--text-dim);
-  margin-bottom: 4px;
 }
 .settings-field input {
   width: 100%;
@@ -1061,7 +1065,6 @@ body.resizing .panel { transition: none; }
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 16px;
 }
 .settings-save {
   background: var(--accent);
@@ -1091,7 +1094,6 @@ body.resizing .panel { transition: none; }
   font-family: inherit;
   font-size: 0.78rem;
   resize: vertical;
-  margin-bottom: 10px;
 }
 .import-textarea:focus {
   outline: none;
@@ -1113,7 +1115,6 @@ body.resizing .panel { transition: none; }
   text-align: center;
   color: var(--text-dim);
   font-size: 0.7rem;
-  margin: 14px 0;
   position: relative;
 }
 .import-divider::before, .import-divider::after {
@@ -1130,18 +1131,19 @@ body.resizing .panel { transition: none; }
   border: 2px dashed var(--border);
   border-radius: 8px;
   padding: 24px;
-  text-align: center;
   color: var(--text-dim);
   font-size: 0.78rem;
   transition: border-color 0.15s, background 0.15s;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
 }
 .import-drop-zone.drag-over {
   border-color: var(--accent);
   background: var(--accent-subtle);
-}
-.import-drop-zone p {
-  margin-bottom: 8px;
 }
 .import-file {
   position: absolute;
