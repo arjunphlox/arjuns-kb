@@ -730,15 +730,11 @@ body.resizing .panel { transition: none; }
   font-weight: 500;
 }
 
-/* === RELATED CARD DIMMING === */
-.has-hover-focus .card {
-  opacity: 0.55;
-  transition: opacity 0.3s ease, transform 0.2s ease;
-}
-.has-hover-focus .card.card-focused,
-.has-hover-focus .card.card-expanded,
-.has-hover-focus .card:hover {
-  opacity: 1;
+/* === RELATED CARD HIGHLIGHT === */
+.card-focused .card-visual-area {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+  border-radius: 4px;
 }
 
 /* === EXPAND ICON (top-right of card) === */

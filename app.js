@@ -574,23 +574,29 @@
   // --- Related card highlighting ---
   let hoverTimeout = null;
 
-  function highlightRelated(slug) {
-    const related = relatedIndex[slug] || new Set();
-    $grid.classList.add('has-hover-focus');
-    const cards = $grid.querySelectorAll('.card');
-    cards.forEach(card => {
-      const cardSlug = card.dataset.slug;
-      if (cardSlug === slug || related.has(cardSlug)) {
-        card.classList.add('card-focused');
-      } else {
-        card.classList.remove('card-focused');
-      }
+  function highlightRelated(slugs) {
+    if (!Array.isArray(slugs)) slugs = [slugs];
+    const related = new Set();
+    slugs.forEach(s => {
+      related.add(s);
+      (relatedIndex[s] || new Set()).forEach(r => related.add(r));
+    });
+    $grid.querySelectorAll('.card').forEach(card => {
+      card.classList.toggle('card-focused', related.has(card.dataset.slug));
     });
   }
 
   function clearHighlight() {
-    $grid.classList.remove('has-hover-focus');
     $grid.querySelectorAll('.card-focused').forEach(c => c.classList.remove('card-focused'));
+  }
+
+  // Re-highlight based on open panels (called after panel open/close)
+  function syncHighlightsToOpenPanels(panelSlugs) {
+    if (panelSlugs && panelSlugs.length > 0) {
+      highlightRelated(panelSlugs);
+    } else {
+      clearHighlight();
+    }
   }
 
   // --- Markdown helpers ---
@@ -719,7 +725,7 @@
       else renderWeekCards(key);
     });
 
-    // Card hover -> highlight related
+    // Card hover -> highlight related (falls back to panel highlights on leave)
     $grid.addEventListener('mouseenter', function (e) {
       const card = e.target.closest('.card');
       if (!card) return;
@@ -735,7 +741,7 @@
       clearTimeout(hoverTimeout);
       hoverTimeout = setTimeout(() => {
         if (!$grid.querySelector('.card:hover')) {
-          clearHighlight();
+          syncHighlightsToOpenPanels(PanelManager.getOpenSlugs());
         }
       }, 100);
     }, true);
@@ -1475,6 +1481,9 @@
         const mdEl = body.querySelector('.card-expanded-md');
         loadMarkdownInto(mdEl);
       });
+
+      // Sync related-card highlights to open panels
+      syncHighlightsToOpenPanels(state.slugs);
     }
 
     // ---- Tool panel rendering ----
@@ -1862,10 +1871,12 @@
       updateActiveCards();
     }
 
+    function getOpenSlugs() { return [...state.slugs]; }
+
     return {
       init, open, close, focus, shuffle,
       openTool, closeTool,
-      gridCols,
+      gridCols, getOpenSlugs,
       refreshAfterGridRender,
       state, // expose for debugging
     };
