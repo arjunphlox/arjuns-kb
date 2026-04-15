@@ -559,12 +559,14 @@ body.resizing .panel { transition: none; }
 }
 .card:hover .card-overlay { opacity: 1; }
 
-/* Title badge (top-left, hover only) */
+/* Title badge (overlay on hover). Spans full card width; bottom 40px is
+   reserved for the URL pill so the title never touches the card edge. */
 .card-title-badge {
   position: absolute;
   top: 12px;
   left: 12px;
-  right: 80px; /* leave space for URL pill at bottom-right; doesn't collide at top */
+  right: 12px;
+  bottom: 40px;
   font-family: 'Platypi', Georgia, serif;
   font-size: 0.95rem;
   font-weight: 500;
@@ -575,10 +577,11 @@ body.resizing .panel { transition: none; }
   transition: opacity 0.18s ease-out, transform 0.18s ease-out;
   pointer-events: none;
   z-index: 2;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 99;
+  text-overflow: ellipsis;
 }
 .card:hover .card-title-badge {
   opacity: 1;
