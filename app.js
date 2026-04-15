@@ -142,6 +142,12 @@
     }
   };
 
+  // --- Auth-aware fetch wrapper ---
+  function apiFetch(url, opts = {}) {
+    if (window.Stello) return Stello.apiFetch(url, opts);
+    return fetch(url, opts); // local dev fallback
+  }
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
@@ -150,12 +156,42 @@
   // Filter UI elements live inside the tool panel when open; looked up dynamically.
   const $drawer = () => document.getElementById('filter-tag-drawer');
 
+  // --- Version ---
+  const APP_VERSION = '2026.001';
+
   // --- Boot ---
   async function init() {
     ThemeManager.init();
-    const res = await fetch('index.json?v=' + Date.now());
-    const data = await res.json();
-    allItems = data.items;
+
+    // Auth guard: redirect to login if no session
+    if (window.Stello) {
+      const session = await Stello.requireAuth();
+      if (!session) return; // redirecting to login
+      Stello.initAuthListener();
+    }
+
+    // Load items from Supabase (cloud) or index.json (local fallback)
+    if (window.Stello && Stello.getClient()) {
+      const client = Stello.getClient();
+      const userId = Stello.getUserId();
+      const { data, error } = await client
+        .from('items')
+        .select('*')
+        .eq('user_id', userId)
+        .order('added_at', { ascending: false });
+
+      if (error) {
+        console.error('Failed to load items from Supabase:', error.message);
+        allItems = [];
+      } else {
+        allItems = (data || []).map(normalizeItem);
+      }
+    } else {
+      // Local fallback (no Supabase configured — dev mode)
+      const res = await fetch('index.json?v=' + Date.now());
+      const data = await res.json();
+      allItems = data.items;
+    }
 
     // Sort by date descending (most recent first)
     allItems.sort((a, b) => {
@@ -173,6 +209,17 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+  }
+
+  /** Normalize a Supabase item row to match the frontend shape */
+  function normalizeItem(row) {
+    const tags = typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || []);
+    return {
+      ...row,
+      tags,
+      has_image: !!row.og_image_path,
+      image_path: row.og_image_path || null,
+    };
   }
 
   function injectHeaderIcons() {
@@ -550,6 +597,15 @@
     container.dataset.loaded = 'true';
     const slug = container.dataset.slug;
     try {
+      // Try getting body from in-memory item first (Supabase includes body_markdown)
+      const item = itemsBySlug[slug];
+      if (item && item.body_markdown) {
+        let body = item.body_markdown;
+        body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
+        if (body) container.innerHTML = renderMarkdown(body);
+        return;
+      }
+      // Fallback: fetch from filesystem (local dev)
       const mdRes = await fetch(`_items/${slug}/item.md`);
       if (!mdRes.ok) return;
       const raw = await mdRes.text();
@@ -831,7 +887,7 @@
     const id = 'ph-' + Date.now();
     insertPlaceholder(id);
     try {
-      const res = await fetch('/api/capture', {
+      const res = await apiFetch('/api/capture', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'url', content: urlStr }),
@@ -862,7 +918,7 @@
     insertPlaceholder(id);
     try {
       const buf = await file.arrayBuffer();
-      const res = await fetch('/api/upload-image', {
+      const res = await apiFetch('/api/upload-image', {
         method: 'POST',
         headers: { 'Content-Type': file.type },
         body: buf,
@@ -882,7 +938,7 @@
     const id = 'ph-' + Date.now();
     insertPlaceholder(id);
     try {
-      const res = await fetch('/api/capture', {
+      const res = await apiFetch('/api/capture', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'text', content: text }),
@@ -902,50 +958,72 @@
     if (ph) ph.remove();
   }
 
-  // --- Bulk capture ---
+  // --- Bulk capture (polling-based for serverless) ---
   async function captureBulkURLs(urls) {
-    // Insert placeholders for all
     const ids = urls.map((_, i) => 'bulk-' + Date.now() + '-' + i);
     ids.forEach(id => insertPlaceholder(id));
     showToast(`Adding ${urls.length} items...`);
 
     try {
-      const res = await fetch('/api/capture-bulk', {
+      const res = await apiFetch('/api/capture-bulk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ urls }),
       });
-      const { batchId } = await res.json();
+      const { batchId, completed: initialCompleted, status: initialStatus } = await res.json();
 
-      // Listen to SSE stream
-      const evtSource = new EventSource(`/api/capture-stream?batch=${batchId}`);
-      let completed = 0;
+      // Handle results from inline processing
+      if (initialCompleted > 0) {
+        const statusRes = await apiFetch(`/api/batch-status?id=${batchId}`);
+        const statusData = await statusRes.json();
+        processResults(statusData.results, ids);
+      }
 
-      evtSource.addEventListener('item-added', (e) => {
-        const data = JSON.parse(e.data);
-        const phId = ids[data.index];
-        if (data.item && !data.item.is_duplicate && !data.error) {
-          replacePlaceholder(phId, data.item);
-          pollForReview(data.item.slug);
-        } else {
-          removePlaceholder(phId);
+      // If all done inline, no need to poll
+      if (initialStatus === 'completed') {
+        showToast(`Done! Added ${urls.length} items.`);
+        return;
+      }
+
+      // Poll for remaining items
+      const processed = new Set();
+      const poll = setInterval(async () => {
+        try {
+          const statusRes = await apiFetch(`/api/batch-status?id=${batchId}`);
+          const data = await statusRes.json();
+          processResults(data.results, ids, processed);
+
+          if (data.status === 'completed' || data.status === 'failed') {
+            clearInterval(poll);
+            showToast(`Done! Added ${data.completed} items.`);
+            // Clean any remaining placeholders
+            ids.forEach(id => removePlaceholder(id));
+          }
+        } catch {
+          clearInterval(poll);
+          ids.forEach(id => removePlaceholder(id));
         }
-        completed++;
-      });
-
-      evtSource.addEventListener('batch-done', () => {
-        evtSource.close();
-        showToast(`Done! Added ${completed} items.`);
-      });
-
-      evtSource.onerror = () => {
-        evtSource.close();
-        // Clean remaining placeholders
-        ids.forEach(id => removePlaceholder(id));
-      };
+      }, 3000);
     } catch (err) {
       ids.forEach(id => removePlaceholder(id));
       showToast('Bulk capture failed');
+    }
+  }
+
+  function processResults(results, ids, processed) {
+    if (!results) return;
+    const seen = processed || new Set();
+    for (const r of results) {
+      if (seen.has(r.index)) continue;
+      seen.add(r.index);
+      const phId = ids[r.index];
+      if (r.item && !r.item.is_duplicate && !r.error) {
+        const item = r.item.og_image_path ? normalizeItem(r.item) : r.item;
+        replacePlaceholder(phId, item);
+        pollForReview(item.slug);
+      } else {
+        removePlaceholder(phId);
+      }
     }
   }
 
@@ -955,15 +1033,26 @@
   function pollForReview(slug) {
     setTimeout(async () => {
       try {
-        const res = await fetch('index.json?v=' + Date.now());
-        const data = await res.json();
-        const item = data.items.find(i => i.slug === slug);
+        let item;
+        if (window.Stello && Stello.getClient()) {
+          const client = Stello.getClient();
+          const { data } = await client
+            .from('items')
+            .select('*')
+            .eq('slug', slug)
+            .eq('user_id', Stello.getUserId())
+            .single();
+          if (data) item = normalizeItem(data);
+        } else {
+          const res = await fetch('index.json?v=' + Date.now());
+          const data = await res.json();
+          item = data.items.find(i => i.slug === slug);
+        }
+
         if (item && item.needs_review) {
           pendingReviews.push(item);
-          // Insert question card into grid next to the item's card
           insertQuestionCard(item);
         }
-        // Update local item data + refresh card
         if (item) {
           const idx = allItems.findIndex(i => i.slug === slug);
           if (idx >= 0) allItems[idx] = item;
@@ -1045,7 +1134,7 @@
       const customReason = qCard.querySelector('.q-custom-reason').value.trim();
       if (customReason) selected.push(customReason.toLowerCase().replace(/\s+/g, '-'));
       const text = qCard.querySelector('.question-text').value;
-      await fetch('/api/review', {
+      await apiFetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug: item.slug, why_saved: selected, what_works: text }),
@@ -1056,7 +1145,7 @@
     // Skip
     qCard.querySelector('.q-skip').addEventListener('click', async (e) => {
       e.stopPropagation();
-      await fetch('/api/review', {
+      await apiFetch('/api/review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug: item.slug, why_saved: [], what_works: '' }),
@@ -1170,7 +1259,7 @@
     const $status = $panel.querySelector('.settings-status');
 
     try {
-      const res = await fetch('/api/config');
+      const res = await apiFetch('/api/config');
       const config = await res.json();
       if (config.active_profile && config.profiles[config.active_profile]) {
         const p = config.profiles[config.active_profile];
@@ -1187,7 +1276,7 @@
         const profile = $profileInput.value || 'default';
         if (!key) { showToast('Enter an API key'); return; }
         try {
-          await fetch('/api/config', {
+          await apiFetch('/api/config', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ profile, key }),
@@ -1230,6 +1319,31 @@
         );
       });
     });
+
+    // Version check
+    if (window.Stello && Stello.checkForUpdate) {
+      const update = await Stello.checkForUpdate(APP_VERSION);
+      if (update && update.available) {
+        const banner = document.createElement('div');
+        banner.className = 'settings-update-banner';
+        banner.innerHTML = `
+          <div class="update-title">Update available: ${escHtml(update.latest)}</div>
+          <div class="update-changelog">${escHtml(update.changelog || '')}</div>
+          ${update.migration ? '<div class="update-migration">Migration required — see changelog</div>' : '<div class="update-migration">No migration needed</div>'}
+          <div class="update-instructions"><code>git pull upstream main && git push</code></div>
+          <div class="update-versions">Current: ${escHtml(update.current)} &middot; Latest: ${escHtml(update.latest)}</div>
+        `;
+        $panel.prepend(banner);
+
+        // Show badge on settings button
+        const $settingsBtn = document.getElementById('settings-btn');
+        if ($settingsBtn && !$settingsBtn.querySelector('.update-badge')) {
+          const badge = document.createElement('span');
+          badge.className = 'update-badge';
+          $settingsBtn.appendChild(badge);
+        }
+      }
+    }
   }
 
   // =========================================================================
