@@ -317,10 +317,11 @@
     container.style.display = '';
     loadedWeeks.add(weekKey);
     header?.classList.add('is-expanded');
-    if (toggleLink) {
-      toggleLink.innerHTML = icon('caret-up');
-      toggleLink.setAttribute('aria-label', 'Collapse week');
+    if (header) {
+      header.setAttribute('aria-expanded', 'true');
+      header.setAttribute('aria-label', 'Collapse week');
     }
+    if (toggleLink) toggleLink.innerHTML = icon('caret-up');
     PanelManager.refreshAfterGridRender();
   }
 
@@ -333,10 +334,11 @@
     container.style.display = 'none';
     loadedWeeks.delete(weekKey);
     header?.classList.remove('is-expanded');
-    if (toggleLink) {
-      toggleLink.innerHTML = icon('caret-down');
-      toggleLink.setAttribute('aria-label', 'Expand week');
+    if (header) {
+      header.setAttribute('aria-expanded', 'false');
+      header.setAttribute('aria-label', 'Expand week');
     }
+    if (toggleLink) toggleLink.innerHTML = icon('caret-down');
     PanelManager.refreshAfterGridRender();
   }
 
@@ -368,7 +370,7 @@
       const caret = isLoaded ? icon('caret-up') : icon('caret-down');
       const aria = isLoaded ? 'Collapse week' : 'Expand week';
       const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
-      html += `<div class="${headerClass}" data-week="${week.key}" style="grid-column: 1 / -1"><span>${week.label}</span><button type="button" class="week-show-link" data-week="${week.key}" aria-label="${aria}">${caret}</button></div>`;
+      html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
         html += week.items.map(e => renderCard(e.item, e.idx)).join('');
@@ -654,12 +656,21 @@
       renderGrid();
     });
 
-    // Week Expand/Collapse toggle
+    // Week Expand/Collapse toggle — entire bar is clickable (and keyboard-activatable)
     $grid.addEventListener('click', function (e) {
-      const toggle = e.target.closest('.week-show-link');
-      if (!toggle) return;
+      const bar = e.target.closest('.date-section-header');
+      if (!bar) return;
       e.stopPropagation();
-      const key = toggle.dataset.week;
+      const key = bar.dataset.week;
+      if (loadedWeeks.has(key)) collapseWeek(key);
+      else renderWeekCards(key);
+    });
+    $grid.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const bar = e.target.closest('.date-section-header');
+      if (!bar) return;
+      e.preventDefault();
+      const key = bar.dataset.week;
       if (loadedWeeks.has(key)) collapseWeek(key);
       else renderWeekCards(key);
     });
