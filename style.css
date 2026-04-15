@@ -1376,3 +1376,52 @@ body.resizing .panel { transition: none; }
   color: #e5484d;
   min-height: 1.2em;
 }
+
+/* === UPDATE NOTIFICATION === */
+.settings-update-banner {
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.update-title {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.update-changelog {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.update-migration {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+}
+.update-instructions {
+  margin-top: 8px;
+}
+.update-instructions code {
+  background: var(--code-bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: var(--text);
+}
+.update-versions {
+  margin-top: 8px;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+.update-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.header-btn { position: relative; }

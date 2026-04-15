@@ -206,6 +206,8 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js?v=1"></script>
   <script>
   (function () {
     'use strict';
@@ -294,7 +296,23 @@
       return html;
     }
 
+    function normalizeItem(row) {
+      const tags = typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || []);
+      return {
+        ...row,
+        tags,
+        has_image: !!row.og_image_path,
+        image_path: row.og_image_path || null,
+      };
+    }
+
     async function init() {
+      // Auth guard
+      if (window.Stello) {
+        const session = await Stello.requireAuth();
+        if (!session) return;
+      }
+
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug');
       if (!slug) {
@@ -302,9 +320,24 @@
         return;
       }
 
-      const res = await fetch('index.json?v=' + Date.now());
-      const data = await res.json();
-      const item = data.items.find(i => i.slug === slug);
+      // Load item from Supabase or local fallback
+      let item;
+      if (window.Stello && Stello.getClient()) {
+        const client = Stello.getClient();
+        const { data, error } = await client
+          .from('items')
+          .select('*')
+          .eq('slug', slug)
+          .eq('user_id', Stello.getUserId())
+          .single();
+        if (error) console.error('Supabase item fetch error:', error.message);
+        if (data) item = normalizeItem(data);
+      } else {
+        const res = await fetch('index.json?v=' + Date.now());
+        const data = await res.json();
+        item = data.items.find(i => i.slug === slug);
+      }
+
       if (!item) {
         document.getElementById('detail-right').innerHTML = '<p style="color:var(--text-dim)">Item not found.</p>';
         return;
@@ -353,17 +386,21 @@
 
       document.getElementById('detail-right').innerHTML = html;
 
-      // Load markdown body
+      // Load markdown body: prefer body_markdown from Supabase row, fall back to file
       try {
-        const mdRes = await fetch(`_items/${slug}/item.md`);
-        if (mdRes.ok) {
-          const raw = await mdRes.text();
-          let body = extractMarkdownBody(raw);
+        let body;
+        if (item.body_markdown) {
+          body = item.body_markdown;
           body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-          document.getElementById('detail-body').innerHTML = body ? renderMarkdown(body) : '';
         } else {
-          document.getElementById('detail-body').innerHTML = '';
+          const mdRes = await fetch(`_items/${slug}/item.md`);
+          if (mdRes.ok) {
+            const raw = await mdRes.text();
+            body = extractMarkdownBody(raw);
+            body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
+          }
         }
+        document.getElementById('detail-body').innerHTML = body ? renderMarkdown(body) : '';
       } catch {
         document.getElementById('detail-body').innerHTML = '';
       }
