@@ -12,6 +12,9 @@
     'frame-corners': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>',
     'arrow-up-right': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>',
     'magnifying-glass': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>',
+    'caret-down': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
+    'caret-up': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></svg>',
+    'shuffle': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z"/></svg>',
   };
   function icon(name) { return ICONS[name] || ''; }
 
@@ -317,7 +320,10 @@
     container.style.display = '';
     loadedWeeks.add(weekKey);
     header?.classList.add('is-expanded');
-    if (toggleLink) toggleLink.textContent = 'Collapse';
+    if (toggleLink) {
+      toggleLink.innerHTML = icon('caret-up');
+      toggleLink.setAttribute('aria-label', 'Collapse week');
+    }
     PanelManager.refreshAfterGridRender();
   }
 
@@ -330,7 +336,10 @@
     container.style.display = 'none';
     loadedWeeks.delete(weekKey);
     header?.classList.remove('is-expanded');
-    if (toggleLink) toggleLink.textContent = 'Expand';
+    if (toggleLink) {
+      toggleLink.innerHTML = icon('caret-down');
+      toggleLink.setAttribute('aria-label', 'Expand week');
+    }
     PanelManager.refreshAfterGridRender();
   }
 
@@ -359,9 +368,10 @@
     let html = '';
     weeks.forEach((week, wi) => {
       const isLoaded = loadedWeeks.has(week.key);
-      const label = isLoaded ? 'Collapse' : 'Expand';
+      const caret = isLoaded ? icon('caret-up') : icon('caret-down');
+      const aria = isLoaded ? 'Collapse week' : 'Expand week';
       const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
-      html += `<div class="${headerClass}" data-week="${week.key}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" data-week="${week.key}">${label}</span></div>`;
+      html += `<div class="${headerClass}" data-week="${week.key}" style="grid-column: 1 / -1"><span>${week.label}</span><button type="button" class="week-show-link" data-week="${week.key}" aria-label="${aria}">${caret}</button></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
         html += week.items.map(e => renderCard(e.item, e.idx)).join('');

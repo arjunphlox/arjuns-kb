@@ -504,18 +504,24 @@ body.resizing .panel { transition: none; }
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
 }
 .week-show-link {
-  font-size: 0.72rem;
+  background: transparent;
+  border: none;
   color: inherit;
   cursor: pointer;
-  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
-  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
   transition: opacity 0.15s;
-  text-decoration: none;
-  user-select: none;
   opacity: 0.75;
 }
-.week-show-link:hover {
-  opacity: 1;
+.week-show-link:hover { opacity: 1; }
+.week-show-link svg {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
 /* Masonry — CSS column-count, true top-to-bottom flow per column */
