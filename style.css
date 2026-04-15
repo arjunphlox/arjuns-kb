@@ -98,28 +98,28 @@ body {
   vertical-align: baseline;
 }
 
-/* === COMPACT SEARCH (in header) === */
+/* === SEARCH BAR (full-width row beneath the ivory header) === */
 .search-input {
-  background: rgba(26, 26, 23, 0.06);
-  border: 1px solid rgba(26, 26, 23, 0.15);
-  color: var(--bg);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
   font-size: 0.82rem;
-  padding: 8px 12px;
-  height: 32px;
-  width: 200px;
-  border-radius: 8px;
+  padding: 0 10px;
+  height: 32px;        /* matches .date-section-header (see below) */
+  width: 100%;
+  border-radius: 6px;  /* matches week-title bar */
   outline: none;
-  transition: border-color 0.2s, width 0.2s;
+  transition: border-color 0.2s;
   box-sizing: border-box;
+  display: block;
 }
 .search-input::placeholder {
-  color: rgba(26, 26, 23, 0.45);
+  color: var(--text-dim);
   font-size: 0.82rem;
 }
 .search-input:focus {
   border-color: var(--accent);
-  width: 280px;
 }
 
 /* === TOOL PANEL (shares .panel styling; content body below) === */
@@ -569,12 +569,14 @@ body.resizing .panel { transition: none; }
 /* Date section headers — week-title block
    Default (collapsed): faint dark grey bg, white text + white "Expand"
    Expanded: stark white bg, dark text + dark "Collapse"
+   Height matches .search-input above (32px) so both rows share a rhythm.
 */
 .date-section-header {
   background: var(--card-bg);
   color: var(--text);
   border-radius: 6px;
-  padding: 6px;
+  padding: 0 6px 0 10px;
+  height: 32px;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -889,8 +891,6 @@ body.resizing .panel { transition: none; }
   .masonry-section { column-count: 3; }
   .modal-panel { width: 100vw; }
   .content-inner { padding: 8px 16px 0; }
-  .search-input { width: 140px; }
-  .search-input:focus { width: 200px; }
 }
 /* Mobile: 2 cols */
 @media (max-width: 500px) {
@@ -955,10 +955,6 @@ body.resizing .panel { transition: none; }
   .header-actions {
     width: 100%;
     justify-content: flex-start;
-  }
-  .search-input {
-    flex: 1 1 auto;
-    min-width: 0;
   }
 }
 .header-btn {
