@@ -404,13 +404,15 @@
       thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
     }
 
-    // URL pill — bottom-right, color-tinted from item's dominant color tag
+    // URL pill — bottom-right. Default: 20% color bg + white text.
+    // Hover: fully opaque bg + color-tinted text (or dark if no color tag).
     const pillColor = dominantColor(item);
     const hasColorTag = pillColor !== '#ffffff';
-    const pillBg = hasColorTag ? hexToRgba(pillColor, 0.55) : 'rgba(255, 255, 255, 0.45)';
-    const pillBgHover = hasColorTag ? hexToRgba(pillColor, 0.75) : 'rgba(255, 255, 255, 0.7)';
+    const pillBg = hasColorTag ? hexToRgba(pillColor, 0.2) : 'rgba(255, 255, 255, 0.2)';
+    const pillBgHover = '#ffffff';
+    const pillColorHover = hasColorTag ? pillColor : '#1a1a17';
     const urlPill = item.domain
-      ? `<a class="card-url-pill"${item.source_url ? ` href="${escHtml(item.source_url).replace(/"/g, '&quot;')}" target="_blank" rel="noopener"` : ''} style="--pill-bg:${pillBg};--pill-bg-hover:${pillBgHover}" onclick="event.stopPropagation()">${escHtml(item.domain)}</a>`
+      ? `<a class="card-url-pill"${item.source_url ? ` href="${escHtml(item.source_url).replace(/"/g, '&quot;')}" target="_blank" rel="noopener"` : ''} style="--pill-bg:${pillBg};--pill-bg-hover:${pillBgHover};--pill-color-hover:${pillColorHover}" onclick="event.stopPropagation()">${escHtml(item.domain)}</a>`
       : '';
 
     const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');

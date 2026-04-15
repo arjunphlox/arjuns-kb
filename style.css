@@ -582,12 +582,12 @@ body.resizing .panel { transition: none; }
   bottom: 10px;
   right: 10px;
   max-width: calc(100% - 20px);
-  padding: 3px 10px;
+  padding: 1px 8px;
   border-radius: var(--pill-radius);
   font-size: 0.68rem;
   font-weight: 500;
-  color: #1a1a17;
-  background: var(--pill-bg, rgba(255, 255, 255, 0.45));
+  color: #ffffff;
+  background: var(--pill-bg, rgba(255, 255, 255, 0.2));
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   text-decoration: none;
@@ -595,9 +595,12 @@ body.resizing .panel { transition: none; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
-.card-url-pill:hover { background: var(--pill-bg-hover, rgba(255, 255, 255, 0.7)); }
+.card-url-pill:hover {
+  background: var(--pill-bg-hover, #ffffff);
+  color: var(--pill-color-hover, #1a1a17);
+}
 
 /* Image cards — preserve natural aspect ratio */
 .card-thumb {
