@@ -306,7 +306,8 @@
 
   function renderWeekCards(weekKey) {
     const container = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
-    const showLink = $grid.querySelector(`.week-show-link[data-week="${weekKey}"]`);
+    const header = $grid.querySelector(`.date-section-header[data-week="${weekKey}"]`);
+    const toggleLink = header?.querySelector('.week-show-link');
     if (!container) return;
 
     const items = getFilteredItems();
@@ -315,8 +316,21 @@
     container.innerHTML = weekItems.map((item, idx) => renderCard(item, idx)).join('');
     container.style.display = '';
     loadedWeeks.add(weekKey);
+    header?.classList.add('is-expanded');
+    if (toggleLink) toggleLink.textContent = 'Collapse';
+    PanelManager.refreshAfterGridRender();
+  }
 
-    if (showLink) showLink.remove();
+  function collapseWeek(weekKey) {
+    const container = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
+    const header = $grid.querySelector(`.date-section-header[data-week="${weekKey}"]`);
+    const toggleLink = header?.querySelector('.week-show-link');
+    if (!container) return;
+    container.innerHTML = '';
+    container.style.display = 'none';
+    loadedWeeks.delete(weekKey);
+    header?.classList.remove('is-expanded');
+    if (toggleLink) toggleLink.textContent = 'Expand';
     PanelManager.refreshAfterGridRender();
   }
 
@@ -345,10 +359,9 @@
     let html = '';
     weeks.forEach((week, wi) => {
       const isLoaded = loadedWeeks.has(week.key);
-      const showLink = !isLoaded
-        ? `<span class="week-show-link" data-week="${week.key}">Show</span>`
-        : '';
-      html += `<div class="date-section-header" style="grid-column: 1 / -1"><span>${week.label}</span>${showLink}</div>`;
+      const label = isLoaded ? 'Collapse' : 'Expand';
+      const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
+      html += `<div class="${headerClass}" data-week="${week.key}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" data-week="${week.key}">${label}</span></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
         html += week.items.map(e => renderCard(e.item, e.idx)).join('');
@@ -634,12 +647,14 @@
       renderGrid();
     });
 
-    // Week "Show" links -> lazy load that week
+    // Week Expand/Collapse toggle
     $grid.addEventListener('click', function (e) {
-      const showLink = e.target.closest('.week-show-link');
-      if (!showLink) return;
+      const toggle = e.target.closest('.week-show-link');
+      if (!toggle) return;
       e.stopPropagation();
-      renderWeekCards(showLink.dataset.week);
+      const key = toggle.dataset.week;
+      if (loadedWeeks.has(key)) collapseWeek(key);
+      else renderWeekCards(key);
     });
 
     // Card hover -> highlight related

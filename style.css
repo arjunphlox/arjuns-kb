@@ -475,35 +475,44 @@ body.resizing .panel { transition: none; }
   border: 0;
 }
 
-/* Date section headers — week-title block */
+/* Date section headers — week-title block
+   Default (collapsed): faint dark grey bg, white text + white "Expand"
+   Expanded: stark white bg, dark text + dark "Collapse"
+*/
 .date-section-header {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--card-bg);
+  color: var(--text);
   border-radius: 6px;
   padding: 6px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.date-section-header.is-expanded {
+  background: var(--text);
+  color: var(--bg);
+  margin-bottom: 24px;
 }
 .date-section-header span {
   font-size: 0.72rem;
   font-weight: 600;
-  color: var(--bg);
+  color: inherit;
   letter-spacing: 0.03em;
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
 }
 .week-show-link {
   font-size: 0.72rem;
-  color: var(--bg);
+  color: inherit;
   cursor: pointer;
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
   letter-spacing: 0.03em;
   transition: opacity 0.15s;
   text-decoration: none;
   user-select: none;
-  opacity: 0.65;
+  opacity: 0.75;
 }
 .week-show-link:hover {
   opacity: 1;
