@@ -519,7 +519,7 @@ body.resizing .panel { transition: none; }
 }
 .date-section-header span {
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 400;
   color: inherit;
   letter-spacing: 0.03em;
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
