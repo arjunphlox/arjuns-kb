@@ -57,3 +57,8 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 - 2026-04-16 · Layout margins replaced with padding/flex-gap as a broad rule · exceptions flagged: CSS column-count row spacing, markdown prose, `* { margin: 0 }` reset, sr-only `-1px`
 - 2026-04-16 · Phosphor icons inlined as JS string constants (not font/CDN) · zero runtime deps, fully color-controllable via currentColor
 - 2026-04-16 · Whole week-title bar is the click target (caret decorative) · lower-precision tap, ARIA role=button + keyboard support
+- 2026-04-16 · Radix Colors via copied CSS values (not CDN/npm) · zero deps, works without build step, self-contained
+- 2026-04-16 · `--accent-contrast` hardcoded per accent (not `var(--{color}-12)`) · step-12 flips in dark mode, but accent-9 is always bright for Lime/Amber — needs fixed dark text
+- 2026-04-16 · Header + expanded week bar use `--accent` as background · accent color drives the app identity, not just buttons/links
+- 2026-04-16 · Card highlights use `outline` with 4px offset (not opacity dimming) · accent border is visible without reducing card readability
+- 2026-04-16 · Theme stored as `stello.theme` in localStorage (`{mode, accent}`) · trivially syncable to server when auth lands
