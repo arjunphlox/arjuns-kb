@@ -60,9 +60,9 @@ body {
   color: var(--bg);
   border-radius: 12px;
   min-height: 120px;
-  padding: 12px 12px 4px;         /* bottom intentionally lighter: icon buttons
-                                     include inherent visual whitespace, so 4px
-                                     reads as equal to the 12px sides. */
+  padding: 12px 12px 12px;        /* With text-box-trim on h1, the title's
+                                     CSS box ends at the baseline, so 12px
+                                     padding applies equally on all sides. */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;      /* items aligned to bottom */
@@ -75,14 +75,27 @@ body {
   color: var(--bg);
   margin-bottom: 0;
   white-space: nowrap;
-  line-height: 1.1;
+  line-height: 1;
+  /* Trim the text-box down to the visible glyphs so the h1's CSS box
+     ends at the baseline, not at the line-height buffer. This lets
+     align-items:flex-end truly bottom-align the title with the icon
+     buttons instead of floating the title above them. */
+  text-box: trim-both cap alphabetic;
+  /* Legacy / prefixed variant for browsers that shipped the draft
+     property first (Safari 16.4+, older Chrome channels). */
+  -webkit-text-box-trim: both;
+  -webkit-text-box-edge: cap alphabetic;
+  leading-trim: both;
+  text-edge: cap alphabetic;
 }
 .header-count {
   font-weight: 400;
   font-size: 1rem;
   color: rgba(26, 26, 23, 0.55);
   letter-spacing: 0;
-  vertical-align: middle;
+  /* Share the same baseline as "Stello" so the two read as one
+     typographic line. */
+  vertical-align: baseline;
 }
 
 /* === COMPACT SEARCH (in header) === */
