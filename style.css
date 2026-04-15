@@ -60,7 +60,9 @@ body {
   color: var(--bg);
   border-radius: 12px;
   min-height: 120px;
-  padding: 10px 10px 8px;
+  padding: 12px 12px 4px;         /* bottom intentionally lighter: icon buttons
+                                     include inherent visual whitespace, so 4px
+                                     reads as equal to the 12px sides. */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;      /* items aligned to bottom */
@@ -861,7 +863,7 @@ body.resizing .panel { transition: none; }
 /* === HEADER ACTIONS === */
 .header-row {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
