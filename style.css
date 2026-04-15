@@ -24,7 +24,7 @@ body {
 /* === HEADER === */
 .header {
   position: sticky;
-  top: 8px;
+  top: 24px;
   z-index: 100;
   background: var(--accent);
   color: var(--accent-contrast);
@@ -296,7 +296,7 @@ body {
 
 /* === MAIN CONTENT INNER (header + grid share this wrapper's width/padding) === */
 .content-inner {
-  padding: 8px 24px 0;
+  padding: 24px 24px 0;
   max-width: 1800px;
   width: 100%;
   box-sizing: border-box;
@@ -320,7 +320,7 @@ body {
   top: 0;
   align-self: flex-start;
   height: 100vh;
-  padding: 8px 8px 8px 0;
+  padding: 24px 24px 24px 0;
   box-sizing: border-box;
 }
 .panels-container:empty { display: none; }
@@ -865,14 +865,16 @@ body.resizing .panel { transition: none; }
 @media (max-width: 768px) {
   .masonry-section { column-count: 3; }
   .modal-panel { width: 100vw; }
-  .content-inner { padding: 8px 16px 0; }
+  .content-inner { padding: 16px 16px 0; }
+  .header { top: 16px; }
 }
 /* Mobile: 2 cols */
 @media (max-width: 500px) {
   .masonry-section { column-count: 2; column-gap: 12px; }
   .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
   .header h1 { font-size: 2rem; }
-  .content-inner { padding: 8px 12px 0; }
+  .content-inner { padding: 12px 12px 0; }
+  .header { top: 12px; }
 }
 
 /* Panels responsive: under 1200px, only one panel at a time */
