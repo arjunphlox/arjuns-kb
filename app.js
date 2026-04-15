@@ -1320,6 +1320,15 @@
         const actions = document.createElement('div');
         actions.className = 'panel-header-actions';
 
+        const shuffleBtn = document.createElement('button');
+        shuffleBtn.className = 'panel-shuffle';
+        shuffleBtn.type = 'button';
+        shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
+        shuffleBtn.title = 'Shuffle to related item';
+        shuffleBtn.innerHTML = icon('shuffle');
+        shuffleBtn.addEventListener('click', () => shuffle(i));
+        actions.appendChild(shuffleBtn);
+
         if (item.source_url) {
           const openBtn = document.createElement('button');
           openBtn.className = 'panel-open-source';
@@ -1565,6 +1574,44 @@
       if (!isNaN(i)) close(i);
     }
 
+    // Replace the item in panel `index` with `newSlug` (used by Shuffle)
+    function replace(index, newSlug) {
+      if (index < 0 || index >= state.slugs.length) return;
+      if (!itemsBySlug[newSlug]) return;
+      state.slugs[index] = newSlug;
+      syncToURL(false);
+      syncToStorage();
+      render();
+      updateActiveCards();
+      announce(`Panel shuffled to: ${itemsBySlug[newSlug].title || newSlug}`);
+    }
+
+    // Find a random related slug (shares ≥1 tag). Excludes current item
+    // in this panel AND items open in sibling panels.
+    function randomRelatedSlug(currentSlug) {
+      const item = itemsBySlug[currentSlug];
+      if (!item) return null;
+      const exclude = new Set(state.slugs); // all open panels (including current)
+      const tagKeys = new Set(item.tags.map(t => t.category + ':' + t.tag));
+      const candidates = [];
+      for (const other of allItems) {
+        if (exclude.has(other.slug)) continue;
+        for (const t of other.tags) {
+          if (tagKeys.has(t.category + ':' + t.tag)) { candidates.push(other.slug); break; }
+        }
+      }
+      if (candidates.length === 0) return null;
+      return candidates[Math.floor(Math.random() * candidates.length)];
+    }
+
+    function shuffle(index) {
+      const currentSlug = state.slugs[index];
+      if (!currentSlug) return;
+      const next = randomRelatedSlug(currentSlug);
+      if (!next) { announce('No related items available to shuffle to'); return; }
+      replace(index, next);
+    }
+
     function focus(index) {
       const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
       if (panel) panel.focus({ preventScroll: false });
@@ -1692,7 +1739,7 @@
     }
 
     return {
-      init, open, close, focus,
+      init, open, close, focus, shuffle,
       openTool, closeTool,
       gridCols,
       refreshAfterGridRender,
