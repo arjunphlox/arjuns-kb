@@ -289,10 +289,10 @@ body {
   color: var(--text-secondary);
 }
 
-/* Grid section — 24-col micro-grid, cards placed at random positions */
+/* Grid section — 32-col micro-grid, cards placed at random positions */
 .masonry-section {
   display: grid;
-  grid-template-columns: repeat(24, 1fr);
+  grid-template-columns: repeat(32, 1fr);
   grid-auto-rows: auto;
   row-gap: 60px;
   margin-bottom: 16px;

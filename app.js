@@ -26,16 +26,16 @@
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
   // Brick/offset pattern: uniform cards, alternating row positions
-  // Even rows: 3 slots at cols 1, 9, 17  (card=4 cols, gap=4 cols)
-  // Odd rows:  3 slots at cols 5, 13, 21 (offset by 4, equal gaps)
-  const BRICK_EVEN = [1, 9, 17];
-  const BRICK_ODD  = [5, 13, 21];
+  // Even rows: 4 slots at cols 1, 9, 17, 25  (card=4 cols, gap=4 cols, 32-col grid)
+  // Odd rows:  4 slots at cols 5, 13, 21, 29 (offset by 4, equal gaps)
+  const BRICK_EVEN = [1, 9, 17, 25];
+  const BRICK_ODD  = [5, 13, 21, 29];
   const CARD_SPAN = 4;
 
   function brickPosition(idx) {
-    const cycle = idx % 6; // 3 even + 3 odd = 6 per cycle
-    if (cycle < 3) return { col: BRICK_EVEN[cycle], span: CARD_SPAN };
-    return { col: BRICK_ODD[cycle - 3], span: CARD_SPAN };
+    const cycle = idx % 8; // 4 even + 4 odd = 8 per cycle
+    if (cycle < 4) return { col: BRICK_EVEN[cycle], span: CARD_SPAN };
+    return { col: BRICK_ODD[cycle - 4], span: CARD_SPAN };
   }
 
   // Color name → CSS color for tag swatches
