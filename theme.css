@@ -118,7 +118,7 @@
   --accent: var(--lime-9);
   --accent-hover: var(--lime-10);
   --accent-subtle: var(--lime-a3);
-  --accent-contrast: var(--lime-12);
+  --accent-contrast: #37401c; /* always dark — lime-9 is bright in both modes */
 }
 
 /* Accent tokens — Amber (default) */
@@ -126,7 +126,7 @@
   --accent: var(--amber-9);
   --accent-hover: var(--amber-10);
   --accent-subtle: var(--amber-a3);
-  --accent-contrast: var(--amber-12);
+  --accent-contrast: #4f3422; /* always dark — amber-9 is bright in both modes */
 }
 
 /* Accent tokens — Iris */

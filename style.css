@@ -25,8 +25,8 @@ body {
   position: sticky;
   top: 8px;
   z-index: 100;
-  background: var(--text);        /* ivory */
-  color: var(--bg);
+  background: var(--accent);
+  color: var(--accent-contrast);
   border-radius: 12px;
   min-height: 120px;
   padding: 12px 12px 12px;        /* With text-box-trim on h1, the title's
@@ -41,7 +41,7 @@ body {
   font-size: 3rem;
   font-weight: 400;
   letter-spacing: -0.03em;
-  color: var(--bg);
+  color: var(--accent-contrast);
   margin-bottom: 0;
   white-space: nowrap;
   line-height: 1;
@@ -60,7 +60,7 @@ body {
 .header-count {
   font-weight: 400;
   font-size: 0.85rem;
-  color: color-mix(in srgb, var(--bg) 55%, transparent);
+  color: color-mix(in srgb, var(--accent-contrast) 55%, transparent);
   letter-spacing: 0;
   /* Superscript: sit above the cap-height line with a small offset.
      sup's default vertical-align:super shifts it up to roughly the
@@ -560,8 +560,8 @@ body.resizing .panel { transition: none; }
 .date-section-header:hover { filter: brightness(1.1); }
 .date-section-header.is-expanded:hover { filter: brightness(0.96); }
 .date-section-header.is-expanded {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--accent);
+  color: var(--accent-contrast);
   margin-bottom: 24px;
 }
 .date-section-header span {
@@ -932,9 +932,9 @@ body.resizing .panel { transition: none; }
   }
 }
 .header-btn {
-  background: color-mix(in srgb, var(--bg) 6%, transparent);
-  border: 1px solid color-mix(in srgb, var(--bg) 15%, transparent);
-  color: color-mix(in srgb, var(--bg) 75%, transparent);
+  background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
+  color: color-mix(in srgb, var(--accent-contrast) 75%, transparent);
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -946,13 +946,13 @@ body.resizing .panel { transition: none; }
   padding: 0;
 }
 .header-btn:hover {
-  background: color-mix(in srgb, var(--bg) 12%, transparent);
-  color: var(--bg);
+  background: color-mix(in srgb, var(--accent-contrast) 16%, transparent);
+  color: var(--accent-contrast);
 }
 .header-btn.is-active {
-  background: var(--accent-subtle);
-  color: var(--accent);
-  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-contrast) 20%, transparent);
+  color: var(--accent-contrast);
+  border-color: color-mix(in srgb, var(--accent-contrast) 40%, transparent);
 }
 .header-btn svg {
   width: 16px;
