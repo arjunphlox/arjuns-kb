@@ -47,3 +47,13 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 
 ## Active Work
 - [ ] (no active tasks — check BACKLOG.md for priorities)
+
+## Decisions Log
+- 2026-04-16 · Side-panel comparison UI replaces inline card expansion · supports A/B discovery without blocking grid, persists via URL + localStorage
+- 2026-04-16 · Masonry uses CSS `column-count` (not grid/flex) · keeps natural aspect ratios; documented downside: no row gap, cards use margin-bottom
+- 2026-04-16 · 3-panel layout defaults to equal viewport/4 split, `state.userResized` flags preserve manual drags · so auto-rebalancing doesn't fight the user
+- 2026-04-16 · Header alignment via `text-box-trim: trim-both cap alphabetic` · lets `align-items: flex-end` line the h1 baseline up with the icon buttons
+- 2026-04-16 · Container query on `.header` (not viewport media) · header stacks based on its own width, correctly responds to 3-panel squeeze
+- 2026-04-16 · Layout margins replaced with padding/flex-gap as a broad rule · exceptions flagged: CSS column-count row spacing, markdown prose, `* { margin: 0 }` reset, sr-only `-1px`
+- 2026-04-16 · Phosphor icons inlined as JS string constants (not font/CDN) · zero runtime deps, fully color-controllable via currentColor
+- 2026-04-16 · Whole week-title bar is the click target (caret decorative) · lower-precision tap, ARIA role=button + keyboard support
