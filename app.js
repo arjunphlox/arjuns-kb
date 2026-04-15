@@ -101,6 +101,47 @@
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   }
 
+  // --- Theme Manager ---
+  const ThemeManager = {
+    STORAGE_KEY: 'stello.theme',
+    defaults: { mode: 'dark', accent: 'amber' },
+
+    load() {
+      try {
+        const raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? { ...this.defaults, ...JSON.parse(raw) } : { ...this.defaults };
+      } catch { return { ...this.defaults }; }
+    },
+
+    apply(prefs) {
+      document.documentElement.setAttribute('data-theme', prefs.mode);
+      document.documentElement.setAttribute('data-accent', prefs.accent);
+    },
+
+    save(prefs) {
+      try { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(prefs)); } catch {}
+    },
+
+    setMode(mode) {
+      const prefs = this.load();
+      prefs.mode = mode;
+      this.save(prefs);
+      this.apply(prefs);
+    },
+
+    setAccent(accent) {
+      const prefs = this.load();
+      prefs.accent = accent;
+      this.save(prefs);
+      this.apply(prefs);
+    },
+
+    init() {
+      const prefs = this.load();
+      this.apply(prefs);
+    }
+  };
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
@@ -111,6 +152,7 @@
 
   // --- Boot ---
   async function init() {
+    ThemeManager.init();
     const res = await fetch('index.json?v=' + Date.now());
     const data = await res.json();
     allItems = data.items;
@@ -419,11 +461,13 @@
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
-      thumbHtml = `<div class="card-text-content" style="view-transition-name:${vtName};background:hsl(${hue},15%,13%)">${truncated}</div>`;
+      const light = ThemeManager.load().mode === 'light';
+      thumbHtml = `<div class="card-text-content" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '12%,92%' : '15%,13%'})">${truncated}</div>`;
     } else {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const letter = (item.title || '?')[0].toUpperCase();
-      thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
+      const light = ThemeManager.load().mode === 'light';
+      thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '10%,93%' : '20%,16%'})">${letter}</div>`;
     }
 
     // URL pill — bottom-right. Default: 20% color bg + white text.
@@ -1150,6 +1194,36 @@
         }
       });
     }
+
+    // --- Theme controls ---
+    const prefs = ThemeManager.load();
+
+    // Mode toggle
+    const $modeToggle = $panel.querySelector('#theme-mode-toggle');
+    if ($modeToggle) {
+      $modeToggle.querySelectorAll('.theme-toggle-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.mode === prefs.mode);
+      });
+      $modeToggle.addEventListener('click', (e) => {
+        const opt = e.target.closest('[data-mode]');
+        if (!opt) return;
+        ThemeManager.setMode(opt.dataset.mode);
+        $modeToggle.querySelectorAll('.theme-toggle-option').forEach(o =>
+          o.classList.toggle('active', o.dataset.mode === opt.dataset.mode)
+        );
+      });
+    }
+
+    // Accent swatches
+    $panel.querySelectorAll('.accent-swatch').forEach(swatch => {
+      swatch.classList.toggle('active', swatch.dataset.accent === prefs.accent);
+      swatch.addEventListener('click', () => {
+        ThemeManager.setAccent(swatch.dataset.accent);
+        $panel.querySelectorAll('.accent-swatch').forEach(s =>
+          s.classList.toggle('active', s.dataset.accent === swatch.dataset.accent)
+        );
+      });
+    });
   }
 
   // =========================================================================

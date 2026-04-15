@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-accent="amber">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stello</title>
+  <script>
+    (function(){try{var t=JSON.parse(localStorage.getItem('stello.theme'));if(t){if(t.mode)document.documentElement.setAttribute('data-theme',t.mode);if(t.accent)document.documentElement.setAttribute('data-accent',t.accent);}}catch(e){}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=35">
+  <link rel="stylesheet" href="theme.css?v=1">
+  <link rel="stylesheet" href="style.css?v=36">
 </head>
 <body>
 
@@ -20,6 +24,22 @@
   </template>
 
   <template id="tpl-settings">
+    <fieldset class="settings-theme">
+      <legend>Appearance</legend>
+      <div class="settings-theme-row">
+        <span class="settings-theme-label">Mode</span>
+        <div class="theme-toggle" id="theme-mode-toggle">
+          <span class="theme-toggle-option" data-mode="light">Light</span>
+          <span class="theme-toggle-option" data-mode="dark">Dark</span>
+        </div>
+      </div>
+      <div class="settings-theme-row">
+        <span class="settings-theme-label">Accent</span>
+        <button class="accent-swatch" data-accent="lime" type="button" aria-label="Lime accent"></button>
+        <button class="accent-swatch" data-accent="amber" type="button" aria-label="Amber accent"></button>
+        <button class="accent-swatch" data-accent="iris" type="button" aria-label="Iris accent"></button>
+      </div>
+    </fieldset>
     <div class="settings-field">
       <label>Profile name</label>
       <input type="text" class="settings-profile" value="personal" placeholder="Profile name">

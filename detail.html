@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-accent="amber">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Item Detail — Stello</title>
+  <script>
+    (function(){try{var t=JSON.parse(localStorage.getItem('stello.theme'));if(t){if(t.mode)document.documentElement.setAttribute('data-theme',t.mode);if(t.accent)document.documentElement.setAttribute('data-accent',t.accent);}}catch(e){}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="style.css">
   <style>
     .detail-back {
@@ -61,7 +65,7 @@
       justify-content: center;
       font-size: 4rem;
       font-weight: 700;
-      color: rgba(245, 244, 237, 0.08);
+      color: var(--placeholder-text);
       border-radius: 8px;
     }
 
@@ -106,7 +110,7 @@
     .detail-source-btn {
       display: inline-block;
       background: var(--accent);
-      color: #1a1a17;
+      color: var(--accent-contrast);
       font-weight: 600;
       font-size: 0.85rem;
       padding: 8px 20px;
@@ -147,7 +151,7 @@
     .detail-body a:hover { text-decoration: underline; }
     .detail-body strong { color: var(--text); }
     .detail-body code {
-      background: rgba(245, 244, 237, 0.06);
+      background: var(--code-bg);
       padding: 2px 5px;
       border-radius: 3px;
       font-size: 0.85em;
@@ -174,7 +178,7 @@
       letter-spacing: 0.04em;
     }
     .status-active { background: var(--tag-domain-bg); color: var(--tag-domain-fg); }
-    .status-broken { background: #3a2626; color: #c47a7a; }
+    .status-broken { background: var(--status-broken-bg); color: var(--status-broken-fg); }
 
     /* Responsive: stack on narrow screens */
     @media (max-width: 900px) {
@@ -315,11 +319,13 @@
         $left.innerHTML = `<img class="detail-image" src="${item.image_path}" alt="" style="view-transition-name:${vtName}" onerror="this.style.display='none'">`;
       } else if (item.summary && item.summary.length > 30 && !item.summary.startsWith('Saved from')) {
         const hue = PLACEHOLDER_HUES[Math.abs(slug.charCodeAt(0)) % PLACEHOLDER_HUES.length];
-        $left.innerHTML = `<div class="detail-text-hero" style="view-transition-name:${vtName};background:hsl(${hue},15%,13%)">${escHtml(cleanSummary(item.summary))}</div>`;
+        const light = document.documentElement.getAttribute('data-theme') === 'light';
+        $left.innerHTML = `<div class="detail-text-hero" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '12%,92%' : '15%,13%'})">${escHtml(cleanSummary(item.summary))}</div>`;
       } else {
         const hue = PLACEHOLDER_HUES[Math.abs(slug.charCodeAt(0)) % PLACEHOLDER_HUES.length];
         const letter = (item.title || '?')[0].toUpperCase();
-        $left.innerHTML = `<div class="detail-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
+        const light = document.documentElement.getAttribute('data-theme') === 'light';
+        $left.innerHTML = `<div class="detail-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '10%,93%' : '20%,16%'})">${letter}</div>`;
       }
 
       // Right panel: details

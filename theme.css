@@ -1,0 +1,162 @@
+/* === Stello Theme — Radix Colors integration === */
+/* Scales: Sand (neutral), Lime, Amber, Iris — light & dark modes */
+
+/* -------------------------------------------------------
+   A. Radix raw scale values (copied from @radix-ui/colors)
+   ------------------------------------------------------- */
+
+/* Sand — neutral scale */
+[data-theme="light"] {
+  --sand-1: #fdfdfc; --sand-2: #f9f9f8; --sand-3: #f1f0ef;
+  --sand-4: #e9e8e6; --sand-5: #e2e1de; --sand-6: #dad9d6;
+  --sand-7: #cfceca; --sand-8: #bcbbb5; --sand-9: #8d8d86;
+  --sand-10: #82827c; --sand-11: #63635e; --sand-12: #21201c;
+}
+[data-theme="dark"] {
+  --sand-1: #111110; --sand-2: #191918; --sand-3: #222221;
+  --sand-4: #2a2a28; --sand-5: #31312e; --sand-6: #3b3a37;
+  --sand-7: #494844; --sand-8: #62605b; --sand-9: #6f6d66;
+  --sand-10: #7c7b74; --sand-11: #b5b3ad; --sand-12: #eeeeec;
+}
+
+/* Lime — accent scale */
+[data-theme="light"] {
+  --lime-1: #fcfdfa; --lime-2: #f8faf3; --lime-3: #eef6d6;
+  --lime-4: #e2f0bd; --lime-5: #d3e7a6; --lime-6: #c2da91;
+  --lime-7: #abc978; --lime-8: #8db654; --lime-9: #bdee63;
+  --lime-10: #b0e64c; --lime-11: #5c7c2f; --lime-12: #37401c;
+  --lime-a3: #96c80029;
+}
+[data-theme="dark"] {
+  --lime-1: #11130c; --lime-2: #151a10; --lime-3: #1f2917;
+  --lime-4: #29371d; --lime-5: #334423; --lime-6: #3d522a;
+  --lime-7: #496231; --lime-8: #577538; --lime-9: #bdee63;
+  --lime-10: #d4ff70; --lime-11: #bde56c; --lime-12: #e3f7ba;
+  --lime-a3: #9bfd4c1a;
+}
+
+/* Amber — accent scale */
+[data-theme="light"] {
+  --amber-1: #fefdfb; --amber-2: #fefbe9; --amber-3: #fff7c2;
+  --amber-4: #ffee9c; --amber-5: #fbe577; --amber-6: #f3d673;
+  --amber-7: #e9c162; --amber-8: #e2a336; --amber-9: #ffc53d;
+  --amber-10: #ffba18; --amber-11: #ab6400; --amber-12: #4f3422;
+  --amber-a3: #ffde003d;
+}
+[data-theme="dark"] {
+  --amber-1: #16120c; --amber-2: #1d180f; --amber-3: #302008;
+  --amber-4: #3f2700; --amber-5: #4d3000; --amber-6: #5c3d05;
+  --amber-7: #714f19; --amber-8: #8f6424; --amber-9: #ffc53d;
+  --amber-10: #ffd60a; --amber-11: #ffca16; --amber-12: #ffe7b3;
+  --amber-a3: #fa820022;
+}
+
+/* Iris — accent scale */
+[data-theme="light"] {
+  --iris-1: #fdfdff; --iris-2: #f8f8ff; --iris-3: #f0f1fe;
+  --iris-4: #e6e7ff; --iris-5: #dadcff; --iris-6: #cbcdff;
+  --iris-7: #b8baf8; --iris-8: #9b9ef0; --iris-9: #5b5bd6;
+  --iris-10: #5151cd; --iris-11: #5753c6; --iris-12: #272962;
+  --iris-a3: #0011ee0f;
+}
+[data-theme="dark"] {
+  --iris-1: #13131e; --iris-2: #171625; --iris-3: #202248;
+  --iris-4: #262a65; --iris-5: #303374; --iris-6: #3d3e82;
+  --iris-7: #4a4a95; --iris-8: #5958b1; --iris-9: #5b5bd6;
+  --iris-10: #6e6ade; --iris-11: #b1a9ff; --iris-12: #e0dffe;
+  --iris-a3: #525bff3b;
+}
+
+/* -------------------------------------------------------
+   B. Semantic mapping — Radix steps to Stello tokens
+   ------------------------------------------------------- */
+
+/* Neutral tokens (mode-dependent, accent-independent) */
+[data-theme="dark"] {
+  --bg: var(--sand-1);
+  --bg-secondary: var(--sand-2);
+  --card-bg: var(--sand-3);
+  --card-hover: var(--sand-4);
+  --border: var(--sand-6);
+  --border-light: var(--sand-7);
+  --text-dim: var(--sand-9);
+  --text-secondary: var(--sand-11);
+  --text: var(--sand-12);
+  --modal-bg: var(--sand-2);
+
+  /* Mode-sensitive utility vars */
+  --overlay-bg: rgba(0, 0, 0, 0.9);
+  --code-bg: rgba(238, 238, 236, 0.06);
+  --placeholder-text: rgba(238, 238, 236, 0.08);
+  --color-dot-border: rgba(255, 255, 255, 0.15);
+  --status-broken-bg: #3a2626;
+  --status-broken-fg: #c47a7a;
+}
+[data-theme="light"] {
+  --bg: var(--sand-1);
+  --bg-secondary: var(--sand-2);
+  --card-bg: var(--sand-3);
+  --card-hover: var(--sand-4);
+  --border: var(--sand-6);
+  --border-light: var(--sand-7);
+  --text-dim: var(--sand-9);
+  --text-secondary: var(--sand-11);
+  --text: var(--sand-12);
+  --modal-bg: var(--sand-2);
+
+  /* Mode-sensitive utility vars */
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --code-bg: rgba(33, 32, 28, 0.06);
+  --placeholder-text: rgba(33, 32, 28, 0.08);
+  --color-dot-border: rgba(0, 0, 0, 0.15);
+  --status-broken-bg: #f5e0e0;
+  --status-broken-fg: #943e3e;
+}
+
+/* Accent tokens — Lime */
+[data-accent="lime"] {
+  --accent: var(--lime-9);
+  --accent-hover: var(--lime-10);
+  --accent-subtle: var(--lime-a3);
+  --accent-contrast: var(--lime-12);
+}
+
+/* Accent tokens — Amber (default) */
+[data-accent="amber"] {
+  --accent: var(--amber-9);
+  --accent-hover: var(--amber-10);
+  --accent-subtle: var(--amber-a3);
+  --accent-contrast: var(--amber-12);
+}
+
+/* Accent tokens — Iris */
+[data-accent="iris"] {
+  --accent: var(--iris-9);
+  --accent-hover: var(--iris-10);
+  --accent-subtle: var(--iris-a3);
+  --accent-contrast: #fff;
+}
+
+/* -------------------------------------------------------
+   C. Tag category palette — mode-dependent
+   ------------------------------------------------------- */
+[data-theme="dark"] {
+  --tag-format-bg: #33332e;   --tag-format-fg: #a8a69e;
+  --tag-domain-bg: #2a3328;   --tag-domain-fg: #8eb88a;
+  --tag-style-bg: #332a2e;    --tag-style-fg: #c49a9a;
+  --tag-subject-bg: #2a2e33;  --tag-subject-fg: #8ea8b8;
+  --tag-tool-bg: #33302a;     --tag-tool-fg: #c4a97a;
+  --tag-location-bg: #2a3333; --tag-location-fg: #7ab8b0;
+  --tag-mood-bg: #33282e;     --tag-mood-fg: #b88ea8;
+  --tag-color-bg: transparent; --tag-color-fg: var(--text-secondary);
+}
+[data-theme="light"] {
+  --tag-format-bg: #ebebea;   --tag-format-fg: #63635e;
+  --tag-domain-bg: #ddf3db;   --tag-domain-fg: #2b6e28;
+  --tag-style-bg: #f3dbdf;    --tag-style-fg: #8a3a45;
+  --tag-subject-bg: #dbe3f3;  --tag-subject-fg: #2d5580;
+  --tag-tool-bg: #f3edd8;     --tag-tool-fg: #7a6020;
+  --tag-location-bg: #d8f0ef; --tag-location-fg: #2a6e68;
+  --tag-mood-bg: #efd8ef;     --tag-mood-fg: #6e2a62;
+  --tag-color-bg: transparent; --tag-color-fg: var(--text-secondary);
+}
