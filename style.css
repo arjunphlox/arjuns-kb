@@ -9,6 +9,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+button, input, select, textarea, fieldset { font-family: inherit; }
 
 body {
   font-family: 'Aribau Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -74,7 +75,7 @@ body {
   background: var(--card-bg);
   border: 1px solid var(--border);
   color: var(--text);
-  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+
   font-size: 0.9rem;
   padding: 0 14px;
   height: 48px;        /* 1.5x the 32px week-title bar */
@@ -154,7 +155,7 @@ body {
   font-size: 0.72rem;
   color: var(--text-dim);
   cursor: pointer;
-  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+
   transition: color 0.15s;
   padding: 3px 4px;
   user-select: none;
@@ -169,7 +170,7 @@ body {
   background: var(--bg);
   border: 1px solid var(--border);
   color: var(--text);
-  font-family: inherit;
+
   font-size: 0.8rem;
   padding: 8px 10px;
   border-radius: 6px;
@@ -569,7 +570,7 @@ body.resizing .panel { transition: none; }
   font-weight: 400;
   color: inherit;
   letter-spacing: 0.03em;
-  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
+
 }
 /* Caret inside the week bar — purely decorative; parent bar handles clicks. */
 .week-show-link {
@@ -1006,7 +1007,7 @@ body.resizing .panel { transition: none; }
   font-size: 0.68rem;
   cursor: pointer;
   transition: all 0.15s;
-  font-family: inherit;
+
 }
 .q-toggle:hover {
   border-color: var(--text-dim);
@@ -1024,7 +1025,7 @@ body.resizing .panel { transition: none; }
   padding: 4px 10px;
   border-radius: var(--pill-radius);
   font-size: 0.68rem;
-  font-family: inherit;
+
   width: 120px;
   transition: border-color 0.15s;
 }
@@ -1043,7 +1044,7 @@ body.resizing .panel { transition: none; }
   color: var(--text);
   padding: 6px 10px;
   border-radius: 6px;
-  font-family: inherit;
+
   font-size: 0.75rem;
   resize: vertical;
   min-height: 36px;
@@ -1062,7 +1063,7 @@ body.resizing .panel { transition: none; }
   font-size: 0.72rem;
   cursor: pointer;
   border: 1px solid var(--border);
-  font-family: inherit;
+
   transition: all 0.15s;
 }
 .q-save {
@@ -1118,7 +1119,7 @@ body.resizing .panel { transition: none; }
   color: var(--text);
   padding: 8px 10px;
   border-radius: 6px;
-  font-family: inherit;
+
   font-size: 0.78rem;
 }
 .settings-field input:focus {
@@ -1138,7 +1139,7 @@ body.resizing .panel { transition: none; }
   border-radius: 6px;
   font-size: 0.75rem;
   cursor: pointer;
-  font-family: inherit;
+
 }
 .settings-save:hover { background: var(--accent-hover); }
 .settings-status {
@@ -1155,7 +1156,7 @@ body.resizing .panel { transition: none; }
   color: var(--text);
   padding: 10px;
   border-radius: 6px;
-  font-family: inherit;
+
   font-size: 0.78rem;
   resize: vertical;
 }
@@ -1172,7 +1173,7 @@ body.resizing .panel { transition: none; }
   border-radius: 6px;
   font-size: 0.78rem;
   cursor: pointer;
-  font-family: inherit;
+
 }
 .import-submit:hover { background: var(--accent-hover); }
 .import-divider {
@@ -1251,7 +1252,7 @@ body.resizing .panel { transition: none; }
 .theme-toggle-option {
   padding: 5px 12px;
   font-size: 0.72rem;
-  font-family: inherit;
+
   color: var(--text-dim);
   transition: background 0.15s, color 0.15s;
 }
