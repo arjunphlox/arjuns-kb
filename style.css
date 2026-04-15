@@ -733,7 +733,7 @@ body.resizing .panel { transition: none; }
 /* === RELATED CARD HIGHLIGHT === */
 .card-focused .card-visual-area {
   outline: 1px solid var(--accent);
-  outline-offset: -1px;
+  outline-offset: 4px;
   border-radius: 4px;
 }
 
