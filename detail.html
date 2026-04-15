@@ -346,10 +346,6 @@
       });
       html += `</div>`;
 
-      if (item.source_url) {
-        html += `<a class="detail-source-btn" href="${item.source_url}" target="_blank" rel="noopener">Visit source &rarr;</a>`;
-      }
-
       html += `<div class="detail-body" id="detail-body">Loading content...</div>`;
 
       document.getElementById('detail-right').innerHTML = html;

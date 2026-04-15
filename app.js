@@ -3,6 +3,18 @@
 (function () {
   'use strict';
 
+  // --- Icons (Phosphor regular, 16x16) ---
+  const ICONS = {
+    'gear': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"/></svg>',
+    'plus': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>',
+    'funnel': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z"/></svg>',
+    'x': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>',
+    'frame-corners': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>',
+    'arrow-up-right': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>',
+    'magnifying-glass': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>',
+  };
+  function icon(name) { return ICONS[name] || ''; }
+
   // --- State ---
   let allItems = [];
   let itemsBySlug = {};      // slug -> item lookup
@@ -25,21 +37,6 @@
 
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
-
-  // Brick/offset pattern: uniform cards, alternating row positions.
-  // Cards are 1 col wide; gaps are 1 col wide. Row 0 occupies odd cols, row 1 evens.
-  // cols ∈ {8, 6, 4} depending on how many panels are open.
-  const CARD_SPAN = 1;
-
-  function brickPosition(idx, cols) {
-    const c = cols || 8;
-    const slotsPerRow = Math.max(1, Math.floor(c / 2));
-    const cycle = idx % (slotsPerRow * 2);
-    const row = Math.floor(cycle / slotsPerRow); // 0 = even row, 1 = odd
-    const idxInRow = cycle % slotsPerRow;
-    const col = row === 0 ? 1 + 2 * idxInRow : 2 + 2 * idxInRow;
-    return { col, span: CARD_SPAN };
-  }
 
   // Color name → CSS color for tag swatches
   const COLOR_MAP = {
@@ -83,15 +80,32 @@
     beige: '#f5f5dc', off_white: '#faf0e6', 'off-white': '#faf0e6',
   };
 
+  // Returns the hex color of an item's highest-weighted `color` tag, or '#ffffff'.
+  function dominantColor(item) {
+    if (!item || !item.tags) return '#ffffff';
+    const colorTags = item.tags.filter(t => t.category === 'color');
+    if (!colorTags.length) return '#ffffff';
+    const top = colorTags.reduce((a, b) => (b.weight > a.weight ? b : a));
+    const key = top.tag;
+    return COLOR_MAP[key] || COLOR_MAP[key.replace(/[-_\s]/g, '_')] || '#ffffff';
+  }
+
+  function hexToRgba(hex, a) {
+    const clean = hex.replace('#', '');
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
   const $activeFilters = document.getElementById('active-filters');
-  const $itemsCount = document.getElementById('items-count');
   const $headerCount = document.getElementById('header-count');
-  const $filterPanel = document.getElementById('filter-panel');
-  const $colorBar = document.getElementById('filter-color-tags');
-  const $drawer = document.getElementById('filter-tag-drawer');
+  // Filter UI elements live inside the tool panel when open; looked up dynamically.
+  const $colorBar = () => document.getElementById('filter-color-tags');
+  const $drawer = () => document.getElementById('filter-tag-drawer');
 
   // --- Boot ---
   async function init() {
@@ -111,11 +125,17 @@
 
     buildRelatedIndex();
     renderStats();
-    renderColorBar();
-    renderTagDrawer();
     renderGrid();
+    injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+  }
+
+  function injectHeaderIcons() {
+    document.querySelectorAll('[data-icon]').forEach(el => {
+      const name = el.dataset.icon;
+      if (name && ICONS[name]) el.innerHTML = icon(name);
+    });
   }
 
   // --- Relatedness Index ---
@@ -161,12 +181,14 @@
   let colorBarExpanded = false;
 
   function renderColorBar() {
+    const el = $colorBar();
+    if (!el) return;
     const colorCounts = {};
     allItems.forEach(i => i.tags.forEach(t => {
       if (t.category === 'color') colorCounts[t.tag] = (colorCounts[t.tag] || 0) + 1;
     }));
     const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
-    if (sorted.length === 0) { $colorBar.style.display = 'none'; return; }
+    if (sorted.length === 0) { el.style.display = 'none'; return; }
 
     const visible = colorBarExpanded ? sorted : sorted.slice(0, COLOR_BAR_LIMIT);
     const chips = visible.map(([tag, count]) => {
@@ -179,7 +201,7 @@
       ? `<span class="color-bar-toggle">${colorBarExpanded ? 'Less' : `+${sorted.length - COLOR_BAR_LIMIT} more`}</span>`
       : '';
 
-    $colorBar.innerHTML = chips + toggle;
+    el.innerHTML = chips + toggle;
   }
 
   // --- Tag Drawer ---
@@ -195,12 +217,14 @@
   }
 
   function renderTagDrawer() {
+    const el = $drawer();
+    if (!el) return;
     const map = collectTags();
     const order = ['domain', 'subject', 'format', 'tool', 'style', 'mood', 'location', 'color'];
     const categories = order.filter(c => map[c]);
     Object.keys(map).forEach(c => { if (!categories.includes(c)) categories.push(c); });
 
-    $drawer.innerHTML = categories.map(cat => {
+    el.innerHTML = categories.map(cat => {
       const tags = Object.entries(map[cat]).sort((a, b) => b[1] - a[1]);
       return `<div class="tag-category-group">
         <div class="tag-category-label">${cat}</div>
@@ -300,7 +324,6 @@
 
   function renderGrid() {
     const items = getFilteredItems();
-    $itemsCount.innerHTML = `Showing <span>${items.length}</span> of ${allItems.length} items`;
 
     if (items.length === 0) {
       $grid.innerHTML = '<div class="no-results">No items match your filters.</div>';
@@ -381,21 +404,24 @@
       thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
     }
 
-    // Card footer — minimal metadata
-    const cardFooter = `<div class="card-footer">
-      <div class="card-footer-title">${escHtml(item.title)}</div>
-      ${item.domain ? `<div class="card-footer-domain">${escHtml(item.domain)}</div>` : ''}
-    </div>`;
+    // URL pill — bottom-right, color-tinted from item's dominant color tag
+    const pillColor = dominantColor(item);
+    const hasColorTag = pillColor !== '#ffffff';
+    const pillBg = hasColorTag ? hexToRgba(pillColor, 0.55) : 'rgba(255, 255, 255, 0.45)';
+    const pillBgHover = hasColorTag ? hexToRgba(pillColor, 0.75) : 'rgba(255, 255, 255, 0.7)';
+    const urlPill = item.domain
+      ? `<a class="card-url-pill"${item.source_url ? ` href="${escHtml(item.source_url).replace(/"/g, '&quot;')}" target="_blank" rel="noopener"` : ''} style="--pill-bg:${pillBg};--pill-bg-hover:${pillBgHover}" onclick="event.stopPropagation()">${escHtml(item.domain)}</a>`
+      : '';
 
     const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
-    const cols = PanelManager.gridCols();
-    const pos = brickPosition(idx, cols);
 
-    return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1" style="grid-column: ${pos.col} / span ${pos.span}">
+    return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1">
       <div class="card-visual-area">
         ${thumbHtml}
+        <div class="card-overlay"></div>
+        <div class="card-title-badge">${escHtml(item.title || '')}</div>
+        ${urlPill}
       </div>
-      ${cardFooter}
     </div>`;
   }
 
@@ -411,15 +437,16 @@
         return renderTagPill(t.tag, t.category, shared);
       }).join('');
 
-    return `<div class="card-expanded-body">
-      <div class="card-expanded-title">${escHtml(item.title)}</div>
+    const panelImage = (item.has_image && item.image_path)
+      ? `<div class="panel-image"><img src="${escHtml(item.image_path).replace(/"/g, '&quot;')}" alt=""></div>`
+      : '';
+
+    return `${panelImage}<div class="card-expanded-body">
       <div class="card-expanded-meta">
-        ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
         ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
       </div>
       ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
       <div class="card-expanded-tags">${tagPills}</div>
-      ${item.source_url ? `<a class="card-expanded-source" href="${item.source_url}" target="_blank" rel="noopener">Visit source &rarr;</a>` : ''}
       <div class="card-expanded-md" data-slug="${item.slug}"></div>
     </div>`;
   }
@@ -523,25 +550,38 @@
       renderGrid();
     });
 
-    // Filter panel toggle
-    document.getElementById('filter-panel-btn').addEventListener('click', function () {
-      $filterPanel.classList.toggle('open');
-    });
-    document.getElementById('filter-panel-close').addEventListener('click', function () {
-      $filterPanel.classList.remove('open');
+    // Tool panel toggles (Filters, Import, Settings)
+    document.getElementById('filter-panel-btn')?.addEventListener('click', () => PanelManager.openTool('filters'));
+    document.getElementById('import-btn')?.addEventListener('click', () => PanelManager.openTool('import'));
+    document.getElementById('settings-btn')?.addEventListener('click', () => PanelManager.openTool('settings'));
+
+    // Render tool bodies when the tool panel opens
+    document.addEventListener('toolpanel:rendered', (e) => {
+      const { type } = e.detail;
+      if (type === 'filters') {
+        renderColorBar();
+        renderTagDrawer();
+      } else if (type === 'settings') {
+        loadSettingsIntoPanel();
+      } else if (type === 'import') {
+        bindImportPanelBody();
+      }
     });
 
-    $drawer.addEventListener('click', function (e) {
-      const chip = e.target.closest('.tag-chip');
-      if (!chip) return;
-      const tag = chip.dataset.tag;
-      const cat = chip.dataset.cat;
-      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
-      if (idx >= 0) {
-        activeTags.splice(idx, 1);
-      } else {
-        activeTags.push({ tag, category: cat });
+    // Delegated clicks on tag chips (in filter tool panel)
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#filter-color-tags .color-bar-toggle')) {
+        colorBarExpanded = !colorBarExpanded;
+        renderColorBar();
+        return;
       }
+      const chipInDrawer = e.target.closest('#filter-tag-drawer .tag-chip, #filter-color-tags .tag-chip');
+      if (!chipInDrawer) return;
+      const tag = chipInDrawer.dataset.tag;
+      const cat = chipInDrawer.dataset.cat;
+      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
+      if (idx >= 0) activeTags.splice(idx, 1);
+      else activeTags.push({ tag, category: cat });
       renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
@@ -561,29 +601,6 @@
       if (!pill) return;
       const idx = parseInt(pill.dataset.idx, 10);
       activeTags.splice(idx, 1);
-      renderColorBar();
-      renderTagDrawer();
-      renderActiveFilters();
-      renderGrid();
-    });
-
-    // Color bar clicks -> filter by color tag or toggle more/less
-    $colorBar.addEventListener('click', function (e) {
-      if (e.target.closest('.color-bar-toggle')) {
-        colorBarExpanded = !colorBarExpanded;
-        renderColorBar();
-        return;
-      }
-      const chip = e.target.closest('.tag-chip');
-      if (!chip) return;
-      const tag = chip.dataset.tag;
-      const cat = chip.dataset.cat;
-      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
-      if (idx >= 0) {
-        activeTags.splice(idx, 1);
-      } else {
-        activeTags.push({ tag, category: cat });
-      }
       renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
@@ -652,9 +669,8 @@
       // Skip if any input or textarea is focused (search, settings, import modal)
       const active = document.activeElement;
       if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
-      // Skip if settings panel or import modal is open
-      if (document.getElementById('settings-panel').classList.contains('open')) return;
-      if (document.getElementById('import-modal').classList.contains('open')) return;
+      // Skip if any tool panel is open (user might be interacting with it)
+      if (document.querySelector('.panel-tool')) return;
 
       const text = e.clipboardData.getData('text/plain');
       const files = e.clipboardData.files;
@@ -960,24 +976,10 @@
     toast._timer = setTimeout(() => toast.classList.remove('toast-visible'), 3000);
   }
 
-  // --- Import modal ---
-  function bindImportModal() {
-    const $importBtn = document.getElementById('import-btn');
-    const $importModal = document.getElementById('import-modal');
-    if (!$importBtn || !$importModal) return;
-
-    $importBtn.addEventListener('click', () => {
-      $importModal.classList.toggle('open');
-    });
-
-    // Close on backdrop click
-    $importModal.addEventListener('click', (e) => {
-      if (e.target === $importModal) $importModal.classList.remove('open');
-    });
-
-    // Textarea import
-    const $importSubmit = $importModal.querySelector('.import-submit');
-    const $importText = $importModal.querySelector('.import-textarea');
+  // --- Import tool panel body (wired when the panel opens) ---
+  function bindImportPanelBody() {
+    const $importSubmit = document.querySelector('.panel-tool[data-tool="import"] .import-submit');
+    const $importText = document.querySelector('.panel-tool[data-tool="import"] .import-textarea');
     if ($importSubmit && $importText) {
       $importSubmit.addEventListener('click', () => {
         const text = $importText.value;
@@ -985,15 +987,14 @@
         if (urls && urls.length > 0) {
           captureBulkURLs(urls);
           $importText.value = '';
-          $importModal.classList.remove('open');
+          PanelManager.closeTool();
         } else {
           showToast('No URLs found');
         }
       });
     }
 
-    // File upload (CSV / Markdown)
-    const $fileInput = $importModal.querySelector('.import-file');
+    const $fileInput = document.querySelector('.panel-tool[data-tool="import"] .import-file');
     if ($fileInput) {
       $fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -1003,22 +1004,20 @@
           const text = reader.result;
           const urls = text.match(/https?:\/\/[^\s<>"')]+/g);
           if (urls && urls.length > 0) {
-            // Dedupe
             const unique = [...new Set(urls)];
             captureBulkURLs(unique);
-            $importModal.classList.remove('open');
+            PanelManager.closeTool();
             showToast(`Importing ${unique.length} URLs from file...`);
           } else {
             showToast('No URLs found in file');
           }
         };
         reader.readAsText(file);
-        e.target.value = ''; // reset
+        e.target.value = '';
       });
     }
 
-    // Drag and drop
-    const $dropZone = $importModal.querySelector('.import-drop-zone');
+    const $dropZone = document.querySelector('.panel-tool[data-tool="import"] .import-drop-zone');
     if ($dropZone) {
       $dropZone.addEventListener('dragover', (e) => { e.preventDefault(); $dropZone.classList.add('drag-over'); });
       $dropZone.addEventListener('dragleave', () => $dropZone.classList.remove('drag-over'));
@@ -1033,7 +1032,7 @@
             if (urls) {
               const unique = [...new Set(urls)];
               captureBulkURLs(unique);
-              $importModal.classList.remove('open');
+              PanelManager.closeTool();
             }
           };
           reader.readAsText(file);
@@ -1042,37 +1041,30 @@
     }
   }
 
-  // --- Settings panel ---
-  function bindSettingsPanel() {
-    const $settingsBtn = document.getElementById('settings-btn');
-    const $settingsPanel = document.getElementById('settings-panel');
-    if (!$settingsBtn || !$settingsPanel) return;
+  // --- Settings tool panel body (wired when the panel opens) ---
+  async function loadSettingsIntoPanel() {
+    const $panel = document.querySelector('.panel-tool[data-tool="settings"]');
+    if (!$panel) return;
+    const $keyInput = $panel.querySelector('.settings-key');
+    const $profileInput = $panel.querySelector('.settings-profile');
+    const $status = $panel.querySelector('.settings-status');
 
-    $settingsBtn.addEventListener('click', async () => {
-      const isOpen = $settingsPanel.classList.toggle('open');
-      if (isOpen) {
-        // Load current config
-        try {
-          const res = await fetch('/api/config');
-          const config = await res.json();
-          const $keyInput = $settingsPanel.querySelector('.settings-key');
-          const $profileInput = $settingsPanel.querySelector('.settings-profile');
-          const $status = $settingsPanel.querySelector('.settings-status');
-          if (config.active_profile && config.profiles[config.active_profile]) {
-            const p = config.profiles[config.active_profile];
-            $keyInput.placeholder = p.has_key ? `Key: ${p.key_preview}` : 'Enter API key...';
-            $profileInput.value = config.active_profile;
-          }
-          $status.textContent = config.active_profile ? `Active: ${config.active_profile}` : 'No API key configured';
-        } catch { /* silent */ }
+    try {
+      const res = await fetch('/api/config');
+      const config = await res.json();
+      if (config.active_profile && config.profiles[config.active_profile]) {
+        const p = config.profiles[config.active_profile];
+        $keyInput.placeholder = p.has_key ? `Key: ${p.key_preview}` : 'Enter API key...';
+        $profileInput.value = config.active_profile;
       }
-    });
+      $status.textContent = config.active_profile ? `Active: ${config.active_profile}` : 'No API key configured';
+    } catch { /* silent */ }
 
-    const $saveKey = $settingsPanel.querySelector('.settings-save');
-    if ($saveKey) {
-      $saveKey.addEventListener('click', async () => {
-        const key = $settingsPanel.querySelector('.settings-key').value;
-        const profile = $settingsPanel.querySelector('.settings-profile').value || 'default';
+    const $save = $panel.querySelector('.settings-save');
+    if ($save) {
+      $save.addEventListener('click', async () => {
+        const key = $keyInput.value;
+        const profile = $profileInput.value || 'default';
         if (!key) { showToast('Enter an API key'); return; }
         try {
           await fetch('/api/config', {
@@ -1080,8 +1072,8 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ profile, key }),
           });
-          $settingsPanel.querySelector('.settings-key').value = '';
-          $settingsPanel.querySelector('.settings-status').textContent = `Saved! Active: ${profile}`;
+          $keyInput.value = '';
+          $status.textContent = `Saved! Active: ${profile}`;
           showToast('API key saved');
         } catch {
           showToast('Failed to save key');
@@ -1102,6 +1094,8 @@
       slugs: [],   // ordered [oldest, newest]; length 0–2
       widths: [DEFAULT_WIDTH, DEFAULT_WIDTH],
       originSlugs: [null, null], // which card slug triggered each panel (for focus return)
+      tool: null,   // 'filters' | 'settings' | 'import' | null
+      toolWidth: DEFAULT_WIDTH,
     };
 
     let $container, $announcer;
@@ -1111,10 +1105,8 @@
     function maxPanels() { return window.innerWidth <= 1200 ? 1 : 2; }
 
     function gridCols() {
-      const n = state.slugs.length;
-      if (n === 0) return 8;
-      if (n === 1) return 6;
-      return 4;
+      const total = state.slugs.length + (state.tool ? 1 : 0);
+      return Math.max(2, 5 - total);
     }
 
     // ---- State <-> URL ----
@@ -1151,6 +1143,8 @@
           state.widths = data.widths.map(w => clampWidth(w));
           while (state.widths.length < 2) state.widths.push(DEFAULT_WIDTH);
         }
+        if (typeof data.toolWidth === 'number') state.toolWidth = clampWidth(data.toolWidth);
+        // Tool panel is ephemeral per-session; don't auto-restore on page load
         return state.slugs.length > 0;
       } catch { return false; }
     }
@@ -1159,6 +1153,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           slugs: state.slugs.slice(),
           widths: state.widths.slice(),
+          toolWidth: state.toolWidth,
         }));
       } catch { /* silent */ }
     }
@@ -1183,15 +1178,6 @@
     }
 
     // ---- Active card color line ----
-    function dominantColor(item) {
-      if (!item || !item.tags) return '#ffffff';
-      const colorTags = item.tags.filter(t => t.category === 'color');
-      if (!colorTags.length) return '#ffffff';
-      const top = colorTags.reduce((a, b) => (b.weight > a.weight ? b : a));
-      const key = top.tag;
-      return COLOR_MAP[key] || COLOR_MAP[key.replace(/[-_\s]/g, '_')] || '#ffffff';
-    }
-
     function updateActiveCards() {
       const active = new Set(state.slugs);
       document.querySelectorAll('.card').forEach(card => {
@@ -1209,18 +1195,9 @@
     }
 
     // ---- Grid column reflow ----
+    // Column-count layout reads --grid-cols from :root; just update the var.
     function updateGridCols() {
       document.documentElement.style.setProperty('--grid-cols', gridCols());
-      // Re-position existing cards for new column count
-      const cols = gridCols();
-      document.querySelectorAll('.masonry-section').forEach(section => {
-        const cards = section.querySelectorAll('.card');
-        cards.forEach((card, idx) => {
-          const pos = brickPosition(idx, cols);
-          card.style.gridColumn = `${pos.col} / span ${pos.span}`;
-        });
-        section.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-      });
     }
 
     // ---- Render panels ----
@@ -1228,11 +1205,26 @@
       if (!$container) return;
       const shared = sharedTagSet();
 
-      // Remove panels/handles that no longer correspond to state
+      // Remove everything
       const existing = Array.from($container.children);
       existing.forEach(el => el.remove());
 
-      // Render in order: handle, panel, handle, panel ...
+      // Tool panel renders first (leftmost)
+      if (state.tool) {
+        const toolHandle = document.createElement('div');
+        toolHandle.className = 'resize-handle';
+        toolHandle.setAttribute('role', 'separator');
+        toolHandle.setAttribute('aria-label', 'Resize tool panel');
+        toolHandle.setAttribute('tabindex', '0');
+        toolHandle.dataset.toolHandle = '1';
+        bindToolResizeHandle(toolHandle);
+        $container.appendChild(toolHandle);
+
+        const toolPanel = renderToolPanel(state.tool);
+        if (toolPanel) $container.appendChild(toolPanel);
+      }
+
+      // Item panels
       state.slugs.forEach((slug, i) => {
         const item = itemsBySlug[slug];
         if (!item) return;
@@ -1255,25 +1247,62 @@
         panel.setAttribute('tabindex', '-1');
         panel.style.setProperty('--panel-width', state.widths[i] + 'px');
 
+        // Header: title + source on left, icons on right (arrow-up-right, expand, close)
         const header = document.createElement('header');
         header.className = 'panel-header';
+
+        const info = document.createElement('div');
+        info.className = 'panel-header-info';
+        const titleEl = document.createElement('div');
+        titleEl.className = 'panel-header-title';
+        titleEl.textContent = item.title || '';
+        info.appendChild(titleEl);
+        if (item.domain) {
+          const sourceEl = document.createElement('div');
+          sourceEl.className = 'panel-header-source';
+          sourceEl.textContent = item.domain;
+          info.appendChild(sourceEl);
+        }
+        header.appendChild(info);
+
+        const actions = document.createElement('div');
+        actions.className = 'panel-header-actions';
+
+        if (item.source_url) {
+          const openBtn = document.createElement('button');
+          openBtn.className = 'panel-open-source';
+          openBtn.type = 'button';
+          openBtn.setAttribute('aria-label', 'Open source in new tab');
+          openBtn.title = 'Open source';
+          openBtn.innerHTML = icon('arrow-up-right');
+          openBtn.addEventListener('click', () => {
+            window.open(item.source_url, '_blank', 'noopener');
+          });
+          actions.appendChild(openBtn);
+        }
+
         const expandBtn = document.createElement('button');
         expandBtn.className = 'panel-expand';
         expandBtn.type = 'button';
         expandBtn.setAttribute('aria-label', 'Open full page');
-        expandBtn.innerHTML = '&#10530;'; // ⤢
+        expandBtn.title = 'Full page';
+        expandBtn.innerHTML = icon('frame-corners');
         expandBtn.addEventListener('click', () => {
           syncToStorage();
           window.location.href = 'detail.html?slug=' + encodeURIComponent(slug);
         });
+        actions.appendChild(expandBtn);
+
         const closeBtn = document.createElement('button');
         closeBtn.className = 'panel-close';
         closeBtn.type = 'button';
         closeBtn.setAttribute('aria-label', 'Close panel');
-        closeBtn.textContent = '×';
+        closeBtn.title = 'Close';
+        closeBtn.innerHTML = icon('x');
         closeBtn.addEventListener('click', () => close(i));
-        header.appendChild(expandBtn);
-        header.appendChild(closeBtn);
+        actions.appendChild(closeBtn);
+
+        header.appendChild(actions);
         panel.appendChild(header);
 
         const body = document.createElement('div');
@@ -1286,6 +1315,115 @@
         // Lazy-load markdown for this panel
         const mdEl = body.querySelector('.card-expanded-md');
         loadMarkdownInto(mdEl);
+      });
+    }
+
+    // ---- Tool panel rendering ----
+    const TOOL_TITLES = { filters: 'Filters', settings: 'Settings', import: 'Import URLs' };
+    const TOOL_TEMPLATES = { filters: 'tpl-filters', settings: 'tpl-settings', import: 'tpl-import' };
+
+    function renderToolPanel(type) {
+      const tpl = document.getElementById(TOOL_TEMPLATES[type]);
+      if (!tpl) return null;
+
+      const panel = document.createElement('aside');
+      panel.className = 'panel panel-tool';
+      panel.dataset.tool = type;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-label', TOOL_TITLES[type]);
+      panel.setAttribute('tabindex', '-1');
+      panel.style.setProperty('--panel-width', (state.toolWidth || DEFAULT_WIDTH) + 'px');
+
+      const header = document.createElement('header');
+      header.className = 'panel-header';
+      const title = document.createElement('div');
+      title.className = 'panel-tool-title';
+      title.textContent = TOOL_TITLES[type];
+      header.appendChild(title);
+
+      const actions = document.createElement('div');
+      actions.className = 'panel-header-actions';
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'panel-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Close panel');
+      closeBtn.innerHTML = icon('x');
+      closeBtn.addEventListener('click', closeTool);
+      actions.appendChild(closeBtn);
+      header.appendChild(actions);
+      panel.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'panel-body';
+      body.appendChild(tpl.content.cloneNode(true));
+      panel.appendChild(body);
+
+      // Notify listeners the tool body was freshly rendered
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('toolpanel:rendered', { detail: { type, body } }));
+      });
+
+      return panel;
+    }
+
+    function openTool(type) {
+      if (state.tool === type) { closeTool(); return; }
+      state.tool = type;
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      updateToolButtons();
+      announce(`${TOOL_TITLES[type]} opened`);
+    }
+
+    function closeTool() {
+      if (!state.tool) return;
+      state.tool = null;
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateToolButtons();
+      announce('Tool panel closed');
+    }
+
+    function updateToolButtons() {
+      ['filter-panel-btn', 'import-btn', 'settings-btn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('is-active');
+      });
+      const activeId = state.tool === 'filters' ? 'filter-panel-btn' : state.tool === 'import' ? 'import-btn' : state.tool === 'settings' ? 'settings-btn' : null;
+      if (activeId) document.getElementById(activeId)?.classList.add('is-active');
+    }
+
+    function bindToolResizeHandle(handle) {
+      let startX = 0, startW = 0, dragging = false, raf = null;
+      handle.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        startW = state.toolWidth || DEFAULT_WIDTH;
+        dragging = true;
+        document.body.classList.add('resizing');
+        handle.classList.add('active');
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = null;
+          const delta = startX - e.clientX; // dragging left = bigger
+          const w = clampWidth(startW + delta);
+          state.toolWidth = w;
+          const p = $container.querySelector('.panel.panel-tool');
+          if (p) p.style.setProperty('--panel-width', w + 'px');
+        });
+      });
+      document.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.classList.remove('resizing');
+        handle.classList.remove('active');
+        syncToStorage();
       });
     }
 
@@ -1360,6 +1498,8 @@
     }
 
     function closeFocused() {
+      // If a tool panel is open, close it first (simplest UX)
+      if (state.tool) { closeTool(); return; }
       const el = document.activeElement;
       if (!el) return;
       const panel = el.closest && el.closest('.panel');
@@ -1496,6 +1636,7 @@
 
     return {
       init, open, close, focus,
+      openTool, closeTool,
       gridCols,
       refreshAfterGridRender,
       state, // expose for debugging
@@ -1506,7 +1647,5 @@
   document.addEventListener('DOMContentLoaded', () => {
     init();
     bindPasteHandler();
-    bindImportModal();
-    bindSettingsPanel();
   });
 })();
