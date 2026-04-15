@@ -54,16 +54,23 @@ body {
 /* === HEADER === */
 .header {
   position: sticky;
-  top: 0;
+  top: 8px;
   z-index: 100;
-  background: var(--bg);
-  padding: 16px 0 12px;
+  background: var(--text);        /* ivory */
+  color: var(--bg);
+  border-radius: 12px;
+  height: 120px;
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;      /* items aligned to bottom */
+  margin: 8px 0 16px;
 }
 .header h1 {
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: var(--text);
+  color: var(--bg);
   margin-bottom: 0;
   white-space: nowrap;
   line-height: 1.1;
@@ -71,16 +78,16 @@ body {
 .header-count {
   font-weight: 400;
   font-size: 1rem;
-  color: var(--text-dim);
+  color: rgba(26, 26, 23, 0.55);
   letter-spacing: 0;
   vertical-align: middle;
 }
 
 /* === COMPACT SEARCH (in header) === */
 .search-input {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text);
+  background: rgba(26, 26, 23, 0.06);
+  border: 1px solid rgba(26, 26, 23, 0.15);
+  color: var(--bg);
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
   font-size: 0.82rem;
   padding: 8px 12px;
@@ -92,7 +99,7 @@ body {
   box-sizing: border-box;
 }
 .search-input::placeholder {
-  color: var(--text-dim);
+  color: rgba(26, 26, 23, 0.45);
   font-size: 0.82rem;
 }
 .search-input:focus {
@@ -116,8 +123,9 @@ body {
   flex-wrap: wrap;
   gap: 6px;
   min-height: 0;
+  margin-bottom: 12px;
 }
-.active-filters:empty { display: none; }
+.active-filters:empty { display: none; margin: 0; }
 .active-filter-pill {
   display: inline-flex;
   align-items: center;
@@ -854,9 +862,9 @@ body.resizing .panel { transition: none; }
   gap: 8px;
 }
 .header-btn {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
+  background: rgba(26, 26, 23, 0.06);
+  border: 1px solid rgba(26, 26, 23, 0.15);
+  color: rgba(26, 26, 23, 0.75);
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -868,8 +876,8 @@ body.resizing .panel { transition: none; }
   padding: 0;
 }
 .header-btn:hover {
-  background: var(--card-hover);
-  color: var(--text);
+  background: rgba(26, 26, 23, 0.12);
+  color: var(--bg);
 }
 .header-btn.is-active {
   background: var(--accent-subtle);
