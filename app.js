@@ -425,9 +425,38 @@
     </div>`;
   }
 
+  // Format date as "16 Jun 2026"
+  function formatHumanDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  // Format week as "W16 2026" (ISO week)
+  function formatWeekTag(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return `W${String(getISOWeek(d)).padStart(2, '0')} ${d.getFullYear()}`;
+  }
+
   // Builds the expanded-body HTML used inside a side panel.
   // `sharedTagSet`: optional Set<string> of "category:tag" keys to highlight with .tag-shared.
   function buildPanelBodyHTML(item, sharedTagSet) {
+    const panelImage = (item.has_image && item.image_path)
+      ? `<div class="panel-image"><img src="${escHtml(item.image_path).replace(/"/g, '&quot;')}" alt=""></div>`
+      : '';
+
+    return `${panelImage}<div class="card-expanded-body">
+      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
+      <div class="card-expanded-md" data-slug="${item.slug}"></div>
+    </div>`;
+  }
+
+  // Builds the sticky footer with tags (left) + date/week (right)
+  function buildPanelFooterHTML(item, sharedTagSet) {
     const tagPills = item.tags
       .slice()
       .sort((a, b) => b.weight - a.weight)
@@ -437,18 +466,14 @@
         return renderTagPill(t.tag, t.category, shared);
       }).join('');
 
-    const panelImage = (item.has_image && item.image_path)
-      ? `<div class="panel-image"><img src="${escHtml(item.image_path).replace(/"/g, '&quot;')}" alt=""></div>`
-      : '';
+    const date = formatHumanDate(item.added_at);
+    const week = formatWeekTag(item.added_at);
 
-    return `${panelImage}<div class="card-expanded-body">
-      <div class="card-expanded-meta">
-        ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
-      </div>
-      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
-      <div class="card-expanded-tags">${tagPills}</div>
-      <div class="card-expanded-md" data-slug="${item.slug}"></div>
-    </div>`;
+    return `<div class="panel-footer-tags">${tagPills}</div>
+      <div class="panel-footer-date">
+        ${date ? `<div class="panel-footer-date-main">${date}</div>` : ''}
+        ${week ? `<div class="panel-footer-date-week">${week}</div>` : ''}
+      </div>`;
   }
 
   // Loads and renders the markdown body into a panel's .card-expanded-md element.
@@ -1309,6 +1334,11 @@
         body.className = 'panel-body';
         body.innerHTML = buildPanelBodyHTML(item, shared);
         panel.appendChild(body);
+
+        const footer = document.createElement('div');
+        footer.className = 'panel-footer';
+        footer.innerHTML = buildPanelFooterHTML(item, shared);
+        panel.appendChild(footer);
 
         $container.appendChild(panel);
 
