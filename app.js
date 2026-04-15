@@ -175,7 +175,7 @@
 
   // --- Stats (inline count) ---
   function renderStats() {
-    $headerCount.textContent = `\u00b7 ${allItems.length.toLocaleString()}`;
+    $headerCount.textContent = allItems.length.toLocaleString();
   }
 
 

@@ -90,12 +90,14 @@ body {
 }
 .header-count {
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: rgba(26, 26, 23, 0.55);
   letter-spacing: 0;
-  /* Share the same baseline as "Stello" so the two read as one
-     typographic line. */
-  vertical-align: baseline;
+  /* Superscript: sit above the cap-height line with a small offset.
+     sup's default vertical-align:super shifts it up to roughly the
+     cap-height of the parent — paired with the smaller font-size
+     this reads as a subtle tally. */
+  padding-left: 4px;
 }
 
 /* === SEARCH BAR (full-width row beneath the ivory header) === */
