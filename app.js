@@ -26,11 +26,11 @@
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
   // Brick/offset pattern: uniform cards, alternating row positions
-  // Even rows: 4 slots at cols 1, 9, 17, 25  (card=4 cols, gap=4 cols, 32-col grid)
-  // Odd rows:  4 slots at cols 5, 13, 21, 29 (offset by 4, equal gaps)
-  const BRICK_EVEN = [1, 9, 17, 25];
-  const BRICK_ODD  = [5, 13, 21, 29];
-  const CARD_SPAN = 4;
+  // Even rows: 4 slots at cols 1, 3, 5, 7  (card=1 col, gap=1 col, 8-col grid)
+  // Odd rows:  4 slots at cols 2, 4, 6, 8  (offset by 1, equal gaps)
+  const BRICK_EVEN = [1, 3, 5, 7];
+  const BRICK_ODD  = [2, 4, 6, 8];
+  const CARD_SPAN = 1;
 
   function brickPosition(idx) {
     const cycle = idx % 8; // 4 even + 4 odd = 8 per cycle
