@@ -307,6 +307,7 @@ body {
   cursor: pointer;
   transition: opacity 0.3s ease;
   padding: 10px;
+  max-width: 280px;
 }
 
 /* Visual area wraps image + overlay + expand icon */
@@ -320,6 +321,8 @@ body {
   display: block;
   background: var(--bg-secondary);
   border-radius: 4px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
 /* Placeholder for non-image cards */
