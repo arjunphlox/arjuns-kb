@@ -5,6 +5,7 @@
 
   // --- State ---
   let allItems = [];
+  let itemsBySlug = {};      // slug -> item lookup
   let activeTags = [];      // [{tag, category}]
   let searchQuery = '';
   let relatedIndex = {};     // slug -> Set of related slugs
@@ -25,17 +26,19 @@
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
 
-  // Brick/offset pattern: uniform cards, alternating row positions
-  // Even rows: 4 slots at cols 1, 3, 5, 7  (card=1 col, gap=1 col, 8-col grid)
-  // Odd rows:  4 slots at cols 2, 4, 6, 8  (offset by 1, equal gaps)
-  const BRICK_EVEN = [1, 3, 5, 7];
-  const BRICK_ODD  = [2, 4, 6, 8];
+  // Brick/offset pattern: uniform cards, alternating row positions.
+  // Cards are 1 col wide; gaps are 1 col wide. Row 0 occupies odd cols, row 1 evens.
+  // cols ∈ {8, 6, 4} depending on how many panels are open.
   const CARD_SPAN = 1;
 
-  function brickPosition(idx) {
-    const cycle = idx % 8; // 4 even + 4 odd = 8 per cycle
-    if (cycle < 4) return { col: BRICK_EVEN[cycle], span: CARD_SPAN };
-    return { col: BRICK_ODD[cycle - 4], span: CARD_SPAN };
+  function brickPosition(idx, cols) {
+    const c = cols || 8;
+    const slotsPerRow = Math.max(1, Math.floor(c / 2));
+    const cycle = idx % (slotsPerRow * 2);
+    const row = Math.floor(cycle / slotsPerRow); // 0 = even row, 1 = odd
+    const idxInRow = cycle % slotsPerRow;
+    const col = row === 0 ? 1 + 2 * idxInRow : 2 + 2 * idxInRow;
+    return { col, span: CARD_SPAN };
   }
 
   // Color name → CSS color for tag swatches
@@ -103,12 +106,16 @@
       return db - da;
     });
 
+    itemsBySlug = {};
+    allItems.forEach(item => { itemsBySlug[item.slug] = item; });
+
     buildRelatedIndex();
     renderStats();
     renderColorBar();
     renderTagDrawer();
     renderGrid();
     bindEvents();
+    PanelManager.init();
   }
 
   // --- Relatedness Index ---
@@ -286,6 +293,7 @@
     loadedWeeks.add(weekKey);
 
     if (showLink) showLink.remove();
+    PanelManager.refreshAfterGridRender();
   }
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
@@ -326,6 +334,7 @@
     });
 
     $grid.innerHTML = html;
+    PanelManager.refreshAfterGridRender();
   }
 
   function cleanSummary(text) {
@@ -372,24 +381,37 @@
       thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
     }
 
-    // Expand icon (opens full detail page)
-    const expandIcon = `<a class="card-expand-icon" href="detail.html?slug=${item.slug}" onclick="event.stopPropagation()">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M9 1h6v6M7 15H1V9M15 1L9 7M1 15l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>`;
-
     // Card footer — minimal metadata
     const cardFooter = `<div class="card-footer">
       <div class="card-footer-title">${escHtml(item.title)}</div>
       ${item.domain ? `<div class="card-footer-domain">${escHtml(item.domain)}</div>` : ''}
     </div>`;
 
-    // Expanded detail area (hidden by default, shown on click)
-    const tagPills = item.tags
-      .sort((a, b) => b.weight - a.weight)
-      .slice(0, 8)
-      .map(t => renderTagPill(t.tag, t.category)).join('');
+    const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
+    const cols = PanelManager.gridCols();
+    const pos = brickPosition(idx, cols);
 
-    const expandedHtml = `<div class="card-expanded-body">
+    return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1" style="grid-column: ${pos.col} / span ${pos.span}">
+      <div class="card-visual-area">
+        ${thumbHtml}
+      </div>
+      ${cardFooter}
+    </div>`;
+  }
+
+  // Builds the expanded-body HTML used inside a side panel.
+  // `sharedTagSet`: optional Set<string> of "category:tag" keys to highlight with .tag-shared.
+  function buildPanelBodyHTML(item, sharedTagSet) {
+    const tagPills = item.tags
+      .slice()
+      .sort((a, b) => b.weight - a.weight)
+      .slice(0, 16)
+      .map(t => {
+        const shared = sharedTagSet && sharedTagSet.has(t.category + ':' + t.tag);
+        return renderTagPill(t.tag, t.category, shared);
+      }).join('');
+
+    return `<div class="card-expanded-body">
       <div class="card-expanded-title">${escHtml(item.title)}</div>
       <div class="card-expanded-meta">
         ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
@@ -397,52 +419,25 @@
       </div>
       ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
       <div class="card-expanded-tags">${tagPills}</div>
-      ${item.source_url ? `<a class="card-expanded-source" href="${item.source_url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Visit source &rarr;</a>` : ''}
+      ${item.source_url ? `<a class="card-expanded-source" href="${item.source_url}" target="_blank" rel="noopener">Visit source &rarr;</a>` : ''}
       <div class="card-expanded-md" data-slug="${item.slug}"></div>
-    </div>`;
-
-    const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
-    const pos = brickPosition(idx);
-
-    return `<div class="card${cardClass}" data-slug="${item.slug}" style="grid-column: ${pos.col} / span ${pos.span}">
-      <div class="card-visual-area">
-        ${thumbHtml}
-        ${expandIcon}
-      </div>
-      ${cardFooter}
-      ${expandedHtml}
     </div>`;
   }
 
-  // --- In-place card expansion ---
-  async function toggleCardExpansion(card) {
-    const isExpanded = card.classList.contains('card-expanded');
-
-    if (isExpanded) {
-      card.classList.remove('card-expanded');
-      return;
-    }
-
-    card.classList.add('card-expanded');
-
-    // Load markdown body if not already loaded
-    const mdContainer = card.querySelector('.card-expanded-md');
-    if (mdContainer && !mdContainer.dataset.loaded) {
-      const slug = card.dataset.slug;
-      try {
-        const mdRes = await fetch(`_items/${slug}/item.md`);
-        if (mdRes.ok) {
-          const raw = await mdRes.text();
-          let body = extractMarkdownBody(raw);
-          if (body) {
-            // Remove redundant sections
-            body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-            if (body) mdContainer.innerHTML = renderMarkdown(body);
-          }
-        }
-      } catch { /* silent */ }
-      mdContainer.dataset.loaded = 'true';
-    }
+  // Loads and renders the markdown body into a panel's .card-expanded-md element.
+  async function loadMarkdownInto(container) {
+    if (!container || container.dataset.loaded) return;
+    container.dataset.loaded = 'true';
+    const slug = container.dataset.slug;
+    try {
+      const mdRes = await fetch(`_items/${slug}/item.md`);
+      if (!mdRes.ok) return;
+      const raw = await mdRes.text();
+      let body = extractMarkdownBody(raw);
+      if (!body) return;
+      body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
+      if (body) container.innerHTML = renderMarkdown(body);
+    } catch { /* silent */ }
   }
 
   // --- Active filter pills ---
@@ -624,26 +619,25 @@
       }, 100);
     }, true);
 
-    // Card click -> expand in place (not the expand icon or links)
+    // Card click -> open item in a side panel
     $grid.addEventListener('click', function (e) {
-      // Don't expand if clicking the expand icon or any link
-      if (e.target.closest('.card-expand-icon')) return;
       if (e.target.closest('a')) return;
-
       const card = e.target.closest('.card');
-      if (!card) return;
-      toggleCardExpansion(card);
+      if (!card || !card.dataset.slug) return;
+      const secondary = e.metaKey || e.ctrlKey;
+      PanelManager.open(card.dataset.slug, { secondary, originCard: card });
     });
   }
 
   // --- Utility ---
-  function renderTagPill(tag, category) {
+  function renderTagPill(tag, category, shared) {
     const cls = CAT_CLASS[category] || 'tag-format';
+    const sharedCls = shared ? ' tag-shared' : '';
     if (category === 'color') {
       const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
-      return `<span class="card-tag ${cls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
+      return `<span class="card-tag ${cls}${sharedCls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
     }
-    return `<span class="card-tag ${cls}">${tag}</span>`;
+    return `<span class="card-tag ${cls}${sharedCls}">${tag}</span>`;
   }
 
   function escHtml(str) {
@@ -1095,6 +1089,418 @@
       });
     }
   }
+
+  // =========================================================================
+  // === PanelManager — owns up to 2 side panels, grid reflow, state sync ====
+  // =========================================================================
+  const PanelManager = (function () {
+    const DEFAULT_WIDTH = 480;
+    const MIN_WIDTH = 320;
+    const STORAGE_KEY = 'stello.panels';
+
+    const state = {
+      slugs: [],   // ordered [oldest, newest]; length 0–2
+      widths: [DEFAULT_WIDTH, DEFAULT_WIDTH],
+      originSlugs: [null, null], // which card slug triggered each panel (for focus return)
+    };
+
+    let $container, $announcer;
+    const reducedMotion = () =>
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function maxPanels() { return window.innerWidth <= 1200 ? 1 : 2; }
+
+    function gridCols() {
+      const n = state.slugs.length;
+      if (n === 0) return 8;
+      if (n === 1) return 6;
+      return 4;
+    }
+
+    // ---- State <-> URL ----
+    function syncFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const s1 = params.get('panel1');
+      const s2 = params.get('panel2');
+      const slugs = [];
+      if (s1 && itemsBySlug[s1]) slugs.push(s1);
+      if (s2 && itemsBySlug[s2]) slugs.push(s2);
+      if (slugs.length > 0) { state.slugs = slugs; return true; }
+      return false;
+    }
+    function syncToURL(push) {
+      const params = new URLSearchParams(window.location.search);
+      params.delete('panel1'); params.delete('panel2');
+      state.slugs.forEach((slug, i) => params.set('panel' + (i + 1), slug));
+      const query = params.toString();
+      const newURL = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
+      const method = push ? 'pushState' : 'replaceState';
+      history[method]({ panels: state.slugs.slice() }, '', newURL);
+    }
+
+    // ---- State <-> localStorage ----
+    function syncFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (Array.isArray(data.slugs)) {
+          state.slugs = data.slugs.filter(s => itemsBySlug[s]).slice(0, maxPanels());
+        }
+        if (Array.isArray(data.widths)) {
+          state.widths = data.widths.map(w => clampWidth(w));
+          while (state.widths.length < 2) state.widths.push(DEFAULT_WIDTH);
+        }
+        return state.slugs.length > 0;
+      } catch { return false; }
+    }
+    function syncToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          slugs: state.slugs.slice(),
+          widths: state.widths.slice(),
+        }));
+      } catch { /* silent */ }
+    }
+
+    function clampWidth(px) {
+      const max = Math.floor(window.innerWidth * 0.5);
+      return Math.max(MIN_WIDTH, Math.min(max, px | 0));
+    }
+
+    // ---- Shared tags ----
+    function sharedTagSet() {
+      if (state.slugs.length < 2) return null;
+      const [a, b] = state.slugs.map(s => itemsBySlug[s]);
+      if (!a || !b) return null;
+      const setA = new Set(a.tags.map(t => t.category + ':' + t.tag));
+      const shared = new Set();
+      b.tags.forEach(t => {
+        const key = t.category + ':' + t.tag;
+        if (setA.has(key)) shared.add(key);
+      });
+      return shared.size ? shared : null;
+    }
+
+    // ---- Active card color line ----
+    function dominantColor(item) {
+      if (!item || !item.tags) return '#ffffff';
+      const colorTags = item.tags.filter(t => t.category === 'color');
+      if (!colorTags.length) return '#ffffff';
+      const top = colorTags.reduce((a, b) => (b.weight > a.weight ? b : a));
+      const key = top.tag;
+      return COLOR_MAP[key] || COLOR_MAP[key.replace(/[-_\s]/g, '_')] || '#ffffff';
+    }
+
+    function updateActiveCards() {
+      const active = new Set(state.slugs);
+      document.querySelectorAll('.card').forEach(card => {
+        const slug = card.dataset.slug;
+        if (!slug) return;
+        const isActive = active.has(slug);
+        card.classList.toggle('card-active', isActive);
+        if (isActive) {
+          const color = dominantColor(itemsBySlug[slug]);
+          card.style.setProperty('--card-active-color', color);
+        } else {
+          card.style.removeProperty('--card-active-color');
+        }
+      });
+    }
+
+    // ---- Grid column reflow ----
+    function updateGridCols() {
+      document.documentElement.style.setProperty('--grid-cols', gridCols());
+      // Re-position existing cards for new column count
+      const cols = gridCols();
+      document.querySelectorAll('.masonry-section').forEach(section => {
+        const cards = section.querySelectorAll('.card');
+        cards.forEach((card, idx) => {
+          const pos = brickPosition(idx, cols);
+          card.style.gridColumn = `${pos.col} / span ${pos.span}`;
+        });
+        section.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+      });
+    }
+
+    // ---- Render panels ----
+    function render() {
+      if (!$container) return;
+      const shared = sharedTagSet();
+
+      // Remove panels/handles that no longer correspond to state
+      const existing = Array.from($container.children);
+      existing.forEach(el => el.remove());
+
+      // Render in order: handle, panel, handle, panel ...
+      state.slugs.forEach((slug, i) => {
+        const item = itemsBySlug[slug];
+        if (!item) return;
+
+        const handle = document.createElement('div');
+        handle.className = 'resize-handle';
+        handle.setAttribute('role', 'separator');
+        handle.setAttribute('aria-label', `Resize panel ${i + 1}`);
+        handle.setAttribute('tabindex', '0');
+        handle.dataset.panelIndex = String(i);
+        bindResizeHandle(handle, i);
+        $container.appendChild(handle);
+
+        const panel = document.createElement('aside');
+        panel.className = 'panel';
+        panel.dataset.index = String(i);
+        panel.dataset.slug = slug;
+        panel.setAttribute('role', 'region');
+        panel.setAttribute('aria-label', `Item detail ${i + 1}: ${item.title || slug}`);
+        panel.setAttribute('tabindex', '-1');
+        panel.style.setProperty('--panel-width', state.widths[i] + 'px');
+
+        const header = document.createElement('header');
+        header.className = 'panel-header';
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'panel-expand';
+        expandBtn.type = 'button';
+        expandBtn.setAttribute('aria-label', 'Open full page');
+        expandBtn.innerHTML = '&#10530;'; // ⤢
+        expandBtn.addEventListener('click', () => {
+          syncToStorage();
+          window.location.href = 'detail.html?slug=' + encodeURIComponent(slug);
+        });
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'panel-close';
+        closeBtn.type = 'button';
+        closeBtn.setAttribute('aria-label', 'Close panel');
+        closeBtn.textContent = '×';
+        closeBtn.addEventListener('click', () => close(i));
+        header.appendChild(expandBtn);
+        header.appendChild(closeBtn);
+        panel.appendChild(header);
+
+        const body = document.createElement('div');
+        body.className = 'panel-body';
+        body.innerHTML = buildPanelBodyHTML(item, shared);
+        panel.appendChild(body);
+
+        $container.appendChild(panel);
+
+        // Lazy-load markdown for this panel
+        const mdEl = body.querySelector('.card-expanded-md');
+        loadMarkdownInto(mdEl);
+      });
+    }
+
+    // ---- Announce ----
+    function announce(msg) {
+      if (!$announcer) return;
+      $announcer.textContent = '';
+      // Force re-read
+      requestAnimationFrame(() => { $announcer.textContent = msg; });
+    }
+
+    // ---- Open / close / replace ----
+    function open(slug, opts) {
+      opts = opts || {};
+      if (!itemsBySlug[slug]) return;
+
+      const idx = state.slugs.indexOf(slug);
+      if (idx >= 0) {
+        // Already open — flash card line + focus panel
+        const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+        if (card) {
+          card.classList.add('card-flash');
+          setTimeout(() => card.classList.remove('card-flash'), 400);
+        }
+        focus(idx);
+        return;
+      }
+
+      const max = maxPanels();
+      if (state.slugs.length < max && !opts.secondary) {
+        state.slugs.push(slug);
+        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
+      } else if (opts.secondary && state.slugs.length < max) {
+        state.slugs.push(slug);
+        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
+      } else {
+        // Full — FIFO replace oldest
+        state.slugs.shift();
+        state.slugs.push(slug);
+        state.originSlugs.shift();
+        state.originSlugs.push(opts.originCard ? opts.originCard.dataset.slug : null);
+        state.originSlugs.length = 2;
+      }
+
+      syncToURL(true);
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      announce(`Panel opened: ${itemsBySlug[slug].title || slug}`);
+      focus(state.slugs.length - 1);
+    }
+
+    function close(index) {
+      if (index < 0 || index >= state.slugs.length) return;
+      const originSlug = state.originSlugs[index];
+      state.slugs.splice(index, 1);
+      state.originSlugs.splice(index, 1);
+      state.originSlugs.push(null);
+
+      syncToURL(true);
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      announce('Panel closed');
+
+      if (originSlug) {
+        const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(originSlug)}"]`);
+        if (card) card.focus({ preventScroll: false });
+      }
+    }
+
+    function closeFocused() {
+      const el = document.activeElement;
+      if (!el) return;
+      const panel = el.closest && el.closest('.panel');
+      if (!panel) return;
+      const i = parseInt(panel.dataset.index, 10);
+      if (!isNaN(i)) close(i);
+    }
+
+    function focus(index) {
+      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+      if (panel) panel.focus({ preventScroll: false });
+    }
+
+    function setWidth(index, px) {
+      state.widths[index] = clampWidth(px);
+      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+      if (panel) panel.style.setProperty('--panel-width', state.widths[index] + 'px');
+      syncToStorage();
+    }
+
+    // ---- Resize handles ----
+    function bindResizeHandle(handle, index) {
+      let startX = 0, startWidth = 0, rafPending = false, nextWidth = 0;
+
+      function onMove(e) {
+        const dx = startX - e.clientX; // drag left => grows panel
+        nextWidth = clampWidth(startWidth + dx);
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => {
+            rafPending = false;
+            const panel = $container.querySelector(`.panel[data-index="${index}"]`);
+            if (panel) panel.style.setProperty('--panel-width', nextWidth + 'px');
+          });
+        }
+      }
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.body.classList.remove('resizing');
+        handle.classList.remove('active');
+        setWidth(index, nextWidth || startWidth);
+      }
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startX = e.clientX;
+        startWidth = state.widths[index];
+        nextWidth = startWidth;
+        document.body.classList.add('resizing');
+        handle.classList.add('active');
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+      handle.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { setWidth(index, state.widths[index] + 20); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { setWidth(index, state.widths[index] - 20); e.preventDefault(); }
+      });
+    }
+
+    // ---- Keyboard shortcuts ----
+    function bindKeys() {
+      document.addEventListener('keydown', (e) => {
+        if (e.target && e.target.matches && e.target.matches('input, textarea')) return;
+        if (e.key === 'Escape') { closeFocused(); return; }
+        if (e.key === '1') { focus(0); }
+        if (e.key === '2') { focus(1); }
+        if (e.key === '0') {
+          const first = document.querySelector('.card');
+          if (first) first.focus();
+        }
+      });
+    }
+
+    // ---- Window resize ----
+    let resizeTimeout = null;
+    function onWindowResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const max = maxPanels();
+        let dirty = false;
+        while (state.slugs.length > max) {
+          state.slugs.shift();
+          state.originSlugs.shift();
+          state.originSlugs.push(null);
+          dirty = true;
+        }
+        // Clamp widths
+        state.widths = state.widths.map(w => clampWidth(w));
+        if (dirty) {
+          syncToURL(false);
+          syncToStorage();
+          render();
+          updateGridCols();
+          updateActiveCards();
+        }
+      }, 120);
+    }
+
+    // ---- Init ----
+    function init() {
+      $container = document.getElementById('panels-container');
+      $announcer = document.getElementById('panel-announcer');
+      if (!$container) return;
+
+      // Load precedence: URL first, else localStorage.
+      if (!syncFromURL()) syncFromStorage();
+
+      // Clamp to current maxPanels
+      state.slugs = state.slugs.slice(0, maxPanels());
+
+      render();
+      updateGridCols();
+      updateActiveCards();
+
+      window.addEventListener('popstate', () => {
+        syncFromURL() || (state.slugs = []);
+        render();
+        updateGridCols();
+        updateActiveCards();
+      });
+      window.addEventListener('resize', onWindowResize);
+      bindKeys();
+    }
+
+    function cssSelectorEscape(s) {
+      if (window.CSS && CSS.escape) return CSS.escape(s);
+      return String(s).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
+    }
+
+    function refreshAfterGridRender() {
+      updateGridCols();
+      updateActiveCards();
+    }
+
+    return {
+      init, open, close, focus,
+      gridCols,
+      refreshAfterGridRender,
+      state, // expose for debugging
+    };
+  })();
 
   // --- Start ---
   document.addEventListener('DOMContentLoaded', () => {

@@ -72,12 +72,17 @@
     </div>
   </div>
 
-  <!-- Grid -->
-  <main class="grid-container">
-    <div class="items-count" id="items-count"></div>
-    <div id="masonry-grid"></div>
-  </main>
+  <!-- Grid + Panels -->
+  <div class="main-layout">
+    <main class="grid-container">
+      <div class="items-count" id="items-count"></div>
+      <div id="masonry-grid"></div>
+    </main>
+    <aside class="panels-container" id="panels-container" aria-label="Item comparison panels"></aside>
+  </div>
 
-<script src="app.js?v=7"></script>
+  <div id="panel-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<script src="app.js?v=9"></script>
 </body>
 </html>
