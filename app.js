@@ -1148,6 +1148,7 @@
       originSlugs: [null, null], // which card slug triggered each panel (for focus return)
       tool: null,   // 'filters' | 'settings' | 'import' | null
       toolWidth: DEFAULT_WIDTH,
+      userResized: {},  // { 'item:0', 'item:1', 'tool' } → true once user drags that handle
     };
 
     let $container, $announcer;
@@ -1435,6 +1436,7 @@
     function openTool(type) {
       if (state.tool === type) { closeTool(); return; }
       state.tool = type;
+      applyDefaultWidths();
       syncToStorage();
       render();
       updateGridCols();
@@ -1446,6 +1448,8 @@
     function closeTool() {
       if (!state.tool) return;
       state.tool = null;
+      if (state.userResized) delete state.userResized['tool'];
+      applyDefaultWidths();
       syncToStorage();
       render();
       updateGridCols();
@@ -1489,8 +1493,25 @@
         dragging = false;
         document.body.classList.remove('resizing');
         handle.classList.remove('active');
+        state.userResized = state.userResized || {};
+        state.userResized['tool'] = true;
         syncToStorage();
       });
+    }
+
+    // ---- Default widths based on total panel count ----
+    // When 3 panels (tool + 2 items) are open, default each panel to
+    // viewport/4 so the main grid and every panel are equal columns.
+    // User resizes override this (tracked via state.userResized).
+    function applyDefaultWidths() {
+      const total = state.slugs.length + (state.tool ? 1 : 0);
+      const equal = Math.floor(window.innerWidth / 4);
+      const target = total >= 3 ? clampWidth(equal) : DEFAULT_WIDTH;
+      const ur = state.userResized || {};
+      state.widths = state.widths.map((w, i) =>
+        ur['item:' + i] ? w : target
+      );
+      if (!ur['tool']) state.toolWidth = target;
     }
 
     // ---- Announce ----
@@ -1534,6 +1555,7 @@
         state.originSlugs.length = 2;
       }
 
+      applyDefaultWidths();
       syncToURL(true);
       syncToStorage();
       render();
@@ -1549,7 +1571,15 @@
       state.slugs.splice(index, 1);
       state.originSlugs.splice(index, 1);
       state.originSlugs.push(null);
+      // The closed panel's manual-resize flag no longer applies
+      if (state.userResized) delete state.userResized['item:' + index];
+      // Shift flag for the panel that moves into this slot, if any
+      if (state.userResized && state.userResized['item:1'] && index === 0) {
+        state.userResized['item:0'] = true;
+        delete state.userResized['item:1'];
+      }
 
+      applyDefaultWidths();
       syncToURL(true);
       syncToStorage();
       render();
@@ -1619,6 +1649,8 @@
 
     function setWidth(index, px) {
       state.widths[index] = clampWidth(px);
+      state.userResized = state.userResized || {};
+      state.userResized['item:' + index] = true;
       const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
       if (panel) panel.style.setProperty('--panel-width', state.widths[index] + 'px');
       syncToStorage();
