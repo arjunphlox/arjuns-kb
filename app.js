@@ -107,7 +107,6 @@
   const $activeFilters = document.getElementById('active-filters');
   const $headerCount = document.getElementById('header-count');
   // Filter UI elements live inside the tool panel when open; looked up dynamically.
-  const $colorBar = () => document.getElementById('filter-color-tags');
   const $drawer = () => document.getElementById('filter-tag-drawer');
 
   // --- Boot ---
@@ -179,33 +178,6 @@
     $headerCount.textContent = `\u00b7 ${allItems.length.toLocaleString()}`;
   }
 
-  // --- Color Tags Bar ---
-  const COLOR_BAR_LIMIT = 20;
-  let colorBarExpanded = false;
-
-  function renderColorBar() {
-    const el = $colorBar();
-    if (!el) return;
-    const colorCounts = {};
-    allItems.forEach(i => i.tags.forEach(t => {
-      if (t.category === 'color') colorCounts[t.tag] = (colorCounts[t.tag] || 0) + 1;
-    }));
-    const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
-    if (sorted.length === 0) { el.style.display = 'none'; return; }
-
-    const visible = colorBarExpanded ? sorted : sorted.slice(0, COLOR_BAR_LIMIT);
-    const chips = visible.map(([tag, count]) => {
-      const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
-      const isActive = activeTags.some(a => a.tag === tag && a.category === 'color');
-      return `<span class="tag-chip tag-color${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="color"><span class="color-dot" style="background:${hex}"></span>${tag} <span class="chip-count">${count}</span></span>`;
-    }).join('');
-
-    const toggle = sorted.length > COLOR_BAR_LIMIT
-      ? `<span class="color-bar-toggle">${colorBarExpanded ? 'Less' : `+${sorted.length - COLOR_BAR_LIMIT} more`}</span>`
-      : '';
-
-    el.innerHTML = chips + toggle;
-  }
 
   // --- Tag Drawer ---
   function collectTags() {
@@ -219,6 +191,16 @@
     return map;
   }
 
+  // Default: only the first category (domain) is expanded; everything else collapsed.
+  let expandedCategories = new Set(['domain']);
+  let tagSearchQuery = '';
+
+  const CATEGORY_LABELS = {
+    domain: 'Domains', subject: 'Subjects', format: 'Formats',
+    tool: 'Tools', style: 'Styles', mood: 'Moods',
+    location: 'Locations', color: 'Colors',
+  };
+
   function renderTagDrawer() {
     const el = $drawer();
     if (!el) return;
@@ -227,18 +209,33 @@
     const categories = order.filter(c => map[c]);
     Object.keys(map).forEach(c => { if (!categories.includes(c)) categories.push(c); });
 
+    const q = tagSearchQuery.trim().toLowerCase();
+
     el.innerHTML = categories.map(cat => {
-      const tags = Object.entries(map[cat]).sort((a, b) => b[1] - a[1]);
-      return `<div class="tag-category-group">
-        <div class="tag-category-label">${cat}</div>
-        <div class="tag-chips">
-          ${tags.map(([tag, count]) => {
-            const cls = CAT_CLASS[cat] || 'tag-format';
-            const isActive = activeTags.some(a => a.tag === tag && a.category === cat);
-            const dot = cat === 'color' ? `<span class="color-dot" style="background:${COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888'}"></span>` : '';
-            return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${dot}${tag} <span class="chip-count">${count}</span></span>`;
-          }).join('')}
-        </div>
+      const entries = Object.entries(map[cat]).sort((a, b) => b[1] - a[1]);
+      const filtered = q ? entries.filter(([tag]) => tag.toLowerCase().includes(q)) : entries;
+      if (q && filtered.length === 0) return ''; // hide empty sections during search
+
+      // When searching, auto-expand any matching section; otherwise respect toggle state
+      const isExpanded = q ? true : expandedCategories.has(cat);
+      const label = CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
+      const caret = isExpanded ? icon('caret-up') : icon('caret-down');
+      const count = filtered.length;
+
+      const chipsHtml = filtered.map(([tag, count]) => {
+        const cls = CAT_CLASS[cat] || 'tag-format';
+        const isActive = activeTags.some(a => a.tag === tag && a.category === cat);
+        const dot = cat === 'color' ? `<span class="color-dot" style="background:${COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888'}"></span>` : '';
+        return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${dot}${tag} <span class="chip-count">${count}</span></span>`;
+      }).join('');
+
+      return `<div class="tag-category-group${isExpanded ? ' is-expanded' : ''}" data-cat="${cat}">
+        <button type="button" class="tag-category-header" data-cat="${cat}" aria-expanded="${isExpanded}">
+          <span class="tag-category-label">${label}</span>
+          <span class="tag-category-count">${count}</span>
+          <span class="tag-category-caret">${caret}</span>
+        </button>
+        <div class="tag-chips">${chipsHtml}</div>
       </div>`;
     }).join('');
   }
@@ -609,8 +606,8 @@
     document.addEventListener('toolpanel:rendered', (e) => {
       const { type } = e.detail;
       if (type === 'filters') {
-        renderColorBar();
         renderTagDrawer();
+        bindFilterPanelBody();
       } else if (type === 'settings') {
         loadSettingsIntoPanel();
       } else if (type === 'import') {
@@ -618,21 +615,23 @@
       }
     });
 
-    // Delegated clicks on tag chips (in filter tool panel)
+    // Delegated clicks for tag chips + category headers (tool panel bodies re-render)
     document.addEventListener('click', (e) => {
-      if (e.target.closest('#filter-color-tags .color-bar-toggle')) {
-        colorBarExpanded = !colorBarExpanded;
-        renderColorBar();
+      const header = e.target.closest('.tag-category-header');
+      if (header) {
+        const cat = header.dataset.cat;
+        if (expandedCategories.has(cat)) expandedCategories.delete(cat);
+        else expandedCategories.add(cat);
+        renderTagDrawer();
         return;
       }
-      const chipInDrawer = e.target.closest('#filter-tag-drawer .tag-chip, #filter-color-tags .tag-chip');
+      const chipInDrawer = e.target.closest('#filter-tag-drawer .tag-chip');
       if (!chipInDrawer) return;
       const tag = chipInDrawer.dataset.tag;
       const cat = chipInDrawer.dataset.cat;
       const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
       if (idx >= 0) activeTags.splice(idx, 1);
       else activeTags.push({ tag, category: cat });
-      renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();
@@ -641,7 +640,6 @@
     $activeFilters.addEventListener('click', function (e) {
       if (e.target.id === 'clear-filters' || e.target.closest('#clear-filters')) {
         activeTags = [];
-        renderColorBar();
         renderTagDrawer();
         renderActiveFilters();
         renderGrid();
@@ -651,7 +649,6 @@
       if (!pill) return;
       const idx = parseInt(pill.dataset.idx, 10);
       activeTags.splice(idx, 1);
-      renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();
@@ -767,7 +764,6 @@
     // Add to allItems for search/filter consistency
     allItems.unshift(item);
     renderStats();
-    renderColorBar();
   }
 
   async function captureURL(urlStr) {
@@ -1029,6 +1025,17 @@
   }
 
   // --- Import tool panel body (wired when the panel opens) ---
+  // --- Filters tool panel body (wire the search input when the panel opens) ---
+  function bindFilterPanelBody() {
+    const $search = document.getElementById('filter-search');
+    if (!$search) return;
+    $search.value = tagSearchQuery;
+    $search.addEventListener('input', () => {
+      tagSearchQuery = $search.value;
+      renderTagDrawer();
+    });
+  }
+
   function bindImportPanelBody() {
     const $importSubmit = document.querySelector('.panel-tool[data-tool="import"] .import-submit');
     const $importText = document.querySelector('.panel-tool[data-tool="import"] .import-textarea');
