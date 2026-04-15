@@ -816,15 +816,16 @@ body.resizing .panel { transition: none; }
 @media (max-width: 768px) {
   .masonry-section { column-count: 3; }
   .modal-panel { width: 100vw; }
-  .content-inner { padding: 0 16px; }
-  .header { padding: 12px 0 8px; }
+  .content-inner { padding: 8px 16px 0; }
   .search-input { width: 140px; }
   .search-input:focus { width: 200px; }
 }
 /* Mobile: 2 cols */
 @media (max-width: 500px) {
   .masonry-section { column-count: 2; column-gap: 12px; }
-  .card { margin-bottom: 12px; }
+  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
+  .header h1 { font-size: 2rem; }
+  .content-inner { padding: 8px 12px 0; }
 }
 
 /* Panels responsive: under 1200px, only one panel at a time */
@@ -836,10 +837,9 @@ body.resizing .panel { transition: none; }
   .panels-container {
     position: fixed;
     inset: 0;
-    top: 64px;
     z-index: 900;
     width: 100vw;
-    height: calc(100vh - 64px);
+    height: 100vh;
     background: var(--bg);
   }
   .panel { width: 100vw !important; }
