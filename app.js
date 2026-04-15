@@ -3,8 +3,24 @@
 (function () {
   'use strict';
 
+  // --- Icons (Phosphor regular, 16x16) ---
+  const ICONS = {
+    'gear': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"/></svg>',
+    'plus': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>',
+    'funnel': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z"/></svg>',
+    'x': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>',
+    'frame-corners': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>',
+    'arrow-up-right': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>',
+    'magnifying-glass': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>',
+    'caret-down': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
+    'caret-up': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></svg>',
+    'shuffle': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z"/></svg>',
+  };
+  function icon(name) { return ICONS[name] || ''; }
+
   // --- State ---
   let allItems = [];
+  let itemsBySlug = {};      // slug -> item lookup
   let activeTags = [];      // [{tag, category}]
   let searchQuery = '';
   let relatedIndex = {};     // slug -> Set of related slugs
@@ -24,19 +40,6 @@
 
   // Warm earthy hues for placeholders
   const PLACEHOLDER_HUES = [18, 80, 38, 140, 25, 45, 12, 100];
-
-  // Brick/offset pattern: uniform cards, alternating row positions
-  // Even rows: 4 slots at cols 1, 8, 15, 21
-  // Odd rows:  3 slots at cols 4, 11, 17
-  const BRICK_EVEN = [1, 8, 15, 21];
-  const BRICK_ODD  = [4, 11, 17];
-  const CARD_SPAN = 5;
-
-  function brickPosition(idx) {
-    const cycle = idx % 7; // 4 even + 3 odd = 7 per cycle
-    if (cycle < 4) return { col: BRICK_EVEN[cycle], span: CARD_SPAN };
-    return { col: BRICK_ODD[cycle - 4], span: CARD_SPAN };
-  }
 
   // Color name → CSS color for tag swatches
   const COLOR_MAP = {
@@ -80,15 +83,31 @@
     beige: '#f5f5dc', off_white: '#faf0e6', 'off-white': '#faf0e6',
   };
 
+  // Returns the hex color of an item's highest-weighted `color` tag, or '#ffffff'.
+  function dominantColor(item) {
+    if (!item || !item.tags) return '#ffffff';
+    const colorTags = item.tags.filter(t => t.category === 'color');
+    if (!colorTags.length) return '#ffffff';
+    const top = colorTags.reduce((a, b) => (b.weight > a.weight ? b : a));
+    const key = top.tag;
+    return COLOR_MAP[key] || COLOR_MAP[key.replace(/[-_\s]/g, '_')] || '#ffffff';
+  }
+
+  function hexToRgba(hex, a) {
+    const clean = hex.replace('#', '');
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
   const $activeFilters = document.getElementById('active-filters');
-  const $itemsCount = document.getElementById('items-count');
   const $headerCount = document.getElementById('header-count');
-  const $filterPanel = document.getElementById('filter-panel');
-  const $colorBar = document.getElementById('filter-color-tags');
-  const $drawer = document.getElementById('filter-tag-drawer');
+  // Filter UI elements live inside the tool panel when open; looked up dynamically.
+  const $drawer = () => document.getElementById('filter-tag-drawer');
 
   // --- Boot ---
   async function init() {
@@ -103,12 +122,22 @@
       return db - da;
     });
 
+    itemsBySlug = {};
+    allItems.forEach(item => { itemsBySlug[item.slug] = item; });
+
     buildRelatedIndex();
     renderStats();
-    renderColorBar();
-    renderTagDrawer();
     renderGrid();
+    injectHeaderIcons();
     bindEvents();
+    PanelManager.init();
+  }
+
+  function injectHeaderIcons() {
+    document.querySelectorAll('[data-icon]').forEach(el => {
+      const name = el.dataset.icon;
+      if (name && ICONS[name]) el.innerHTML = icon(name);
+    });
   }
 
   // --- Relatedness Index ---
@@ -146,34 +175,9 @@
 
   // --- Stats (inline count) ---
   function renderStats() {
-    $headerCount.textContent = `\u00b7 ${allItems.length.toLocaleString()}`;
+    $headerCount.textContent = allItems.length.toLocaleString();
   }
 
-  // --- Color Tags Bar ---
-  const COLOR_BAR_LIMIT = 20;
-  let colorBarExpanded = false;
-
-  function renderColorBar() {
-    const colorCounts = {};
-    allItems.forEach(i => i.tags.forEach(t => {
-      if (t.category === 'color') colorCounts[t.tag] = (colorCounts[t.tag] || 0) + 1;
-    }));
-    const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
-    if (sorted.length === 0) { $colorBar.style.display = 'none'; return; }
-
-    const visible = colorBarExpanded ? sorted : sorted.slice(0, COLOR_BAR_LIMIT);
-    const chips = visible.map(([tag, count]) => {
-      const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
-      const isActive = activeTags.some(a => a.tag === tag && a.category === 'color');
-      return `<span class="tag-chip tag-color${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="color"><span class="color-dot" style="background:${hex}"></span>${tag} <span class="chip-count">${count}</span></span>`;
-    }).join('');
-
-    const toggle = sorted.length > COLOR_BAR_LIMIT
-      ? `<span class="color-bar-toggle">${colorBarExpanded ? 'Less' : `+${sorted.length - COLOR_BAR_LIMIT} more`}</span>`
-      : '';
-
-    $colorBar.innerHTML = chips + toggle;
-  }
 
   // --- Tag Drawer ---
   function collectTags() {
@@ -187,24 +191,51 @@
     return map;
   }
 
+  // Default: only the first category (domain) is expanded; everything else collapsed.
+  let expandedCategories = new Set(['domain']);
+  let tagSearchQuery = '';
+
+  const CATEGORY_LABELS = {
+    domain: 'Domains', subject: 'Subjects', format: 'Formats',
+    tool: 'Tools', style: 'Styles', mood: 'Moods',
+    location: 'Locations', color: 'Colors',
+  };
+
   function renderTagDrawer() {
+    const el = $drawer();
+    if (!el) return;
     const map = collectTags();
     const order = ['domain', 'subject', 'format', 'tool', 'style', 'mood', 'location', 'color'];
     const categories = order.filter(c => map[c]);
     Object.keys(map).forEach(c => { if (!categories.includes(c)) categories.push(c); });
 
-    $drawer.innerHTML = categories.map(cat => {
-      const tags = Object.entries(map[cat]).sort((a, b) => b[1] - a[1]);
-      return `<div class="tag-category-group">
-        <div class="tag-category-label">${cat}</div>
-        <div class="tag-chips">
-          ${tags.map(([tag, count]) => {
-            const cls = CAT_CLASS[cat] || 'tag-format';
-            const isActive = activeTags.some(a => a.tag === tag && a.category === cat);
-            const dot = cat === 'color' ? `<span class="color-dot" style="background:${COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888'}"></span>` : '';
-            return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${dot}${tag} <span class="chip-count">${count}</span></span>`;
-          }).join('')}
-        </div>
+    const q = tagSearchQuery.trim().toLowerCase();
+
+    el.innerHTML = categories.map(cat => {
+      const entries = Object.entries(map[cat]).sort((a, b) => b[1] - a[1]);
+      const filtered = q ? entries.filter(([tag]) => tag.toLowerCase().includes(q)) : entries;
+      if (q && filtered.length === 0) return ''; // hide empty sections during search
+
+      // When searching, auto-expand any matching section; otherwise respect toggle state
+      const isExpanded = q ? true : expandedCategories.has(cat);
+      const label = CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
+      const caret = isExpanded ? icon('caret-up') : icon('caret-down');
+      const count = filtered.length;
+
+      const chipsHtml = filtered.map(([tag, count]) => {
+        const cls = CAT_CLASS[cat] || 'tag-format';
+        const isActive = activeTags.some(a => a.tag === tag && a.category === cat);
+        const dot = cat === 'color' ? `<span class="color-dot" style="background:${COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888'}"></span>` : '';
+        return `<span class="tag-chip ${cls}${isActive ? ' active' : ''}" data-tag="${tag}" data-cat="${cat}">${dot}${tag} <span class="chip-count">${count}</span></span>`;
+      }).join('');
+
+      return `<div class="tag-category-group${isExpanded ? ' is-expanded' : ''}" data-cat="${cat}">
+        <button type="button" class="tag-category-header" data-cat="${cat}" aria-expanded="${isExpanded}">
+          <span class="tag-category-label">${label}</span>
+          <span class="tag-category-count">${count}</span>
+          <span class="tag-category-caret">${caret}</span>
+        </button>
+        <div class="tag-chips">${chipsHtml}</div>
       </div>`;
     }).join('');
   }
@@ -275,7 +306,8 @@
 
   function renderWeekCards(weekKey) {
     const container = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
-    const showLink = $grid.querySelector(`.week-show-link[data-week="${weekKey}"]`);
+    const header = $grid.querySelector(`.date-section-header[data-week="${weekKey}"]`);
+    const toggleLink = header?.querySelector('.week-show-link');
     if (!container) return;
 
     const items = getFilteredItems();
@@ -284,15 +316,36 @@
     container.innerHTML = weekItems.map((item, idx) => renderCard(item, idx)).join('');
     container.style.display = '';
     loadedWeeks.add(weekKey);
+    header?.classList.add('is-expanded');
+    if (header) {
+      header.setAttribute('aria-expanded', 'true');
+      header.setAttribute('aria-label', 'Collapse week');
+    }
+    if (toggleLink) toggleLink.innerHTML = icon('caret-up');
+    PanelManager.refreshAfterGridRender();
+  }
 
-    if (showLink) showLink.remove();
+  function collapseWeek(weekKey) {
+    const container = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
+    const header = $grid.querySelector(`.date-section-header[data-week="${weekKey}"]`);
+    const toggleLink = header?.querySelector('.week-show-link');
+    if (!container) return;
+    container.innerHTML = '';
+    container.style.display = 'none';
+    loadedWeeks.delete(weekKey);
+    header?.classList.remove('is-expanded');
+    if (header) {
+      header.setAttribute('aria-expanded', 'false');
+      header.setAttribute('aria-label', 'Expand week');
+    }
+    if (toggleLink) toggleLink.innerHTML = icon('caret-down');
+    PanelManager.refreshAfterGridRender();
   }
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
 
   function renderGrid() {
     const items = getFilteredItems();
-    $itemsCount.innerHTML = `Showing <span>${items.length}</span> of ${allItems.length} items`;
 
     if (items.length === 0) {
       $grid.innerHTML = '<div class="no-results">No items match your filters.</div>';
@@ -314,10 +367,10 @@
     let html = '';
     weeks.forEach((week, wi) => {
       const isLoaded = loadedWeeks.has(week.key);
-      const showLink = !isLoaded
-        ? `<span class="week-show-link" data-week="${week.key}">Show</span>`
-        : '';
-      html += `<div class="date-section-header" style="grid-column: 1 / -1"><span>${week.label}</span>${showLink}</div>`;
+      const caret = isLoaded ? icon('caret-up') : icon('caret-down');
+      const aria = isLoaded ? 'Collapse week' : 'Expand week';
+      const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
+      html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
         html += week.items.map(e => renderCard(e.item, e.idx)).join('');
@@ -326,6 +379,7 @@
     });
 
     $grid.innerHTML = html;
+    PanelManager.refreshAfterGridRender();
   }
 
   function cleanSummary(text) {
@@ -372,77 +426,94 @@
       thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
     }
 
-    // Expand icon (opens full detail page)
-    const expandIcon = `<a class="card-expand-icon" href="detail.html?slug=${item.slug}" onclick="event.stopPropagation()">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M9 1h6v6M7 15H1V9M15 1L9 7M1 15l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>`;
-
-    // Card footer — minimal metadata
-    const cardFooter = `<div class="card-footer">
-      <div class="card-footer-title">${escHtml(item.title)}</div>
-      ${item.domain ? `<div class="card-footer-domain">${escHtml(item.domain)}</div>` : ''}
-    </div>`;
-
-    // Expanded detail area (hidden by default, shown on click)
-    const tagPills = item.tags
-      .sort((a, b) => b.weight - a.weight)
-      .slice(0, 8)
-      .map(t => renderTagPill(t.tag, t.category)).join('');
-
-    const expandedHtml = `<div class="card-expanded-body">
-      <div class="card-expanded-title">${escHtml(item.title)}</div>
-      <div class="card-expanded-meta">
-        ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
-        ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
-      </div>
-      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
-      <div class="card-expanded-tags">${tagPills}</div>
-      ${item.source_url ? `<a class="card-expanded-source" href="${item.source_url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Visit source &rarr;</a>` : ''}
-      <div class="card-expanded-md" data-slug="${item.slug}"></div>
-    </div>`;
+    // URL pill — bottom-right. Default: 20% color bg + white text.
+    // Hover: fully opaque bg + color-tinted text (or dark if no color tag).
+    const pillColor = dominantColor(item);
+    const hasColorTag = pillColor !== '#ffffff';
+    const pillBg = hasColorTag ? hexToRgba(pillColor, 0.2) : 'rgba(255, 255, 255, 0.2)';
+    const pillBgHover = '#ffffff';
+    const pillColorHover = hasColorTag ? pillColor : '#1a1a17';
+    const urlPill = item.domain
+      ? `<a class="card-url-pill"${item.source_url ? ` href="${escHtml(item.source_url).replace(/"/g, '&quot;')}" target="_blank" rel="noopener"` : ''} style="--pill-bg:${pillBg};--pill-bg-hover:${pillBgHover};--pill-color-hover:${pillColorHover}" onclick="event.stopPropagation()">${escHtml(item.domain)}</a>`
+      : '';
 
     const cardClass = hasImage ? ' card-visual' : (hasTextContent ? ' card-text' : '');
-    const pos = brickPosition(idx);
 
-    return `<div class="card${cardClass}" data-slug="${item.slug}" style="grid-column: ${pos.col} / span ${pos.span}">
+    return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1">
       <div class="card-visual-area">
         ${thumbHtml}
-        ${expandIcon}
+        <div class="card-overlay"></div>
+        <div class="card-title-badge">${escHtml(item.title || '')}</div>
+        ${urlPill}
       </div>
-      ${cardFooter}
-      ${expandedHtml}
     </div>`;
   }
 
-  // --- In-place card expansion ---
-  async function toggleCardExpansion(card) {
-    const isExpanded = card.classList.contains('card-expanded');
+  // Format date as "16 Jun 2026"
+  function formatHumanDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  }
 
-    if (isExpanded) {
-      card.classList.remove('card-expanded');
-      return;
-    }
+  // Format week as "W16 2026" (ISO week)
+  function formatWeekTag(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return `W${String(getISOWeek(d)).padStart(2, '0')} ${d.getFullYear()}`;
+  }
 
-    card.classList.add('card-expanded');
+  // Builds the expanded-body HTML used inside a side panel.
+  // `sharedTagSet`: optional Set<string> of "category:tag" keys to highlight with .tag-shared.
+  function buildPanelBodyHTML(item, sharedTagSet) {
+    const panelImage = (item.has_image && item.image_path)
+      ? `<div class="panel-image"><img src="${escHtml(item.image_path).replace(/"/g, '&quot;')}" alt=""></div>`
+      : '';
 
-    // Load markdown body if not already loaded
-    const mdContainer = card.querySelector('.card-expanded-md');
-    if (mdContainer && !mdContainer.dataset.loaded) {
-      const slug = card.dataset.slug;
-      try {
-        const mdRes = await fetch(`_items/${slug}/item.md`);
-        if (mdRes.ok) {
-          const raw = await mdRes.text();
-          let body = extractMarkdownBody(raw);
-          if (body) {
-            // Remove redundant sections
-            body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-            if (body) mdContainer.innerHTML = renderMarkdown(body);
-          }
-        }
-      } catch { /* silent */ }
-      mdContainer.dataset.loaded = 'true';
-    }
+    return `${panelImage}<div class="card-expanded-body">
+      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
+      <div class="card-expanded-md" data-slug="${item.slug}"></div>
+    </div>`;
+  }
+
+  // Builds the sticky footer with tags (left) + date/week (right)
+  function buildPanelFooterHTML(item, sharedTagSet) {
+    const tagPills = item.tags
+      .slice()
+      .sort((a, b) => b.weight - a.weight)
+      .slice(0, 16)
+      .map(t => {
+        const shared = sharedTagSet && sharedTagSet.has(t.category + ':' + t.tag);
+        return renderTagPill(t.tag, t.category, shared);
+      }).join('');
+
+    const date = formatHumanDate(item.added_at);
+    const week = formatWeekTag(item.added_at);
+
+    return `<div class="panel-footer-tags">${tagPills}</div>
+      <div class="panel-footer-date">
+        ${date ? `<div class="panel-footer-date-main">${date}</div>` : ''}
+        ${week ? `<div class="panel-footer-date-week">${week}</div>` : ''}
+      </div>`;
+  }
+
+  // Loads and renders the markdown body into a panel's .card-expanded-md element.
+  async function loadMarkdownInto(container) {
+    if (!container || container.dataset.loaded) return;
+    container.dataset.loaded = 'true';
+    const slug = container.dataset.slug;
+    try {
+      const mdRes = await fetch(`_items/${slug}/item.md`);
+      if (!mdRes.ok) return;
+      const raw = await mdRes.text();
+      let body = extractMarkdownBody(raw);
+      if (!body) return;
+      body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
+      if (body) container.innerHTML = renderMarkdown(body);
+    } catch { /* silent */ }
   }
 
   // --- Active filter pills ---
@@ -528,26 +599,41 @@
       renderGrid();
     });
 
-    // Filter panel toggle
-    document.getElementById('filter-panel-btn').addEventListener('click', function () {
-      $filterPanel.classList.toggle('open');
-    });
-    document.getElementById('filter-panel-close').addEventListener('click', function () {
-      $filterPanel.classList.remove('open');
+    // Tool panel toggles (Filters, Import, Settings)
+    document.getElementById('filter-panel-btn')?.addEventListener('click', () => PanelManager.openTool('filters'));
+    document.getElementById('import-btn')?.addEventListener('click', () => PanelManager.openTool('import'));
+    document.getElementById('settings-btn')?.addEventListener('click', () => PanelManager.openTool('settings'));
+
+    // Render tool bodies when the tool panel opens
+    document.addEventListener('toolpanel:rendered', (e) => {
+      const { type } = e.detail;
+      if (type === 'filters') {
+        renderTagDrawer();
+        bindFilterPanelBody();
+      } else if (type === 'settings') {
+        loadSettingsIntoPanel();
+      } else if (type === 'import') {
+        bindImportPanelBody();
+      }
     });
 
-    $drawer.addEventListener('click', function (e) {
-      const chip = e.target.closest('.tag-chip');
-      if (!chip) return;
-      const tag = chip.dataset.tag;
-      const cat = chip.dataset.cat;
-      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
-      if (idx >= 0) {
-        activeTags.splice(idx, 1);
-      } else {
-        activeTags.push({ tag, category: cat });
+    // Delegated clicks for tag chips + category headers (tool panel bodies re-render)
+    document.addEventListener('click', (e) => {
+      const header = e.target.closest('.tag-category-header');
+      if (header) {
+        const cat = header.dataset.cat;
+        if (expandedCategories.has(cat)) expandedCategories.delete(cat);
+        else expandedCategories.add(cat);
+        renderTagDrawer();
+        return;
       }
-      renderColorBar();
+      const chipInDrawer = e.target.closest('#filter-tag-drawer .tag-chip');
+      if (!chipInDrawer) return;
+      const tag = chipInDrawer.dataset.tag;
+      const cat = chipInDrawer.dataset.cat;
+      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
+      if (idx >= 0) activeTags.splice(idx, 1);
+      else activeTags.push({ tag, category: cat });
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();
@@ -556,7 +642,6 @@
     $activeFilters.addEventListener('click', function (e) {
       if (e.target.id === 'clear-filters' || e.target.closest('#clear-filters')) {
         activeTags = [];
-        renderColorBar();
         renderTagDrawer();
         renderActiveFilters();
         renderGrid();
@@ -566,41 +651,28 @@
       if (!pill) return;
       const idx = parseInt(pill.dataset.idx, 10);
       activeTags.splice(idx, 1);
-      renderColorBar();
       renderTagDrawer();
       renderActiveFilters();
       renderGrid();
     });
 
-    // Color bar clicks -> filter by color tag or toggle more/less
-    $colorBar.addEventListener('click', function (e) {
-      if (e.target.closest('.color-bar-toggle')) {
-        colorBarExpanded = !colorBarExpanded;
-        renderColorBar();
-        return;
-      }
-      const chip = e.target.closest('.tag-chip');
-      if (!chip) return;
-      const tag = chip.dataset.tag;
-      const cat = chip.dataset.cat;
-      const idx = activeTags.findIndex(a => a.tag === tag && a.category === cat);
-      if (idx >= 0) {
-        activeTags.splice(idx, 1);
-      } else {
-        activeTags.push({ tag, category: cat });
-      }
-      renderColorBar();
-      renderTagDrawer();
-      renderActiveFilters();
-      renderGrid();
-    });
-
-    // Week "Show" links -> lazy load that week
+    // Week Expand/Collapse toggle — entire bar is clickable (and keyboard-activatable)
     $grid.addEventListener('click', function (e) {
-      const showLink = e.target.closest('.week-show-link');
-      if (!showLink) return;
+      const bar = e.target.closest('.date-section-header');
+      if (!bar) return;
       e.stopPropagation();
-      renderWeekCards(showLink.dataset.week);
+      const key = bar.dataset.week;
+      if (loadedWeeks.has(key)) collapseWeek(key);
+      else renderWeekCards(key);
+    });
+    $grid.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const bar = e.target.closest('.date-section-header');
+      if (!bar) return;
+      e.preventDefault();
+      const key = bar.dataset.week;
+      if (loadedWeeks.has(key)) collapseWeek(key);
+      else renderWeekCards(key);
     });
 
     // Card hover -> highlight related
@@ -624,26 +696,25 @@
       }, 100);
     }, true);
 
-    // Card click -> expand in place (not the expand icon or links)
+    // Card click -> open item in a side panel
     $grid.addEventListener('click', function (e) {
-      // Don't expand if clicking the expand icon or any link
-      if (e.target.closest('.card-expand-icon')) return;
       if (e.target.closest('a')) return;
-
       const card = e.target.closest('.card');
-      if (!card) return;
-      toggleCardExpansion(card);
+      if (!card || !card.dataset.slug) return;
+      const secondary = e.metaKey || e.ctrlKey;
+      PanelManager.open(card.dataset.slug, { secondary, originCard: card });
     });
   }
 
   // --- Utility ---
-  function renderTagPill(tag, category) {
+  function renderTagPill(tag, category, shared) {
     const cls = CAT_CLASS[category] || 'tag-format';
+    const sharedCls = shared ? ' tag-shared' : '';
     if (category === 'color') {
       const hex = COLOR_MAP[tag] || COLOR_MAP[tag.replace(/[-_\s]/g, '_')] || '#888';
-      return `<span class="card-tag ${cls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
+      return `<span class="card-tag ${cls}${sharedCls}"><span class="color-dot" style="background:${hex}"></span>${tag}</span>`;
     }
-    return `<span class="card-tag ${cls}">${tag}</span>`;
+    return `<span class="card-tag ${cls}${sharedCls}">${tag}</span>`;
   }
 
   function escHtml(str) {
@@ -658,9 +729,8 @@
       // Skip if any input or textarea is focused (search, settings, import modal)
       const active = document.activeElement;
       if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
-      // Skip if settings panel or import modal is open
-      if (document.getElementById('settings-panel').classList.contains('open')) return;
-      if (document.getElementById('import-modal').classList.contains('open')) return;
+      // Skip if any tool panel is open (user might be interacting with it)
+      if (document.querySelector('.panel-tool')) return;
 
       const text = e.clipboardData.getData('text/plain');
       const files = e.clipboardData.files;
@@ -705,7 +775,6 @@
     // Add to allItems for search/filter consistency
     allItems.unshift(item);
     renderStats();
-    renderColorBar();
   }
 
   async function captureURL(urlStr) {
@@ -966,24 +1035,21 @@
     toast._timer = setTimeout(() => toast.classList.remove('toast-visible'), 3000);
   }
 
-  // --- Import modal ---
-  function bindImportModal() {
-    const $importBtn = document.getElementById('import-btn');
-    const $importModal = document.getElementById('import-modal');
-    if (!$importBtn || !$importModal) return;
-
-    $importBtn.addEventListener('click', () => {
-      $importModal.classList.toggle('open');
+  // --- Import tool panel body (wired when the panel opens) ---
+  // --- Filters tool panel body (wire the search input when the panel opens) ---
+  function bindFilterPanelBody() {
+    const $search = document.getElementById('filter-search');
+    if (!$search) return;
+    $search.value = tagSearchQuery;
+    $search.addEventListener('input', () => {
+      tagSearchQuery = $search.value;
+      renderTagDrawer();
     });
+  }
 
-    // Close on backdrop click
-    $importModal.addEventListener('click', (e) => {
-      if (e.target === $importModal) $importModal.classList.remove('open');
-    });
-
-    // Textarea import
-    const $importSubmit = $importModal.querySelector('.import-submit');
-    const $importText = $importModal.querySelector('.import-textarea');
+  function bindImportPanelBody() {
+    const $importSubmit = document.querySelector('.panel-tool[data-tool="import"] .import-submit');
+    const $importText = document.querySelector('.panel-tool[data-tool="import"] .import-textarea');
     if ($importSubmit && $importText) {
       $importSubmit.addEventListener('click', () => {
         const text = $importText.value;
@@ -991,15 +1057,14 @@
         if (urls && urls.length > 0) {
           captureBulkURLs(urls);
           $importText.value = '';
-          $importModal.classList.remove('open');
+          PanelManager.closeTool();
         } else {
           showToast('No URLs found');
         }
       });
     }
 
-    // File upload (CSV / Markdown)
-    const $fileInput = $importModal.querySelector('.import-file');
+    const $fileInput = document.querySelector('.panel-tool[data-tool="import"] .import-file');
     if ($fileInput) {
       $fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -1009,22 +1074,20 @@
           const text = reader.result;
           const urls = text.match(/https?:\/\/[^\s<>"')]+/g);
           if (urls && urls.length > 0) {
-            // Dedupe
             const unique = [...new Set(urls)];
             captureBulkURLs(unique);
-            $importModal.classList.remove('open');
+            PanelManager.closeTool();
             showToast(`Importing ${unique.length} URLs from file...`);
           } else {
             showToast('No URLs found in file');
           }
         };
         reader.readAsText(file);
-        e.target.value = ''; // reset
+        e.target.value = '';
       });
     }
 
-    // Drag and drop
-    const $dropZone = $importModal.querySelector('.import-drop-zone');
+    const $dropZone = document.querySelector('.panel-tool[data-tool="import"] .import-drop-zone');
     if ($dropZone) {
       $dropZone.addEventListener('dragover', (e) => { e.preventDefault(); $dropZone.classList.add('drag-over'); });
       $dropZone.addEventListener('dragleave', () => $dropZone.classList.remove('drag-over'));
@@ -1039,7 +1102,7 @@
             if (urls) {
               const unique = [...new Set(urls)];
               captureBulkURLs(unique);
-              $importModal.classList.remove('open');
+              PanelManager.closeTool();
             }
           };
           reader.readAsText(file);
@@ -1048,37 +1111,30 @@
     }
   }
 
-  // --- Settings panel ---
-  function bindSettingsPanel() {
-    const $settingsBtn = document.getElementById('settings-btn');
-    const $settingsPanel = document.getElementById('settings-panel');
-    if (!$settingsBtn || !$settingsPanel) return;
+  // --- Settings tool panel body (wired when the panel opens) ---
+  async function loadSettingsIntoPanel() {
+    const $panel = document.querySelector('.panel-tool[data-tool="settings"]');
+    if (!$panel) return;
+    const $keyInput = $panel.querySelector('.settings-key');
+    const $profileInput = $panel.querySelector('.settings-profile');
+    const $status = $panel.querySelector('.settings-status');
 
-    $settingsBtn.addEventListener('click', async () => {
-      const isOpen = $settingsPanel.classList.toggle('open');
-      if (isOpen) {
-        // Load current config
-        try {
-          const res = await fetch('/api/config');
-          const config = await res.json();
-          const $keyInput = $settingsPanel.querySelector('.settings-key');
-          const $profileInput = $settingsPanel.querySelector('.settings-profile');
-          const $status = $settingsPanel.querySelector('.settings-status');
-          if (config.active_profile && config.profiles[config.active_profile]) {
-            const p = config.profiles[config.active_profile];
-            $keyInput.placeholder = p.has_key ? `Key: ${p.key_preview}` : 'Enter API key...';
-            $profileInput.value = config.active_profile;
-          }
-          $status.textContent = config.active_profile ? `Active: ${config.active_profile}` : 'No API key configured';
-        } catch { /* silent */ }
+    try {
+      const res = await fetch('/api/config');
+      const config = await res.json();
+      if (config.active_profile && config.profiles[config.active_profile]) {
+        const p = config.profiles[config.active_profile];
+        $keyInput.placeholder = p.has_key ? `Key: ${p.key_preview}` : 'Enter API key...';
+        $profileInput.value = config.active_profile;
       }
-    });
+      $status.textContent = config.active_profile ? `Active: ${config.active_profile}` : 'No API key configured';
+    } catch { /* silent */ }
 
-    const $saveKey = $settingsPanel.querySelector('.settings-save');
-    if ($saveKey) {
-      $saveKey.addEventListener('click', async () => {
-        const key = $settingsPanel.querySelector('.settings-key').value;
-        const profile = $settingsPanel.querySelector('.settings-profile').value || 'default';
+    const $save = $panel.querySelector('.settings-save');
+    if ($save) {
+      $save.addEventListener('click', async () => {
+        const key = $keyInput.value;
+        const profile = $profileInput.value || 'default';
         if (!key) { showToast('Enter an API key'); return; }
         try {
           await fetch('/api/config', {
@@ -1086,8 +1142,8 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ profile, key }),
           });
-          $settingsPanel.querySelector('.settings-key').value = '';
-          $settingsPanel.querySelector('.settings-status').textContent = `Saved! Active: ${profile}`;
+          $keyInput.value = '';
+          $status.textContent = `Saved! Active: ${profile}`;
           showToast('API key saved');
         } catch {
           showToast('Failed to save key');
@@ -1096,11 +1152,654 @@
     }
   }
 
+  // =========================================================================
+  // === PanelManager — owns up to 2 side panels, grid reflow, state sync ====
+  // =========================================================================
+  const PanelManager = (function () {
+    const DEFAULT_WIDTH = 480;
+    const MIN_WIDTH = 320;
+    const STORAGE_KEY = 'stello.panels';
+
+    const state = {
+      slugs: [],   // ordered [oldest, newest]; length 0–2
+      widths: [DEFAULT_WIDTH, DEFAULT_WIDTH],
+      originSlugs: [null, null], // which card slug triggered each panel (for focus return)
+      tool: null,   // 'filters' | 'settings' | 'import' | null
+      toolWidth: DEFAULT_WIDTH,
+      userResized: {},  // { 'item:0', 'item:1', 'tool' } → true once user drags that handle
+    };
+
+    let $container, $announcer;
+    const reducedMotion = () =>
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function maxPanels() { return window.innerWidth <= 1200 ? 1 : 2; }
+
+    function gridCols() {
+      const total = state.slugs.length + (state.tool ? 1 : 0);
+      return Math.max(2, 5 - total);
+    }
+
+    // ---- State <-> URL ----
+    function syncFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const s1 = params.get('panel1');
+      const s2 = params.get('panel2');
+      const slugs = [];
+      if (s1 && itemsBySlug[s1]) slugs.push(s1);
+      if (s2 && itemsBySlug[s2]) slugs.push(s2);
+      if (slugs.length > 0) { state.slugs = slugs; return true; }
+      return false;
+    }
+    function syncToURL(push) {
+      const params = new URLSearchParams(window.location.search);
+      params.delete('panel1'); params.delete('panel2');
+      state.slugs.forEach((slug, i) => params.set('panel' + (i + 1), slug));
+      const query = params.toString();
+      const newURL = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
+      const method = push ? 'pushState' : 'replaceState';
+      history[method]({ panels: state.slugs.slice() }, '', newURL);
+    }
+
+    // ---- State <-> localStorage ----
+    function syncFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (Array.isArray(data.slugs)) {
+          state.slugs = data.slugs.filter(s => itemsBySlug[s]).slice(0, maxPanels());
+        }
+        if (Array.isArray(data.widths)) {
+          state.widths = data.widths.map(w => clampWidth(w));
+          while (state.widths.length < 2) state.widths.push(DEFAULT_WIDTH);
+        }
+        if (typeof data.toolWidth === 'number') state.toolWidth = clampWidth(data.toolWidth);
+        // Tool panel is ephemeral per-session; don't auto-restore on page load
+        return state.slugs.length > 0;
+      } catch { return false; }
+    }
+    function syncToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          slugs: state.slugs.slice(),
+          widths: state.widths.slice(),
+          toolWidth: state.toolWidth,
+        }));
+      } catch { /* silent */ }
+    }
+
+    function clampWidth(px) {
+      const max = Math.floor(window.innerWidth * 0.5);
+      return Math.max(MIN_WIDTH, Math.min(max, px | 0));
+    }
+
+    // ---- Shared tags ----
+    function sharedTagSet() {
+      if (state.slugs.length < 2) return null;
+      const [a, b] = state.slugs.map(s => itemsBySlug[s]);
+      if (!a || !b) return null;
+      const setA = new Set(a.tags.map(t => t.category + ':' + t.tag));
+      const shared = new Set();
+      b.tags.forEach(t => {
+        const key = t.category + ':' + t.tag;
+        if (setA.has(key)) shared.add(key);
+      });
+      return shared.size ? shared : null;
+    }
+
+    // ---- Active card color line ----
+    function updateActiveCards() {
+      const active = new Set(state.slugs);
+      document.querySelectorAll('.card').forEach(card => {
+        const slug = card.dataset.slug;
+        if (!slug) return;
+        const isActive = active.has(slug);
+        card.classList.toggle('card-active', isActive);
+        if (isActive) {
+          const color = dominantColor(itemsBySlug[slug]);
+          card.style.setProperty('--card-active-color', color);
+        } else {
+          card.style.removeProperty('--card-active-color');
+        }
+      });
+    }
+
+    // ---- Grid column reflow ----
+    // Column-count layout reads --grid-cols from :root; just update the var.
+    function updateGridCols() {
+      document.documentElement.style.setProperty('--grid-cols', gridCols());
+    }
+
+    // ---- Render panels ----
+    function render() {
+      if (!$container) return;
+      const shared = sharedTagSet();
+
+      // Remove everything
+      const existing = Array.from($container.children);
+      existing.forEach(el => el.remove());
+
+      // Tool panel renders first (leftmost)
+      if (state.tool) {
+        const toolHandle = document.createElement('div');
+        toolHandle.className = 'resize-handle';
+        toolHandle.setAttribute('role', 'separator');
+        toolHandle.setAttribute('aria-label', 'Resize tool panel');
+        toolHandle.setAttribute('tabindex', '0');
+        toolHandle.dataset.toolHandle = '1';
+        bindToolResizeHandle(toolHandle);
+        $container.appendChild(toolHandle);
+
+        const toolPanel = renderToolPanel(state.tool);
+        if (toolPanel) $container.appendChild(toolPanel);
+      }
+
+      // Item panels
+      state.slugs.forEach((slug, i) => {
+        const item = itemsBySlug[slug];
+        if (!item) return;
+
+        const handle = document.createElement('div');
+        handle.className = 'resize-handle';
+        handle.setAttribute('role', 'separator');
+        handle.setAttribute('aria-label', `Resize panel ${i + 1}`);
+        handle.setAttribute('tabindex', '0');
+        handle.dataset.panelIndex = String(i);
+        bindResizeHandle(handle, i);
+        $container.appendChild(handle);
+
+        const panel = document.createElement('aside');
+        panel.className = 'panel';
+        panel.dataset.index = String(i);
+        panel.dataset.slug = slug;
+        panel.setAttribute('role', 'region');
+        panel.setAttribute('aria-label', `Item detail ${i + 1}: ${item.title || slug}`);
+        panel.setAttribute('tabindex', '-1');
+        panel.style.setProperty('--panel-width', state.widths[i] + 'px');
+
+        // Header: title + source on left, icons on right (arrow-up-right, expand, close)
+        const header = document.createElement('header');
+        header.className = 'panel-header';
+
+        const info = document.createElement('div');
+        info.className = 'panel-header-info';
+        const titleEl = document.createElement('div');
+        titleEl.className = 'panel-header-title';
+        titleEl.textContent = item.title || '';
+        info.appendChild(titleEl);
+        if (item.domain) {
+          const sourceEl = document.createElement('div');
+          sourceEl.className = 'panel-header-source';
+          sourceEl.textContent = item.domain;
+          info.appendChild(sourceEl);
+        }
+        header.appendChild(info);
+
+        const actions = document.createElement('div');
+        actions.className = 'panel-header-actions';
+
+        const shuffleBtn = document.createElement('button');
+        shuffleBtn.className = 'panel-shuffle';
+        shuffleBtn.type = 'button';
+        shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
+        shuffleBtn.title = 'Shuffle to related item';
+        shuffleBtn.innerHTML = icon('shuffle');
+        shuffleBtn.addEventListener('click', () => shuffle(i));
+        actions.appendChild(shuffleBtn);
+
+        if (item.source_url) {
+          const openBtn = document.createElement('button');
+          openBtn.className = 'panel-open-source';
+          openBtn.type = 'button';
+          openBtn.setAttribute('aria-label', 'Open source in new tab');
+          openBtn.title = 'Open source';
+          openBtn.innerHTML = icon('arrow-up-right');
+          openBtn.addEventListener('click', () => {
+            window.open(item.source_url, '_blank', 'noopener');
+          });
+          actions.appendChild(openBtn);
+        }
+
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'panel-expand';
+        expandBtn.type = 'button';
+        expandBtn.setAttribute('aria-label', 'Open full page');
+        expandBtn.title = 'Full page';
+        expandBtn.innerHTML = icon('frame-corners');
+        expandBtn.addEventListener('click', () => {
+          syncToStorage();
+          window.location.href = 'detail.html?slug=' + encodeURIComponent(slug);
+        });
+        actions.appendChild(expandBtn);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'panel-close';
+        closeBtn.type = 'button';
+        closeBtn.setAttribute('aria-label', 'Close panel');
+        closeBtn.title = 'Close';
+        closeBtn.innerHTML = icon('x');
+        closeBtn.addEventListener('click', () => close(i));
+        actions.appendChild(closeBtn);
+
+        header.appendChild(actions);
+        panel.appendChild(header);
+
+        const body = document.createElement('div');
+        body.className = 'panel-body';
+        body.innerHTML = buildPanelBodyHTML(item, shared);
+        panel.appendChild(body);
+
+        const footer = document.createElement('div');
+        footer.className = 'panel-footer';
+        footer.innerHTML = buildPanelFooterHTML(item, shared);
+        panel.appendChild(footer);
+
+        $container.appendChild(panel);
+
+        // Lazy-load markdown for this panel
+        const mdEl = body.querySelector('.card-expanded-md');
+        loadMarkdownInto(mdEl);
+      });
+    }
+
+    // ---- Tool panel rendering ----
+    const TOOL_TITLES = { filters: 'Filters', settings: 'Settings', import: 'Import URLs' };
+    const TOOL_TEMPLATES = { filters: 'tpl-filters', settings: 'tpl-settings', import: 'tpl-import' };
+
+    function renderToolPanel(type) {
+      const tpl = document.getElementById(TOOL_TEMPLATES[type]);
+      if (!tpl) return null;
+
+      const panel = document.createElement('aside');
+      panel.className = 'panel panel-tool';
+      panel.dataset.tool = type;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-label', TOOL_TITLES[type]);
+      panel.setAttribute('tabindex', '-1');
+      panel.style.setProperty('--panel-width', (state.toolWidth || DEFAULT_WIDTH) + 'px');
+
+      const header = document.createElement('header');
+      header.className = 'panel-header';
+      const title = document.createElement('div');
+      title.className = 'panel-tool-title';
+      title.textContent = TOOL_TITLES[type];
+      header.appendChild(title);
+
+      const actions = document.createElement('div');
+      actions.className = 'panel-header-actions';
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'panel-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Close panel');
+      closeBtn.innerHTML = icon('x');
+      closeBtn.addEventListener('click', closeTool);
+      actions.appendChild(closeBtn);
+      header.appendChild(actions);
+      panel.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'panel-body';
+      body.appendChild(tpl.content.cloneNode(true));
+      panel.appendChild(body);
+
+      // Notify listeners the tool body was freshly rendered
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('toolpanel:rendered', { detail: { type, body } }));
+      });
+
+      return panel;
+    }
+
+    function openTool(type) {
+      if (state.tool === type) { closeTool(); return; }
+      state.tool = type;
+      applyDefaultWidths();
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      updateToolButtons();
+      announce(`${TOOL_TITLES[type]} opened`);
+    }
+
+    function closeTool() {
+      if (!state.tool) return;
+      state.tool = null;
+      if (state.userResized) delete state.userResized['tool'];
+      applyDefaultWidths();
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateToolButtons();
+      announce('Tool panel closed');
+    }
+
+    function updateToolButtons() {
+      ['filter-panel-btn', 'import-btn', 'settings-btn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('is-active');
+      });
+      const activeId = state.tool === 'filters' ? 'filter-panel-btn' : state.tool === 'import' ? 'import-btn' : state.tool === 'settings' ? 'settings-btn' : null;
+      if (activeId) document.getElementById(activeId)?.classList.add('is-active');
+    }
+
+    function bindToolResizeHandle(handle) {
+      let startX = 0, startW = 0, dragging = false, raf = null;
+      handle.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        startW = state.toolWidth || DEFAULT_WIDTH;
+        dragging = true;
+        document.body.classList.add('resizing');
+        handle.classList.add('active');
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = null;
+          const delta = startX - e.clientX; // dragging left = bigger
+          const w = clampWidth(startW + delta);
+          state.toolWidth = w;
+          const p = $container.querySelector('.panel.panel-tool');
+          if (p) p.style.setProperty('--panel-width', w + 'px');
+        });
+      });
+      document.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.classList.remove('resizing');
+        handle.classList.remove('active');
+        state.userResized = state.userResized || {};
+        state.userResized['tool'] = true;
+        syncToStorage();
+      });
+    }
+
+    // ---- Default widths based on total panel count ----
+    // When 3 panels (tool + 2 items) are open, default each panel to
+    // viewport/4 so the main grid and every panel are equal columns.
+    // User resizes override this (tracked via state.userResized).
+    function applyDefaultWidths() {
+      const total = state.slugs.length + (state.tool ? 1 : 0);
+      const equal = Math.floor(window.innerWidth / 4);
+      const target = total >= 3 ? clampWidth(equal) : DEFAULT_WIDTH;
+      const ur = state.userResized || {};
+      state.widths = state.widths.map((w, i) =>
+        ur['item:' + i] ? w : target
+      );
+      if (!ur['tool']) state.toolWidth = target;
+    }
+
+    // ---- Announce ----
+    function announce(msg) {
+      if (!$announcer) return;
+      $announcer.textContent = '';
+      // Force re-read
+      requestAnimationFrame(() => { $announcer.textContent = msg; });
+    }
+
+    // ---- Open / close / replace ----
+    function open(slug, opts) {
+      opts = opts || {};
+      if (!itemsBySlug[slug]) return;
+
+      const idx = state.slugs.indexOf(slug);
+      if (idx >= 0) {
+        // Already open — flash card line + focus panel
+        const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+        if (card) {
+          card.classList.add('card-flash');
+          setTimeout(() => card.classList.remove('card-flash'), 400);
+        }
+        focus(idx);
+        return;
+      }
+
+      const max = maxPanels();
+      if (state.slugs.length < max && !opts.secondary) {
+        state.slugs.push(slug);
+        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
+      } else if (opts.secondary && state.slugs.length < max) {
+        state.slugs.push(slug);
+        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
+      } else {
+        // Full — FIFO replace oldest
+        state.slugs.shift();
+        state.slugs.push(slug);
+        state.originSlugs.shift();
+        state.originSlugs.push(opts.originCard ? opts.originCard.dataset.slug : null);
+        state.originSlugs.length = 2;
+      }
+
+      applyDefaultWidths();
+      syncToURL(true);
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      announce(`Panel opened: ${itemsBySlug[slug].title || slug}`);
+      focus(state.slugs.length - 1);
+    }
+
+    function close(index) {
+      if (index < 0 || index >= state.slugs.length) return;
+      const originSlug = state.originSlugs[index];
+      state.slugs.splice(index, 1);
+      state.originSlugs.splice(index, 1);
+      state.originSlugs.push(null);
+      // The closed panel's manual-resize flag no longer applies
+      if (state.userResized) delete state.userResized['item:' + index];
+      // Shift flag for the panel that moves into this slot, if any
+      if (state.userResized && state.userResized['item:1'] && index === 0) {
+        state.userResized['item:0'] = true;
+        delete state.userResized['item:1'];
+      }
+
+      applyDefaultWidths();
+      syncToURL(true);
+      syncToStorage();
+      render();
+      updateGridCols();
+      updateActiveCards();
+      announce('Panel closed');
+
+      if (originSlug) {
+        const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(originSlug)}"]`);
+        if (card) card.focus({ preventScroll: false });
+      }
+    }
+
+    function closeFocused() {
+      // If a tool panel is open, close it first (simplest UX)
+      if (state.tool) { closeTool(); return; }
+      const el = document.activeElement;
+      if (!el) return;
+      const panel = el.closest && el.closest('.panel');
+      if (!panel) return;
+      const i = parseInt(panel.dataset.index, 10);
+      if (!isNaN(i)) close(i);
+    }
+
+    // Replace the item in panel `index` with `newSlug` (used by Shuffle)
+    function replace(index, newSlug) {
+      if (index < 0 || index >= state.slugs.length) return;
+      if (!itemsBySlug[newSlug]) return;
+      state.slugs[index] = newSlug;
+      syncToURL(false);
+      syncToStorage();
+      render();
+      updateActiveCards();
+      announce(`Panel shuffled to: ${itemsBySlug[newSlug].title || newSlug}`);
+    }
+
+    // Find a random related slug (shares ≥1 tag). Excludes current item
+    // in this panel AND items open in sibling panels.
+    function randomRelatedSlug(currentSlug) {
+      const item = itemsBySlug[currentSlug];
+      if (!item) return null;
+      const exclude = new Set(state.slugs); // all open panels (including current)
+      const tagKeys = new Set(item.tags.map(t => t.category + ':' + t.tag));
+      const candidates = [];
+      for (const other of allItems) {
+        if (exclude.has(other.slug)) continue;
+        for (const t of other.tags) {
+          if (tagKeys.has(t.category + ':' + t.tag)) { candidates.push(other.slug); break; }
+        }
+      }
+      if (candidates.length === 0) return null;
+      return candidates[Math.floor(Math.random() * candidates.length)];
+    }
+
+    function shuffle(index) {
+      const currentSlug = state.slugs[index];
+      if (!currentSlug) return;
+      const next = randomRelatedSlug(currentSlug);
+      if (!next) { announce('No related items available to shuffle to'); return; }
+      replace(index, next);
+    }
+
+    function focus(index) {
+      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+      if (panel) panel.focus({ preventScroll: false });
+    }
+
+    function setWidth(index, px) {
+      state.widths[index] = clampWidth(px);
+      state.userResized = state.userResized || {};
+      state.userResized['item:' + index] = true;
+      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+      if (panel) panel.style.setProperty('--panel-width', state.widths[index] + 'px');
+      syncToStorage();
+    }
+
+    // ---- Resize handles ----
+    function bindResizeHandle(handle, index) {
+      let startX = 0, startWidth = 0, rafPending = false, nextWidth = 0;
+
+      function onMove(e) {
+        const dx = startX - e.clientX; // drag left => grows panel
+        nextWidth = clampWidth(startWidth + dx);
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => {
+            rafPending = false;
+            const panel = $container.querySelector(`.panel[data-index="${index}"]`);
+            if (panel) panel.style.setProperty('--panel-width', nextWidth + 'px');
+          });
+        }
+      }
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.body.classList.remove('resizing');
+        handle.classList.remove('active');
+        setWidth(index, nextWidth || startWidth);
+      }
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startX = e.clientX;
+        startWidth = state.widths[index];
+        nextWidth = startWidth;
+        document.body.classList.add('resizing');
+        handle.classList.add('active');
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+      handle.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { setWidth(index, state.widths[index] + 20); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { setWidth(index, state.widths[index] - 20); e.preventDefault(); }
+      });
+    }
+
+    // ---- Keyboard shortcuts ----
+    function bindKeys() {
+      document.addEventListener('keydown', (e) => {
+        if (e.target && e.target.matches && e.target.matches('input, textarea')) return;
+        if (e.key === 'Escape') { closeFocused(); return; }
+        if (e.key === '1') { focus(0); }
+        if (e.key === '2') { focus(1); }
+        if (e.key === '0') {
+          const first = document.querySelector('.card');
+          if (first) first.focus();
+        }
+      });
+    }
+
+    // ---- Window resize ----
+    let resizeTimeout = null;
+    function onWindowResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const max = maxPanels();
+        let dirty = false;
+        while (state.slugs.length > max) {
+          state.slugs.shift();
+          state.originSlugs.shift();
+          state.originSlugs.push(null);
+          dirty = true;
+        }
+        // Clamp widths
+        state.widths = state.widths.map(w => clampWidth(w));
+        if (dirty) {
+          syncToURL(false);
+          syncToStorage();
+          render();
+          updateGridCols();
+          updateActiveCards();
+        }
+      }, 120);
+    }
+
+    // ---- Init ----
+    function init() {
+      $container = document.getElementById('panels-container');
+      $announcer = document.getElementById('panel-announcer');
+      if (!$container) return;
+
+      // Load precedence: URL first, else localStorage.
+      if (!syncFromURL()) syncFromStorage();
+
+      // Clamp to current maxPanels
+      state.slugs = state.slugs.slice(0, maxPanels());
+
+      render();
+      updateGridCols();
+      updateActiveCards();
+
+      window.addEventListener('popstate', () => {
+        syncFromURL() || (state.slugs = []);
+        render();
+        updateGridCols();
+        updateActiveCards();
+      });
+      window.addEventListener('resize', onWindowResize);
+      bindKeys();
+    }
+
+    function cssSelectorEscape(s) {
+      if (window.CSS && CSS.escape) return CSS.escape(s);
+      return String(s).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
+    }
+
+    function refreshAfterGridRender() {
+      updateGridCols();
+      updateActiveCards();
+    }
+
+    return {
+      init, open, close, focus, shuffle,
+      openTool, closeTool,
+      gridCols,
+      refreshAfterGridRender,
+      state, // expose for debugging
+    };
+  })();
+
   // --- Start ---
   document.addEventListener('DOMContentLoaded', () => {
     init();
     bindPasteHandler();
-    bindImportModal();
-    bindSettingsPanel();
   });
 })();

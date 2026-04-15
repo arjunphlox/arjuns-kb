@@ -7,43 +7,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=35">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-row">
-      <h1>Stello <span class="header-count" id="header-count"></span></h1>
-      <div class="header-actions">
-        <input type="text" class="search-input" id="search-input" placeholder="Search...">
-        <button class="header-btn" id="filter-panel-btn" title="Filters">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 3h14M4 8h8M6 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <button class="header-btn" id="import-btn" title="Import URLs">+</button>
-        <button class="header-btn" id="settings-btn" title="Settings">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 10a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.2"/><path d="M13.5 8a5.5 5.5 0 01-.3 1.8l1.5 1.2-1 1.7-1.8-.6a5.5 5.5 0 01-1.6.9L10 14.8H8l-.3-1.8a5.5 5.5 0 01-1.6-.9l-1.8.6-1-1.7 1.5-1.2A5.5 5.5 0 014.5 8c0-.6.1-1.2.3-1.8L3.3 5l1-1.7 1.8.6a5.5 5.5 0 011.6-.9L8 1.2h2l.3 1.8c.6.2 1.1.5 1.6.9l1.8-.6 1 1.7-1.5 1.2c.2.6.3 1.2.3 1.8z" stroke="currentColor" stroke-width="1.2"/></svg>
-        </button>
-      </div>
+  <!-- Tool-panel content templates (hidden; content moved into tool panel on open) -->
+  <template id="tpl-filters">
+    <div class="filter-search-wrap">
+      <input type="text" id="filter-search" class="filter-search" placeholder="Search tags...">
     </div>
-    <div class="active-filters" id="active-filters"></div>
-  </header>
+    <div id="filter-tag-drawer"></div>
+  </template>
 
-  <!-- Filter Panel (slides from left) -->
-  <div class="filter-panel" id="filter-panel">
-    <div class="filter-panel-header">
-      <h3>Filters</h3>
-      <button class="filter-panel-close" id="filter-panel-close">&times;</button>
-    </div>
-    <div class="filter-panel-body">
-      <div id="filter-color-tags"></div>
-      <div id="filter-tag-drawer"></div>
-    </div>
-  </div>
-
-  <!-- Settings Panel -->
-  <div class="settings-panel" id="settings-panel">
-    <h3>API Key Configuration</h3>
+  <template id="tpl-settings">
     <div class="settings-field">
       <label>Profile name</label>
       <input type="text" class="settings-profile" value="personal" placeholder="Profile name">
@@ -56,28 +32,46 @@
       <button class="settings-save">Save</button>
       <span class="settings-status"></span>
     </div>
-  </div>
+  </template>
 
-  <!-- Import Modal -->
-  <div class="import-modal" id="import-modal">
-    <div class="import-content">
-      <h3>Import URLs</h3>
-      <textarea class="import-textarea" placeholder="Paste URLs here, one per line..."></textarea>
-      <button class="import-submit">Import URLs</button>
-      <div class="import-divider"><span>or</span></div>
-      <div class="import-drop-zone">
-        <p>Drop a CSV or Markdown file here</p>
-        <input type="file" class="import-file" accept=".csv,.md,.txt,.markdown">
+  <template id="tpl-import">
+    <textarea class="import-textarea" placeholder="Paste URLs here, one per line..."></textarea>
+    <button class="import-submit">Import URLs</button>
+    <div class="import-divider"><span>or</span></div>
+    <div class="import-drop-zone">
+      <p>Drop a CSV or Markdown file here</p>
+      <input type="file" class="import-file" accept=".csv,.md,.txt,.markdown">
+    </div>
+  </template>
+
+  <!-- Main Content + Panels -->
+  <div class="main-layout">
+    <div class="main-content">
+      <div class="content-inner">
+        <!-- Header (ivory box, sticky, aligned to grid width) -->
+        <header class="header">
+          <div class="header-row">
+            <h1>Stello<sup class="header-count" id="header-count"></sup></h1>
+            <div class="header-actions">
+              <button class="header-btn" id="filter-panel-btn" title="Filters" data-icon="funnel" aria-label="Filters"></button>
+              <button class="header-btn" id="import-btn" title="Import URLs" data-icon="plus" aria-label="Import URLs"></button>
+              <button class="header-btn" id="settings-btn" title="Settings" data-icon="gear" aria-label="Settings"></button>
+            </div>
+          </div>
+        </header>
+        <input type="text" class="search-input" id="search-input" placeholder="Search items...">
+        <div class="active-filters" id="active-filters"></div>
+
+        <main class="grid-container">
+          <div id="masonry-grid"></div>
+        </main>
       </div>
     </div>
+    <aside class="panels-container" id="panels-container" aria-label="Comparison and tool panels"></aside>
   </div>
 
-  <!-- Grid -->
-  <main class="grid-container">
-    <div class="items-count" id="items-count"></div>
-    <div id="masonry-grid"></div>
-  </main>
+  <div id="panel-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=24"></script>
 </body>
 </html>

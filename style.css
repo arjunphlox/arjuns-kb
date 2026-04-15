@@ -54,91 +54,85 @@ body {
 /* === HEADER === */
 .header {
   position: sticky;
-  top: 0;
+  top: 8px;
   z-index: 100;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 24px;
+  background: var(--text);        /* ivory */
+  color: var(--bg);
+  border-radius: 12px;
+  min-height: 120px;
+  padding: 12px 12px 12px;        /* With text-box-trim on h1, the title's
+                                     CSS box ends at the baseline, so 12px
+                                     padding applies equally on all sides. */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;      /* items aligned to bottom */
+  container-type: inline-size;    /* enable container queries for children */
 }
 .header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 400;
   letter-spacing: -0.03em;
-  color: var(--text);
+  color: var(--bg);
   margin-bottom: 0;
-  font-family: 'Platypi', Georgia, serif;
   white-space: nowrap;
+  line-height: 1;
+  /* Trim the text-box down to the visible glyphs so the h1's CSS box
+     ends at the baseline, not at the line-height buffer. This lets
+     align-items:flex-end truly bottom-align the title with the icon
+     buttons instead of floating the title above them. */
+  text-box: trim-both cap alphabetic;
+  /* Legacy / prefixed variant for browsers that shipped the draft
+     property first (Safari 16.4+, older Chrome channels). */
+  -webkit-text-box-trim: both;
+  -webkit-text-box-edge: cap alphabetic;
+  leading-trim: both;
+  text-edge: cap alphabetic;
 }
 .header-count {
   font-weight: 400;
   font-size: 0.85rem;
-  color: var(--text-dim);
+  color: rgba(26, 26, 23, 0.55);
   letter-spacing: 0;
+  /* Superscript: sit above the cap-height line with a small offset.
+     sup's default vertical-align:super shifts it up to roughly the
+     cap-height of the parent — paired with the smaller font-size
+     this reads as a subtle tally. */
+  padding-left: 4px;
 }
 
-/* === COMPACT SEARCH (in header) === */
+/* === SEARCH BAR (full-width row beneath the ivory header) === */
 .search-input {
-  background: var(--bg-secondary);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   color: var(--text);
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
-  font-size: 0.82rem;
-  padding: 8px 12px;
-  height: 32px;
-  width: 200px;
-  border-radius: 8px;
+  font-size: 0.9rem;
+  padding: 0 14px;
+  height: 48px;        /* 1.5x the 32px week-title bar */
+  width: 100%;
+  border-radius: 6px;
   outline: none;
-  transition: border-color 0.2s, width 0.2s;
+  transition: border-color 0.2s;
   box-sizing: border-box;
+  display: block;
 }
 .search-input::placeholder {
   color: var(--text-dim);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
 }
 .search-input:focus {
   border-color: var(--accent);
-  width: 280px;
 }
 
-/* === FILTER PANEL (slides from left) === */
-.filter-panel {
-  position: fixed;
-  top: 0;
-  left: -340px;
-  width: 320px;
-  height: 100vh;
-  background: var(--modal-bg);
-  border-right: 1px solid var(--border);
-  padding: 24px;
-  z-index: 200;
-  transition: left 0.25s ease;
-  overflow-y: auto;
-}
-.filter-panel.open {
-  left: 0;
-}
-.filter-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-.filter-panel-header h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
+/* === TOOL PANEL (shares .panel styling; content body below) === */
+.panel.panel-tool .panel-body { padding: 0 16px 24px; }
+.panel-tool-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   color: var(--text);
-}
-.filter-panel-close {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: color 0.15s;
-}
-.filter-panel-close:hover {
-  color: var(--text);
+  line-height: 1.2;
+  flex: 1 1 auto;
 }
 
 .active-filters {
@@ -162,7 +156,7 @@ body {
   transition: opacity 0.15s;
 }
 .active-filter-pill:hover { opacity: 0.85; }
-.active-filter-pill .x { font-weight: 700; margin-left: 2px; }
+.active-filter-pill .x { font-weight: 700; }
 
 .clear-filters-btn {
   background: transparent;
@@ -199,21 +193,84 @@ body {
 .color-bar-toggle:hover {
   color: var(--text-secondary);
 }
-.tag-category-group {
-  margin-bottom: 10px;
+/* Filters tool panel: search input at top */
+.filter-search-wrap { width: 100%; }
+.filter-search {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
 }
+.filter-search::placeholder { color: var(--text-dim); }
+.filter-search:focus { border-color: var(--accent); }
+
+#filter-tag-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tag-category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tag-category-group.is-expanded {
+  gap: 8px;
+  padding-bottom: 4px;
+}
+.tag-category-header {
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: color 0.15s;
+}
+.tag-category-header:hover { color: var(--text); }
 .tag-category-label {
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: 500;
+  flex: 1 1 auto;
+}
+.tag-category-count {
   font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: var(--text-dim);
-  margin-bottom: 5px;
-  font-weight: 600;
+}
+.tag-category-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+}
+.tag-category-caret svg {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 .tag-chips {
+  display: none;
+}
+.tag-category-group.is-expanded .tag-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  padding: 0 4px;
 }
 .tag-chip {
   display: inline-flex;
@@ -252,48 +309,323 @@ body {
   border: 1px solid rgba(255,255,255,0.15);
 }
 
-/* === MASONRY GRID === */
-.grid-container {
-  padding: 24px 48px 60px;
-  max-width: 1800px;
-  margin: 0 auto;
+/* === MAIN LAYOUT (main-content + panels) === */
+.main-layout {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* centers .content-inner within the main column without needing margin:auto */
 }
 
-/* Date section headers */
+/* === MAIN CONTENT INNER (header + grid share this wrapper's width/padding) === */
+.content-inner {
+  padding: 8px 24px 0;
+  max-width: 1800px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* === MASONRY GRID === */
+.grid-container {
+  padding: 0 0 24px;
+  width: 100%;
+}
+
+/* === COMPARISON PANELS === */
+.panels-container {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  padding: 8px 8px 8px 0;
+  box-sizing: border-box;
+}
+.panels-container:empty { display: none; }
+
+.resize-handle {
+  width: 8px;
+  cursor: default;
+  flex-shrink: 0;
+  background: transparent;
+  transition: background 0.15s;
+  position: relative;
+  align-self: stretch;
+}
+.resize-handle:hover,
+.resize-handle:focus-visible,
+body.resizing .resize-handle.active {
+  background: var(--accent-subtle);
+  cursor: col-resize;
+  outline: none;
+}
+
+body.resizing { user-select: none; cursor: col-resize; }
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--panel-width, 480px);
+  min-width: 320px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: transform 250ms ease-out, opacity 250ms ease-out;
+  overflow: hidden;
+  height: 100%;
+  flex-shrink: 0;
+}
+body.resizing .panel { transition: none; }
+
+.panel.panel-entering {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.panel.panel-leaving {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.panel-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+  padding-top: 2px;
+}
+.panel-header-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.panel-header-source {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.panel-header-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.panel-header button {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+}
+.panel-header button:hover {
+  background: var(--card-hover);
+  color: var(--text);
+}
+.panel-header button svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.panel-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Sticky footer: tags (left) + date/week (right), stays at bottom of panel */
+.panel-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 16px 14px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+}
+.panel-footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.panel-footer-date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+  text-align: right;
+}
+.panel-footer-date-main {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.panel-footer-date-week {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.panel-body.panel-body-swapping { opacity: 0; transition: opacity 150ms ease-out; }
+
+/* Image at top of panel body — same inset as content, rounded */
+.panel-image {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.panel-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Re-use card-expanded-* visual styles inside panel body */
+.panel-body .card-expanded-body {
+  display: block;
+  padding: 0;
+}
+
+/* === ACTIVE-CARD INDICATOR (line above image) === */
+.card.card-active .card-visual-area::before {
+  content: "";
+  position: absolute;
+  top: -9px; /* 8px gap + 1px line */
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--card-active-color, #ffffff);
+  pointer-events: none;
+  transition: opacity 250ms ease-out;
+}
+.card.card-active.card-flash .card-visual-area::before {
+  animation: card-line-flash 350ms ease-out;
+}
+@keyframes card-line-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* === SHARED TAG HIGHLIGHT (when 2 panels open) === */
+.panel-body .card-tag.tag-shared {
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+/* === Screen reader only === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Date section headers — week-title block
+   Default (collapsed): faint dark grey bg, white text + white "Expand"
+   Expanded: stark white bg, dark text + dark "Collapse"
+   Height matches .search-input above (32px) so both rows share a rhythm.
+*/
 .date-section-header {
-  padding: 6px 0;
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0 6px 0 10px;
+  height: 32px;
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+  transition: background 0.15s, color 0.15s, filter 0.15s;
+  cursor: pointer;
+  user-select: none;
+}
+.date-section-header:hover { filter: brightness(1.1); }
+.date-section-header.is-expanded:hover { filter: brightness(0.96); }
+.date-section-header.is-expanded {
+  background: var(--text);
+  color: var(--bg);
+  margin-bottom: 24px;
 }
 .date-section-header span {
   font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-dim);
+  font-weight: 400;
+  color: inherit;
   letter-spacing: 0.03em;
   font-family: 'Aribau Grotesk', -apple-system, sans-serif;
 }
+/* Caret inside the week bar — purely decorative; parent bar handles clicks. */
 .week-show-link {
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-family: 'Aribau Grotesk', -apple-system, sans-serif;
-  letter-spacing: 0.03em;
-  transition: color 0.15s;
-  text-decoration: none;
-  user-select: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  opacity: 0.75;
+  pointer-events: none;
 }
-.week-show-link:hover {
-  color: var(--text-secondary);
+.week-show-link svg {
+  width: 14px;
+  height: 14px;
+  display: block;
 }
 
-/* Grid section — 24-col micro-grid, cards placed at random positions */
+/* Masonry — CSS column-count, true top-to-bottom flow per column */
 .masonry-section {
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  grid-auto-rows: auto;
+  column-count: var(--grid-cols, 5);
+  column-gap: 24px;
   margin-bottom: 16px;
 }
 
@@ -305,15 +637,87 @@ body {
   overflow: visible;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  padding: 10px;
+  break-inside: avoid;
+  margin-bottom: 24px;
+  /* column-count layout applies width automatically */
+  display: block;
+  width: 100%;
 }
 
-/* Visual area wraps image + overlay + expand icon */
+/* Visual area wraps image + overlay + badges */
 .card-visual-area {
   position: relative;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-/* Image cards */
+/* Dark hover overlay between image and title */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+.card:hover .card-overlay { opacity: 1; }
+
+/* Title badge (overlay on hover). Spans full card width; bottom 40px is
+   reserved for the URL pill so the title never touches the card edge. */
+.card-title-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 40px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 99;
+  text-overflow: ellipsis;
+}
+.card:hover .card-title-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* URL pill (bottom-right, always visible, color tinted) */
+.card-url-pill {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  max-width: calc(100% - 20px);
+  padding: 1px 8px;
+  border-radius: var(--pill-radius);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: var(--pill-bg, rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-decoration: none;
+  z-index: 3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s, color 0.15s;
+}
+.card-url-pill:hover {
+  background: var(--pill-bg-hover, #ffffff);
+  color: var(--pill-color-hover, #1a1a17);
+}
+
+/* Image cards — preserve natural aspect ratio */
 .card-thumb {
   width: 100%;
   display: block;
@@ -331,7 +735,6 @@ body {
   font-size: 3rem;
   font-weight: 700;
   color: rgba(245, 244, 237, 0.08);
-  font-family: 'Platypi', Georgia, serif;
   border-radius: 4px;
 }
 
@@ -347,29 +750,6 @@ body {
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
   border-radius: 4px;
-}
-
-/* Card footer — minimal metadata */
-.card-footer {
-  padding: 8px 0 0;
-}
-.card-footer-title {
-  font-size: 0.8rem;
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--text-secondary);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.card-footer-domain {
-  font-size: 0.66rem;
-  color: var(--text-dim);
-}
-.card-footer-tags { display: none; }
-.card.card-expanded .card-footer {
-  display: none;
 }
 
 /* Tag pills (used in drawer and modal) */
@@ -412,21 +792,12 @@ body {
   color: #fff;
 }
 
-/* === IN-PLACE EXPANDED CARD === */
+/* === EXPANDED DETAIL CONTENT (used inside panels) === */
 .card-expanded-body {
-  display: none;
-  padding: 0 12px;
-}
-.card.card-expanded {
-  grid-column: span 8 !important;
-  background: var(--card-bg);
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 0;
-}
-.card.card-expanded .card-expanded-body {
-  display: block;
-  padding: 12px 12px 14px;
+  /* Rendered only inside .panel-body; hidden in grid via template not emitting it */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .card-expanded-title {
@@ -434,8 +805,6 @@ body {
   font-weight: 600;
   color: var(--text);
   line-height: 1.35;
-  margin-bottom: 4px;
-  font-family: 'Platypi', Georgia, serif;
 }
 .card-expanded-meta {
   display: flex;
@@ -443,33 +812,17 @@ body {
   gap: 10px;
   font-size: 0.72rem;
   color: var(--text-dim);
-  margin-bottom: 8px;
 }
 .card-expanded-summary {
   font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.55;
-  margin-bottom: 10px;
 }
 .card-expanded-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-bottom: 10px;
 }
-.card-expanded-source {
-  display: inline-block;
-  font-size: 0.78rem;
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  margin-bottom: 8px;
-  transition: color 0.15s;
-}
-.card-expanded-source:hover {
-  color: var(--accent-hover);
-}
-
 /* Markdown content inside expanded card */
 .card-expanded-md {
   font-size: 0.8rem;
@@ -477,7 +830,6 @@ body {
   color: var(--text-secondary);
   border-top: 1px solid var(--border);
   padding-top: 8px;
-  margin-top: 4px;
 }
 .card-expanded-md:empty {
   display: none;
@@ -522,14 +874,6 @@ body {
   margin: 10px 0;
 }
 
-/* Items count */
-.items-count {
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-}
-.items-count span { color: var(--accent); font-weight: 600; }
-
 /* No results */
 .no-results {
   text-align: center;
@@ -539,29 +883,50 @@ body {
 }
 
 /* === RESPONSIVE === */
-/* Large: 24 cols */
+/* Large: keep 5 cols but allow wider container */
 @media (min-width: 1840px) {
-  .grid-container { max-width: 2200px; }
+  .content-inner { max-width: 2200px; }
 }
-/* Medium: drop explicit col starts, keep spans, 16-col grid */
+/* Medium: 4 cols */
 @media (max-width: 1200px) {
-  .masonry-section { grid-template-columns: repeat(16, 1fr); }
-  .card { grid-column-start: auto !important; }
+  .masonry-section { column-count: 4; }
 }
-/* Tablet: 8-col grid */
+/* Tablet: 3 cols */
 @media (max-width: 768px) {
-  .masonry-section { grid-template-columns: repeat(8, 1fr); }
-  .card { grid-column-start: auto !important; }
+  .masonry-section { column-count: 3; }
   .modal-panel { width: 100vw; }
-  .header { padding: 12px 16px; }
-  .grid-container { padding: 12px 16px 40px; }
-  .search-input { width: 140px; }
-  .search-input:focus { width: 200px; }
+  .content-inner { padding: 8px 16px 0; }
 }
-/* Mobile: 2-col, all cards span 1 */
+/* Mobile: 2 cols */
 @media (max-width: 500px) {
-  .masonry-section { grid-template-columns: repeat(2, 1fr); }
-  .card { grid-column: span 1 !important; padding: 4px; }
+  .masonry-section { column-count: 2; column-gap: 12px; }
+  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
+  .header h1 { font-size: 2rem; }
+  .content-inner { padding: 8px 12px 0; }
+}
+
+/* Panels responsive: under 1200px, only one panel at a time */
+@media (max-width: 1200px) {
+  .panels-container { position: static; height: auto; }
+}
+/* Under 768px, panels become full-screen overlays */
+@media (max-width: 768px) {
+  .panels-container {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg);
+  }
+  .panel { width: 100vw !important; }
+  .resize-handle { display: none; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .panel, .card, .panels-container { transition: none !important; animation: none !important; }
+  .card.card-active.card-flash .card-visual-area::before { animation: none !important; }
 }
 
 /* === Scrollbar === */
@@ -573,17 +938,34 @@ body {
 /* === HEADER ACTIONS === */
 .header-row {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 .header-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* When the header box itself is narrow (3-panel mode), stack title
+   and actions vertically and let the box grow taller. */
+@container (max-width: 520px) {
+  .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 .header-btn {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
+  background: rgba(26, 26, 23, 0.06);
+  border: 1px solid rgba(26, 26, 23, 0.15);
+  color: rgba(26, 26, 23, 0.75);
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -591,12 +973,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   transition: background 0.15s, color 0.15s;
+  padding: 0;
 }
 .header-btn:hover {
-  background: var(--card-hover);
-  color: var(--text);
+  background: rgba(26, 26, 23, 0.12);
+  color: var(--bg);
+}
+.header-btn.is-active {
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.header-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 /* === ADDING CARD (placeholder while capturing) === */
@@ -622,19 +1014,19 @@ body {
   border-color: var(--accent) !important;
 }
 .question-form {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .question-label {
   font-size: 0.72rem;
   color: var(--text-secondary);
-  margin-bottom: 6px;
   font-weight: 500;
 }
 .question-options {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-bottom: 12px;
 }
 .q-toggle {
   background: var(--bg);
@@ -686,7 +1078,6 @@ body {
   font-size: 0.75rem;
   resize: vertical;
   min-height: 36px;
-  margin-bottom: 8px;
 }
 .question-text:focus {
   outline: none;
@@ -740,37 +1131,16 @@ body {
   pointer-events: auto;
 }
 
-/* === SETTINGS PANEL === */
-.settings-panel {
-  position: fixed;
-  top: 0;
-  right: -320px;
-  width: 300px;
-  height: 100vh;
-  background: var(--modal-bg);
-  border-left: 1px solid var(--border);
-  padding: 24px;
-  z-index: 100;
-  transition: right 0.25s ease;
-  overflow-y: auto;
-}
-.settings-panel.open {
-  right: 0;
-}
-.settings-panel h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--text);
-}
+/* === SETTINGS FIELDS (in tool panel) === */
 .settings-field {
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .settings-field label {
   display: block;
   font-size: 0.7rem;
   color: var(--text-dim);
-  margin-bottom: 4px;
 }
 .settings-field input {
   width: 100%;
@@ -790,7 +1160,6 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 16px;
 }
 .settings-save {
   background: var(--accent);
@@ -808,33 +1177,7 @@ body {
   color: var(--text-dim);
 }
 
-/* === IMPORT MODAL === */
-.import-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-.import-modal.open {
-  display: flex;
-}
-.import-content {
-  background: var(--modal-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  width: 440px;
-  max-width: 90vw;
-}
-.import-content h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--text);
-}
+/* === IMPORT (in tool panel) === */
 .import-textarea {
   width: 100%;
   min-height: 120px;
@@ -846,7 +1189,6 @@ body {
   font-family: inherit;
   font-size: 0.78rem;
   resize: vertical;
-  margin-bottom: 10px;
 }
 .import-textarea:focus {
   outline: none;
@@ -868,7 +1210,6 @@ body {
   text-align: center;
   color: var(--text-dim);
   font-size: 0.7rem;
-  margin: 14px 0;
   position: relative;
 }
 .import-divider::before, .import-divider::after {
@@ -885,18 +1226,19 @@ body {
   border: 2px dashed var(--border);
   border-radius: 8px;
   padding: 24px;
-  text-align: center;
   color: var(--text-dim);
   font-size: 0.78rem;
   transition: border-color 0.15s, background 0.15s;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
 }
 .import-drop-zone.drag-over {
   border-color: var(--accent);
   background: var(--accent-subtle);
-}
-.import-drop-zone p {
-  margin-bottom: 8px;
 }
 .import-file {
   position: absolute;
