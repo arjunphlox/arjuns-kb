@@ -68,7 +68,7 @@ body {
 }
 .header h1 {
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.03em;
   color: var(--bg);
   margin-bottom: 0;
@@ -111,7 +111,7 @@ body {
 .panel.panel-tool .panel-body { padding: 0 16px 24px; }
 .panel-tool-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--text);
   line-height: 1.2;
@@ -338,7 +338,7 @@ body.resizing .panel { transition: none; }
 }
 .panel-header-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--text);
   line-height: 1.2;
