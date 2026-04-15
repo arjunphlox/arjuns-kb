@@ -101,6 +101,47 @@
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   }
 
+  // --- Theme Manager ---
+  const ThemeManager = {
+    STORAGE_KEY: 'stello.theme',
+    defaults: { mode: 'dark', accent: 'amber' },
+
+    load() {
+      try {
+        const raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? { ...this.defaults, ...JSON.parse(raw) } : { ...this.defaults };
+      } catch { return { ...this.defaults }; }
+    },
+
+    apply(prefs) {
+      document.documentElement.setAttribute('data-theme', prefs.mode);
+      document.documentElement.setAttribute('data-accent', prefs.accent);
+    },
+
+    save(prefs) {
+      try { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(prefs)); } catch {}
+    },
+
+    setMode(mode) {
+      const prefs = this.load();
+      prefs.mode = mode;
+      this.save(prefs);
+      this.apply(prefs);
+    },
+
+    setAccent(accent) {
+      const prefs = this.load();
+      prefs.accent = accent;
+      this.save(prefs);
+      this.apply(prefs);
+    },
+
+    init() {
+      const prefs = this.load();
+      this.apply(prefs);
+    }
+  };
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
@@ -111,6 +152,7 @@
 
   // --- Boot ---
   async function init() {
+    ThemeManager.init();
     const res = await fetch('index.json?v=' + Date.now());
     const data = await res.json();
     allItems = data.items;
@@ -419,11 +461,13 @@
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
-      thumbHtml = `<div class="card-text-content" style="view-transition-name:${vtName};background:hsl(${hue},15%,13%)">${truncated}</div>`;
+      const light = ThemeManager.load().mode === 'light';
+      thumbHtml = `<div class="card-text-content" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '12%,92%' : '15%,13%'})">${truncated}</div>`;
     } else {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const letter = (item.title || '?')[0].toUpperCase();
-      thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},20%,16%)">${letter}</div>`;
+      const light = ThemeManager.load().mode === 'light';
+      thumbHtml = `<div class="card-placeholder" style="view-transition-name:${vtName};background:hsl(${hue},${light ? '10%,93%' : '20%,16%'})">${letter}</div>`;
     }
 
     // URL pill — bottom-right. Default: 20% color bg + white text.
@@ -530,23 +574,29 @@
   // --- Related card highlighting ---
   let hoverTimeout = null;
 
-  function highlightRelated(slug) {
-    const related = relatedIndex[slug] || new Set();
-    $grid.classList.add('has-hover-focus');
-    const cards = $grid.querySelectorAll('.card');
-    cards.forEach(card => {
-      const cardSlug = card.dataset.slug;
-      if (cardSlug === slug || related.has(cardSlug)) {
-        card.classList.add('card-focused');
-      } else {
-        card.classList.remove('card-focused');
-      }
+  function highlightRelated(slugs) {
+    if (!Array.isArray(slugs)) slugs = [slugs];
+    const related = new Set();
+    slugs.forEach(s => {
+      related.add(s);
+      (relatedIndex[s] || new Set()).forEach(r => related.add(r));
+    });
+    $grid.querySelectorAll('.card').forEach(card => {
+      card.classList.toggle('card-focused', related.has(card.dataset.slug));
     });
   }
 
   function clearHighlight() {
-    $grid.classList.remove('has-hover-focus');
     $grid.querySelectorAll('.card-focused').forEach(c => c.classList.remove('card-focused'));
+  }
+
+  // Re-highlight based on open panels (called after panel open/close)
+  function syncHighlightsToOpenPanels(panelSlugs) {
+    if (panelSlugs && panelSlugs.length > 0) {
+      highlightRelated(panelSlugs);
+    } else {
+      clearHighlight();
+    }
   }
 
   // --- Markdown helpers ---
@@ -675,7 +725,7 @@
       else renderWeekCards(key);
     });
 
-    // Card hover -> highlight related
+    // Card hover -> highlight related (falls back to panel highlights on leave)
     $grid.addEventListener('mouseenter', function (e) {
       const card = e.target.closest('.card');
       if (!card) return;
@@ -691,7 +741,7 @@
       clearTimeout(hoverTimeout);
       hoverTimeout = setTimeout(() => {
         if (!$grid.querySelector('.card:hover')) {
-          clearHighlight();
+          syncHighlightsToOpenPanels(PanelManager.getOpenSlugs());
         }
       }, 100);
     }, true);
@@ -1150,6 +1200,36 @@
         }
       });
     }
+
+    // --- Theme controls ---
+    const prefs = ThemeManager.load();
+
+    // Mode toggle
+    const $modeToggle = $panel.querySelector('#theme-mode-toggle');
+    if ($modeToggle) {
+      $modeToggle.querySelectorAll('.theme-toggle-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.mode === prefs.mode);
+      });
+      $modeToggle.addEventListener('click', (e) => {
+        const opt = e.target.closest('[data-mode]');
+        if (!opt) return;
+        ThemeManager.setMode(opt.dataset.mode);
+        $modeToggle.querySelectorAll('.theme-toggle-option').forEach(o =>
+          o.classList.toggle('active', o.dataset.mode === opt.dataset.mode)
+        );
+      });
+    }
+
+    // Accent swatches
+    $panel.querySelectorAll('.accent-swatch').forEach(swatch => {
+      swatch.classList.toggle('active', swatch.dataset.accent === prefs.accent);
+      swatch.addEventListener('click', () => {
+        ThemeManager.setAccent(swatch.dataset.accent);
+        $panel.querySelectorAll('.accent-swatch').forEach(s =>
+          s.classList.toggle('active', s.dataset.accent === swatch.dataset.accent)
+        );
+      });
+    });
   }
 
   // =========================================================================
@@ -1401,6 +1481,9 @@
         const mdEl = body.querySelector('.card-expanded-md');
         loadMarkdownInto(mdEl);
       });
+
+      // Sync related-card highlights to open panels
+      syncHighlightsToOpenPanels(state.slugs);
     }
 
     // ---- Tool panel rendering ----
@@ -1788,10 +1871,12 @@
       updateActiveCards();
     }
 
+    function getOpenSlugs() { return [...state.slugs]; }
+
     return {
       init, open, close, focus, shuffle,
       openTool, closeTool,
-      gridCols,
+      gridCols, getOpenSlugs,
       refreshAfterGridRender,
       state, // expose for debugging
     };
