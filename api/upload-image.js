@@ -62,6 +62,9 @@ module.exports = async function handler(req, res) {
     location: null,
     needs_review: true,
     added_at: isoNow,
+    // Vision will flip this to 'vision_done' — image uploads always have
+    // something to analyze, unlike URL captures that may lack an OG image.
+    enrichment_status: 'text_done',
     tags: JSON.stringify(tags),
   };
 

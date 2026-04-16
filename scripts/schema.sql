@@ -50,12 +50,15 @@ CREATE TABLE items (
   added_at TIMESTAMPTZ DEFAULT now(),
   analyzed_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ DEFAULT now(),
+  enrichment_status TEXT DEFAULT 'pending'
+    CHECK (enrichment_status IN ('pending', 'text_done', 'vision_done', 'error')),
   tags JSONB DEFAULT '[]'::jsonb,
   UNIQUE(user_id, slug)
 );
 
 CREATE INDEX idx_items_user_added ON items(user_id, added_at DESC);
 CREATE INDEX idx_items_user_updated ON items(user_id, updated_at DESC);
+CREATE INDEX idx_items_user_enrichment ON items(user_id, enrichment_status);
 CREATE INDEX idx_items_tags ON items USING GIN(tags);
 
 -- Auto-update updated_at timestamp

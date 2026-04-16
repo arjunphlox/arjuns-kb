@@ -169,6 +169,7 @@ async function fetchOGMetadata(url) {
     meta._status = 'fetched';
     return meta;
   } catch (err) {
+    console.warn('fetchOGMetadata failed', url, err.message);
     return { _status: 'error', _error: err.message };
   }
 }
@@ -189,10 +190,19 @@ async function downloadImage(imageUrl) {
     });
     clearTimeout(timeout);
 
-    if (!resp.ok) return null;
+    if (!resp.ok) {
+      console.warn('downloadImage: non-ok response', imageUrl, resp.status);
+      return null;
+    }
 
     const buffer = Buffer.from(await resp.arrayBuffer());
-    if (buffer.length < 1000) return null; // Skip tiny/broken images
+    // 500-byte floor catches transparent 1x1 trackers while keeping small
+    // favicons and minimal SVG exports. The old 1000-byte cutoff was dropping
+    // valid hero images served through compressing CDNs.
+    if (buffer.length < 500) {
+      console.warn('downloadImage: buffer too small', imageUrl, buffer.length);
+      return null;
+    }
 
     const contentType = resp.headers.get('content-type') || '';
     let ext = '.jpg';

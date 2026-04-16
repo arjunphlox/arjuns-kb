@@ -43,8 +43,14 @@ module.exports = async function handler(req, res) {
     return jsonResponse(res, 404, { error: 'Item not found' });
   }
 
-  // Need an image to enrich
+  // Need an image to enrich. 'text_done' is the terminal state for
+  // image-less items — vision has nothing to analyze, so stop here.
   if (!item.og_image_path) {
+    if (item.enrichment_status !== 'text_done') {
+      await client.from('items')
+        .update({ enrichment_status: 'text_done' })
+        .eq('id', item.id);
+    }
     return jsonResponse(res, 200, { status: 'skipped', reason: 'no image' });
   }
 
@@ -117,6 +123,7 @@ module.exports = async function handler(req, res) {
       tags: JSON.stringify(allTags),
       needs_review: needsReview,
       analyzed_at: new Date().toISOString(),
+      enrichment_status: 'vision_done',
     };
     if (result.title) updates.title = result.title;
 
@@ -124,6 +131,11 @@ module.exports = async function handler(req, res) {
 
   } catch (err) {
     result.vision_error = (err.message || '').slice(0, 100);
+    // Mark the attempt so re-enrich-on-login doesn't hammer the same
+    // broken image forever. The client can retry explicitly if needed.
+    await client.from('items')
+      .update({ enrichment_status: 'error' })
+      .eq('id', item.id);
   }
 
   return jsonResponse(res, 200, result);

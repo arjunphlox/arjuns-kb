@@ -120,12 +120,16 @@ async function captureUrlAdmin(admin, userId, url) {
             : img.ext === '.webp' ? 'image/webp' : 'image/jpeg',
           upsert: true,
         });
-      if (!uploadErr) {
+      if (uploadErr) {
+        console.warn('cron: image upload failed', url, uploadErr.message);
+      } else {
         const { data: urlData } = admin.storage
           .from('item-images')
           .getPublicUrl(storagePath);
         ogImagePath = urlData.publicUrl;
       }
+    } else {
+      console.warn('cron: image download returned null', url, fullImageUrl);
     }
   }
 
@@ -140,7 +144,8 @@ async function captureUrlAdmin(admin, userId, url) {
       body_markdown: `## Summary\n${summary || ''}`,
       og_image_path: ogImagePath, status: 'active',
       location: null, needs_review: true,
-      added_at: now, tags: JSON.stringify(tags),
+      added_at: now, enrichment_status: 'text_done',
+      tags: JSON.stringify(tags),
     })
     .select()
     .single();
