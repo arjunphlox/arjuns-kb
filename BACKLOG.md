@@ -24,12 +24,13 @@
 
 | Task | Platform | Model | Status |
 |---|---|---|---|
-| **Review item cards without images** — audit and fix cards with no OG image; improve fallback display or re-fetch images | Web | Sonnet | Open |
+| **Review item cards without images** — audit and fix cards with no OG image; improve fallback display or re-fetch images | Web | Sonnet | Done — PR #6 (`/api/reprocess` + login-time backfill drip) |
 | **Better tag navigation and management** — improve tag browsing, filtering, bulk editing, and tag cleanup tools | Desktop | Opus | Open |
 | **UI bugs & refinements** — collect and fix visual glitches, layout issues, and polish rough edges | Desktop | Sonnet | Open |
 | **Finish Supabase legacy-key rotation** — confirm deployed frontend sends `sb_publishable_*` (Network tab, incognito), then disable legacy JWT keys in the dashboard to kill the previously exposed service_role JWT | Web | Sonnet | Open |
 | **Port `link_check.py` + `refetch.py` to Supabase** — they currently read the local `_items/` mirror, so results lag real data; should query Supabase directly or at least note "run backup first" | Either | Sonnet | Open |
-| **Update `.claude/launch.json` to use `vercel dev`** — currently points to the retired `node server.js`; once the current preview process dies, `preview_start` will fail. Switch `runtimeExecutable`/`runtimeArgs` to `vercel dev` (or `python3 -m http.server` for static-only testing) | Desktop | Sonnet | Open |
+| **Extend `verify-supabase.js` to test storage upload as a user** — today it only checks bucket existence, so missing INSERT/UPDATE RLS policies (the root cause of the Week 16 image misses) pass silently. Could sign in as a test account and attempt a 1-byte upload/delete | Either | Sonnet | Open |
+| **Update `.claude/launch.json` to use `vercel dev`** — currently points to the retired `node server.js`; once the current preview process dies, `preview_start` will fail | Desktop | Sonnet | Done — PR #6 (points at `scripts/local-dev.js` instead; `vercel dev` requires a Vercel login, not great for fresh clones) |
 
 ## Maintenance (run periodically via Claude Code)
 
