@@ -176,7 +176,7 @@
         window.history.replaceState(null, '', clean);
         // Remove the flag after the longest animation finishes so it doesn't
         // linger on future grid re-renders.
-        setTimeout(() => document.body.classList.remove('just-logged-in'), 1800);
+        setTimeout(() => document.body.classList.remove('just-logged-in'), 900);
       }
     } catch (e) { /* ignore — animation is nice-to-have */ }
 

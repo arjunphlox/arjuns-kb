@@ -7,12 +7,12 @@
    transition rather than a snap. Also gently eases other chrome. */
 ::view-transition-old(app-header),
 ::view-transition-new(app-header) {
-  animation-duration: 0.55s;
+  animation-duration: 0.275s;
   animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.45s;
+  animation-duration: 0.225s;
   animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
@@ -1628,16 +1628,16 @@ body.just-logged-in .search-input,
 body.just-logged-in .active-filters,
 body.just-logged-in .grid-container {
   opacity: 0;
-  animation: stello-login-reveal 0.4s cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
 }
-body.just-logged-in .search-input { animation-delay: 120ms; }
-body.just-logged-in .active-filters { animation-delay: 180ms; }
-body.just-logged-in .grid-container { animation-delay: 220ms; }
+body.just-logged-in .search-input { animation-delay: 60ms; }
+body.just-logged-in .active-filters { animation-delay: 90ms; }
+body.just-logged-in .grid-container { animation-delay: 110ms; }
 body.just-logged-in #masonry-grid > .date-section-header,
 body.just-logged-in #masonry-grid > .masonry-section > .card {
   opacity: 0;
-  animation: stello-login-reveal 0.4s cubic-bezier(0.2, 0, 0, 1) forwards;
-  animation-delay: calc(300ms + min(var(--idx, 0), 8) * 60ms);
+  animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation-delay: calc(150ms + min(var(--idx, 0), 8) * 30ms);
 }
 @keyframes stello-login-reveal {
   from { opacity: 0; transform: translateY(6px); }
