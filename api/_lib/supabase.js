@@ -80,6 +80,37 @@ function normalizeUrl(url) {
     .toLowerCase();
 }
 
+/**
+ * Decode HTML entities in a string. Handles named (&amp; &quot; &apos; …),
+ * decimal (&#39;) and hex (&#x27;) references. Zero-dep; covers the entities
+ * that show up in og:title / og:description / og:image attribute values.
+ */
+const NAMED_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  copy: '\u00a9', reg: '\u00ae', trade: '\u2122',
+  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026',
+  ldquo: '\u201c', rdquo: '\u201d', lsquo: '\u2018', rsquo: '\u2019',
+  middot: '\u00b7',
+};
+function decodeHtmlEntities(str) {
+  if (typeof str !== 'string' || !str.includes('&')) return str;
+  return str.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, ref) => {
+    if (ref[0] === '#') {
+      const code = ref[1] === 'x' || ref[1] === 'X'
+        ? parseInt(ref.slice(2), 16)
+        : parseInt(ref.slice(1), 10);
+      if (Number.isFinite(code) && code > 0) {
+        try { return String.fromCodePoint(code); } catch { return m; }
+      }
+      return m;
+    }
+    const name = ref.toLowerCase();
+    return Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, name)
+      ? NAMED_ENTITIES[name]
+      : m;
+  });
+}
+
 /** Fetch OG metadata from a URL */
 async function fetchOGMetadata(url) {
   try {
@@ -117,19 +148,19 @@ async function fetchOGMetadata(url) {
 
     let match;
     while ((match = ogPattern1.exec(html)) !== null) {
-      meta[`og:${match[1]}`] = match[2];
+      meta[`og:${match[1]}`] = decodeHtmlEntities(match[2]);
     }
     while ((match = ogPattern2.exec(html)) !== null) {
-      meta[`og:${match[2]}`] = match[1];
+      meta[`og:${match[2]}`] = decodeHtmlEntities(match[1]);
     }
 
     // Extract <title>
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    if (titleMatch) meta.title = titleMatch[1].trim();
+    if (titleMatch) meta.title = decodeHtmlEntities(titleMatch[1].trim());
 
     // Extract meta description
     const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
-    if (descMatch) meta.description = descMatch[1];
+    if (descMatch) meta.description = decodeHtmlEntities(descMatch[1]);
 
     meta._status = 'fetched';
     return meta;
@@ -209,6 +240,7 @@ module.exports = {
   handleCors,
   generateSlug,
   normalizeUrl,
+  decodeHtmlEntities,
   fetchOGMetadata,
   downloadImage,
   generateTagsFromMetadata,
