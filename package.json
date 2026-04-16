@@ -4,12 +4,13 @@
   "private": true,
   "description": "Personal knowledge base — rich item analysis and discovery",
   "scripts": {
+    "dev": "node scripts/local-dev.js",
     "backup": "node scripts/sync-local.js",
     "backup:full": "node scripts/sync-local.js --full",
     "verify": "node scripts/verify-supabase.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
-    "@anthropic-ai/sdk": "^0.39.0"
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@supabase/supabase-js": "^2.49.4"
   }
 }

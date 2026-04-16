@@ -4,7 +4,8 @@ Personal knowledge base — a rich item analysis and discovery tool with weighte
 
 ## Dev Commands
 
-- `vercel dev` — local dev against live Supabase (requires `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`)
+- `npm run dev` (or `node scripts/local-dev.js`) — zero-dep router that serves static files and routes `/api/:path` to `api/:path.js` handlers. Loads env from `.env.local` (copy `.env.example`). Preferred for everyday dev — no Vercel login needed.
+- `vercel dev` — alternative, for real cron simulation or Vercel-dashboard env sync. Requires `vercel login` + `npm install --save-dev vercel` (not bundled, to keep the tree lean).
 - `python3 -m http.server 8080` — static preview only (no auth, no API — useful for CSS tweaks)
 - `node scripts/verify-supabase.js` — check schema + RLS + storage bucket
 - `node scripts/sync-local.js` — back up Supabase items to a local `_items/` mirror
