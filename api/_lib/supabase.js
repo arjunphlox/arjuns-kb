@@ -55,7 +55,7 @@ function handleCors(req, res) {
   return false;
 }
 
-/** Generate a URL-safe slug from a title (matches server.js logic) */
+/** Generate a URL-safe slug from a title */
 function generateSlug(title) {
   let slug = (title || 'untitled').toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
