@@ -1298,22 +1298,33 @@ body.resizing .panel { transition: none; }
 .accent-swatch[data-accent="amber"] { background: #ffc53d; }
 .accent-swatch[data-accent="iris"]  { background: #5b5bd6; }
 
-/* === LOGIN PAGE === */
+/* === LOGIN PAGE ===
+   Mirrors the app header but expanded to fill the viewport with the
+   24px edge spacing preserved, so the brand identity (accent bg,
+   Stello wordmark, superscript) scales up from "chrome" to "hero". */
 .login-layout {
   display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   padding: 24px;
 }
 .login-header {
-  position: static;
+  /* Override the sticky top:24px + min-height:120px from .header */
+  position: relative;
+  top: 0;
+  flex: 1;
   width: 100%;
-  max-width: 480px;
-  min-height: 200px;
+  min-height: 0;
+  padding: 24px;
 }
+
+/* Shuffle animation for the action-word superscript */
+.login-header .header-count {
+  transition: opacity 0.2s ease;
+}
+
+/* Login buttons sit horizontally in the bottom-right by default */
 .login-actions {
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
 }
 .login-btn {
@@ -1342,13 +1353,26 @@ body.resizing .panel { transition: none; }
   height: 16px;
   flex-shrink: 0;
 }
+
+/* Email form: inline horizontal row [back][email][password][submit] */
 .login-email-form {
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--accent-contrast) 12%, transparent);
+  flex-wrap: nowrap;
 }
+.login-email-form .login-input {
+  flex: 1;
+  min-width: 140px;
+  max-width: 220px;
+}
+
+/* Mode toggle (data-mode on .login-header drives which row is visible) */
+.login-header[data-mode="choose"] #email-form { display: none; }
+.login-header[data-mode="choose"] .login-footer { display: none; }
+.login-header[data-mode="email"] #login-choose { display: none; }
+
 .login-input {
   background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
@@ -1366,11 +1390,6 @@ body.resizing .panel { transition: none; }
 .login-input:focus {
   border-color: color-mix(in srgb, var(--accent-contrast) 40%, transparent);
 }
-.login-form-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 .login-submit {
   background: var(--accent-contrast);
   color: var(--accent);
@@ -1382,14 +1401,56 @@ body.resizing .panel { transition: none; }
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s;
+  flex-shrink: 0;
 }
 .login-submit:hover { opacity: 0.9; }
 .login-submit:disabled { opacity: 0.5; cursor: default; }
+
+/* Back buttons — shared styling across the inline and top-left variants */
+.login-back,
+.login-back-top {
+  width: 40px;
+  height: 40px;
+  background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
+  color: color-mix(in srgb, var(--accent-contrast) 85%, transparent);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+}
+.login-back:hover,
+.login-back-top:hover {
+  background: color-mix(in srgb, var(--accent-contrast) 16%, transparent);
+  color: var(--accent-contrast);
+}
+
+/* Top-left back is anchored to the header corner; hidden by default,
+   only revealed in email mode at narrow container widths (below). */
+.login-back-top {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: none;
+}
+
+/* Footer: create-account + error, sits below the form row */
+.login-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
 .login-switch {
   background: none;
   border: none;
   color: color-mix(in srgb, var(--accent-contrast) 55%, transparent);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   cursor: pointer;
   padding: 0;
 }
@@ -1397,9 +1458,32 @@ body.resizing .panel { transition: none; }
   color: var(--accent-contrast);
 }
 .login-error {
-  font-size: 0.75rem;
-  color: #e5484d;
+  font-size: 0.8rem;
+  color: #ffb3b3;
   min-height: 1.2em;
+  text-align: right;
+}
+
+/* Narrow viewport: when the email form no longer fits inline, stack it
+   vertically and float the back button to the header's top-left corner
+   (so it stays reachable without crowding the form). The 640px breakpoint
+   is picked to trigger before the 4-input horizontal row visibly crams. */
+@container (max-width: 640px) {
+  .login-header[data-mode="email"] .login-back { display: none; }
+  .login-header[data-mode="email"] .login-back-top { display: flex; }
+  .login-email-form {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .login-email-form .login-input {
+    max-width: none;
+  }
+  .login-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
 }
 
 /* === UPDATE NOTIFICATION === */
