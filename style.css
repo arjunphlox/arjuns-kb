@@ -3,6 +3,19 @@
 /* Cross-document view transitions */
 @view-transition { navigation: auto; }
 
+/* Slow the header morph slightly so the resize reads as a deliberate
+   transition rather than a snap. Also gently eases other chrome. */
+::view-transition-old(app-header),
+::view-transition-new(app-header) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
 /* === FONTS ===
    Self-hosted Aribau Grotesk (licensed). Only the weights the app
    actually uses — 400/500/700 — are shipped to keep page weight down. */
@@ -48,6 +61,10 @@ body {
 
 /* === HEADER === */
 .header {
+  /* Named transition target — lets the browser morph this element smoothly
+     between documents (login <-> main app) when @view-transition navigation
+     is triggered. See the view-transition custom timing below. */
+  view-transition-name: app-header;
   position: sticky;
   top: 24px;
   z-index: 100;
@@ -1556,3 +1573,39 @@ body.resizing .panel { transition: none; }
   background: var(--accent);
 }
 .header-btn { position: relative; }
+
+/* --- Post-login staggered content reveal ---
+   Runs once after the view-transition from /login.html → /. The body.just-logged-in
+   class is applied in init() when ?welcome=1 is present, then removed ~1.8s later.
+   Cards inside the masonry grid are staggered via a --idx custom property that is
+   capped at 8 so large grids don't take forever to fade in. */
+body.just-logged-in .search-input,
+body.just-logged-in .active-filters,
+body.just-logged-in .grid-container {
+  opacity: 0;
+  animation: stello-login-reveal 0.4s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+body.just-logged-in .search-input { animation-delay: 120ms; }
+body.just-logged-in .active-filters { animation-delay: 180ms; }
+body.just-logged-in .grid-container { animation-delay: 220ms; }
+body.just-logged-in #masonry-grid > .date-section-header,
+body.just-logged-in #masonry-grid > .masonry-section > .card {
+  opacity: 0;
+  animation: stello-login-reveal 0.4s cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation-delay: calc(300ms + min(var(--idx, 0), 8) * 60ms);
+}
+@keyframes stello-login-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.just-logged-in .search-input,
+  body.just-logged-in .active-filters,
+  body.just-logged-in .grid-container,
+  body.just-logged-in #masonry-grid > .date-section-header,
+  body.just-logged-in #masonry-grid > .masonry-section > .card {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
