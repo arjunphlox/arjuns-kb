@@ -3,6 +3,31 @@
 /* Cross-document view transitions */
 @view-transition { navigation: auto; }
 
+/* === FONTS ===
+   Self-hosted Aribau Grotesk (licensed). Only the weights the app
+   actually uses — 400/500/700 — are shipped to keep page weight down. */
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-medium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-bold.otf') format('opentype');
+}
+
 :root {
   --pill-radius: 14px;
   --card-radius: 10px;
