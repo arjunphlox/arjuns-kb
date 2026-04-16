@@ -180,42 +180,36 @@
       }
     } catch (e) { /* ignore — animation is nice-to-have */ }
 
-    // Auth guard: redirect to login if no session
-    if (window.Stello) {
-      const session = await Stello.requireAuth();
-      if (!session) return; // redirecting to login
-      Stello.initAuthListener();
+    // Auth guard — Stello client is required for multi-tenant data
+    if (!window.Stello) {
+      console.error('Stello auth module failed to load');
+      return;
     }
+    const session = await Stello.requireAuth();
+    if (!session) return; // redirecting to login
+    Stello.initAuthListener();
 
-    // Load items from Supabase (cloud) or index.json (local fallback)
-    if (window.Stello && Stello.getClient()) {
-      const client = Stello.getClient();
-      const userId = Stello.getUserId();
-      // Page through results (Supabase default limit is 1000)
-      const PAGE = 1000;
-      let all = [];
-      for (let from = 0; ; from += PAGE) {
-        const { data, error } = await client
-          .from('items')
-          .select('*')
-          .eq('user_id', userId)
-          .order('added_at', { ascending: false })
-          .range(from, from + PAGE - 1);
-        if (error) {
-          console.error('Failed to load items from Supabase:', error.message);
-          break;
-        }
-        if (!data || data.length === 0) break;
-        all = all.concat(data);
-        if (data.length < PAGE) break;
+    // Load items from Supabase, paging through results (default limit is 1000)
+    const client = Stello.getClient();
+    const userId = Stello.getUserId();
+    const PAGE = 1000;
+    let all = [];
+    for (let from = 0; ; from += PAGE) {
+      const { data, error } = await client
+        .from('items')
+        .select('*')
+        .eq('user_id', userId)
+        .order('added_at', { ascending: false })
+        .range(from, from + PAGE - 1);
+      if (error) {
+        console.error('Failed to load items from Supabase:', error.message);
+        break;
       }
-      allItems = all.map(normalizeItem);
-    } else {
-      // Local fallback (no Supabase configured — dev mode)
-      const res = await fetch('index.json?v=' + Date.now());
-      const data = await res.json();
-      allItems = data.items;
+      if (!data || data.length === 0) break;
+      all = all.concat(data);
+      if (data.length < PAGE) break;
     }
+    allItems = all.map(normalizeItem);
 
     // Sort by date descending (most recent first)
     allItems.sort((a, b) => {
@@ -630,28 +624,14 @@
   }
 
   // Loads and renders the markdown body into a panel's .card-expanded-md element.
-  async function loadMarkdownInto(container) {
+  function loadMarkdownInto(container) {
     if (!container || container.dataset.loaded) return;
     container.dataset.loaded = 'true';
     const slug = container.dataset.slug;
-    try {
-      // Try getting body from in-memory item first (Supabase includes body_markdown)
-      const item = itemsBySlug[slug];
-      if (item && item.body_markdown) {
-        let body = item.body_markdown;
-        body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-        if (body) container.innerHTML = renderMarkdown(body);
-        return;
-      }
-      // Fallback: fetch from filesystem (local dev)
-      const mdRes = await fetch(`_items/${slug}/item.md`);
-      if (!mdRes.ok) return;
-      const raw = await mdRes.text();
-      let body = extractMarkdownBody(raw);
-      if (!body) return;
-      body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-      if (body) container.innerHTML = renderMarkdown(body);
-    } catch { /* silent */ }
+    const item = itemsBySlug[slug];
+    if (!item || !item.body_markdown) return;
+    const body = stripSections(item.body_markdown, ['Summary', 'Key Details', 'Visual Assets']);
+    if (body) container.innerHTML = renderMarkdown(body);
   }
 
   // --- Active filter pills ---
@@ -706,11 +686,6 @@
       if (!skipping) result.push(line);
     }
     return result.join('\n').trim();
-  }
-
-  function extractMarkdownBody(raw) {
-    const match = raw.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/);
-    return match ? match[1].trim() : raw.trim();
   }
 
   function renderMarkdown(md) {
@@ -1071,21 +1046,14 @@
   function pollForReview(slug) {
     setTimeout(async () => {
       try {
-        let item;
-        if (window.Stello && Stello.getClient()) {
-          const client = Stello.getClient();
-          const { data } = await client
-            .from('items')
-            .select('*')
-            .eq('slug', slug)
-            .eq('user_id', Stello.getUserId())
-            .single();
-          if (data) item = normalizeItem(data);
-        } else {
-          const res = await fetch('index.json?v=' + Date.now());
-          const data = await res.json();
-          item = data.items.find(i => i.slug === slug);
-        }
+        const client = Stello.getClient();
+        const { data } = await client
+          .from('items')
+          .select('*')
+          .eq('slug', slug)
+          .eq('user_id', Stello.getUserId())
+          .single();
+        const item = data ? normalizeItem(data) : null;
 
         if (item && item.needs_review) {
           pendingReviews.push(item);
