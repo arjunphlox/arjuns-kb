@@ -1189,9 +1189,15 @@ body.resizing .panel { transition: none; }
 
 /* Logout — secondary destructive action, separated from the main
    settings actions by a thin divider so it reads as "leave", not "save". */
+/* Pinned to the bottom of the settings panel (like item-panel tags).
+   margin-top:auto absorbs any free vertical space in the flex-column
+   .panel-body, pushing the divider + Log out down to the panel edge.
+   Negative margins cancel the panel body's 16px horizontal padding and
+   16px bottom padding so the divider runs edge-to-edge and the button
+   sits flush against the panel frame. */
 .settings-footer {
-  margin-top: 24px;
-  padding-top: 16px;
+  margin: auto -16px -16px;
+  padding: 16px;
   border-top: 1px solid var(--border);
 }
 .settings-logout {
