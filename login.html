@@ -85,11 +85,14 @@
 
   // --- Action-word shuffle in superscript ---
   // Gives the login page a hint at what Stello does without requiring
-  // a Supabase session we don't have yet pre-login.
+  // a Supabase session we don't have yet pre-login. Words lean on the
+  // experience of coming back to collected things rather than on any
+  // specific feature name (no "tag", "filter", "sort" etc.).
   const actions = [
-    'scout', 'stash', 'compare', 'markdown',
-    'enrich', 'discover', 'curate', 'filter',
-    'tag', 'explore', 'tally'
+    'wander', 'linger', 'gather', 'savor',
+    'muse', 'ponder', 'dream', 'marvel',
+    'reminisce', 'rediscover', 'uncover',
+    'treasure', 'curate', 'discover'
   ];
   let actionIdx = Math.floor(Math.random() * actions.length);
   $action.textContent = actions[actionIdx];
