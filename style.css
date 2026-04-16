@@ -1478,34 +1478,35 @@ body.resizing .panel { transition: none; }
 }
 .login-header[data-mode="choose"] .login-back-link { display: none; }
 
-/* Form meta row: error on the left, create-account toggle on the right.
-   Sits below the form in the same bottom band, right-aligned so it doesn't
-   intrude on the Stello wordmark's bottom-left space. */
-.login-form-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 10px;
-}
+/* Top-right "Create account" toggle. Mirrors .login-back-link in the
+   opposite corner; hidden in choose mode. */
 .login-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
-  color: color-mix(in srgb, var(--accent-contrast) 55%, transparent);
-  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
+  font-size: 0.82rem;
+  font-weight: 500;
   cursor: pointer;
-  padding: 0;
+  padding: 4px 6px;
+  margin-right: -6px;  /* optical alignment to the 24px header padding */
+  transition: color 0.15s;
 }
 .login-switch:hover {
   color: var(--accent-contrast);
 }
+.login-header[data-mode="choose"] .login-switch { display: none; }
+
 .login-error {
   font-size: 0.8rem;
   color: #e5484d;
-  min-height: 1.2em;
+  margin-top: 10px;
   text-align: right;
+  min-height: 1.2em;
 }
-.login-header[data-mode="choose"] .login-form-meta { display: none; }
+.login-header[data-mode="choose"] .login-error { display: none; }
 
 /* Narrow viewport: stack the form vertically. The top-left "Sign in options"
    link stays anchored where it is — consistent across desktop and mobile. */
