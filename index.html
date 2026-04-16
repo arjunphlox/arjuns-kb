@@ -7,11 +7,23 @@
   <script>
     (function(){try{var t=JSON.parse(localStorage.getItem('stello.theme'));if(t){if(t.mode)document.documentElement.setAttribute('data-theme',t.mode);if(t.accent)document.documentElement.setAttribute('data-accent',t.accent);}}catch(e){}})();
   </script>
+  <script>
+    /* GSAP-fallback gate: when arriving from login on a browser that doesn't
+       support cross-document view transitions, paint the header in its hero
+       footprint before first paint so runLoginArrivalFallback() in app.js
+       can tween it back to compact. Runs synchronously in <head> to avoid
+       a FOUC flash of the compact sticky state. */
+    (function(){try{
+      if (!new URLSearchParams(location.search).has('welcome')) return;
+      var supportsCrossDocVT = window.CSS && CSS.supports && CSS.supports('(view-transition-name: none)') && ('onpagereveal' in window);
+      if (!supportsCrossDocVT) document.documentElement.classList.add('arriving-from-login');
+    }catch(e){}})();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css?v=1">
-  <link rel="stylesheet" href="style.css?v=50">
+  <link rel="stylesheet" href="style.css?v=51">
 </head>
 <body>
 
@@ -97,6 +109,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js?v=1"></script>
-<script src="app.js?v=28"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="app.js?v=29"></script>
 </body>
 </html>
