@@ -1327,6 +1327,14 @@
       });
     });
 
+    // Logout — signs out of Supabase and redirects to the login page
+    const $logout = $panel.querySelector('.settings-logout');
+    if ($logout) {
+      $logout.addEventListener('click', () => {
+        if (window.Stello && Stello.signOut) Stello.signOut();
+      });
+    }
+
     // Version check
     if (window.Stello && Stello.checkForUpdate) {
       const update = await Stello.checkForUpdate(APP_VERSION);

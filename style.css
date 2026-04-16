@@ -1170,6 +1170,28 @@ body.resizing .panel { transition: none; }
   color: var(--text-dim);
 }
 
+/* Logout — secondary destructive action, separated from the main
+   settings actions by a thin divider so it reads as "leave", not "save". */
+.settings-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.settings-logout {
+  background: transparent;
+  color: #e5484d;
+  border: 1px solid #e5484d;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.settings-logout:hover {
+  background: #e5484d;
+  color: #fff;
+}
+
 /* === IMPORT (in tool panel) === */
 .import-textarea {
   width: 100%;
