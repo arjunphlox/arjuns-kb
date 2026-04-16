@@ -29,6 +29,7 @@
 | **UI bugs & refinements** — collect and fix visual glitches, layout issues, and polish rough edges | Desktop | Sonnet | Open |
 | **Finish Supabase legacy-key rotation** — confirm deployed frontend sends `sb_publishable_*` (Network tab, incognito), then disable legacy JWT keys in the dashboard to kill the previously exposed service_role JWT | Web | Sonnet | Open |
 | **Port `link_check.py` + `refetch.py` to Supabase** — they currently read the local `_items/` mirror, so results lag real data; should query Supabase directly or at least note "run backup first" | Either | Sonnet | Open |
+| **Update `.claude/launch.json` to use `vercel dev`** — currently points to the retired `node server.js`; once the current preview process dies, `preview_start` will fail. Switch `runtimeExecutable`/`runtimeArgs` to `vercel dev` (or `python3 -m http.server` for static-only testing) | Desktop | Sonnet | Open |
 
 ## Maintenance (run periodically via Claude Code)
 
