@@ -148,6 +148,47 @@
     return fetch(url, opts); // local dev fallback
   }
 
+  // --- Login arrival fallback (GSAP) ---
+  // When the inline <head> gate in index.html detects a browser without
+  // cross-document view-transition support, it adds .arriving-from-login
+  // to <html>. This helper measures the natural compact state, then tweens
+  // the header's hero footprint back to compact — mimicking the native
+  // @view-transition morph (see ::view-transition-* rules in style.css).
+  function runLoginArrivalFallback() {
+    const html = document.documentElement;
+    if (!html.classList.contains('arriving-from-login')) return;
+
+    const header = document.querySelector('.header');
+    if (!header) { html.classList.remove('arriving-from-login'); return; }
+
+    // Reduced motion — or GSAP failed to load: snap straight to the
+    // compact state, skip the tween.
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || typeof window.gsap === 'undefined') {
+      html.classList.remove('arriving-from-login');
+      return;
+    }
+
+    // Measure the natural compact state by briefly removing the hero class.
+    // Same tick, no paint between — offsetHeight forces layout only.
+    html.classList.remove('arriving-from-login');
+    const naturalHeight = header.offsetHeight;
+    const naturalPad = parseFloat(getComputedStyle(header).paddingTop) + 'px';
+    html.classList.add('arriving-from-login');
+
+    // Parallel tween matching ::view-transition-old/new durations in
+    // style.css: header 275ms, root (body opacity) 225ms, same ease.
+    const ease = 'cubic-bezier(0.2, 0, 0, 1)';
+    const tl = window.gsap.timeline({
+      onComplete: () => {
+        window.gsap.set([header, document.body], { clearProps: 'all' });
+        html.classList.remove('arriving-from-login');
+      }
+    });
+    tl.to(header, { height: naturalHeight, padding: naturalPad, duration: 0.275, ease }, 0);
+    tl.to(document.body, { opacity: 1, duration: 0.225, ease }, 0);
+  }
+
   // --- DOM refs ---
   const $grid = document.getElementById('masonry-grid');
   const $search = document.getElementById('search-input');
@@ -169,6 +210,11 @@
     try {
       const params = new URLSearchParams(window.location.search);
       if (params.has('welcome')) {
+        // If the inline <head> gate in index.html flagged this browser as
+        // lacking cross-document view-transition support, drive the header
+        // morph with GSAP instead. Runs before .just-logged-in so the hero
+        // footprint is in place while the stagger timers tick.
+        runLoginArrivalFallback();
         document.body.classList.add('just-logged-in');
         params.delete('welcome');
         const qs = params.toString();
