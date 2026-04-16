@@ -1509,7 +1509,8 @@ body.resizing .panel { transition: none; }
 .login-header[data-mode="choose"] .login-error { display: none; }
 
 /* Narrow viewport: stack the form vertically. The top-left "Sign in options"
-   link stays anchored where it is — consistent across desktop and mobile. */
+   link stays anchored where it is — consistent across desktop and mobile.
+   Control heights stay at 36px (override flex:1's vertical grow behaviour). */
 @container (max-width: 640px) {
   .login-email-form {
     flex-direction: column;
@@ -1517,12 +1518,24 @@ body.resizing .panel { transition: none; }
     width: 100%;
   }
   .login-email-form .login-input {
+    flex: 0 0 auto;
     max-width: none;
+    width: 100%;
+    height: 36px;
+  }
+  .login-submit {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 36px;
   }
   .login-actions {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+  }
+  .login-actions .login-btn {
+    width: 100%;
+    height: 36px;
   }
 }
 
