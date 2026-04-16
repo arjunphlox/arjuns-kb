@@ -174,18 +174,25 @@
     if (window.Stello && Stello.getClient()) {
       const client = Stello.getClient();
       const userId = Stello.getUserId();
-      const { data, error } = await client
-        .from('items')
-        .select('*')
-        .eq('user_id', userId)
-        .order('added_at', { ascending: false });
-
-      if (error) {
-        console.error('Failed to load items from Supabase:', error.message);
-        allItems = [];
-      } else {
-        allItems = (data || []).map(normalizeItem);
+      // Page through results (Supabase default limit is 1000)
+      const PAGE = 1000;
+      let all = [];
+      for (let from = 0; ; from += PAGE) {
+        const { data, error } = await client
+          .from('items')
+          .select('*')
+          .eq('user_id', userId)
+          .order('added_at', { ascending: false })
+          .range(from, from + PAGE - 1);
+        if (error) {
+          console.error('Failed to load items from Supabase:', error.message);
+          break;
+        }
+        if (!data || data.length === 0) break;
+        all = all.concat(data);
+        if (data.length < PAGE) break;
       }
+      allItems = all.map(normalizeItem);
     } else {
       // Local fallback (no Supabase configured — dev mode)
       const res = await fetch('index.json?v=' + Date.now());
