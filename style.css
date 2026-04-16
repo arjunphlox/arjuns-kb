@@ -959,9 +959,11 @@ body.resizing .panel { transition: none; }
   flex-wrap: wrap;
 }
 
-/* When the header box itself is narrow (3-panel mode), stack title
-   and actions vertically and let the box grow taller. */
-@container (max-width: 520px) {
+/* When the header box itself is extremely narrow (only possible in
+   a severely squeezed 3-panel mode), stack title and actions vertically.
+   On normal phone widths the wordmark + 3 icon buttons fit easily on a
+   single row, so we keep flex-direction:row there. */
+@container (max-width: 200px) {
   .header-row {
     flex-direction: column;
     align-items: flex-start;
@@ -1550,10 +1552,13 @@ body.resizing .panel { transition: none; }
     height: 36px;
   }
 
-  /* Faint divider below the wordmark. The 24px padding-bottom sits above
-     the border, the 24px margin-bottom below it, so both gaps are even.
-     Gap is zeroed on the row to stop the default 10px from stacking on top. */
+  /* Login page: stack wordmark + controls vertically at phone widths.
+     (The generic .header-row only stacks at <200px now, but the login
+     page actively wants column stacking at 640px so the divider
+     treatment below works.) */
   .login-header .header-row {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 0;
     width: 100%;
   }
