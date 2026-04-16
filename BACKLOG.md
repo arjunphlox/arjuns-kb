@@ -32,9 +32,9 @@
 
 | Task | Platform | Model | Status |
 |---|---|---|---|
-| **Link check** — `python3 scripts/link_check.py run` (every 7 days) | Either | Sonnet | Open |
-| **Refetch images** — `python3 scripts/refetch.py run` for items without images | Either | Sonnet | Open |
-| **Vision enrich** — `python3 scripts/vision_enrich.py run` for new items with color/style/mood tags | Either | Sonnet | Open |
+| **Link check** — `python3 scripts/link_check.py run` (every 7 days; reads local `_items/` backup mirror) | Either | Sonnet | Open |
+| **Refetch images** — `python3 scripts/refetch.py run` for items without images (reads local `_items/` backup mirror) | Either | Sonnet | Open |
+| **Verify Supabase setup** — `node scripts/verify-supabase.js` after any schema change or key rotation | Either | Sonnet | Open |
 
 ---
 

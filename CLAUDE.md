@@ -43,9 +43,9 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 
 ## Maintenance Scripts
 
-- `python3 scripts/link_check.py run` — check for dead links (every 7 days)
-- `python3 scripts/refetch.py run` — retry image fetching for items without images
-- `python3 scripts/vision_enrich.py run` — enrich new items with color/style/mood tags
+- `python3 scripts/link_check.py run` — check for dead links (reads the local `_items/` backup mirror; every 7 days)
+- `python3 scripts/refetch.py run` — retry image fetching for items without images (reads the local `_items/` backup mirror)
+- Archived: `scripts/archive/analyze.py`, `scripts/archive/enrich.py`, `scripts/archive/vision_enrich.py` — superseded by `api/capture.js` + `api/enrich.js`; enrichment now happens at capture time in the Vercel flow
 
 ## Active Work
 - [ ] (no active tasks — check BACKLOG.md for priorities)
