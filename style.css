@@ -1406,45 +1406,48 @@ body.resizing .panel { transition: none; }
 .login-submit:hover { opacity: 0.9; }
 .login-submit:disabled { opacity: 0.5; cursor: default; }
 
-/* Back buttons — shared styling across the inline and top-left variants */
-.login-back,
-.login-back-top {
-  width: 40px;
-  height: 40px;
-  background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
-  color: color-mix(in srgb, var(--accent-contrast) 85%, transparent);
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
+/* "← Sign in options" top-left link — the back-to-choose control.
+   Text-link style with a leading arrow, anchored to the header's top-left
+   corner so it never crowds the Stello wordmark or the form row below.
+   Only shown in email mode (toggled via data-mode on the header). */
+.login-back-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
-  padding: 0;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  margin-left: -6px;  /* optical alignment to the 24px header padding */
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
 }
-.login-back:hover,
-.login-back-top:hover {
-  background: color-mix(in srgb, var(--accent-contrast) 16%, transparent);
+.login-back-link:hover {
   color: var(--accent-contrast);
 }
-
-/* Top-left back is anchored to the header corner; hidden by default,
-   only revealed in email mode at narrow container widths (below). */
-.login-back-top {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  display: none;
+.login-back-link:hover svg {
+  transform: translateX(-2px);
 }
+.login-back-link svg {
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.login-header[data-mode="choose"] .login-back-link { display: none; }
 
-/* Footer: create-account + error, sits below the form row */
-.login-footer {
+/* Form meta row: error on the left, create-account toggle on the right.
+   Sits below the form in the same bottom band, right-aligned so it doesn't
+   intrude on the Stello wordmark's bottom-left space. */
+.login-form-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 .login-switch {
   background: none;
@@ -1459,18 +1462,15 @@ body.resizing .panel { transition: none; }
 }
 .login-error {
   font-size: 0.8rem;
-  color: #ffb3b3;
+  color: #e5484d;
   min-height: 1.2em;
   text-align: right;
 }
+.login-header[data-mode="choose"] .login-form-meta { display: none; }
 
-/* Narrow viewport: when the email form no longer fits inline, stack it
-   vertically and float the back button to the header's top-left corner
-   (so it stays reachable without crowding the form). The 640px breakpoint
-   is picked to trigger before the 4-input horizontal row visibly crams. */
+/* Narrow viewport: stack the form vertically. The top-left "Sign in options"
+   link stays anchored where it is — consistent across desktop and mobile. */
 @container (max-width: 640px) {
-  .login-header[data-mode="email"] .login-back { display: none; }
-  .login-header[data-mode="email"] .login-back-top { display: flex; }
   .login-email-form {
     flex-direction: column;
     align-items: stretch;
