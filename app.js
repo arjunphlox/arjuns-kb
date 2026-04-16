@@ -163,6 +163,23 @@
   async function init() {
     ThemeManager.init();
 
+    // One-shot "just logged in" flag from ?welcome=1. Drives the post-login
+    // stagger reveal defined in style.css. Stripped from the URL so a reload
+    // doesn't replay the animation.
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('welcome')) {
+        document.body.classList.add('just-logged-in');
+        params.delete('welcome');
+        const qs = params.toString();
+        const clean = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+        window.history.replaceState(null, '', clean);
+        // Remove the flag after the longest animation finishes so it doesn't
+        // linger on future grid re-renders.
+        setTimeout(() => document.body.classList.remove('just-logged-in'), 900);
+      }
+    } catch (e) { /* ignore — animation is nice-to-have */ }
+
     // Auth guard: redirect to login if no session
     if (window.Stello) {
       const session = await Stello.requireAuth();
@@ -475,6 +492,20 @@
     });
 
     $grid.innerHTML = html;
+
+    // Tag each direct child with a --idx so the post-login stagger reveal
+    // (style.css) can cascade in. Cheap enough to run on every render.
+    const children = $grid.children;
+    for (let i = 0; i < children.length; i++) {
+      children[i].style.setProperty('--idx', i);
+      // Cards inside each week section also stagger independently so the first
+      // row appears without waiting for the whole list.
+      const cards = children[i].querySelectorAll(':scope > .card');
+      for (let j = 0; j < cards.length; j++) {
+        cards[j].style.setProperty('--idx', j);
+      }
+    }
+
     PanelManager.refreshAfterGridRender();
   }
 
@@ -1326,6 +1357,14 @@
         );
       });
     });
+
+    // Logout — signs out of Supabase and redirects to the login page
+    const $logout = $panel.querySelector('.settings-logout');
+    if ($logout) {
+      $logout.addEventListener('click', () => {
+        if (window.Stello && Stello.signOut) Stello.signOut();
+      });
+    }
 
     // Version check
     if (window.Stello && Stello.checkForUpdate) {

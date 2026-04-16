@@ -3,6 +3,44 @@
 /* Cross-document view transitions */
 @view-transition { navigation: auto; }
 
+/* Slow the header morph slightly so the resize reads as a deliberate
+   transition rather than a snap. Also gently eases other chrome. */
+::view-transition-old(app-header),
+::view-transition-new(app-header) {
+  animation-duration: 0.275s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.225s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* === FONTS ===
+   Self-hosted Aribau Grotesk (licensed). Only the weights the app
+   actually uses — 400/500/700 — are shipped to keep page weight down. */
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-medium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Aribau Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/aribau-grotesk-bold.otf') format('opentype');
+}
+
 :root {
   --pill-radius: 14px;
   --card-radius: 10px;
@@ -23,6 +61,10 @@ body {
 
 /* === HEADER === */
 .header {
+  /* Named transition target — lets the browser morph this element smoothly
+     between documents (login <-> main app) when @view-transition navigation
+     is triggered. See the view-transition custom timing below. */
+  view-transition-name: app-header;
   position: sticky;
   top: 24px;
   z-index: 100;
@@ -864,11 +906,11 @@ body.resizing .panel { transition: none; }
   .content-inner { padding: 16px 16px 0; }
   .header { top: 16px; }
 }
-/* Mobile: 2 cols */
+/* Mobile: 2 cols. Keep the Stello wordmark at its full 3rem on mobile to
+   match desktop — the brand type doesn't need to shrink on small screens. */
 @media (max-width: 500px) {
   .masonry-section { column-count: 2; column-gap: 12px; }
   .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
-  .header h1 { font-size: 2rem; }
   .content-inner { padding: 12px 12px 0; }
   .header { top: 12px; }
 }
@@ -917,9 +959,11 @@ body.resizing .panel { transition: none; }
   flex-wrap: wrap;
 }
 
-/* When the header box itself is narrow (3-panel mode), stack title
-   and actions vertically and let the box grow taller. */
-@container (max-width: 520px) {
+/* When the header box itself is extremely narrow (only possible in
+   a severely squeezed 3-panel mode), stack title and actions vertically.
+   On normal phone widths the wordmark + 3 icon buttons fit easily on a
+   single row, so we keep flex-direction:row there. */
+@container (max-width: 200px) {
   .header-row {
     flex-direction: column;
     align-items: flex-start;
@@ -1145,6 +1189,34 @@ body.resizing .panel { transition: none; }
   color: var(--text-dim);
 }
 
+/* Logout — secondary destructive action, separated from the main
+   settings actions by a thin divider so it reads as "leave", not "save". */
+/* Pinned to the bottom of the settings panel (like item-panel tags).
+   margin-top:auto absorbs any free vertical space in the flex-column
+   .panel-body, pushing the divider + Log out down to the panel edge.
+   Negative margins cancel the panel body's 16px horizontal padding and
+   16px bottom padding so the divider runs edge-to-edge and the button
+   sits flush against the panel frame. */
+.settings-footer {
+  margin: auto -16px -16px;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.settings-logout {
+  background: transparent;
+  color: #e5484d;
+  border: 1px solid #e5484d;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.settings-logout:hover {
+  background: #e5484d;
+  color: #fff;
+}
+
 /* === IMPORT (in tool panel) === */
 .import-textarea {
   width: 100%;
@@ -1273,36 +1345,47 @@ body.resizing .panel { transition: none; }
 .accent-swatch[data-accent="amber"] { background: #ffc53d; }
 .accent-swatch[data-accent="iris"]  { background: #5b5bd6; }
 
-/* === LOGIN PAGE === */
+/* === LOGIN PAGE ===
+   Mirrors the app header but expanded to fill the viewport with the
+   24px edge spacing preserved, so the brand identity (accent bg,
+   Stello wordmark, superscript) scales up from "chrome" to "hero". */
 .login-layout {
   display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   padding: 24px;
 }
 .login-header {
-  position: static;
+  /* Override the sticky top:24px + min-height:120px from .header */
+  position: relative;
+  top: 0;
+  flex: 1;
   width: 100%;
-  max-width: 480px;
-  min-height: 200px;
+  min-height: 0;
+  padding: 24px;
 }
+
+/* Shuffle animation for the action-word superscript */
+.login-header .header-count {
+  transition: opacity 0.2s ease;
+}
+
+/* Login buttons sit horizontally in the bottom-right by default */
 .login-actions {
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
 }
 .login-btn {
   background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
   color: color-mix(in srgb, var(--accent-contrast) 85%, transparent);
-  height: 40px;
-  border-radius: 10px;
+  height: 36px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 0 20px;
+  padding: 0 14px;
   font-size: 0.85rem;
   font-weight: 500;
   transition: background 0.15s, color 0.15s;
@@ -1317,20 +1400,35 @@ body.resizing .panel { transition: none; }
   height: 16px;
   flex-shrink: 0;
 }
+
+/* Email form: inline horizontal row [back][email][password][submit].
+   Positioning context for the floating error message above it. */
 .login-email-form {
-  flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--accent-contrast) 12%, transparent);
+  flex-wrap: nowrap;
 }
+.login-email-form .login-input {
+  flex: 1;
+  min-width: 140px;
+  max-width: 220px;
+}
+
+/* Mode toggle (data-mode on .login-header drives which row is visible) */
+.login-header[data-mode="choose"] #email-form { display: none; }
+.login-header[data-mode="choose"] .login-footer { display: none; }
+.login-header[data-mode="email"] #login-choose { display: none; }
+
 .login-input {
   background: color-mix(in srgb, var(--accent-contrast) 6%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
   color: var(--accent-contrast);
-  height: 40px;
-  border-radius: 10px;
-  padding: 0 14px;
+  height: 36px;
+  border-radius: 8px;
+  padding: 0 8px;
   font-size: 0.85rem;
   outline: none;
   transition: border-color 0.15s;
@@ -1341,40 +1439,135 @@ body.resizing .panel { transition: none; }
 .login-input:focus {
   border-color: color-mix(in srgb, var(--accent-contrast) 40%, transparent);
 }
-.login-form-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 .login-submit {
   background: var(--accent-contrast);
   color: var(--accent);
   border: none;
-  height: 40px;
-  border-radius: 10px;
-  padding: 0 24px;
+  height: 36px;
+  border-radius: 8px;
+  padding: 0 18px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s;
+  flex-shrink: 0;
 }
 .login-submit:hover { opacity: 0.9; }
 .login-submit:disabled { opacity: 0.5; cursor: default; }
-.login-switch {
+
+/* "← Sign in options" top-left link — the back-to-choose control.
+   Text-link style with a leading arrow, anchored to the header's top-left
+   corner so it never crowds the Stello wordmark or the form row below.
+   Only shown in email mode (toggled via data-mode on the header). */
+.login-back-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: none;
   border: none;
-  color: color-mix(in srgb, var(--accent-contrast) 55%, transparent);
-  font-size: 0.75rem;
+  padding: 4px 6px;
+  margin-left: -6px;  /* optical alignment to the 24px header padding */
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
   cursor: pointer;
-  padding: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+.login-back-link:hover {
+  color: var(--accent-contrast);
+}
+.login-back-link:hover svg {
+  transform: translateX(-2px);
+}
+.login-back-link svg {
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.login-header[data-mode="choose"] .login-back-link { display: none; }
+
+/* Top-right "Create account" toggle. Mirrors .login-back-link in the
+   opposite corner; hidden in choose mode. */
+.login-switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin-right: -6px;  /* optical alignment to the 24px header padding */
+  transition: color 0.15s;
 }
 .login-switch:hover {
   color: var(--accent-contrast);
 }
+.login-header[data-mode="choose"] .login-switch { display: none; }
+
+/* Floats just above the form row without adding to its height, so the
+   form itself stays pinned to the same bottom slot as the login buttons. */
 .login-error {
-  font-size: 0.75rem;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  margin: 0;
+  font-size: 0.8rem;
   color: #e5484d;
-  min-height: 1.2em;
+  text-align: right;
+  pointer-events: none;
+}
+
+/* Narrow viewport: stack the form vertically. The top-left "Sign in options"
+   link stays anchored where it is — consistent across desktop and mobile.
+   Control heights stay at 36px (override flex:1's vertical grow behaviour). */
+@container (max-width: 640px) {
+  .login-email-form {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .login-email-form .login-input {
+    flex: 0 0 auto;
+    max-width: none;
+    width: 100%;
+    height: 36px;
+  }
+  .login-submit {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 36px;
+  }
+  .login-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .login-actions .login-btn {
+    width: 100%;
+    height: 36px;
+  }
+
+  /* Login page: stack wordmark + controls vertically at phone widths.
+     (The generic .header-row only stacks at <200px now, but the login
+     page actively wants column stacking at 640px so the divider
+     treatment below works.) */
+  .login-header .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+  }
+  .login-header .header-row > h1 {
+    width: 100%;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent-contrast) 15%, transparent);
+  }
 }
 
 /* === UPDATE NOTIFICATION === */
@@ -1425,3 +1618,39 @@ body.resizing .panel { transition: none; }
   background: var(--accent);
 }
 .header-btn { position: relative; }
+
+/* --- Post-login staggered content reveal ---
+   Runs once after the view-transition from /login.html → /. The body.just-logged-in
+   class is applied in init() when ?welcome=1 is present, then removed ~1.8s later.
+   Cards inside the masonry grid are staggered via a --idx custom property that is
+   capped at 8 so large grids don't take forever to fade in. */
+body.just-logged-in .search-input,
+body.just-logged-in .active-filters,
+body.just-logged-in .grid-container {
+  opacity: 0;
+  animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+body.just-logged-in .search-input { animation-delay: 60ms; }
+body.just-logged-in .active-filters { animation-delay: 90ms; }
+body.just-logged-in .grid-container { animation-delay: 110ms; }
+body.just-logged-in #masonry-grid > .date-section-header,
+body.just-logged-in #masonry-grid > .masonry-section > .card {
+  opacity: 0;
+  animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation-delay: calc(150ms + min(var(--idx, 0), 8) * 30ms);
+}
+@keyframes stello-login-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.just-logged-in .search-input,
+  body.just-logged-in .active-filters,
+  body.just-logged-in .grid-container,
+  body.just-logged-in #masonry-grid > .date-section-header,
+  body.just-logged-in #masonry-grid > .masonry-section > .card {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}

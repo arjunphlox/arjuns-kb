@@ -17,36 +17,48 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css?v=1">
-  <link rel="stylesheet" href="style.css?v=36">
+  <link rel="stylesheet" href="style.css?v=51">
 </head>
 <body>
 
   <div class="login-layout">
-    <header class="header login-header">
+    <header class="header login-header" data-mode="choose">
+      <!-- Top-left "back to sign-in options" link, shown only in email mode.
+           Uses the same treatment on desktop and mobile for consistency. -->
+      <button class="login-back-link" id="login-back" type="button">
+        <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
+        <span>Sign in options</span>
+      </button>
+
       <div class="header-row">
-        <h1>Stello<sup class="header-count" id="login-name"></sup></h1>
-        <div class="header-actions login-actions">
+        <h1>Stello<sup class="header-count" id="login-action">scout</sup></h1>
+
+        <!-- Top-right "Create account" toggle. Mirrors the back link on the
+           left edge; only shown in email mode via data-mode selectors. -->
+      <button class="login-switch" id="login-switch" type="button">Create account</button>
+
+      <!-- "Choose" mode: the two sign-in options -->
+        <div class="header-actions login-actions" id="login-choose">
           <button class="login-btn" id="apple-login" type="button">
-            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M223.3,169.59a8.07,8.07,0,0,0-2.8-3.4C207.67,157.3,200,142.48,200,128c0-18,12.83-30.91,19.53-36.57a8,8,0,0,0,2.67-7.8c-7.09-33.45-28.48-53.22-38.56-60.79A8.12,8.12,0,0,0,178.38,22a59.79,59.79,0,0,0-30.07,8.64A51.88,51.88,0,0,0,128,24a52,52,0,0,0-20.28,6.64A60.08,60.08,0,0,0,77.66,22a8.11,8.11,0,0,0-5.26.86C62.34,29.46,40.86,49.26,33.79,82.66a8,8,0,0,0,2.67,7.79C43.17,97.09,56,110,56,128c0,14.48-7.67,29.3-20.5,38.19a8.07,8.07,0,0,0-2.8,3.4,8,8,0,0,0-.1,6.36C40.23,195.89,56.36,234,128,234S215.77,195.89,223.4,175.95A8,8,0,0,0,223.3,169.59Zm-95.3,48.4c-52.37,0-67.82-23.37-75.15-41.39C68.05,167.37,72,155,72,128c0-22.48-13.42-38.48-22.38-46.66C55.11,59.47,69.21,43.63,78.23,38.08a43.07,43.07,0,0,1,26.45-1.77A8,8,0,0,0,112,30.79,36.2,36.2,0,0,1,128,40a36.13,36.13,0,0,1,16,9.21,8,8,0,0,0,7.32,5.52,43.1,43.1,0,0,1,26.45,1.77c9,5.55,23.13,21.39,28.6,43.26C197.42,107.52,184,123.52,184,146c0,27-3.94,39.37,10.85,48.6C187.18,212.62,180.37,218,128,218Z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09M12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
             Sign in with Apple
           </button>
           <button class="login-btn" id="email-toggle" type="button">
             <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.19V181.81Z"/></svg>
-            Email &amp; Password
+            Sign in with Email
           </button>
         </div>
-      </div>
 
-      <!-- Email form (hidden by default) -->
-      <form class="login-email-form" id="email-form" style="display: none;">
-        <input type="email" class="login-input" id="login-email" placeholder="Email address" required autocomplete="email">
-        <input type="password" class="login-input" id="login-password" placeholder="Password" required autocomplete="current-password">
-        <div class="login-form-actions">
+        <!-- "Email" mode: email form, horizontal row on wide, stacked on narrow.
+             The error line is absolutely positioned above the form so the form
+             itself stays pinned to the same bottom slot the login buttons use. -->
+        <form class="login-email-form" id="email-form" novalidate>
+          <p class="login-error" id="login-error" aria-live="polite"></p>
+          <input type="email" class="login-input" id="login-email" placeholder="Email" required autocomplete="email">
+          <input type="password" class="login-input" id="login-password" placeholder="Password" required autocomplete="current-password">
           <button type="submit" class="login-submit" id="login-submit">Sign in</button>
-          <button type="button" class="login-switch" id="login-switch">Create account</button>
-        </div>
-        <p class="login-error" id="login-error"></p>
-      </form>
+        </form>
+      </div>
     </header>
   </div>
 
@@ -58,6 +70,7 @@
 
   let isSignUp = false;
 
+  const $header = document.querySelector('.login-header');
   const $emailToggle = document.getElementById('email-toggle');
   const $emailForm = document.getElementById('email-form');
   const $email = document.getElementById('login-email');
@@ -66,7 +79,40 @@
   const $switch = document.getElementById('login-switch');
   const $error = document.getElementById('login-error');
   const $appleBtn = document.getElementById('apple-login');
-  const $loginName = document.getElementById('login-name');
+  const $back = document.getElementById('login-back');
+  const $action = document.getElementById('login-action');
+
+  // --- Action-word shuffle in superscript ---
+  // Gives the login page a hint at what Stello does without requiring
+  // a Supabase session we don't have yet pre-login. Words lean on the
+  // experience of coming back to collected things rather than on any
+  // specific feature name (no "tag", "filter", "sort" etc.).
+  const actions = [
+    'wander', 'linger', 'gather', 'savor',
+    'muse', 'ponder', 'dream', 'marvel',
+    'reminisce', 'rediscover', 'uncover',
+    'treasure', 'curate', 'discover'
+  ];
+  let actionIdx = Math.floor(Math.random() * actions.length);
+  $action.textContent = actions[actionIdx];
+  setInterval(() => {
+    actionIdx = (actionIdx + 1) % actions.length;
+    $action.style.opacity = '0';
+    setTimeout(() => {
+      $action.textContent = actions[actionIdx];
+      $action.style.opacity = '';
+    }, 220);
+  }, 2400);
+
+  // --- Mode switching ---
+  function setMode(mode) {
+    $header.setAttribute('data-mode', mode);
+    $error.textContent = '';
+    if (mode === 'email') {
+      // Defer focus so the transition doesn't fight an immediate focus jump
+      setTimeout(() => $email.focus(), 60);
+    }
+  }
 
   // If already signed in, redirect to main page
   (async function checkSession() {
@@ -77,11 +123,14 @@
     }
   })();
 
-  // Toggle email form visibility
-  $emailToggle.addEventListener('click', () => {
-    const visible = $emailForm.style.display !== 'none';
-    $emailForm.style.display = visible ? 'none' : 'flex';
-    if (!visible) $email.focus();
+  // Open email form
+  $emailToggle.addEventListener('click', () => setMode('email'));
+  // Back to the two-option choice (also resets the sign-up toggle)
+  $back.addEventListener('click', () => {
+    isSignUp = false;
+    $submit.textContent = 'Sign in';
+    $switch.textContent = 'Create account';
+    setMode('choose');
   });
 
   // Apple sign in
@@ -126,7 +175,8 @@
       return;
     }
 
-    window.location.href = '/';
+    // ?welcome=1 triggers the one-shot post-login stagger reveal in app.js init().
+    window.location.href = '/?welcome=1';
   });
 })();
 </script>

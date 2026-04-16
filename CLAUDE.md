@@ -62,3 +62,9 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 - 2026-04-16 · Header + expanded week bar use `--accent` as background · accent color drives the app identity, not just buttons/links
 - 2026-04-16 · Card highlights use `outline` with 4px offset (not opacity dimming) · accent border is visible without reducing card readability
 - 2026-04-16 · Theme stored as `stello.theme` in localStorage (`{mode, accent}`) · trivially syncable to server when auth lands
+- 2026-04-16 · Aribau Grotesk self-hosted via `fonts/*.otf` kebab-case paths · `server.js` doesn't decode URL-encoded pathnames, so spaces/%20 404; renamed files to avoid encoding entirely
+- 2026-04-16 · Login page reuses `.header` + `.login-header` with shared `view-transition-name: app-header` · cross-document `@view-transition { navigation: auto }` auto-morphs the header between `/login.html` ↔ `/` with no JS orchestration
+- 2026-04-16 · Post-login stagger triggered by `?welcome=1` URL flag (stripped via history.replaceState) · works for both email sign-in (client) and Apple OAuth (server callback); avoids needing sessionStorage
+- 2026-04-16 · Login error floats above form via `position: absolute; bottom: calc(100% + 6px)` on a child of the form · form stays pinned to the same bottom Y as the login-options row regardless of mode or error visibility
+- 2026-04-16 · Settings logout pinned to bottom via `margin: auto -16px -16px` inside flex-column `.panel-body` · same shape as item panel tags footer; negative side margins cancel panel-body padding for edge-to-edge divider
+- 2026-04-16 · Canonical bitten-apple logo (Simple Icons path) on Sign in with Apple button · Phosphor's apple-logo-fill stylizes differently (two stem notches, no bite/leaf) and read as a bean at 16px

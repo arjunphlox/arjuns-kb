@@ -17,7 +17,8 @@ module.exports = async function handler(req, res) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  // Redirect to main app — the client-side auth guard will pick up the session
-  res.writeHead(302, { Location: '/' });
+  // Redirect to main app — the client-side auth guard will pick up the session.
+  // ?welcome=1 triggers the one-shot post-login stagger reveal in app.js init().
+  res.writeHead(302, { Location: '/?welcome=1' });
   res.end();
 };
