@@ -1,5 +1,9 @@
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
+const {
+  runRuleEnrichment, mineSubjectKeywords, formatTagFor,
+  STOP_WORDS_EXT, PLATFORM_NOISE,
+} = require('./enrich-rules');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -203,24 +207,56 @@ async function downloadImage(imageUrl) {
   }
 }
 
-/** Generate basic tags from metadata */
+/**
+ * Build the capture-time tag set.
+ *
+ * Produces:
+ *   - Platform-aware format tag (instagram/tweet/dribbble/… or website/text-note)
+ *   - Source-domain tag (URL hostname)
+ *   - Up to 5 subject keywords mined from title  (weights 0.8 → 0.5)
+ *   - Up to 3 subject keywords mined from description (weight 0.5)
+ *   - Rule-matched tool/style/mood/location tags from the combined text
+ *
+ * Capped at 12 total, sorted by weight desc. Matches the behavior of the
+ * archived Python enrich.py + analyze.py pipelines.
+ */
 function generateTagsFromMetadata({ title, domain, description, sourceUrl }) {
   const tags = [];
+  const existingNames = new Set();
+  const push = (t) => {
+    if (!t || !t.tag || existingNames.has(t.tag)) return;
+    existingNames.add(t.tag);
+    tags.push(t);
+  };
 
-  // Format tag
-  if (sourceUrl) {
-    tags.push({ tag: 'website', category: 'format', weight: 0.4 });
-  } else {
-    tags.push({ tag: 'text-note', category: 'format', weight: 0.4 });
-  }
-
-  // Domain tag
+  // Format + domain
+  push(formatTagFor({ sourceUrl, domain }));
   if (domain) {
-    const cleanDomain = domain.replace(/^www\./, '');
-    tags.push({ tag: cleanDomain, category: 'domain', weight: 0.6 });
+    push({ tag: domain.replace(/^www\./, ''), category: 'domain', weight: 0.6 });
   }
 
-  return tags;
+  // Subject keywords from title (short words allowed, tight stops)
+  for (const kw of mineSubjectKeywords(title, {
+    minLen: 3, limit: 5,
+    weightStart: 0.8, weightStep: 0.1, weightFloor: 0.5,
+    extraStops: new Set(existingNames),
+  })) push(kw);
+
+  // Subject keywords from description (longer words, extra stops)
+  for (const kw of mineSubjectKeywords(description, {
+    minLen: 4, limit: 3,
+    weightStart: 0.5, weightStep: 0, weightFloor: 0.5,
+    extraStops: new Set([...existingNames, ...STOP_WORDS_EXT, ...PLATFORM_NOISE]),
+  })) push(kw);
+
+  // Rule-based enrichment over title + description + domain
+  const ruleText = [title, description].filter(Boolean).join(' ');
+  for (const t of runRuleEnrichment(ruleText, existingNames, { domain })) push(t);
+
+  // Cap at 12, sorted by weight desc
+  return tags
+    .sort((a, b) => (b.weight || 0) - (a.weight || 0))
+    .slice(0, 12);
 }
 
 /** Extract domain from URL */

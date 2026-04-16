@@ -149,7 +149,13 @@ async function handleTextCapture(client, user, content, res) {
   const now = new Date().toISOString();
   const summary = content.slice(0, 200);
 
-  const tags = generateTagsFromMetadata({ title, sourceUrl: null });
+  // Mine subject keywords + rule tags from the full note body, not just the
+  // 5-word title — otherwise text captures collapse to a single format tag.
+  const tags = generateTagsFromMetadata({
+    title,
+    description: content,
+    sourceUrl: null,
+  });
 
   const item = {
     user_id: user.id,
