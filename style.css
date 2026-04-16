@@ -906,11 +906,11 @@ body.resizing .panel { transition: none; }
   .content-inner { padding: 16px 16px 0; }
   .header { top: 16px; }
 }
-/* Mobile: 2 cols */
+/* Mobile: 2 cols. Keep the Stello wordmark at its full 3rem on mobile to
+   match desktop — the brand type doesn't need to shrink on small screens. */
 @media (max-width: 500px) {
   .masonry-section { column-count: 2; column-gap: 12px; }
   .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
-  .header h1 { font-size: 2rem; }
   .content-inner { padding: 12px 12px 0; }
   .header { top: 12px; }
 }
