@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 node_modules/
 config.json
+.stello-sync

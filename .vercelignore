@@ -8,5 +8,6 @@ commands/
 .claude/
 CLAUDE.md
 BACKLOG.md
+BACKUP.md
 config.json
 .stello-sync
