@@ -80,6 +80,21 @@ body {
   justify-content: flex-end;      /* items aligned to bottom */
   container-type: inline-size;    /* enable container queries for children */
 }
+
+/* GSAP fallback: when the browser lacks cross-document view-transition
+   support, an inline <head> script on index.html adds .arriving-from-login
+   to <html>. These rules paint the home header in the login hero footprint
+   so GSAP can tween it back to the compact sticky state — mimicking the
+   native @view-transition morph. Class + inline styles are cleared by
+   runLoginArrivalFallback() in app.js once the tween finishes. */
+html.arriving-from-login body { opacity: 0; }
+html.arriving-from-login .header {
+  position: relative;
+  top: auto;
+  height: calc(100vh - 48px);     /* .login-layout padding is 24px all sides */
+  min-height: 0;
+  padding: 24px;                  /* matches .login-header padding */
+}
 .header h1 {
   font-size: 3rem;
   font-weight: 400;
