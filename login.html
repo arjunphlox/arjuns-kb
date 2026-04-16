@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css?v=1">
-  <link rel="stylesheet" href="style.css?v=46">
+  <link rel="stylesheet" href="style.css?v=47">
 </head>
 <body>
 
@@ -49,17 +49,16 @@
           </button>
         </div>
 
-        <!-- "Email" mode: email form, horizontal row on wide, stacked on narrow -->
+        <!-- "Email" mode: email form, horizontal row on wide, stacked on narrow.
+             The error line is absolutely positioned above the form so the form
+             itself stays pinned to the same bottom slot the login buttons use. -->
         <form class="login-email-form" id="email-form" novalidate>
+          <p class="login-error" id="login-error" aria-live="polite"></p>
           <input type="email" class="login-input" id="login-email" placeholder="Email" required autocomplete="email">
           <input type="password" class="login-input" id="login-password" placeholder="Password" required autocomplete="current-password">
           <button type="submit" class="login-submit" id="login-submit">Sign in</button>
         </form>
       </div>
-
-      <!-- Error line sits below the form so it doesn't jostle the
-           top-right Create account link or the bottom-right submit. -->
-      <p class="login-error" id="login-error" aria-live="polite"></p>
     </header>
   </div>
 

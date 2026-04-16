@@ -1393,8 +1393,10 @@ body.resizing .panel { transition: none; }
   flex-shrink: 0;
 }
 
-/* Email form: inline horizontal row [back][email][password][submit] */
+/* Email form: inline horizontal row [back][email][password][submit].
+   Positioning context for the floating error message above it. */
 .login-email-form {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1499,14 +1501,18 @@ body.resizing .panel { transition: none; }
 }
 .login-header[data-mode="choose"] .login-switch { display: none; }
 
+/* Floats just above the form row without adding to its height, so the
+   form itself stays pinned to the same bottom slot as the login buttons. */
 .login-error {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  margin: 0;
   font-size: 0.8rem;
   color: #e5484d;
-  margin-top: 10px;
   text-align: right;
-  min-height: 1.2em;
+  pointer-events: none;
 }
-.login-header[data-mode="choose"] .login-error { display: none; }
 
 /* Narrow viewport: stack the form vertically. The top-left "Sign in options"
    link stays anchored where it is — consistent across desktop and mobile.
