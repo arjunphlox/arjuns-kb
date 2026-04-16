@@ -273,6 +273,92 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+
+    // Kick off silent backfill for items that predate the entity-decode
+    // and rule-enrichment fixes. Runs in the background, two concurrent
+    // requests at a time, so it doesn't compete with the initial render.
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => backfillEnrichment(), { timeout: 4000 });
+    } else {
+      setTimeout(() => backfillEnrichment(), 2500);
+    }
+  }
+
+  // --- Silent re-enrichment drip for pre-fix items ---
+  // Flags an item as needing reprocessing if it's stuck in text_done / pending
+  // or if its stored title/summary still contain HTML-entity artifacts from
+  // before the decode fix landed.
+  function itemNeedsBackfill(item) {
+    const status = item.enrichment_status;
+    if (status === 'error') return false;            // give up
+    if (status && status !== 'vision_done') return true;
+    const text = (item.title || '') + ' ' + (item.summary || '');
+    if (/&#\d|&#x|&amp;|&quot;|&lt;|&gt;/i.test(text)) return true;
+    // Vision-done items with no image → nothing to do
+    return false;
+  }
+
+  async function backfillEnrichment() {
+    const queue = allItems.filter(itemNeedsBackfill);
+    if (queue.length === 0) return;
+
+    console.log(`[stello] backfill: re-enriching ${queue.length} items`);
+
+    const CONCURRENCY = 2;
+    let next = 0;
+    let processed = 0;
+
+    async function worker() {
+      while (!worker.stop) {
+        const slot = next++;
+        if (slot >= queue.length) return;
+        const item = queue[slot];
+        try {
+          const res = await apiFetch('/api/reprocess', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: item.slug }),
+          });
+          if (!res.ok) continue;
+
+          // Refetch the updated row so the UI shows the new tags/image
+          // without another round trip.
+          const client = Stello.getClient();
+          const { data } = await client.from('items').select('*')
+            .eq('slug', item.slug).eq('user_id', Stello.getUserId())
+            .single();
+          if (!data) continue;
+
+          const refreshed = normalizeItem(data);
+          const idx = allItems.findIndex(i => i.slug === item.slug);
+          if (idx >= 0) allItems[idx] = refreshed;
+          itemsBySlug[item.slug] = refreshed;
+
+          const cardEl = $grid.querySelector(`.card[data-slug="${item.slug}"]:not(.card-question)`);
+          if (cardEl) cardEl.outerHTML = renderCard(refreshed, 0);
+          PanelManager.refreshItem(item.slug);
+
+          // If reprocess downloaded an image, kick off vision enrichment
+          // too. Fire-and-forget; pollForEnrichment handles the UI update.
+          if (refreshed.enrichment_status === 'text_done' && refreshed.has_image) {
+            apiFetch('/api/enrich', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ slug: item.slug }),
+            }).catch(() => {});
+            pollForEnrichment(item.slug, { maxAttempts: 12, interval: 4000 });
+          }
+        } catch { /* move on to the next slot */ }
+        processed++;
+      }
+    }
+
+    const workers = [];
+    for (let i = 0; i < CONCURRENCY; i++) workers.push(worker());
+    await Promise.all(workers);
+
+    buildRelatedIndex();
+    console.log(`[stello] backfill: done (${processed}/${queue.length})`);
   }
 
   /** Normalize a Supabase item row to match the frontend shape */
