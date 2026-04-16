@@ -93,7 +93,12 @@ module.exports = async function handler(req, res) {
   };
 
   // Image download: only if we don't have one and OG advertises one.
+  // Track the *reason* we ended up without an image so we can choose the
+  // right enrichment_status below — a retryable failure (upload denied,
+  // transient network error) stays at text_done so the next backfill can
+  // pick it up again after the operator fixes the upstream issue.
   let ogImagePath = item.og_image_path;
+  let imageUploadRetryable = false;
   if (!ogImagePath && ogImageUrl) {
     let fullImageUrl = ogImageUrl;
     if (ogImageUrl.startsWith('//')) fullImageUrl = 'https:' + ogImageUrl;
@@ -113,6 +118,9 @@ module.exports = async function handler(req, res) {
         });
       if (uploadErr) {
         console.warn('reprocess: image upload failed', item.source_url, uploadErr.message);
+        // Storage policy / quota / transient issue — worth another shot
+        // next time the user reloads after fixing their bucket config.
+        imageUploadRetryable = true;
       } else {
         const { data: urlData } = client.storage
           .from('item-images')
@@ -141,12 +149,19 @@ module.exports = async function handler(req, res) {
   updates.tags = JSON.stringify(merged.slice(0, 16));
 
   // Decide where this item now lives in the enrichment pipeline.
+  //   text_done   — either we have an image + no vision yet (ready for
+  //                 /api/enrich), or the upload failed retryably so the
+  //                 next backfill pass should try again.
+  //   vision_done — terminal: vision already ran, OR there's genuinely
+  //                 no image to analyze (OG has none, site has none).
   const hasVisionTags = preserved.some(t => t.category === 'color'
     || t.category === 'style' || t.category === 'mood');
   if (ogImagePath && !hasVisionTags) {
-    updates.enrichment_status = 'text_done'; // ready for /api/enrich
+    updates.enrichment_status = 'text_done';
+  } else if (imageUploadRetryable) {
+    updates.enrichment_status = 'text_done';
   } else {
-    updates.enrichment_status = 'vision_done'; // terminal
+    updates.enrichment_status = 'vision_done';
   }
 
   await client.from('items').update(updates).eq('id', item.id);
