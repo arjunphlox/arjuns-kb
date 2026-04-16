@@ -27,6 +27,8 @@
 | **Review item cards without images** — audit and fix cards with no OG image; improve fallback display or re-fetch images | Web | Sonnet | Open |
 | **Better tag navigation and management** — improve tag browsing, filtering, bulk editing, and tag cleanup tools | Desktop | Opus | Open |
 | **UI bugs & refinements** — collect and fix visual glitches, layout issues, and polish rough edges | Desktop | Sonnet | Open |
+| **Finish Supabase legacy-key rotation** — confirm deployed frontend sends `sb_publishable_*` (Network tab, incognito), then disable legacy JWT keys in the dashboard to kill the previously exposed service_role JWT | Web | Sonnet | Open |
+| **Port `link_check.py` + `refetch.py` to Supabase** — they currently read the local `_items/` mirror, so results lag real data; should query Supabase directly or at least note "run backup first" | Either | Sonnet | Open |
 
 ## Maintenance (run periodically via Claude Code)
 
