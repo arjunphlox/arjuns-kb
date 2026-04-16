@@ -50,12 +50,15 @@ CREATE TABLE items (
   added_at TIMESTAMPTZ DEFAULT now(),
   analyzed_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ DEFAULT now(),
+  enrichment_status TEXT DEFAULT 'pending'
+    CHECK (enrichment_status IN ('pending', 'text_done', 'vision_done', 'error')),
   tags JSONB DEFAULT '[]'::jsonb,
   UNIQUE(user_id, slug)
 );
 
 CREATE INDEX idx_items_user_added ON items(user_id, added_at DESC);
 CREATE INDEX idx_items_user_updated ON items(user_id, updated_at DESC);
+CREATE INDEX idx_items_user_enrichment ON items(user_id, enrichment_status);
 CREATE INDEX idx_items_tags ON items USING GIN(tags);
 
 -- Auto-update updated_at timestamp
@@ -137,16 +140,44 @@ CREATE POLICY "Users can manage own batches"
   ON batch_jobs FOR ALL USING (auth.uid() = user_id);
 
 -- =============================================================
--- 6. Storage bucket (run via Supabase dashboard or API)
+-- 6. Storage bucket + policies
 -- =============================================================
--- Create bucket 'item-images' with public read access.
--- This must be done via the Supabase dashboard:
---   1. Go to Storage > New Bucket
---   2. Name: item-images
---   3. Public: ON
---   4. Add policy: allow authenticated users to upload to their own folder
+-- The bucket itself must be created in the dashboard first:
+--   Storage > New Bucket > name: item-images > Public: ON
+-- Then this SQL block wires up the four policies the app needs.
 --
--- Storage policy (paste in Storage > Policies):
---   INSERT: (bucket_id = 'item-images') AND (auth.uid()::text = (storage.foldername(name))[1])
---   SELECT: (bucket_id = 'item-images') -- public read
---   DELETE: (bucket_id = 'item-images') AND (auth.uid()::text = (storage.foldername(name))[1])
+-- Path convention: {user_id}/{slug}/og-image.{ext}
+-- INSERT matches the first path segment against auth.uid().
+-- UPDATE is required because capture/upload-image/reprocess call
+-- upload() with upsert:true — a re-capture with the same slug becomes
+-- an UPDATE, not an INSERT.
+
+DROP POLICY IF EXISTS "stello item-images public read" ON storage.objects;
+DROP POLICY IF EXISTS "stello item-images user insert" ON storage.objects;
+DROP POLICY IF EXISTS "stello item-images user update" ON storage.objects;
+DROP POLICY IF EXISTS "stello item-images user delete" ON storage.objects;
+
+CREATE POLICY "stello item-images public read"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'item-images');
+
+CREATE POLICY "stello item-images user insert"
+  ON storage.objects FOR INSERT
+  WITH CHECK (
+    bucket_id = 'item-images'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+CREATE POLICY "stello item-images user update"
+  ON storage.objects FOR UPDATE
+  USING (
+    bucket_id = 'item-images'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );
+
+CREATE POLICY "stello item-images user delete"
+  ON storage.objects FOR DELETE
+  USING (
+    bucket_id = 'item-images'
+    AND auth.uid()::text = (storage.foldername(name))[1]
+  );

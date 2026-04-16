@@ -78,13 +78,20 @@ async function handleUrlCapture(client, user, url, res) {
           upsert: true,
         });
 
-      if (!uploadErr) {
+      if (uploadErr) {
+        // Don't fail the whole capture over a bad image — but we need to
+        // see this in the Vercel logs, the old silent catch was hiding
+        // bucket/policy misconfig as "items with no image".
+        console.warn('capture: image upload failed', url, uploadErr.message);
+      } else {
         const { data: urlData } = client.storage
           .from('item-images')
           .getPublicUrl(storagePath);
         ogImagePath = urlData.publicUrl;
         hasImage = true;
       }
+    } else {
+      console.warn('capture: image download returned null', url, fullImageUrl);
     }
   }
 
@@ -94,7 +101,8 @@ async function handleUrlCapture(client, user, url, res) {
   // Build frontmatter for body_markdown
   const bodyMarkdown = `## Summary\n${summary || ''}`;
 
-  // Insert item
+  // Insert item — mark text enrichment done here; vision/enrich.js flips
+  // this to 'vision_done' when the image analysis completes.
   const item = {
     user_id: user.id,
     slug,
@@ -109,6 +117,7 @@ async function handleUrlCapture(client, user, url, res) {
     location: null,
     needs_review: true,
     added_at: now,
+    enrichment_status: 'text_done',
     tags: JSON.stringify(tags),
   };
 
@@ -149,8 +158,15 @@ async function handleTextCapture(client, user, content, res) {
   const now = new Date().toISOString();
   const summary = content.slice(0, 200);
 
-  const tags = generateTagsFromMetadata({ title, sourceUrl: null });
+  // Mine subject keywords + rule tags from the full note body, not just the
+  // 5-word title — otherwise text captures collapse to a single format tag.
+  const tags = generateTagsFromMetadata({
+    title,
+    description: content,
+    sourceUrl: null,
+  });
 
+  // Text notes never get vision enrichment — 'text_done' is the final state.
   const item = {
     user_id: user.id,
     slug,
@@ -165,6 +181,7 @@ async function handleTextCapture(client, user, content, res) {
     location: null,
     needs_review: true,
     added_at: now,
+    enrichment_status: 'text_done',
     tags: JSON.stringify(tags),
   };
 

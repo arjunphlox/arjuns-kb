@@ -1,5 +1,9 @@
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
+const {
+  runRuleEnrichment, mineSubjectKeywords, formatTagFor,
+  STOP_WORDS_EXT, PLATFORM_NOISE,
+} = require('./enrich-rules');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -80,6 +84,37 @@ function normalizeUrl(url) {
     .toLowerCase();
 }
 
+/**
+ * Decode HTML entities in a string. Handles named (&amp; &quot; &apos; …),
+ * decimal (&#39;) and hex (&#x27;) references. Zero-dep; covers the entities
+ * that show up in og:title / og:description / og:image attribute values.
+ */
+const NAMED_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  copy: '\u00a9', reg: '\u00ae', trade: '\u2122',
+  mdash: '\u2014', ndash: '\u2013', hellip: '\u2026',
+  ldquo: '\u201c', rdquo: '\u201d', lsquo: '\u2018', rsquo: '\u2019',
+  middot: '\u00b7',
+};
+function decodeHtmlEntities(str) {
+  if (typeof str !== 'string' || !str.includes('&')) return str;
+  return str.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, ref) => {
+    if (ref[0] === '#') {
+      const code = ref[1] === 'x' || ref[1] === 'X'
+        ? parseInt(ref.slice(2), 16)
+        : parseInt(ref.slice(1), 10);
+      if (Number.isFinite(code) && code > 0) {
+        try { return String.fromCodePoint(code); } catch { return m; }
+      }
+      return m;
+    }
+    const name = ref.toLowerCase();
+    return Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, name)
+      ? NAMED_ENTITIES[name]
+      : m;
+  });
+}
+
 /** Fetch OG metadata from a URL */
 async function fetchOGMetadata(url) {
   try {
@@ -117,23 +152,24 @@ async function fetchOGMetadata(url) {
 
     let match;
     while ((match = ogPattern1.exec(html)) !== null) {
-      meta[`og:${match[1]}`] = match[2];
+      meta[`og:${match[1]}`] = decodeHtmlEntities(match[2]);
     }
     while ((match = ogPattern2.exec(html)) !== null) {
-      meta[`og:${match[2]}`] = match[1];
+      meta[`og:${match[2]}`] = decodeHtmlEntities(match[1]);
     }
 
     // Extract <title>
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    if (titleMatch) meta.title = titleMatch[1].trim();
+    if (titleMatch) meta.title = decodeHtmlEntities(titleMatch[1].trim());
 
     // Extract meta description
     const descMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
-    if (descMatch) meta.description = descMatch[1];
+    if (descMatch) meta.description = decodeHtmlEntities(descMatch[1]);
 
     meta._status = 'fetched';
     return meta;
   } catch (err) {
+    console.warn('fetchOGMetadata failed', url, err.message);
     return { _status: 'error', _error: err.message };
   }
 }
@@ -154,10 +190,19 @@ async function downloadImage(imageUrl) {
     });
     clearTimeout(timeout);
 
-    if (!resp.ok) return null;
+    if (!resp.ok) {
+      console.warn('downloadImage: non-ok response', imageUrl, resp.status);
+      return null;
+    }
 
     const buffer = Buffer.from(await resp.arrayBuffer());
-    if (buffer.length < 1000) return null; // Skip tiny/broken images
+    // 500-byte floor catches transparent 1x1 trackers while keeping small
+    // favicons and minimal SVG exports. The old 1000-byte cutoff was dropping
+    // valid hero images served through compressing CDNs.
+    if (buffer.length < 500) {
+      console.warn('downloadImage: buffer too small', imageUrl, buffer.length);
+      return null;
+    }
 
     const contentType = resp.headers.get('content-type') || '';
     let ext = '.jpg';
@@ -172,24 +217,56 @@ async function downloadImage(imageUrl) {
   }
 }
 
-/** Generate basic tags from metadata */
+/**
+ * Build the capture-time tag set.
+ *
+ * Produces:
+ *   - Platform-aware format tag (instagram/tweet/dribbble/… or website/text-note)
+ *   - Source-domain tag (URL hostname)
+ *   - Up to 5 subject keywords mined from title  (weights 0.8 → 0.5)
+ *   - Up to 3 subject keywords mined from description (weight 0.5)
+ *   - Rule-matched tool/style/mood/location tags from the combined text
+ *
+ * Capped at 12 total, sorted by weight desc. Matches the behavior of the
+ * archived Python enrich.py + analyze.py pipelines.
+ */
 function generateTagsFromMetadata({ title, domain, description, sourceUrl }) {
   const tags = [];
+  const existingNames = new Set();
+  const push = (t) => {
+    if (!t || !t.tag || existingNames.has(t.tag)) return;
+    existingNames.add(t.tag);
+    tags.push(t);
+  };
 
-  // Format tag
-  if (sourceUrl) {
-    tags.push({ tag: 'website', category: 'format', weight: 0.4 });
-  } else {
-    tags.push({ tag: 'text-note', category: 'format', weight: 0.4 });
-  }
-
-  // Domain tag
+  // Format + domain
+  push(formatTagFor({ sourceUrl, domain }));
   if (domain) {
-    const cleanDomain = domain.replace(/^www\./, '');
-    tags.push({ tag: cleanDomain, category: 'domain', weight: 0.6 });
+    push({ tag: domain.replace(/^www\./, ''), category: 'domain', weight: 0.6 });
   }
 
-  return tags;
+  // Subject keywords from title (short words allowed, tight stops)
+  for (const kw of mineSubjectKeywords(title, {
+    minLen: 3, limit: 5,
+    weightStart: 0.8, weightStep: 0.1, weightFloor: 0.5,
+    extraStops: new Set(existingNames),
+  })) push(kw);
+
+  // Subject keywords from description (longer words, extra stops)
+  for (const kw of mineSubjectKeywords(description, {
+    minLen: 4, limit: 3,
+    weightStart: 0.5, weightStep: 0, weightFloor: 0.5,
+    extraStops: new Set([...existingNames, ...STOP_WORDS_EXT, ...PLATFORM_NOISE]),
+  })) push(kw);
+
+  // Rule-based enrichment over title + description + domain
+  const ruleText = [title, description].filter(Boolean).join(' ');
+  for (const t of runRuleEnrichment(ruleText, existingNames, { domain })) push(t);
+
+  // Cap at 12, sorted by weight desc
+  return tags
+    .sort((a, b) => (b.weight || 0) - (a.weight || 0))
+    .slice(0, 12);
 }
 
 /** Extract domain from URL */
@@ -209,6 +286,7 @@ module.exports = {
   handleCors,
   generateSlug,
   normalizeUrl,
+  decodeHtmlEntities,
   fetchOGMetadata,
   downloadImage,
   generateTagsFromMetadata,

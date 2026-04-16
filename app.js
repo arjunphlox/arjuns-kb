@@ -273,6 +273,92 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+
+    // Kick off silent backfill for items that predate the entity-decode
+    // and rule-enrichment fixes. Runs in the background, two concurrent
+    // requests at a time, so it doesn't compete with the initial render.
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => backfillEnrichment(), { timeout: 4000 });
+    } else {
+      setTimeout(() => backfillEnrichment(), 2500);
+    }
+  }
+
+  // --- Silent re-enrichment drip for pre-fix items ---
+  // Flags an item as needing reprocessing if it's stuck in text_done / pending
+  // or if its stored title/summary still contain HTML-entity artifacts from
+  // before the decode fix landed.
+  function itemNeedsBackfill(item) {
+    const status = item.enrichment_status;
+    if (status === 'error') return false;            // give up
+    if (status && status !== 'vision_done') return true;
+    const text = (item.title || '') + ' ' + (item.summary || '');
+    if (/&#\d|&#x|&amp;|&quot;|&lt;|&gt;/i.test(text)) return true;
+    // Vision-done items with no image → nothing to do
+    return false;
+  }
+
+  async function backfillEnrichment() {
+    const queue = allItems.filter(itemNeedsBackfill);
+    if (queue.length === 0) return;
+
+    console.log(`[stello] backfill: re-enriching ${queue.length} items`);
+
+    const CONCURRENCY = 2;
+    let next = 0;
+    let processed = 0;
+
+    async function worker() {
+      while (!worker.stop) {
+        const slot = next++;
+        if (slot >= queue.length) return;
+        const item = queue[slot];
+        try {
+          const res = await apiFetch('/api/reprocess', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: item.slug }),
+          });
+          if (!res.ok) continue;
+
+          // Refetch the updated row so the UI shows the new tags/image
+          // without another round trip.
+          const client = Stello.getClient();
+          const { data } = await client.from('items').select('*')
+            .eq('slug', item.slug).eq('user_id', Stello.getUserId())
+            .single();
+          if (!data) continue;
+
+          const refreshed = normalizeItem(data);
+          const idx = allItems.findIndex(i => i.slug === item.slug);
+          if (idx >= 0) allItems[idx] = refreshed;
+          itemsBySlug[item.slug] = refreshed;
+
+          const cardEl = $grid.querySelector(`.card[data-slug="${item.slug}"]:not(.card-question)`);
+          if (cardEl) cardEl.outerHTML = renderCard(refreshed, 0);
+          PanelManager.refreshItem(item.slug);
+
+          // If reprocess downloaded an image, kick off vision enrichment
+          // too. Fire-and-forget; pollForEnrichment handles the UI update.
+          if (refreshed.enrichment_status === 'text_done' && refreshed.has_image) {
+            apiFetch('/api/enrich', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ slug: item.slug }),
+            }).catch(() => {});
+            pollForEnrichment(item.slug, { maxAttempts: 12, interval: 4000 });
+          }
+        } catch { /* move on to the next slot */ }
+        processed++;
+      }
+    }
+
+    const workers = [];
+    for (let i = 0; i < CONCURRENCY; i++) workers.push(worker());
+    await Promise.all(workers);
+
+    buildRelatedIndex();
+    console.log(`[stello] backfill: done (${processed}/${queue.length})`);
   }
 
   /** Normalize a Supabase item row to match the frontend shape */
@@ -928,7 +1014,15 @@
     firstSection.prepend(ph);
   }
 
-  function replacePlaceholder(id, item) {
+  function replacePlaceholder(id, rawItem) {
+    // Normalize defensively — /api/capture returns `has_image` but not
+    // `image_path`, /api/upload-image returns `og_image_path` directly.
+    // pollForEnrichment + PanelManager.refreshItem both depend on
+    // itemsBySlug having the normalized shape.
+    const item = rawItem && rawItem.og_image_path !== undefined
+      ? normalizeItem(rawItem)
+      : rawItem;
+
     const ph = $grid.querySelector(`[data-placeholder-id="${id}"]`);
     if (ph) {
       ph.outerHTML = renderCard(item, 0);
@@ -937,8 +1031,9 @@
       const firstSection = $grid.querySelector('.masonry-section');
       if (firstSection) firstSection.insertAdjacentHTML('afterbegin', renderCard(item, 0));
     }
-    // Add to allItems for search/filter consistency
+    // Keep both the array and the lookup in sync
     allItems.unshift(item);
+    itemsBySlug[item.slug] = item;
     renderStats();
   }
 
@@ -1089,8 +1184,41 @@
   // --- Question card (in-grid) ---
   let pendingReviews = [];
 
-  function pollForReview(slug) {
-    setTimeout(async () => {
+  // Active polls, keyed by slug, so we don't stack them when a panel
+  // re-renders or an item is captured twice in quick succession.
+  const activePolls = new Map();
+
+  /**
+   * Watch an item in the DB until vision enrichment lands (or times out).
+   *
+   * The capture API returns with `enrichment_status='text_done'` — the
+   * item has OG + rule tags but vision hasn't run yet. This poll refreshes
+   * the grid card, any open panels, and the "why did you save this?"
+   * question card as background vision writes land, so the UI feels
+   * progressive instead of requiring a full reload to see rich tags.
+   *
+   * Polls every 3s up to maxAttempts (default 10 → ~30s). Stops early on
+   * `vision_done` / `error`, or if the item gets deleted.
+   */
+  function pollForEnrichment(slug, { maxAttempts = 10, interval = 3000 } = {}) {
+    if (!slug) return null;
+    const existing = activePolls.get(slug);
+    if (existing) return existing;
+
+    let attempts = 0;
+    let timer = null;
+    let cancelled = false;
+    let questionCardInserted = false;
+
+    const stop = () => {
+      cancelled = true;
+      if (timer) { clearTimeout(timer); timer = null; }
+      activePolls.delete(slug);
+    };
+
+    const tick = async () => {
+      if (cancelled) return;
+      attempts++;
       try {
         const client = Stello.getClient();
         const { data } = await client
@@ -1099,21 +1227,52 @@
           .eq('slug', slug)
           .eq('user_id', Stello.getUserId())
           .single();
-        const item = data ? normalizeItem(data) : null;
+        if (!data) { stop(); return; }
 
-        if (item && item.needs_review) {
+        const item = normalizeItem(data);
+        const idx = allItems.findIndex(i => i.slug === slug);
+        if (idx >= 0) allItems[idx] = item;
+        itemsBySlug[slug] = item;
+
+        // Rebuild the related-items index so tag-based recommendations
+        // reflect the new vision tags immediately.
+        buildRelatedIndex();
+
+        // Re-render the in-grid card (image + text content may have changed)
+        const cardEl = $grid.querySelector(`.card[data-slug="${slug}"]:not(.card-question)`);
+        if (cardEl) cardEl.outerHTML = renderCard(item, 0);
+
+        // Push live updates into any open panel for this slug.
+        PanelManager.refreshItem(slug);
+
+        // First sighting of needs_review after capture — drop the
+        // "why did you save this?" card into the grid.
+        if (!questionCardInserted && item.needs_review
+            && !pendingReviews.find(p => p.slug === slug)) {
           pendingReviews.push(item);
           insertQuestionCard(item);
+          questionCardInserted = true;
         }
-        if (item) {
-          const idx = allItems.findIndex(i => i.slug === slug);
-          if (idx >= 0) allItems[idx] = item;
-          const cardEl = $grid.querySelector(`.card[data-slug="${slug}"]:not(.card-question)`);
-          if (cardEl) cardEl.outerHTML = renderCard(item, 0);
+
+        const status = item.enrichment_status;
+        if (status === 'vision_done' || status === 'error' || attempts >= maxAttempts) {
+          stop();
+          return;
         }
-      } catch { /* silent */ }
-    }, 15000);
+      } catch {
+        // Transient — keep polling until maxAttempts.
+      }
+      if (!cancelled) timer = setTimeout(tick, interval);
+    };
+
+    timer = setTimeout(tick, interval);
+    const controller = { slug, stop };
+    activePolls.set(slug, controller);
+    return controller;
   }
+
+  // Back-compat alias for existing capture call sites.
+  const pollForReview = pollForEnrichment;
 
   function renderQuestionCardHtml(item) {
     const imgHtml = item.has_image && item.image_path
@@ -2047,11 +2206,36 @@
 
     function getOpenSlugs() { return [...state.slugs]; }
 
+    // Re-renders a single open panel's body + footer from the current
+    // itemsBySlug snapshot. Called by pollForEnrichment when background
+    // vision writes land — lets tag pills and the image update live
+    // without re-mounting the whole panel.
+    function refreshItem(slug) {
+      if (!$container) return;
+      const idx = state.slugs.indexOf(slug);
+      if (idx < 0) return;
+      const item = itemsBySlug[slug];
+      if (!item) return;
+      const panel = $container.querySelector(`.panel[data-index="${idx}"]`);
+      if (!panel) return;
+      const shared = sharedTagSet();
+      const body = panel.querySelector('.panel-body');
+      const footer = panel.querySelector('.panel-footer');
+      if (body) {
+        body.innerHTML = buildPanelBodyHTML(item, shared);
+        const mdEl = body.querySelector('.card-expanded-md');
+        loadMarkdownInto(mdEl);
+      }
+      if (footer) {
+        footer.innerHTML = buildPanelFooterHTML(item, shared);
+      }
+    }
+
     return {
       init, open, close, focus, shuffle,
       openTool, closeTool,
       gridCols, getOpenSlugs,
-      refreshAfterGridRender,
+      refreshAfterGridRender, refreshItem,
       state, // expose for debugging
     };
   })();
