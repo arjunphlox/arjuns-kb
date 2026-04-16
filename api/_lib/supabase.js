@@ -55,7 +55,7 @@ function handleCors(req, res) {
   return false;
 }
 
-/** Generate a URL-safe slug from a title (matches server.js logic) */
+/** Generate a URL-safe slug from a title */
 function generateSlug(title) {
   let slug = (title || 'untitled').toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
@@ -69,7 +69,7 @@ function generateSlug(title) {
   return `${slug}-${hash}`;
 }
 
-/** Normalize URL for duplicate comparison (matches analyze.py logic) */
+/** Normalize URL for duplicate comparison */
 function normalizeUrl(url) {
   return url
     .replace(/\/+$/, '')
@@ -80,7 +80,7 @@ function normalizeUrl(url) {
     .toLowerCase();
 }
 
-/** Fetch OG metadata from a URL (ports analyze.py fetch_og_metadata) */
+/** Fetch OG metadata from a URL */
 async function fetchOGMetadata(url) {
   try {
     const controller = new AbortController();
@@ -172,7 +172,7 @@ async function downloadImage(imageUrl) {
   }
 }
 
-/** Generate basic tags from metadata (ports analyze.py generate_tags_from_metadata) */
+/** Generate basic tags from metadata */
 function generateTagsFromMetadata({ title, domain, description, sourceUrl }) {
   const tags = [];
 

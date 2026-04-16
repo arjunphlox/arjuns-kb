@@ -254,11 +254,6 @@
       return cleaned.trim();
     }
 
-    function extractMarkdownBody(raw) {
-      const match = raw.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/);
-      return match ? match[1].trim() : raw.trim();
-    }
-
     function stripSections(md, names) {
       const pattern = new RegExp('^##\\s+(' + names.join('|') + ')\\s*$', 'i');
       const lines = md.split('\n');
@@ -307,11 +302,13 @@
     }
 
     async function init() {
-      // Auth guard
-      if (window.Stello) {
-        const session = await Stello.requireAuth();
-        if (!session) return;
+      // Auth guard — Stello client is required for multi-tenant data
+      if (!window.Stello) {
+        document.getElementById('detail-right').innerHTML = '<p style="color:var(--text-dim)">Auth module failed to load.</p>';
+        return;
       }
+      const session = await Stello.requireAuth();
+      if (!session) return;
 
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug');
@@ -320,23 +317,16 @@
         return;
       }
 
-      // Load item from Supabase or local fallback
-      let item;
-      if (window.Stello && Stello.getClient()) {
-        const client = Stello.getClient();
-        const { data, error } = await client
-          .from('items')
-          .select('*')
-          .eq('slug', slug)
-          .eq('user_id', Stello.getUserId())
-          .single();
-        if (error) console.error('Supabase item fetch error:', error.message);
-        if (data) item = normalizeItem(data);
-      } else {
-        const res = await fetch('index.json?v=' + Date.now());
-        const data = await res.json();
-        item = data.items.find(i => i.slug === slug);
-      }
+      // Load item from Supabase
+      const client = Stello.getClient();
+      const { data, error } = await client
+        .from('items')
+        .select('*')
+        .eq('slug', slug)
+        .eq('user_id', Stello.getUserId())
+        .single();
+      if (error) console.error('Supabase item fetch error:', error.message);
+      const item = data ? normalizeItem(data) : null;
 
       if (!item) {
         document.getElementById('detail-right').innerHTML = '<p style="color:var(--text-dim)">Item not found.</p>';
@@ -386,24 +376,11 @@
 
       document.getElementById('detail-right').innerHTML = html;
 
-      // Load markdown body: prefer body_markdown from Supabase row, fall back to file
-      try {
-        let body;
-        if (item.body_markdown) {
-          body = item.body_markdown;
-          body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-        } else {
-          const mdRes = await fetch(`_items/${slug}/item.md`);
-          if (mdRes.ok) {
-            const raw = await mdRes.text();
-            body = extractMarkdownBody(raw);
-            body = stripSections(body, ['Summary', 'Key Details', 'Visual Assets']);
-          }
-        }
-        document.getElementById('detail-body').innerHTML = body ? renderMarkdown(body) : '';
-      } catch {
-        document.getElementById('detail-body').innerHTML = '';
-      }
+      // Render markdown body from the Supabase row
+      const body = item.body_markdown
+        ? stripSections(item.body_markdown, ['Summary', 'Key Details', 'Visual Assets'])
+        : '';
+      document.getElementById('detail-body').innerHTML = body ? renderMarkdown(body) : '';
     }
 
     document.addEventListener('DOMContentLoaded', init);

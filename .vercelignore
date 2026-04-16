@@ -1,14 +1,13 @@
 _items/
 scripts/
-server.js
 index.json
 *.py
 *.pyc
 __pycache__/
-serve.sh
 commands/
 .claude/
 CLAUDE.md
 BACKLOG.md
+BACKUP.md
 config.json
 .stello-sync

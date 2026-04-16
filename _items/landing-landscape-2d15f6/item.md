@@ -1,43 +1,0 @@
----
-title: "Landing - Landscape"
-source_url: "https://thisislandscape.com/"
-slug: "landing-landscape-2d15f6"
-domain: "thisislandscape.com"
-author: null
-summary: "Landscape is a boutique  brand strategy and design studio shaping structure and surface  in service of social good."
-og_image: "og-image.jpg"
-status: active
-link_last_checked: "2026-03-31"
-location: null
-added_at: "2026-01-28T12:36:02Z"
-analyzed_at: "2026-01-28T12:36:02Z"
-
-tags:
-  - { tag: "landing", category: "subject", weight: 0.8 }
-  - { tag: "firms", category: "domain", weight: 0.7 }
-  - { tag: "landscape", category: "subject", weight: 0.7 }
-  - { tag: "boutique", category: "subject", weight: 0.5 }
-  - { tag: "brand", category: "subject", weight: 0.5 }
-  - { tag: "strategy", category: "subject", weight: 0.5 }
-  - { tag: "website", category: "format", weight: 0.4 }
-  - { tag: "editorial", category: "style", weight: 0.85 }
-  - { tag: "minimalist", category: "style", weight: 0.7 }
-  - { tag: "photographic", category: "style", weight: 0.55 }
-  - { tag: "warm", category: "mood", weight: 0.85 }
-  - { tag: "elegant", category: "mood", weight: 0.8 }
-  - { tag: "caramel", category: "color", weight: 0.45 }
-  - { tag: "charcoal", category: "color", weight: 0.25 }
-  - { tag: "ivory", category: "color", weight: 0.2 }
-  - { tag: "taupe", category: "color", weight: 0.1 }
----
-
-## Summary
-Landscape is a boutique  brand strategy and design studio shaping structure and surface  in service of social good.
-
-## Key Details
-- **Source:** [thisislandscape.com](https://thisislandscape.com/)
-- **Title:** Landing - Landscape
-- **Description:** Landscape is a boutique  brand strategy and design studio shaping structure and surface  in service of social good.
-
-## Visual Assets
-![OG Image](og-image.jpg)
