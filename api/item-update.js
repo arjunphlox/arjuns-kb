@@ -212,10 +212,6 @@ module.exports = async function handler(req, res) {
     nextCandidates = {};
   }
 
-  // --- Needs_review: flip off as soon as the user commits any intent ---
-  const needsReview = !(Array.isArray(body.why_saved) && body.why_saved.length)
-    && item.needs_review !== false;
-
   const updates = {
     images: JSON.stringify(images),
     snippets: JSON.stringify(snippets),
@@ -224,10 +220,13 @@ module.exports = async function handler(req, res) {
     og_image_path: ogImagePath,
     enrichment_candidates: JSON.stringify(nextCandidates),
   };
-  // Only flip needs_review when the user actually indicated intent.
+  // why_saved being present in the payload (even as []) means the user
+  // resolved the capture form (clicked Save or Skip). Flip the review
+  // flag off so the form stops appearing on reopen.
+  let needsReview = item.needs_review;
   if (Array.isArray(body.why_saved)) {
-    updates.needs_review = body.why_saved.length === 0 ? false : false;
-    // (Either way we clear the flag once they've resolved the prompt.)
+    needsReview = false;
+    updates.needs_review = false;
   }
 
   const { error: updateErr } = await client
@@ -244,6 +243,7 @@ module.exports = async function handler(req, res) {
     og_image_path: ogImagePath,
     body_markdown: bodyMarkdown,
     enrichment_candidates: nextCandidates,
+    needs_review: needsReview,
   });
 };
 

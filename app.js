@@ -749,16 +749,18 @@
   ];
 
   // Builds the expanded-body HTML used inside a side panel.
+  // Order: slider → description (summary + markdown) → capture form
+  // (only for items still pending review) → snippets.
   // `sharedTagSet`: optional Set<string> of "category:tag" keys to highlight with .tag-shared.
   function buildPanelBodyHTML(item, sharedTagSet) {
     return [
       renderPanelSliderHTML(item),
-      renderPanelCaptureFormHTML(item),
-      renderPanelSnippetsHTML(item),
       `<div class="card-expanded-body">
         ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
         <div class="card-expanded-md" data-slug="${item.slug}"></div>
       </div>`,
+      renderPanelCaptureFormHTML(item),
+      renderPanelSnippetsHTML(item),
     ].join('');
   }
 
@@ -810,16 +812,21 @@
   }
 
   function renderUploadTileHTML() {
-    return `<button type="button" class="panel-image-upload-tile" aria-label="Upload image">
+    // Use a <label> so the native file picker opens on click without a
+    // programmatic .click() (which can get flaky under event delegation).
+    return `<label class="panel-image-upload-tile" aria-label="Upload image">
       <span>+</span>
-      <input type="file" accept="image/*" hidden>
-    </button>`;
+      <input type="file" accept="image/*" class="sr-only">
+    </label>`;
   }
 
   // ---- Capture form (why-saved + what-works) ----
+  // Only rendered while the item is still pending review. Once the user
+  // clicks Save (or Skip), the server flips needs_review=false and this
+  // section disappears on the next refresh.
   function renderPanelCaptureFormHTML(item) {
-    // Always render so the user can edit reasons later. The existing intent
-    // tags seed the active state of preset chips.
+    if (item.needs_review !== true) return '';
+
     const activeIntents = new Set(
       (item.tags || []).filter(t => t.category === 'intent').map(t => t.tag)
     );
@@ -848,6 +855,10 @@
       </div>
       <p class="question-label">What makes it work?</p>
       <textarea class="question-text" placeholder="Optional — what caught your eye?">${escHtml(whatWorks || '')}</textarea>
+      <div class="question-actions">
+        <button type="button" class="q-save">Save</button>
+        <button type="button" class="q-skip">Skip</button>
+      </div>
     </div>`;
   }
 
@@ -971,46 +982,38 @@
       await postItemUpdate(slug, payload);
     });
 
-    // --- Upload tile: file picker -> manual upload ---
-    const uploadTile = bodyEl.querySelector('.panel-image-upload-tile');
-    if (uploadTile) {
-      uploadTile.addEventListener('click', (e) => {
-        e.preventDefault();
-        const input = uploadTile.querySelector('input[type="file"]');
-        if (input) input.click();
-      });
-      const input = uploadTile.querySelector('input[type="file"]');
-      if (input) {
-        input.addEventListener('change', async (e) => {
-          const file = e.target.files && e.target.files[0];
-          if (!file) return;
-          const base64 = await fileToBase64(file);
-          if (!base64) return;
-          const updated = await postItemUpdate(slug, {
-            manual_image_upload: { base64, mime: file.type || 'image/jpeg' },
-          });
-          if (updated) refreshSliderFrom(bodyEl, updated);
-          input.value = '';
+    // --- Upload tile: native <label>+<input> handles the picker; we only
+    // need the change handler to upload the chosen file. ---
+    const uploadInput = bodyEl.querySelector('.panel-image-upload-tile input[type="file"]');
+    if (uploadInput) {
+      uploadInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const base64 = await fileToBase64(file);
+        if (!base64) return;
+        const updated = await postItemUpdate(slug, {
+          manual_image_upload: { base64, mime: file.type || 'image/jpeg' },
         });
-      }
+        if (updated) refreshSliderFrom(bodyEl, updated);
+        e.target.value = '';
+      });
     }
 
-    // --- Capture form: preset/suggested chips + custom input + textarea ---
+    // --- Capture form: chips toggle locally; Save/Skip commit to server. ---
     const form = bodyEl.querySelector('.panel-capture-form');
     if (form) {
       form.addEventListener('click', (e) => {
         const btn = e.target.closest('.q-toggle');
-        if (!btn) return;
-        e.preventDefault();
-        btn.classList.toggle('active');
-        debouncedCommitCaptureForm(slug, form);
+        if (btn) {
+          e.preventDefault();
+          btn.classList.toggle('active');
+          return;
+        }
+        const save = e.target.closest('.q-save');
+        if (save) { e.preventDefault(); commitCaptureForm(slug, form); return; }
+        const skip = e.target.closest('.q-skip');
+        if (skip) { e.preventDefault(); commitCaptureForm(slug, form, { skip: true }); return; }
       });
-      form.querySelector('.q-custom-reason')?.addEventListener('change', () =>
-        debouncedCommitCaptureForm(slug, form, { flush: true }));
-      form.querySelector('.question-text')?.addEventListener('input', () =>
-        debouncedCommitCaptureForm(slug, form));
-      form.querySelector('.question-text')?.addEventListener('blur', () =>
-        debouncedCommitCaptureForm(slug, form, { flush: true }));
     }
 
     // --- Snippets: candidate chip adds, ✕ removes, "+ Add" appends manual ---
@@ -1052,22 +1055,24 @@
     }
   }
 
-  // Debounced commit of the capture form (why_saved + what_works).
-  const _formDebounceTimers = new Map();
-  function debouncedCommitCaptureForm(slug, form, opts) {
-    const flush = opts && opts.flush;
-    clearTimeout(_formDebounceTimers.get(slug));
-    const fire = () => {
-      _formDebounceTimers.delete(slug);
+  // Explicit commit of the capture form (why_saved + what_works). Save
+  // persists whatever the user selected; Skip commits an empty intent so
+  // the server flips needs_review=false and the form stops appearing.
+  async function commitCaptureForm(slug, form, opts) {
+    const skip = opts && opts.skip;
+    let why_saved = [];
+    let what_works = '';
+    if (!skip) {
       const activeBtns = form.querySelectorAll('.q-toggle.active');
-      const why_saved = [...activeBtns].map(b => b.dataset.value);
+      why_saved = [...activeBtns].map(b => b.dataset.value);
       const custom = form.querySelector('.q-custom-reason')?.value.trim();
       if (custom) why_saved.push(custom.toLowerCase().replace(/\s+/g, '-'));
-      const what_works = form.querySelector('.question-text')?.value || '';
-      postItemUpdate(slug, { why_saved, what_works });
-    };
-    if (flush) { fire(); return; }
-    _formDebounceTimers.set(slug, setTimeout(fire, 700));
+      what_works = form.querySelector('.question-text')?.value || '';
+    }
+    const updated = await postItemUpdate(slug, { why_saved, what_works });
+    // After a commit the server will have flipped needs_review=false;
+    // refresh the panel so the capture form section disappears cleanly.
+    if (updated) PanelManager.refreshItem(slug);
   }
 
   async function postItemUpdate(slug, payload) {
@@ -2528,10 +2533,13 @@
           if (nextHtml) body.insertAdjacentHTML('afterbegin', nextHtml);
         }
 
-        // Capture form: only add it if missing; otherwise merge in any
-        // new suggested reason chips without touching the user's state.
+        // Capture form: only shown while needs_review=true. Remove it
+        // when the item no longer needs review; merge suggested chips in
+        // when the form is already present and enrichment adds more.
         const form = body.querySelector('.panel-capture-form');
-        if (!form) {
+        if (item.needs_review !== true) {
+          if (form) form.remove();
+        } else if (!form) {
           const snipWrap = body.querySelector('.panel-snippets');
           const html = renderPanelCaptureFormHTML(item);
           if (html) {
