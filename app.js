@@ -15,6 +15,9 @@
     'caret-down': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>',
     'caret-up': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></svg>',
     'shuffle': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.67A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z"/></svg>',
+    'crosshair': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,120H215.63a88.13,88.13,0,0,0-79.63-79.63V24a8,8,0,0,0-16,0V40.37A88.13,88.13,0,0,0,40.37,120H24a8,8,0,0,0,0,16H40.37A88.13,88.13,0,0,0,120,215.63V232a8,8,0,0,0,16,0V215.63A88.13,88.13,0,0,0,215.63,136H232a8,8,0,0,0,0-16ZM128,200a72,72,0,1,1,72-72A72.08,72.08,0,0,1,128,200Zm0-112a40,40,0,1,0,40,40A40,40,0,0,0,128,88Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,152Z"/></svg>',
+    'trash': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>',
+    'dots-three': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM48,116a12,12,0,1,0,12,12A12,12,0,0,0,48,116Zm160,0a12,12,0,1,0,12,12A12,12,0,0,0,208,116Z"/></svg>',
   };
   function icon(name) { return ICONS[name] || ''; }
 
@@ -809,7 +812,7 @@
     return `<div class="panel-image-slider" data-slug="${item.slug}" data-cover-path="${escAttr(coverPath)}">
       <div class="panel-image-main">
         ${coverPath ? `<img src="${escAttr(previewPath)}" alt="${escAttr(cover?.label || '')}" data-preview-path="${escAttr(previewPath)}">` : ''}
-        ${renderSetAsCoverPillHTML(true)}
+        ${renderPanelImageActionsHTML()}
       </div>
       <div class="panel-image-thumbs">${thumbs}</div>
     </div>`;
@@ -831,10 +834,14 @@
     return `<button type="button" class="panel-image-thumb is-candidate" data-path="${escAttr(path)}" data-source="extracted" title="${escAttr(cand.label || 'Suggested image')}"><img src="${escAttr(path)}" alt=""><span class="panel-image-thumb-add">+</span></button>`;
   }
 
-  // Pill shown at bottom-right of the main image when the previewed
-  // thumb isn't the current cover. Styled to mirror .card-url-pill.
-  function renderSetAsCoverPillHTML(visible) {
-    return `<button type="button" class="panel-image-cover-btn${visible ? ' is-visible' : ''}" aria-label="Set as cover">Set as cover</button>`;
+  // Action buttons at bottom-right of the main image: "Set as cover"
+  // (crosshair) and "Remove image" (trash, red). 20px circles, 16px
+  // icons, same translucent-dark backdrop as .card-url-pill.
+  function renderPanelImageActionsHTML() {
+    return `<div class="panel-image-actions">
+      <button type="button" class="panel-image-action-btn js-set-cover" title="Set as cover" aria-label="Set as cover">${icon('crosshair')}</button>
+      <button type="button" class="panel-image-action-btn is-danger js-remove-image" title="Remove Image" aria-label="Remove Image">${icon('trash')}</button>
+    </div>`;
   }
 
   function renderUploadTileHTML() {
@@ -985,12 +992,21 @@
     // exclusively by the "Set as cover" pill. Candidate thumbs are
     // silently promoted into images[] on click so they survive refresh. ---
     bodyEl.addEventListener('click', async (e) => {
-      const coverBtn = e.target.closest('.panel-image-cover-btn');
-      if (coverBtn) {
+      const setCoverBtn = e.target.closest('.js-set-cover');
+      if (setCoverBtn) {
         e.preventDefault();
         const previewImg = bodyEl.querySelector('.panel-image-main img');
         const path = previewImg?.dataset.previewPath;
         if (path) await setAsCover(bodyEl, slug, path);
+        return;
+      }
+
+      const removeBtn = e.target.closest('.js-remove-image');
+      if (removeBtn) {
+        e.preventDefault();
+        const previewImg = bodyEl.querySelector('.panel-image-main img');
+        const path = previewImg?.dataset.previewPath;
+        if (path) await removeImage(bodyEl, slug, path);
         return;
       }
 
@@ -1173,6 +1189,11 @@
 
   async function setAsCover(bodyEl, slug, path) {
     const updated = await postItemUpdate(slug, { primary_image_path: path });
+    if (updated) refreshSliderFrom(bodyEl, updated);
+  }
+
+  async function removeImage(bodyEl, slug, path) {
+    const updated = await postItemUpdate(slug, { remove_image_paths: [path] });
     if (updated) refreshSliderFrom(bodyEl, updated);
   }
 

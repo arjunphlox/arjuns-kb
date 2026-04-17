@@ -1246,29 +1246,48 @@ body.resizing .panel { transition: none; }
   background: var(--accent);
 }
 
-/* "Set as cover" pill — always visible on the main preview regardless
-   of which thumb is previewed. Clicking it promotes the previewed
-   image to the cover. Style mirrors .card-url-pill from the grid. */
-.panel-image-cover-btn {
+/* Icon-button action group on the main preview: Set as cover
+   (crosshair) and Remove image (trash, red). 20px circles w/ 16px
+   icons; share the .card-url-pill translucent-dark backdrop. */
+.panel-image-actions {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  padding: 2px 10px;
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+.panel-image-action-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
   border: 0;
-  border-radius: var(--pill-radius);
-  font-size: 0.68rem;
-  font-weight: 500;
+  border-radius: 50%;
   color: #ffffff;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
-  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background 0.15s, color 0.15s;
 }
-.panel-image-cover-btn:hover {
+.panel-image-action-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.panel-image-action-btn:hover {
   background: var(--accent);
   color: var(--accent-contrast);
+}
+.panel-image-action-btn.is-danger {
+  color: #e5484d;
+}
+.panel-image-action-btn.is-danger:hover {
+  background: #e5484d;
+  color: #ffffff;
 }
 .panel-image-upload-tile {
   flex-shrink: 0;

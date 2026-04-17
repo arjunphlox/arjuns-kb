@@ -111,6 +111,17 @@ module.exports = async function handler(req, res) {
     if (!images.some(i => i.is_primary) && images.length) {
       images[0].is_primary = true;
     }
+    // Best-effort storage cleanup: translate each public URL back to an
+    // object path inside the item-images bucket and delete it. Failures
+    // are logged but never block the DB update — orphaned files are
+    // recoverable, a broken item row is not.
+    const storagePaths = body.remove_image_paths
+      .map(urlToStoragePath)
+      .filter(Boolean);
+    if (storagePaths.length) {
+      const { error: rmErr } = await client.storage.from('item-images').remove(storagePaths);
+      if (rmErr) console.warn('item-update: storage remove failed', slug, rmErr.message);
+    }
   }
 
   // --- Primary image ---
@@ -246,6 +257,21 @@ module.exports = async function handler(req, res) {
     needs_review: needsReview,
   });
 };
+
+/**
+ * Public URLs from Supabase storage look like
+ *   https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>
+ * The storage .remove() API needs just the <path> portion (scoped to
+ * the bucket). Returns null for anything that doesn't look like one of
+ * our item-images URLs so we don't try to delete external images.
+ */
+function urlToStoragePath(url) {
+  if (typeof url !== 'string') return null;
+  const marker = '/storage/v1/object/public/item-images/';
+  const i = url.indexOf(marker);
+  if (i < 0) return null;
+  return decodeURIComponent(url.slice(i + marker.length).split('?')[0]);
+}
 
 function parseJsonField(v, fallback) {
   if (v == null) return fallback;
