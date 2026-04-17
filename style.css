@@ -664,10 +664,15 @@ body.resizing .panel { transition: none; }
   overflow: visible;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  break-inside: avoid;
+  /* Triple-barreled break control: modern + WebKit legacy + page-level fallback.
+     Without all three, Safari and long cards with ::before indicators can still
+     fragment across columns when the selection state changes layout. */
+  break-inside: avoid-column;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   margin-bottom: 24px;
   /* column-count layout applies width automatically */
-  display: block;
+  display: inline-block;
   width: 100%;
 }
 
