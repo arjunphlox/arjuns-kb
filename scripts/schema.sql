@@ -51,8 +51,16 @@ CREATE TABLE items (
   analyzed_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ DEFAULT now(),
   enrichment_status TEXT DEFAULT 'pending'
-    CHECK (enrichment_status IN ('pending', 'text_done', 'vision_done', 'error')),
+    CHECK (enrichment_status IN ('pending', 'text_done', 'vision_done', 'candidates_done', 'error')),
   tags JSONB DEFAULT '[]'::jsonb,
+  -- Curation: user-selected images + snippets. og_image_path is kept for
+  -- backward-compat reads; on write it mirrors whichever images[] entry
+  -- has is_primary=true.
+  images JSONB DEFAULT '[]'::jsonb,
+  snippets JSONB DEFAULT '[]'::jsonb,
+  -- Transient bag of enrichment-suggested candidates the user hasn't
+  -- resolved yet: { images:[{url,label?}], snippets:[text], reasons:[text] }
+  enrichment_candidates JSONB DEFAULT '{}'::jsonb,
   UNIQUE(user_id, slug)
 );
 
@@ -181,3 +189,17 @@ CREATE POLICY "stello item-images user delete"
     bucket_id = 'item-images'
     AND auth.uid()::text = (storage.foldername(name))[1]
   );
+
+-- =============================================================
+-- 7. Idempotent migrations (re-runnable)
+-- =============================================================
+-- For existing databases that predate the curation columns. Safe to
+-- re-run; each statement no-ops if already applied.
+ALTER TABLE items
+  ADD COLUMN IF NOT EXISTS images JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS snippets JSONB DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS enrichment_candidates JSONB DEFAULT '{}'::jsonb;
+
+ALTER TABLE items DROP CONSTRAINT IF EXISTS items_enrichment_status_check;
+ALTER TABLE items ADD CONSTRAINT items_enrichment_status_check
+  CHECK (enrichment_status IN ('pending', 'text_done', 'vision_done', 'candidates_done', 'error'));

@@ -363,13 +363,29 @@
 
   /** Normalize a Supabase item row to match the frontend shape */
   function normalizeItem(row) {
-    const tags = typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || []);
+    const tags = parseJsonField(row.tags, []);
+    const images = parseJsonField(row.images, []);
+    const snippets = parseJsonField(row.snippets, []);
+    const enrichment_candidates = parseJsonField(row.enrichment_candidates, {});
+    const primary = images.find(i => i && i.is_primary) || images[0] || null;
+    const image_path = primary?.path || row.og_image_path || null;
     return {
       ...row,
       tags,
-      has_image: !!row.og_image_path,
-      image_path: row.og_image_path || null,
+      images,
+      snippets,
+      enrichment_candidates,
+      has_image: !!image_path,
+      image_path,
     };
+  }
+
+  function parseJsonField(v, fallback) {
+    if (v == null) return fallback;
+    if (typeof v === 'string') {
+      try { return JSON.parse(v); } catch { return fallback; }
+    }
+    return v;
   }
 
   function injectHeaderIcons() {
@@ -721,17 +737,165 @@
     return `W${String(getISOWeek(d)).padStart(2, '0')} ${d.getFullYear()}`;
   }
 
+  // Preset why-saved reasons. Suggested reasons from enrichment_candidates
+  // are merged alongside these at render time.
+  const PRESET_REASONS = [
+    { value: 'visual-inspiration', label: 'Visual inspiration' },
+    { value: 'useful-tool', label: 'Useful tool' },
+    { value: 'knowledge-reference', label: 'Knowledge reference' },
+    { value: 'style-catalog', label: 'Style catalog' },
+    { value: 'conceptual-reference', label: 'Conceptual reference' },
+    { value: 'practical-benchmark', label: 'Practical benchmark' },
+  ];
+
   // Builds the expanded-body HTML used inside a side panel.
   // `sharedTagSet`: optional Set<string> of "category:tag" keys to highlight with .tag-shared.
   function buildPanelBodyHTML(item, sharedTagSet) {
-    const panelImage = (item.has_image && item.image_path)
-      ? `<div class="panel-image"><img src="${escHtml(item.image_path).replace(/"/g, '&quot;')}" alt=""></div>`
-      : '';
+    return [
+      renderPanelSliderHTML(item),
+      renderPanelCaptureFormHTML(item),
+      renderPanelSnippetsHTML(item),
+      `<div class="card-expanded-body">
+        ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
+        <div class="card-expanded-md" data-slug="${item.slug}"></div>
+      </div>`,
+    ].join('');
+  }
 
-    return `${panelImage}<div class="card-expanded-body">
-      ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
-      <div class="card-expanded-md" data-slug="${item.slug}"></div>
+  // ---- Panel slider (main image + thumbnails + upload tile) ----
+  function renderPanelSliderHTML(item) {
+    const images = Array.isArray(item.images) ? item.images : [];
+    const candidates = (item.enrichment_candidates && Array.isArray(item.enrichment_candidates.images))
+      ? item.enrichment_candidates.images : [];
+
+    // Seed from og_image_path when images[] is empty (legacy items).
+    const seeded = images.length === 0 && item.image_path
+      ? [{ path: item.image_path, source: 'og', is_primary: true }]
+      : images;
+
+    const primary = seeded.find(i => i.is_primary) || seeded[0];
+    const mainSrc = primary?.path || '';
+
+    if (!mainSrc && !candidates.length) {
+      // No image at all: render upload-only affordance, unless nothing exists.
+      return `<div class="panel-image-slider" data-slug="${item.slug}">
+        <div class="panel-image-main panel-image-empty"></div>
+        <div class="panel-image-thumbs">${renderUploadTileHTML()}</div>
+      </div>`;
+    }
+
+    const thumbs = [
+      ...seeded.map(img => renderThumbHTML(img, img.path === mainSrc)),
+      ...candidates
+        .filter(c => !seeded.some(i => i.path === c.path))
+        .map(c => renderCandidateThumbHTML(c)),
+      renderUploadTileHTML(),
+    ].join('');
+
+    return `<div class="panel-image-slider" data-slug="${item.slug}">
+      <div class="panel-image-main">${mainSrc ? `<img src="${escAttr(mainSrc)}" alt="${escAttr(primary?.label || '')}" data-primary-path="${escAttr(mainSrc)}">` : ''}</div>
+      <div class="panel-image-thumbs">${thumbs}</div>
     </div>`;
+  }
+
+  function renderThumbHTML(img, isActive) {
+    const cls = `panel-image-thumb${isActive ? ' is-active' : ''}${img.source === 'manual' ? ' is-manual' : ''}`;
+    return `<button type="button" class="${cls}" data-path="${escAttr(img.path)}" data-source="${escAttr(img.source || 'og')}" title="${escAttr(img.label || '')}"><img src="${escAttr(img.path)}" alt=""></button>`;
+  }
+
+  function renderCandidateThumbHTML(cand) {
+    const path = cand.path || cand.url || '';
+    if (!path) return '';
+    return `<button type="button" class="panel-image-thumb is-candidate" data-path="${escAttr(path)}" data-source="extracted" title="${escAttr(cand.label || 'Suggested image')}"><img src="${escAttr(path)}" alt=""><span class="panel-image-thumb-add">+</span></button>`;
+  }
+
+  function renderUploadTileHTML() {
+    return `<button type="button" class="panel-image-upload-tile" aria-label="Upload image">
+      <span>+</span>
+      <input type="file" accept="image/*" hidden>
+    </button>`;
+  }
+
+  // ---- Capture form (why-saved + what-works) ----
+  function renderPanelCaptureFormHTML(item) {
+    // Always render so the user can edit reasons later. The existing intent
+    // tags seed the active state of preset chips.
+    const activeIntents = new Set(
+      (item.tags || []).filter(t => t.category === 'intent').map(t => t.tag)
+    );
+    const suggested = (item.enrichment_candidates && Array.isArray(item.enrichment_candidates.reasons))
+      ? item.enrichment_candidates.reasons : [];
+    const suggestedNotInPreset = suggested.filter(r =>
+      !PRESET_REASONS.some(p => p.value === r)
+    );
+
+    const whatWorks = extractSection(item.body_markdown, 'What Makes It Work');
+
+    const presetChips = PRESET_REASONS.map(r =>
+      `<button type="button" class="q-toggle${activeIntents.has(r.value) ? ' active' : ''}" data-value="${escAttr(r.value)}">${escHtml(r.label)}</button>`
+    ).join('');
+
+    const suggestedChips = suggestedNotInPreset.map(r =>
+      `<button type="button" class="q-toggle q-toggle-suggested${activeIntents.has(r) ? ' active' : ''}" data-value="${escAttr(r)}" title="Suggested">${escHtml(humanizeReason(r))}</button>`
+    ).join('');
+
+    return `<div class="panel-capture-form">
+      <p class="question-label">Why did you save this?</p>
+      <div class="question-options">
+        ${presetChips}
+        ${suggestedChips}
+        <input class="q-custom-reason" type="text" placeholder="Other reason…">
+      </div>
+      <p class="question-label">What makes it work?</p>
+      <textarea class="question-text" placeholder="Optional — what caught your eye?">${escHtml(whatWorks || '')}</textarea>
+    </div>`;
+  }
+
+  function humanizeReason(r) {
+    return String(r || '').replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  }
+
+  // ---- Snippets ----
+  function renderPanelSnippetsHTML(item) {
+    const snippets = Array.isArray(item.snippets) ? item.snippets : [];
+    const candidateSnippets = (item.enrichment_candidates && Array.isArray(item.enrichment_candidates.snippets))
+      ? item.enrichment_candidates.snippets : [];
+    const takenSet = new Set(snippets.map(s => s.text));
+    const addableCandidates = candidateSnippets.filter(s => !takenSet.has(s));
+
+    const selected = snippets.map((s, i) =>
+      `<div class="panel-snippet-row" data-index="${i}">
+        <blockquote>${escHtml(s.text)}</blockquote>
+        <button type="button" class="panel-snippet-remove" aria-label="Remove snippet">&times;</button>
+      </div>`
+    ).join('');
+
+    const candidateChips = addableCandidates.map(text =>
+      `<button type="button" class="panel-snippet-candidate" data-text="${escAttr(text)}"><span class="plus">+</span>${escHtml(text)}</button>`
+    ).join('');
+
+    return `<div class="panel-snippets">
+      <p class="question-label">Key snippets</p>
+      <div class="panel-snippet-list">${selected || '<div class="panel-snippet-empty">No snippets yet.</div>'}</div>
+      ${candidateChips ? `<div class="panel-snippet-candidates">${candidateChips}</div>` : ''}
+      <div class="panel-snippet-add">
+        <textarea placeholder="Paste or type a snippet…"></textarea>
+        <button type="button" class="panel-snippet-add-btn">+ Add</button>
+      </div>
+    </div>`;
+  }
+
+  function escAttr(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, c =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+    );
+  }
+
+  function extractSection(md, heading) {
+    if (!md) return '';
+    const re = new RegExp(`(^|\\n)##\\s+${heading}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, 'i');
+    const m = md.match(re);
+    return m ? m[2].trim() : '';
   }
 
   // Builds the sticky footer with tags (left) + date/week (right)
@@ -756,14 +920,242 @@
   }
 
   // Loads and renders the markdown body into a panel's .card-expanded-md element.
+  // Summary / snippets / what-makes-it-work are rendered elsewhere in the panel,
+  // so they're stripped from the raw markdown to avoid duplication.
   function loadMarkdownInto(container) {
     if (!container || container.dataset.loaded) return;
     container.dataset.loaded = 'true';
     const slug = container.dataset.slug;
     const item = itemsBySlug[slug];
     if (!item || !item.body_markdown) return;
-    const body = stripSections(item.body_markdown, ['Summary', 'Key Details', 'Visual Assets']);
+    const body = stripSections(item.body_markdown, [
+      'Summary', 'Key Details', 'Visual Assets', 'Key Snippets', 'What Makes It Work',
+    ]);
     if (body) container.innerHTML = renderMarkdown(body);
+  }
+
+  // ---- Panel body binding (slider, capture form, snippets) ----
+  // Wires up interactions in a freshly-rendered .panel-body. Each mutation
+  // posts a delta to /api/item-update, then updates local itemsBySlug and
+  // refreshes the grid card. The panel body itself is only re-rendered on
+  // explicit refreshItem calls (from enrichment polling) to avoid stomping
+  // the user's in-flight form input.
+  function bindPanelBody(bodyEl, item) {
+    if (!bodyEl || !item) return;
+    const slug = item.slug;
+
+    // --- Slider: thumb click swaps main + marks primary ---
+    bodyEl.addEventListener('click', async (e) => {
+      const thumb = e.target.closest('.panel-image-thumb');
+      if (!thumb || thumb.classList.contains('panel-image-upload-tile')) return;
+      const path = thumb.dataset.path;
+      if (!path) return;
+      e.preventDefault();
+
+      // Optimistic: swap the main img
+      const main = bodyEl.querySelector('.panel-image-main');
+      if (main) {
+        main.innerHTML = `<img src="${escAttr(path)}" alt="" data-primary-path="${escAttr(path)}">`;
+      }
+      bodyEl.querySelectorAll('.panel-image-thumb').forEach(t =>
+        t.classList.toggle('is-active', t.dataset.path === path));
+      // If it was a candidate, it's now promoted — remove the "+ add" badge look.
+      thumb.classList.remove('is-candidate');
+      const addBadge = thumb.querySelector('.panel-image-thumb-add');
+      if (addBadge) addBadge.remove();
+
+      const payload = { primary_image_path: path };
+      if (thumb.dataset.source === 'extracted') {
+        payload.add_image_paths = [path];
+      }
+      await postItemUpdate(slug, payload);
+    });
+
+    // --- Upload tile: file picker -> manual upload ---
+    const uploadTile = bodyEl.querySelector('.panel-image-upload-tile');
+    if (uploadTile) {
+      uploadTile.addEventListener('click', (e) => {
+        e.preventDefault();
+        const input = uploadTile.querySelector('input[type="file"]');
+        if (input) input.click();
+      });
+      const input = uploadTile.querySelector('input[type="file"]');
+      if (input) {
+        input.addEventListener('change', async (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const base64 = await fileToBase64(file);
+          if (!base64) return;
+          const updated = await postItemUpdate(slug, {
+            manual_image_upload: { base64, mime: file.type || 'image/jpeg' },
+          });
+          if (updated) refreshSliderFrom(bodyEl, updated);
+          input.value = '';
+        });
+      }
+    }
+
+    // --- Capture form: preset/suggested chips + custom input + textarea ---
+    const form = bodyEl.querySelector('.panel-capture-form');
+    if (form) {
+      form.addEventListener('click', (e) => {
+        const btn = e.target.closest('.q-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        btn.classList.toggle('active');
+        debouncedCommitCaptureForm(slug, form);
+      });
+      form.querySelector('.q-custom-reason')?.addEventListener('change', () =>
+        debouncedCommitCaptureForm(slug, form, { flush: true }));
+      form.querySelector('.question-text')?.addEventListener('input', () =>
+        debouncedCommitCaptureForm(slug, form));
+      form.querySelector('.question-text')?.addEventListener('blur', () =>
+        debouncedCommitCaptureForm(slug, form, { flush: true }));
+    }
+
+    // --- Snippets: candidate chip adds, ✕ removes, "+ Add" appends manual ---
+    const snipWrap = bodyEl.querySelector('.panel-snippets');
+    if (snipWrap) {
+      snipWrap.addEventListener('click', async (e) => {
+        const cand = e.target.closest('.panel-snippet-candidate');
+        if (cand) {
+          e.preventDefault();
+          const text = cand.dataset.text;
+          cand.remove();
+          const updated = await postItemUpdate(slug, { new_snippets: [text] });
+          if (updated) refreshSnippetsFrom(bodyEl, updated);
+          return;
+        }
+        const rm = e.target.closest('.panel-snippet-remove');
+        if (rm) {
+          e.preventDefault();
+          const row = rm.closest('.panel-snippet-row');
+          const idx = row ? Number(row.dataset.index) : -1;
+          if (idx >= 0) {
+            row.remove();
+            const updated = await postItemUpdate(slug, { removed_snippet_ids: [idx] });
+            if (updated) refreshSnippetsFrom(bodyEl, updated);
+          }
+          return;
+        }
+        const addBtn = e.target.closest('.panel-snippet-add-btn');
+        if (addBtn) {
+          e.preventDefault();
+          const ta = snipWrap.querySelector('.panel-snippet-add textarea');
+          const text = ta?.value.trim();
+          if (!text) return;
+          ta.value = '';
+          const updated = await postItemUpdate(slug, { new_snippets: [text] });
+          if (updated) refreshSnippetsFrom(bodyEl, updated);
+        }
+      });
+    }
+  }
+
+  // Debounced commit of the capture form (why_saved + what_works).
+  const _formDebounceTimers = new Map();
+  function debouncedCommitCaptureForm(slug, form, opts) {
+    const flush = opts && opts.flush;
+    clearTimeout(_formDebounceTimers.get(slug));
+    const fire = () => {
+      _formDebounceTimers.delete(slug);
+      const activeBtns = form.querySelectorAll('.q-toggle.active');
+      const why_saved = [...activeBtns].map(b => b.dataset.value);
+      const custom = form.querySelector('.q-custom-reason')?.value.trim();
+      if (custom) why_saved.push(custom.toLowerCase().replace(/\s+/g, '-'));
+      const what_works = form.querySelector('.question-text')?.value || '';
+      postItemUpdate(slug, { why_saved, what_works });
+    };
+    if (flush) { fire(); return; }
+    _formDebounceTimers.set(slug, setTimeout(fire, 700));
+  }
+
+  async function postItemUpdate(slug, payload) {
+    try {
+      const res = await apiFetch('/api/item-update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...payload }),
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      // Merge server truth into local state and update the grid card.
+      const prev = itemsBySlug[slug];
+      const next = normalizeItem({
+        ...(prev || {}),
+        ...data,
+      });
+      itemsBySlug[slug] = next;
+      // Update the grid card thumb if primary image changed.
+      const card = document.querySelector(`.card[data-slug="${CSS.escape(slug)}"]`);
+      if (card) {
+        const newThumb = card.querySelector('.card-thumb');
+        if (newThumb && next.image_path) {
+          newThumb.src = next.image_path;
+        }
+      }
+      return next;
+    } catch (err) {
+      console.warn('postItemUpdate failed', slug, err.message);
+      return null;
+    }
+  }
+
+  function refreshSliderFrom(bodyEl, item) {
+    const slider = bodyEl.querySelector('.panel-image-slider');
+    if (!slider) return;
+    slider.outerHTML = renderPanelSliderHTML(item);
+  }
+
+  function refreshSnippetsFrom(bodyEl, item) {
+    const wrap = bodyEl.querySelector('.panel-snippets');
+    if (!wrap) return;
+    wrap.outerHTML = renderPanelSnippetsHTML(item);
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result || '';
+        const comma = dataUrl.indexOf(',');
+        resolve(comma >= 0 ? dataUrl.slice(comma + 1) : null);
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---- Capture queue (sequential panel curation) ----
+  // Slugs of freshly captured items that deserve a curation panel. We
+  // open the first immediately; when its panel closes, the next advances.
+  // PanelManager.open({ fromCapture:true }) records the slug into
+  // captureFlowSlugs so close() knows when to advance.
+  const captureQueue = [];
+  const captureFlowSlugs = new Set();
+
+  function enqueueForCuration(slug) {
+    if (!slug) return;
+    captureQueue.push(slug);
+    if (captureFlowSlugs.size === 0) advanceCaptureQueue();
+  }
+
+  function advanceCaptureQueue() {
+    const next = captureQueue.shift();
+    if (!next) return;
+    captureFlowSlugs.add(next);
+    PanelManager.open(next, { fromCapture: true });
+    // Existing poller refreshes the panel live as enrichment lands.
+    if (typeof pollForEnrichment === 'function') pollForEnrichment(next);
+    if (captureQueue.length) {
+      showToast(`${captureQueue.length} more to curate`);
+    }
+  }
+
+  function notifyCaptureSlugClosed(slug) {
+    if (!captureFlowSlugs.has(slug)) return;
+    captureFlowSlugs.delete(slug);
+    if (captureFlowSlugs.size === 0) advanceCaptureQueue();
   }
 
   // --- Active filter pills ---
@@ -1015,13 +1407,9 @@
   }
 
   function replacePlaceholder(id, rawItem) {
-    // Normalize defensively — /api/capture returns `has_image` but not
-    // `image_path`, /api/upload-image returns `og_image_path` directly.
-    // pollForEnrichment + PanelManager.refreshItem both depend on
-    // itemsBySlug having the normalized shape.
-    const item = rawItem && rawItem.og_image_path !== undefined
-      ? normalizeItem(rawItem)
-      : rawItem;
+    // Always normalize so the grid card, panel, and refresh paths see
+    // the same shape (tags array, images[], snippets[], image_path).
+    const item = normalizeItem(rawItem || {});
 
     const ph = $grid.querySelector(`[data-placeholder-id="${id}"]`);
     if (ph) {
@@ -1059,8 +1447,7 @@
       }
       replacePlaceholder(id, item);
       showToast('Added: ' + item.title);
-      // Poll for analysis completion
-      pollForReview(item.slug);
+      enqueueForCuration(item.slug);
     } catch (err) {
       removePlaceholder(id);
       showToast('Error: ' + err.message);
@@ -1081,7 +1468,7 @@
       if (!res.ok) { removePlaceholder(id); showToast('Image capture failed'); return; }
       replacePlaceholder(id, item);
       showToast('Added image');
-      pollForReview(item.slug);
+      enqueueForCuration(item.slug);
     } catch (err) {
       removePlaceholder(id);
       showToast('Error: ' + err.message);
@@ -1101,6 +1488,7 @@
       if (!res.ok) { removePlaceholder(id); showToast('Text capture failed'); return; }
       replacePlaceholder(id, item);
       showToast('Added note: ' + item.title);
+      enqueueForCuration(item.slug);
     } catch (err) {
       removePlaceholder(id);
       showToast('Error: ' + err.message);
@@ -1172,35 +1560,34 @@
       seen.add(r.index);
       const phId = ids[r.index];
       if (r.item && !r.item.is_duplicate && !r.error) {
-        const item = r.item.og_image_path ? normalizeItem(r.item) : r.item;
+        const item = normalizeItem(r.item);
         replacePlaceholder(phId, item);
-        pollForReview(item.slug);
+        enqueueForCuration(item.slug);
       } else {
         removePlaceholder(phId);
       }
     }
   }
 
-  // --- Question card (in-grid) ---
-  let pendingReviews = [];
-
+  // --- Enrichment polling ---
   // Active polls, keyed by slug, so we don't stack them when a panel
   // re-renders or an item is captured twice in quick succession.
   const activePolls = new Map();
 
   /**
-   * Watch an item in the DB until vision enrichment lands (or times out).
+   * Watch an item in the DB until enrichment lands (or times out).
    *
-   * The capture API returns with `enrichment_status='text_done'` — the
-   * item has OG + rule tags but vision hasn't run yet. This poll refreshes
-   * the grid card, any open panels, and the "why did you save this?"
-   * question card as background vision writes land, so the UI feels
-   * progressive instead of requiring a full reload to see rich tags.
+   * The capture API returns with `enrichment_status='text_done'`. As the
+   * server runs vision and candidate extraction, the status advances to
+   * 'vision_done' and finally 'candidates_done'. Each tick re-renders the
+   * grid card and diffs any open panel so new tags, image candidates, and
+   * snippet candidates appear without a reload.
    *
-   * Polls every 3s up to maxAttempts (default 10 → ~30s). Stops early on
-   * `vision_done` / `error`, or if the item gets deleted.
+   * Polls every 3s up to maxAttempts (default 14 → ~42s, generous to cover
+   * the extra HTML-fetch + Claude call the candidates phase adds). Stops
+   * early on `candidates_done` / `error`, or if the item is deleted.
    */
-  function pollForEnrichment(slug, { maxAttempts = 10, interval = 3000 } = {}) {
+  function pollForEnrichment(slug, { maxAttempts = 14, interval = 3000 } = {}) {
     if (!slug) return null;
     const existing = activePolls.get(slug);
     if (existing) return existing;
@@ -1208,7 +1595,6 @@
     let attempts = 0;
     let timer = null;
     let cancelled = false;
-    let questionCardInserted = false;
 
     const stop = () => {
       cancelled = true;
@@ -1239,23 +1625,14 @@
         buildRelatedIndex();
 
         // Re-render the in-grid card (image + text content may have changed)
-        const cardEl = $grid.querySelector(`.card[data-slug="${slug}"]:not(.card-question)`);
+        const cardEl = $grid.querySelector(`.card[data-slug="${slug}"]`);
         if (cardEl) cardEl.outerHTML = renderCard(item, 0);
 
         // Push live updates into any open panel for this slug.
         PanelManager.refreshItem(slug);
 
-        // First sighting of needs_review after capture — drop the
-        // "why did you save this?" card into the grid.
-        if (!questionCardInserted && item.needs_review
-            && !pendingReviews.find(p => p.slug === slug)) {
-          pendingReviews.push(item);
-          insertQuestionCard(item);
-          questionCardInserted = true;
-        }
-
         const status = item.enrichment_status;
-        if (status === 'vision_done' || status === 'error' || attempts >= maxAttempts) {
+        if (status === 'candidates_done' || status === 'error' || attempts >= maxAttempts) {
           stop();
           return;
         }
@@ -1271,104 +1648,8 @@
     return controller;
   }
 
-  // Back-compat alias for existing capture call sites.
+  // Back-compat alias retained in case legacy call sites exist.
   const pollForReview = pollForEnrichment;
-
-  function renderQuestionCardHtml(item) {
-    const imgHtml = item.has_image && item.image_path
-      ? `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy">`
-      : `<div class="card-placeholder" style="min-height:80px">${(item.title || '?')[0].toUpperCase()}</div>`;
-
-    return `<div class="card card-question card-expanded" data-slug="${item.slug}" data-question="true">
-      <div class="card-visual-area">${imgHtml}</div>
-      <div class="card-expanded-body" style="display:block">
-        <div class="card-expanded-title">${escHtml(item.title)}</div>
-        <div class="card-expanded-meta">
-          ${item.domain ? `<span>${escHtml(item.domain)}</span>` : ''}
-          ${item.added_at ? `<span>${new Date(item.added_at).toLocaleDateString()}</span>` : ''}
-        </div>
-        ${item.summary ? `<div class="card-expanded-summary">${escHtml(cleanSummary(item.summary))}</div>` : ''}
-        <div class="question-form">
-          <p class="question-label">Why did you save this?</p>
-          <div class="question-options">
-            <button class="q-toggle" data-value="visual-inspiration">Visual inspiration</button>
-            <button class="q-toggle" data-value="useful-tool">Useful tool</button>
-            <button class="q-toggle" data-value="knowledge-reference">Knowledge reference</button>
-            <button class="q-toggle" data-value="style-catalog">Style catalog</button>
-            <button class="q-toggle" data-value="conceptual-reference">Conceptual reference</button>
-            <button class="q-toggle" data-value="practical-benchmark">Practical benchmark</button>
-            <input class="q-custom-reason" type="text" placeholder="Other reason\u2026">
-          </div>
-          <p class="question-label">What makes it work?</p>
-          <textarea class="question-text" placeholder="Optional \u2014 what caught your eye?"></textarea>
-          <div class="question-actions">
-            <button class="q-save">Save</button>
-            <button class="q-skip">Skip</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  }
-
-  function insertQuestionCard(item) {
-    // Find the item's card in the grid and insert question card right after it
-    const itemCard = $grid.querySelector(`.card[data-slug="${item.slug}"]:not(.card-question)`);
-    const target = itemCard ? itemCard : $grid.querySelector('.masonry-section');
-    if (!target) return;
-
-    const temp = document.createElement('div');
-    temp.innerHTML = renderQuestionCardHtml(item);
-    const qCard = temp.firstElementChild;
-
-    if (itemCard) {
-      itemCard.after(qCard);
-    } else {
-      target.prepend(qCard);
-    }
-
-    bindQuestionCard(qCard, item);
-  }
-
-  function bindQuestionCard(qCard, item) {
-    // Toggle buttons
-    qCard.querySelectorAll('.q-toggle').forEach(btn => {
-      btn.addEventListener('click', (e) => { e.stopPropagation(); btn.classList.toggle('active'); });
-    });
-
-    // Prevent card click from toggling expansion
-    qCard.addEventListener('click', (e) => e.stopPropagation());
-
-    // Save
-    qCard.querySelector('.q-save').addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const selected = [...qCard.querySelectorAll('.q-toggle.active')].map(b => b.dataset.value);
-      const customReason = qCard.querySelector('.q-custom-reason').value.trim();
-      if (customReason) selected.push(customReason.toLowerCase().replace(/\s+/g, '-'));
-      const text = qCard.querySelector('.question-text').value;
-      await apiFetch('/api/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug: item.slug, why_saved: selected, what_works: text }),
-      });
-      dismissQuestionCard(qCard, item);
-    });
-
-    // Skip
-    qCard.querySelector('.q-skip').addEventListener('click', async (e) => {
-      e.stopPropagation();
-      await apiFetch('/api/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug: item.slug, why_saved: [], what_works: '' }),
-      });
-      dismissQuestionCard(qCard, item);
-    });
-  }
-
-  function dismissQuestionCard(qCard, item) {
-    qCard.remove();
-    pendingReviews = pendingReviews.filter(r => r.slug !== item.slug);
-  }
 
   // --- Toast notifications ---
   function showToast(msg) {
@@ -1813,6 +2094,9 @@
         // Lazy-load markdown for this panel
         const mdEl = body.querySelector('.card-expanded-md');
         loadMarkdownInto(mdEl);
+
+        // Wire up slider + capture form + snippet interactions.
+        bindPanelBody(body, item);
       });
 
       // Sync related-card highlights to open panels
@@ -2002,6 +2286,7 @@
     function close(index) {
       if (index < 0 || index >= state.slugs.length) return;
       const originSlug = state.originSlugs[index];
+      const closedSlug = state.slugs[index];
       state.slugs.splice(index, 1);
       state.originSlugs.splice(index, 1);
       state.originSlugs.push(null);
@@ -2025,6 +2310,9 @@
         const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(originSlug)}"]`);
         if (card) card.focus({ preventScroll: false });
       }
+
+      // If this panel was a curation step, advance the queue.
+      if (closedSlug) notifyCaptureSlugClosed(closedSlug);
     }
 
     function closeFocused() {
@@ -2221,13 +2509,86 @@
       const shared = sharedTagSet();
       const body = panel.querySelector('.panel-body');
       const footer = panel.querySelector('.panel-footer');
+
+      // Diff-aware refresh: don't stomp sections the user is actively
+      // editing. The slider, the candidate chips, and the footer tags are
+      // safe to re-render whenever the data changes. The capture form
+      // (q-toggle chips, q-custom-reason, question-text) holds in-flight
+      // input — only re-render it if it doesn't exist yet.
       if (body) {
-        body.innerHTML = buildPanelBodyHTML(item, shared);
+        // Slider: rebuild whenever images[] or candidate images change.
+        const slider = body.querySelector('.panel-image-slider');
+        if (slider) {
+          const nextHtml = renderPanelSliderHTML(item);
+          if (slider.outerHTML !== nextHtml) slider.outerHTML = nextHtml;
+        } else {
+          // First render didn't have a slider (no image + no candidates).
+          // Prepend one if we now have something to show.
+          const nextHtml = renderPanelSliderHTML(item);
+          if (nextHtml) body.insertAdjacentHTML('afterbegin', nextHtml);
+        }
+
+        // Capture form: only add it if missing; otherwise merge in any
+        // new suggested reason chips without touching the user's state.
+        const form = body.querySelector('.panel-capture-form');
+        if (!form) {
+          const snipWrap = body.querySelector('.panel-snippets');
+          const html = renderPanelCaptureFormHTML(item);
+          if (html) {
+            if (snipWrap) snipWrap.insertAdjacentHTML('beforebegin', html);
+            else body.insertAdjacentHTML('beforeend', html);
+          }
+        } else {
+          mergeSuggestedReasonChips(form, item);
+        }
+
+        // Snippets: re-render list + candidate chips. The "add" textarea
+        // gets wiped — capture its value first and restore.
+        const snipWrap = body.querySelector('.panel-snippets');
+        if (snipWrap) {
+          const pendingDraft = snipWrap.querySelector('.panel-snippet-add textarea')?.value || '';
+          snipWrap.outerHTML = renderPanelSnippetsHTML(item);
+          const restored = body.querySelector('.panel-snippet-add textarea');
+          if (restored && pendingDraft) restored.value = pendingDraft;
+        } else {
+          body.insertAdjacentHTML('beforeend', renderPanelSnippetsHTML(item));
+        }
+
+        // Markdown body: re-load if the raw markdown changed.
         const mdEl = body.querySelector('.card-expanded-md');
-        loadMarkdownInto(mdEl);
+        if (mdEl && !mdEl.dataset.loaded) loadMarkdownInto(mdEl);
+
+        // Re-bind handlers because we replaced DOM nodes.
+        bindPanelBody(body, item);
       }
       if (footer) {
         footer.innerHTML = buildPanelFooterHTML(item, shared);
+      }
+    }
+
+    // Merge any reason chips from enrichment_candidates.reasons that
+    // aren't already shown in the form. Preserves the active state of
+    // existing chips and any text typed into q-custom-reason / textarea.
+    function mergeSuggestedReasonChips(form, item) {
+      const reasons = (item.enrichment_candidates && Array.isArray(item.enrichment_candidates.reasons))
+        ? item.enrichment_candidates.reasons : [];
+      if (!reasons.length) return;
+      const options = form.querySelector('.question-options');
+      if (!options) return;
+      const have = new Set(
+        [...options.querySelectorAll('.q-toggle')].map(b => b.dataset.value)
+      );
+      const customInput = options.querySelector('.q-custom-reason');
+      for (const r of reasons) {
+        if (have.has(r)) continue;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'q-toggle q-toggle-suggested';
+        btn.dataset.value = r;
+        btn.title = 'Suggested';
+        btn.textContent = humanizeReason(r);
+        if (customInput) options.insertBefore(btn, customInput);
+        else options.appendChild(btn);
       }
     }
 
