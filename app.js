@@ -765,6 +765,13 @@
   }
 
   // ---- Panel slider (main image + thumbnails + upload tile) ----
+  // Two independent states:
+  //  - cover:   which image is item.images[*].is_primary (server truth)
+  //  - preview: which thumb is currently shown in the main area (client only)
+  // On load preview == cover. Clicking a thumb swaps preview only. Setting
+  // cover happens via (a) clicking an already-previewed thumb again OR
+  // (b) the "Set as cover" pill on the main image (only shown when
+  // preview != cover).
   function renderPanelSliderHTML(item) {
     const images = Array.isArray(item.images) ? item.images : [];
     const candidates = (item.enrichment_candidates && Array.isArray(item.enrichment_candidates.images))
@@ -775,33 +782,46 @@
       ? [{ path: item.image_path, source: 'og', is_primary: true }]
       : images;
 
-    const primary = seeded.find(i => i.is_primary) || seeded[0];
-    const mainSrc = primary?.path || '';
+    const cover = seeded.find(i => i.is_primary) || seeded[0];
+    const coverPath = cover?.path || '';
+    // Preview defaults to cover on initial render; click handlers keep
+    // it in sync with whichever thumb the user chose.
+    const previewPath = coverPath;
 
-    if (!mainSrc && !candidates.length) {
-      // No image at all: render upload-only affordance, unless nothing exists.
-      return `<div class="panel-image-slider" data-slug="${item.slug}">
+    if (!coverPath && !candidates.length) {
+      return `<div class="panel-image-slider" data-slug="${item.slug}" data-cover-path="">
         <div class="panel-image-main panel-image-empty"></div>
         <div class="panel-image-thumbs">${renderUploadTileHTML()}</div>
       </div>`;
     }
 
     const thumbs = [
-      ...seeded.map(img => renderThumbHTML(img, img.path === mainSrc)),
+      ...seeded.map(img => renderThumbHTML(img, {
+        isPreview: img.path === previewPath,
+        isCover: img.path === coverPath,
+      })),
       ...candidates
         .filter(c => !seeded.some(i => i.path === c.path))
         .map(c => renderCandidateThumbHTML(c)),
       renderUploadTileHTML(),
     ].join('');
 
-    return `<div class="panel-image-slider" data-slug="${item.slug}">
-      <div class="panel-image-main">${mainSrc ? `<img src="${escAttr(mainSrc)}" alt="${escAttr(primary?.label || '')}" data-primary-path="${escAttr(mainSrc)}">` : ''}</div>
+    return `<div class="panel-image-slider" data-slug="${item.slug}" data-cover-path="${escAttr(coverPath)}">
+      <div class="panel-image-main">
+        ${coverPath ? `<img src="${escAttr(previewPath)}" alt="${escAttr(cover?.label || '')}" data-preview-path="${escAttr(previewPath)}">` : ''}
+        ${renderSetAsCoverPillHTML(false)}
+      </div>
       <div class="panel-image-thumbs">${thumbs}</div>
     </div>`;
   }
 
-  function renderThumbHTML(img, isActive) {
-    const cls = `panel-image-thumb${isActive ? ' is-active' : ''}${img.source === 'manual' ? ' is-manual' : ''}`;
+  function renderThumbHTML(img, state) {
+    const { isPreview, isCover } = state || {};
+    const cls = [
+      'panel-image-thumb',
+      isPreview && 'is-active',
+      isCover && 'is-cover',
+    ].filter(Boolean).join(' ');
     return `<button type="button" class="${cls}" data-path="${escAttr(img.path)}" data-source="${escAttr(img.source || 'og')}" title="${escAttr(img.label || '')}"><img src="${escAttr(img.path)}" alt=""></button>`;
   }
 
@@ -809,6 +829,12 @@
     const path = cand.path || cand.url || '';
     if (!path) return '';
     return `<button type="button" class="panel-image-thumb is-candidate" data-path="${escAttr(path)}" data-source="extracted" title="${escAttr(cand.label || 'Suggested image')}"><img src="${escAttr(path)}" alt=""><span class="panel-image-thumb-add">+</span></button>`;
+  }
+
+  // Pill shown at bottom-right of the main image when the previewed
+  // thumb isn't the current cover. Styled to mirror .card-url-pill.
+  function renderSetAsCoverPillHTML(visible) {
+    return `<button type="button" class="panel-image-cover-btn${visible ? ' is-visible' : ''}" aria-label="Set as cover">Set as cover</button>`;
   }
 
   function renderUploadTileHTML() {
@@ -955,49 +981,70 @@
     if (!bodyEl || !item) return;
     const slug = item.slug;
 
-    // --- Slider: thumb click swaps main + marks primary ---
+    // --- Slider: thumb click = preview only; second click on the
+    // already-previewed thumb sets it as cover. Candidates (extracted
+    // images) are silently promoted into images[] on first click so
+    // their thumb survives refresh — but they are NOT auto-covered. ---
     bodyEl.addEventListener('click', async (e) => {
+      const coverBtn = e.target.closest('.panel-image-cover-btn');
+      if (coverBtn) {
+        e.preventDefault();
+        const previewImg = bodyEl.querySelector('.panel-image-main img');
+        const path = previewImg?.dataset.previewPath;
+        if (path) await setAsCover(bodyEl, slug, path);
+        return;
+      }
+
       const thumb = e.target.closest('.panel-image-thumb');
-      if (!thumb || thumb.classList.contains('panel-image-upload-tile')) return;
+      if (!thumb) return;
+      // Upload tile is a <label>, not a .panel-image-thumb — skip here.
+      if (thumb.classList.contains('panel-image-upload-tile')) return;
       const path = thumb.dataset.path;
       if (!path) return;
       e.preventDefault();
 
-      // Optimistic: swap the main img
-      const main = bodyEl.querySelector('.panel-image-main');
-      if (main) {
-        main.innerHTML = `<img src="${escAttr(path)}" alt="" data-primary-path="${escAttr(path)}">`;
+      const wasAlreadyPreviewed = thumb.classList.contains('is-active');
+      if (wasAlreadyPreviewed) {
+        // Second click on active thumb -> set as cover.
+        await setAsCover(bodyEl, slug, path);
+        return;
       }
-      bodyEl.querySelectorAll('.panel-image-thumb').forEach(t =>
-        t.classList.toggle('is-active', t.dataset.path === path));
-      // If it was a candidate, it's now promoted — remove the "+ add" badge look.
-      thumb.classList.remove('is-candidate');
-      const addBadge = thumb.querySelector('.panel-image-thumb-add');
-      if (addBadge) addBadge.remove();
 
-      const payload = { primary_image_path: path };
+      // First click -> swap preview only (no server round-trip for cover).
+      previewThumb(bodyEl, path);
+
+      // If this was a candidate, silently add it to images[] so it
+      // survives refresh. Don't touch cover.
       if (thumb.dataset.source === 'extracted') {
-        payload.add_image_paths = [path];
+        thumb.classList.remove('is-candidate');
+        const addBadge = thumb.querySelector('.panel-image-thumb-add');
+        if (addBadge) addBadge.remove();
+        postItemUpdate(slug, { add_image_paths: [path] });
       }
-      await postItemUpdate(slug, payload);
     });
 
-    // --- Upload tile: native <label>+<input> handles the picker; we only
-    // need the change handler to upload the chosen file. ---
-    const uploadInput = bodyEl.querySelector('.panel-image-upload-tile input[type="file"]');
-    if (uploadInput) {
-      uploadInput.addEventListener('change', async (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const base64 = await fileToBase64(file);
-        if (!base64) return;
-        const updated = await postItemUpdate(slug, {
-          manual_image_upload: { base64, mime: file.type || 'image/jpeg' },
-        });
-        if (updated) refreshSliderFrom(bodyEl, updated);
-        e.target.value = '';
+    // --- Upload: delegated change handler survives slider refreshes.
+    // Previously bound directly to the input, which was lost after
+    // refreshSliderFrom() replaced the slider's HTML. ---
+    bodyEl.addEventListener('change', async (e) => {
+      if (!e.target.matches('.panel-image-upload-tile input[type="file"]')) return;
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const base64 = await fileToBase64(file);
+      if (!base64) return;
+      const updated = await postItemUpdate(slug, {
+        manual_image_upload: { base64, mime: file.type || 'image/jpeg' },
       });
-    }
+      if (updated) {
+        refreshSliderFrom(bodyEl, updated);
+        // Preview the newly uploaded image (not the cover) so the user
+        // immediately sees what they just added, without overriding cover.
+        const newestManual = [...updated.images].reverse()
+          .find(i => i.source === 'manual');
+        if (newestManual) previewThumb(bodyEl, newestManual.path);
+      }
+      e.target.value = '';
+    });
 
     // --- Capture form: chips toggle locally; Save/Skip commit to server. ---
     const form = bodyEl.querySelector('.panel-capture-form');
@@ -1110,6 +1157,36 @@
     const slider = bodyEl.querySelector('.panel-image-slider');
     if (!slider) return;
     slider.outerHTML = renderPanelSliderHTML(item);
+  }
+
+  // Swap the main preview image locally (no server call). Marks the
+  // matching thumb .is-active and shows the "Set as cover" pill when
+  // the previewed image isn't the current cover.
+  function previewThumb(bodyEl, path) {
+    const slider = bodyEl.querySelector('.panel-image-slider');
+    if (!slider) return;
+    const main = slider.querySelector('.panel-image-main');
+    if (main) {
+      const img = main.querySelector('img');
+      if (img) {
+        img.src = path;
+        img.dataset.previewPath = path;
+      } else {
+        main.insertAdjacentHTML('afterbegin',
+          `<img src="${escAttr(path)}" alt="" data-preview-path="${escAttr(path)}">`);
+      }
+    }
+    slider.querySelectorAll('.panel-image-thumb').forEach(t =>
+      t.classList.toggle('is-active', t.dataset.path === path));
+
+    const coverPath = slider.dataset.coverPath || '';
+    const pill = slider.querySelector('.panel-image-cover-btn');
+    if (pill) pill.classList.toggle('is-visible', path !== coverPath);
+  }
+
+  async function setAsCover(bodyEl, slug, path) {
+    const updated = await postItemUpdate(slug, { primary_image_path: path });
+    if (updated) refreshSliderFrom(bodyEl, updated);
   }
 
   function refreshSnippetsFrom(bodyEl, item) {

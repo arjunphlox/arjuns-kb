@@ -1158,6 +1158,7 @@ body.resizing .panel { transition: none; }
   gap: 6px;
 }
 .panel-image-main {
+  position: relative;
   border-radius: 6px;
   overflow: hidden;
   background: var(--bg);
@@ -1231,7 +1232,9 @@ body.resizing .panel { transition: none; }
   justify-content: center;
   pointer-events: none;
 }
-.panel-image-thumb.is-manual::after {
+/* Cover-indicator dot sits on whichever thumb is currently is_primary,
+   so the user can always tell which image is the grid-card thumbnail. */
+.panel-image-thumb.is-cover::after {
   content: '';
   position: absolute;
   bottom: 3px;
@@ -1240,6 +1243,39 @@ body.resizing .panel { transition: none; }
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg-secondary);
+}
+
+/* "Set as cover" pill — only appears when the previewed thumb is not
+   the current cover. Style mirrors .card-url-pill from the grid. */
+.panel-image-cover-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px 10px;
+  border: 0;
+  border-radius: var(--pill-radius);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s, background 0.15s;
+}
+.panel-image-cover-btn.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.panel-image-cover-btn:hover {
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 .panel-image-upload-tile {
   flex-shrink: 0;
