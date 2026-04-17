@@ -3,7 +3,9 @@ const {
   fetchOGMetadata, downloadImage, extractDomain,
   generateTagsFromMetadata,
 } = require('./_lib/supabase');
-const { captureScreenshots } = require('./_lib/screenshots');
+// Puppeteer + @sparticuz/chromium is heavy; lazy-require only when we
+// actually need to capture screenshots so the require tree stays lean
+// (and other handlers that import this file via tests don't pull it in).
 
 /**
  * Re-run the full enrichment flow for an existing item:
@@ -104,6 +106,7 @@ module.exports = async function handler(req, res) {
   // returns; the poller can then pick them up in its next tick.
   if (item.source_url) {
     try {
+      const { captureScreenshots } = require('./_lib/screenshots');
       const shots = await captureScreenshots(item.source_url);
       if (shots.length) {
         // Load current images[] (may have been updated by OG backfill above
