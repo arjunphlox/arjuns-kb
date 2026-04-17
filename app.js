@@ -1489,6 +1489,18 @@
       renderGrid();
     });
 
+    // Scrollbar auto-hide for the grid column: flash in while actively
+    // scrolling, fade out ~700ms after the last scroll event.
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+      let scrollTimer;
+      mainContent.addEventListener('scroll', () => {
+        mainContent.classList.add('is-scrolling');
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => mainContent.classList.remove('is-scrolling'), 700);
+      }, { passive: true });
+    }
+
     // Tool panel toggles (Filters, Import, Settings)
     document.getElementById('filter-panel-btn')?.addEventListener('click', () => PanelManager.openTool('filters'));
     document.getElementById('import-btn')?.addEventListener('click', () => PanelManager.openTool('import'));

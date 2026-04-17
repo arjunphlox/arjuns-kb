@@ -365,7 +365,28 @@ html.arriving-from-login .header {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: padding-right 200ms ease;
 }
+/* Halve the right inset whenever a panel (item or tool) is open, so the
+   perceived gap between the grid and the panel stays ~24px instead of
+   stacking with .panels-container's own 24px padding. */
+.main-layout:has(.panel) .content-inner { padding-right: 12px; }
+
+/* Grid column scrollbar auto-hides; JS toggles .is-scrolling on scroll
+   events and removes it after a short idle. */
+.main-content::-webkit-scrollbar { width: 6px; }
+.main-content::-webkit-scrollbar-track { background: transparent; }
+.main-content::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.25s ease;
+}
+.main-content.is-scrolling::-webkit-scrollbar-thumb { background: var(--border); }
+.main-content.is-scrolling::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+/* Firefox fallback: thin scrollbar that inherits thumb color only
+   while actively scrolling. */
+.main-content { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.main-content.is-scrolling { scrollbar-color: var(--border) transparent; }
 
 /* === MASONRY GRID === */
 .grid-container {
