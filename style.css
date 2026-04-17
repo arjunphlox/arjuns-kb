@@ -336,12 +336,16 @@ html.arriving-from-login .header {
   border: 1px solid var(--color-dot-border);
 }
 
-/* === MAIN LAYOUT (main-content + panels) === */
+/* === MAIN LAYOUT (main-content + panels) ===
+   Layout is pinned to one viewport tall. The grid column owns its own
+   vertical scroll; panels always fit the viewport and scroll their
+   contents internally. Page body itself no longer scrolls. */
 .main-layout {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 .main-content {
   flex: 1 1 auto;
@@ -349,6 +353,7 @@ html.arriving-from-login .header {
   display: flex;
   flex-direction: column;
   align-items: center;  /* centers .content-inner within the main column without needing margin:auto */
+  overflow-y: auto;
 }
 
 /* === MAIN CONTENT INNER (header + grid share this wrapper's width/padding) === */
@@ -360,7 +365,28 @@ html.arriving-from-login .header {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: padding-right 200ms ease;
 }
+/* Halve the right inset whenever a panel (item or tool) is open, so the
+   perceived gap between the grid and the panel stays ~24px instead of
+   stacking with .panels-container's own 24px padding. */
+.main-layout:has(.panel) .content-inner { padding-right: 12px; }
+
+/* Grid column scrollbar auto-hides; JS toggles .is-scrolling on scroll
+   events and removes it after a short idle. */
+.main-content::-webkit-scrollbar { width: 6px; }
+.main-content::-webkit-scrollbar-track { background: transparent; }
+.main-content::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.25s ease;
+}
+.main-content.is-scrolling::-webkit-scrollbar-thumb { background: var(--border); }
+.main-content.is-scrolling::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+/* Firefox fallback: thin scrollbar that inherits thumb color only
+   while actively scrolling. */
+.main-content { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.main-content.is-scrolling { scrollbar-color: var(--border) transparent; }
 
 /* === MASONRY GRID === */
 .grid-container {
@@ -368,15 +394,15 @@ html.arriving-from-login .header {
   width: 100%;
 }
 
-/* === COMPARISON PANELS === */
+/* === COMPARISON PANELS ===
+   Height is dictated by the 100vh .main-layout; individual .panel-body
+   elements scroll internally when their content overflows. No sticky
+   positioning needed — align-items: stretch on the flex parent does it. */
 .panels-container {
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
-  height: 100vh;
+  height: 100%;
   padding: 24px 24px 24px 0;
   box-sizing: border-box;
 }
@@ -538,6 +564,73 @@ body.resizing .panel { transition: none; }
   letter-spacing: 0.02em;
 }
 
+/* Three-dot item menu — sits above the date in the footer's right column. */
+.panel-footer-menu {
+  position: relative;
+  align-self: flex-end;
+  margin-bottom: 6px;
+}
+.panel-footer-menu-trigger {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.panel-footer-menu-trigger svg { width: 16px; height: 16px; display: block; }
+.panel-footer-menu-trigger:hover {
+  background: var(--card-hover);
+  color: var(--text);
+}
+.panel-footer-menu-trigger[aria-expanded="true"] {
+  background: var(--card-hover);
+  color: var(--text);
+}
+.panel-footer-menu-popover {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 0;
+  min-width: 120px;
+  padding: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.panel-footer-menu-popover[hidden] { display: none; }
+.panel-footer-menu-item {
+  width: 100%;
+  padding: 6px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.75rem;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.panel-footer-menu-item:hover { background: var(--card-hover); }
+.panel-footer-menu-item.is-danger { color: #e5484d; }
+.panel-footer-menu-item.is-danger:hover { background: rgba(229, 72, 77, 0.12); }
+/* Armed (pre-confirm) state of the two-step delete — keep the red but
+   give a slightly stronger tint so the shift is legible. */
+.panel-footer-menu-item.is-danger[data-step="1"] {
+  background: rgba(229, 72, 77, 0.18);
+  font-weight: 500;
+}
+
 .panel-body.panel-body-swapping { opacity: 0; transition: opacity 150ms ease-out; }
 
 /* Image at top of panel body — same inset as content, rounded */
@@ -664,10 +757,15 @@ body.resizing .panel { transition: none; }
   overflow: visible;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  break-inside: avoid;
+  /* Triple-barreled break control: modern + WebKit legacy + page-level fallback.
+     Without all three, Safari and long cards with ::before indicators can still
+     fragment across columns when the selection state changes layout. */
+  break-inside: avoid-column;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   margin-bottom: 24px;
   /* column-count layout applies width automatically */
-  display: block;
+  display: inline-block;
   width: 100%;
 }
 
@@ -930,10 +1028,6 @@ body.resizing .panel { transition: none; }
   .header { top: 12px; }
 }
 
-/* Panels responsive: under 1200px, only one panel at a time */
-@media (max-width: 1200px) {
-  .panels-container { position: static; height: auto; }
-}
 /* Under 768px, panels become full-screen overlays */
 @media (max-width: 768px) {
   .panels-container {
@@ -1036,9 +1130,13 @@ body.resizing .panel { transition: none; }
   50% { opacity: 0.8; }
 }
 
-/* === QUESTION CARD (in-grid) === */
-.card-question {
-  border-color: var(--accent) !important;
+/* === CAPTURE FORM (why-saved + what-works; inline in the item panel) === */
+.panel-capture-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--border);
 }
 .question-form {
   display: flex;
@@ -1134,6 +1232,293 @@ body.resizing .panel { transition: none; }
   color: var(--text-dim);
 }
 .q-skip:hover { color: var(--text-secondary); }
+
+/* Suggested-reason chips are subtly distinct from presets. */
+.q-toggle-suggested {
+  border-style: dashed;
+}
+
+/* === PANEL IMAGE SLIDER === */
+.panel-image-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.panel-image-main {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg);
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel-image-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.panel-image-empty {
+  opacity: 0.3;
+  background-image: repeating-linear-gradient(45deg, var(--border), var(--border) 2px, transparent 2px, transparent 8px);
+}
+.panel-image-thumbs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 4px;
+  scrollbar-width: thin;
+}
+.panel-image-thumbs::-webkit-scrollbar { height: 4px; }
+.panel-image-thumbs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.panel-image-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.panel-image-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.panel-image-thumb:hover { border-color: var(--text-dim); }
+.panel-image-thumb.is-active {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent-subtle);
+  outline-offset: 0;
+}
+.panel-image-thumb.is-candidate {
+  opacity: 0.75;
+  border-style: dashed;
+}
+.panel-image-thumb.is-candidate:hover { opacity: 1; }
+.panel-image-thumb-add {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 0.75rem;
+  line-height: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+/* Cover-indicator dot sits on whichever thumb is currently is_primary.
+   Its color is set by JS (--dot-color) based on the image's average
+   luminance — black on bright thumbs, white on dark — so it stays
+   visible against any cover. Falls back to accent when JS hasn't run
+   or the image is cross-origin-tainted. */
+.panel-image-thumb.is-cover::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot-color, var(--accent));
+}
+
+/* Icon-button action group on the main preview: Set as cover
+   (crosshair) and Remove image (trash, red). 20px circles w/ 16px
+   icons; share the .card-url-pill translucent-dark backdrop. */
+.panel-image-actions {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+.panel-image-action-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.panel-image-action-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.panel-image-action-btn:hover {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.panel-image-action-btn.is-danger {
+  color: #e5484d;
+}
+.panel-image-action-btn.is-danger:hover {
+  background: #e5484d;
+  color: #ffffff;
+}
+.panel-image-upload-tile {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.panel-image-upload-tile:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* === PANEL SNIPPETS === */
+.panel-snippets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.panel-snippet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.panel-snippet-empty {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.panel-snippet-row {
+  position: relative;
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 8px 30px 8px 12px;
+}
+.panel-snippet-row blockquote {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text);
+  border-left: 2px solid var(--accent);
+  padding-left: 8px;
+}
+.panel-snippet-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+.panel-snippet-row:hover .panel-snippet-remove { opacity: 1; }
+.panel-snippet-remove:hover {
+  color: var(--text);
+  background: var(--card-hover);
+}
+.panel-snippet-candidates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.panel-snippet-candidate {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--text-dim);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  text-align: left;
+  cursor: pointer;
+  max-width: 100%;
+  line-height: 1.3;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.panel-snippet-candidate:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.panel-snippet-candidate .plus {
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.panel-snippet-add {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.panel-snippet-add textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  resize: vertical;
+  min-height: 32px;
+  font-family: inherit;
+}
+.panel-snippet-add textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.panel-snippet-add-btn {
+  align-self: flex-end;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.panel-snippet-add-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
 
 /* === TOAST === */
 .toast {
