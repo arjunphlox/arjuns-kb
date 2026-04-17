@@ -60,27 +60,33 @@ module.exports = async function handler(req, res) {
   }
 
   // --- Manual image upload -> push onto images[] + mark primary if first ---
+  // Convert non-WebP uploads to WebP before storing. If the input is
+  // already WebP, ensureWebp() is a no-op — no extra work.
   if (body.manual_image_upload && body.manual_image_upload.base64) {
-    const mime = (body.manual_image_upload.mime || 'image/jpeg').toLowerCase();
-    const ext = mime.includes('png') ? '.png' : mime.includes('webp') ? '.webp' : '.jpg';
-    const n = images.length;
-    const buffer = Buffer.from(body.manual_image_upload.base64, 'base64');
-    const storagePath = `${user.id}/${slug}/manual-${Date.now()}-${n}${ext}`;
-    const { error: upErr } = await client.storage
-      .from('item-images')
-      .upload(storagePath, buffer, { contentType: mime, upsert: true });
-    if (!upErr) {
-      const { data: urlData } = client.storage.from('item-images').getPublicUrl(storagePath);
-      if (urlData?.publicUrl) {
-        images.push({
-          path: urlData.publicUrl,
-          label: body.manual_image_upload.label || null,
-          source: 'manual',
-          is_primary: images.length === 0,
-        });
+    try {
+      const { ensureWebp } = require('./_lib/webp');
+      const rawBuffer = Buffer.from(body.manual_image_upload.base64, 'base64');
+      const converted = await ensureWebp(rawBuffer, { maxWidth: 2400 });
+      const n = images.length;
+      const storagePath = `${user.id}/${slug}/manual-${Date.now()}-${n}${converted.ext}`;
+      const { error: upErr } = await client.storage
+        .from('item-images')
+        .upload(storagePath, converted.buffer, { contentType: converted.mime, upsert: true });
+      if (!upErr) {
+        const { data: urlData } = client.storage.from('item-images').getPublicUrl(storagePath);
+        if (urlData?.publicUrl) {
+          images.push({
+            path: urlData.publicUrl,
+            label: body.manual_image_upload.label || null,
+            source: 'manual',
+            is_primary: images.length === 0,
+          });
+        }
+      } else {
+        console.warn('item-update: manual image upload failed', slug, upErr.message);
       }
-    } else {
-      console.warn('item-update: manual image upload failed', slug, upErr.message);
+    } catch (err) {
+      console.warn('item-update: manual image conversion failed', slug, err.message);
     }
   }
 

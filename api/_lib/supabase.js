@@ -174,7 +174,14 @@ async function fetchOGMetadata(url) {
   }
 }
 
-/** Download image from URL and return { buffer, ext } or null */
+/**
+ * Download image from URL and return `{ buffer, ext, mime }` as WebP.
+ *
+ * Every image that enters Stello is normalized to WebP at ingest time so
+ * the storage bucket is a single format and the frontend doesn't need
+ * to juggle extensions. If conversion fails we drop the image — the
+ * previous "keep original" fallback made the format invariant fragile.
+ */
 async function downloadImage(imageUrl) {
   try {
     const controller = new AbortController();
@@ -195,23 +202,24 @@ async function downloadImage(imageUrl) {
       return null;
     }
 
-    const buffer = Buffer.from(await resp.arrayBuffer());
+    const raw = Buffer.from(await resp.arrayBuffer());
     // 500-byte floor catches transparent 1x1 trackers while keeping small
-    // favicons and minimal SVG exports. The old 1000-byte cutoff was dropping
-    // valid hero images served through compressing CDNs.
-    if (buffer.length < 500) {
-      console.warn('downloadImage: buffer too small', imageUrl, buffer.length);
+    // favicons and minimal SVG exports.
+    if (raw.length < 500) {
+      console.warn('downloadImage: buffer too small', imageUrl, raw.length);
       return null;
     }
 
-    const contentType = resp.headers.get('content-type') || '';
-    let ext = '.jpg';
-    if (contentType.includes('png')) ext = '.png';
-    else if (contentType.includes('webp')) ext = '.webp';
-    else if (imageUrl.match(/\.png(\?|$)/i)) ext = '.png';
-    else if (imageUrl.match(/\.webp(\?|$)/i)) ext = '.webp';
-
-    return { buffer, ext };
+    try {
+      const { ensureWebp } = require('./webp');
+      // Cap at a sane max width — we serve these in 56px thumbs and
+      // up to a few hundred pixels in the panel; anything huge is waste.
+      const converted = await ensureWebp(raw, { maxWidth: 2400 });
+      return converted;
+    } catch (err) {
+      console.warn('downloadImage: webp conversion failed', imageUrl, err.message);
+      return null;
+    }
   } catch {
     return null;
   }
