@@ -995,6 +995,10 @@
     if (!bodyEl || !item) return;
     const slug = item.slug;
 
+    // Compute cover-dot luminance after initial render so the dot sits
+    // in either black or white depending on the thumb's brightness.
+    updateCoverDotColor(bodyEl.querySelector('.panel-image-slider'));
+
     // --- Slider: thumb click is always preview-only. Cover is set
     // exclusively by the "Set as cover" pill. Candidate thumbs are
     // silently promoted into images[] on click so they survive refresh. ---
@@ -1170,6 +1174,7 @@
     const slider = bodyEl.querySelector('.panel-image-slider');
     if (!slider) return;
     slider.outerHTML = renderPanelSliderHTML(item);
+    updateCoverDotColor(bodyEl.querySelector('.panel-image-slider'));
   }
 
   // Swap the main preview image locally (no server call). Marks the
@@ -1202,6 +1207,55 @@
   async function removeImage(bodyEl, slug, path) {
     const updated = await postItemUpdate(slug, { remove_image_paths: [path] });
     if (updated) refreshSliderFrom(bodyEl, updated);
+  }
+
+  // ---- Cover-dot color: black on bright images, white on dark ones.
+  // Results are cached by image URL since thumbnails never change their
+  // pixel data, only their .is-cover membership.
+  const _brightnessCache = new Map();
+
+  function updateCoverDotColor(slider) {
+    if (!slider) return;
+    const coverThumb = slider.querySelector('.panel-image-thumb.is-cover');
+    if (!coverThumb) return;
+    const src = coverThumb.querySelector('img')?.src;
+    if (!src) return;
+
+    const apply = (luminance) => {
+      // WCAG says 128 on a 0-255 scale is the naive midpoint; in practice
+      // dot visibility flips a bit earlier against busy backgrounds, so
+      // err toward white at moderate brightness.
+      const color = luminance > 140 ? '#000' : '#fff';
+      coverThumb.style.setProperty('--dot-color', color);
+    };
+
+    if (_brightnessCache.has(src)) { apply(_brightnessCache.get(src)); return; }
+
+    // Use a fresh crossOrigin image so we can read canvas pixels. If the
+    // storage CDN doesn't send CORS headers, the load will fail and we
+    // just leave the default color.
+    const probe = new Image();
+    probe.crossOrigin = 'anonymous';
+    probe.onload = () => {
+      try {
+        const w = 16, h = 16;
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(probe, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+        let r = 0, g = 0, b = 0, n = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+        }
+        // Rec. 601 luma coefficients — matches how the eye weights channels.
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / n;
+        _brightnessCache.set(src, luminance);
+        apply(luminance);
+      } catch { /* tainted canvas, leave default */ }
+    };
+    probe.onerror = () => { /* CORS or 404 — leave default */ };
+    probe.src = src;
   }
 
   // ---- Three-dot footer menu (Enrich + Delete) ----

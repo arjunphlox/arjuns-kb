@@ -1299,9 +1299,11 @@ body.resizing .panel { transition: none; }
   justify-content: center;
   pointer-events: none;
 }
-/* Cover-indicator dot sits on whichever thumb is currently is_primary,
-   so the user can always tell which image is the grid-card thumbnail.
-   Moves only when the "Set as cover" pill is clicked. */
+/* Cover-indicator dot sits on whichever thumb is currently is_primary.
+   Its color is set by JS (--dot-color) based on the image's average
+   luminance — black on bright thumbs, white on dark — so it stays
+   visible against any cover. Falls back to accent when JS hasn't run
+   or the image is cross-origin-tainted. */
 .panel-image-thumb.is-cover::after {
   content: '';
   position: absolute;
@@ -1310,7 +1312,7 @@ body.resizing .panel { transition: none; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--dot-color, var(--accent));
 }
 
 /* Icon-button action group on the main preview: Set as cover
