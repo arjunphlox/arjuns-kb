@@ -538,6 +538,73 @@ body.resizing .panel { transition: none; }
   letter-spacing: 0.02em;
 }
 
+/* Three-dot item menu — sits above the date in the footer's right column. */
+.panel-footer-menu {
+  position: relative;
+  align-self: flex-end;
+  margin-bottom: 6px;
+}
+.panel-footer-menu-trigger {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.panel-footer-menu-trigger svg { width: 16px; height: 16px; display: block; }
+.panel-footer-menu-trigger:hover {
+  background: var(--card-hover);
+  color: var(--text);
+}
+.panel-footer-menu-trigger[aria-expanded="true"] {
+  background: var(--card-hover);
+  color: var(--text);
+}
+.panel-footer-menu-popover {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 0;
+  min-width: 120px;
+  padding: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.panel-footer-menu-popover[hidden] { display: none; }
+.panel-footer-menu-item {
+  width: 100%;
+  padding: 6px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.75rem;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.panel-footer-menu-item:hover { background: var(--card-hover); }
+.panel-footer-menu-item.is-danger { color: #e5484d; }
+.panel-footer-menu-item.is-danger:hover { background: rgba(229, 72, 77, 0.12); }
+/* Armed (pre-confirm) state of the two-step delete — keep the red but
+   give a slightly stronger tint so the shift is legible. */
+.panel-footer-menu-item.is-danger[data-step="1"] {
+  background: rgba(229, 72, 77, 0.18);
+  font-weight: 500;
+}
+
 .panel-body.panel-body-swapping { opacity: 0; transition: opacity 150ms ease-out; }
 
 /* Image at top of panel body — same inset as content, rounded */

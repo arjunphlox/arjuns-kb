@@ -958,6 +958,13 @@
 
     return `<div class="panel-footer-tags">${tagPills}</div>
       <div class="panel-footer-date">
+        <div class="panel-footer-menu">
+          <button type="button" class="panel-footer-menu-trigger" aria-label="Item actions" aria-haspopup="true" aria-expanded="false">${icon('dots-three')}</button>
+          <div class="panel-footer-menu-popover" role="menu" hidden>
+            <button type="button" class="panel-footer-menu-item js-enrich" role="menuitem">Enrich</button>
+            <button type="button" class="panel-footer-menu-item is-danger js-delete" role="menuitem" data-step="0">Delete</button>
+          </div>
+        </div>
         ${date ? `<div class="panel-footer-date-main">${date}</div>` : ''}
         ${week ? `<div class="panel-footer-date-week">${week}</div>` : ''}
       </div>`;
@@ -1195,6 +1202,102 @@
   async function removeImage(bodyEl, slug, path) {
     const updated = await postItemUpdate(slug, { remove_image_paths: [path] });
     if (updated) refreshSliderFrom(bodyEl, updated);
+  }
+
+  // ---- Three-dot footer menu (Enrich + Delete) ----
+  function bindPanelFooterMenu(footerEl, item, panelIndex) {
+    const trigger = footerEl.querySelector('.panel-footer-menu-trigger');
+    const popover = footerEl.querySelector('.panel-footer-menu-popover');
+    const deleteBtn = footerEl.querySelector('.js-delete');
+    const enrichBtn = footerEl.querySelector('.js-enrich');
+    if (!trigger || !popover) return;
+
+    const slug = item.slug;
+
+    const closeMenu = () => {
+      popover.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      // Reset the delete two-step any time the menu closes.
+      if (deleteBtn) {
+        deleteBtn.dataset.step = '0';
+        deleteBtn.textContent = 'Delete';
+      }
+    };
+
+    const openMenu = () => {
+      popover.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+    };
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (popover.hidden) openMenu(); else closeMenu();
+    });
+
+    // Outside click / Escape dismiss the menu without firing destructive steps.
+    const outsideHandler = (e) => {
+      if (popover.hidden) return;
+      if (footerEl.contains(e.target)) return;
+      closeMenu();
+    };
+    document.addEventListener('click', outsideHandler);
+    document.addEventListener('keydown', (e) => {
+      if (!popover.hidden && e.key === 'Escape') closeMenu();
+    });
+
+    if (enrichBtn) {
+      enrichBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        closeMenu();
+        showToast('Enriching…');
+        try {
+          const res = await apiFetch('/api/reenrich', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug }),
+          });
+          if (!res.ok) throw new Error('Enrich request failed');
+          // Poll for enrichment completion so the panel + grid update live.
+          if (typeof pollForEnrichment === 'function') pollForEnrichment(slug);
+          showToast('Enriching in background…');
+        } catch (err) {
+          showToast('Enrich failed: ' + (err.message || 'unknown'));
+        }
+      });
+    }
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (deleteBtn.dataset.step !== '1') {
+          // First click -> arm for confirmation.
+          deleteBtn.dataset.step = '1';
+          deleteBtn.textContent = 'Confirm delete';
+          return;
+        }
+        // Second click -> execute.
+        try {
+          const res = await apiFetch('/api/item-delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug }),
+          });
+          if (!res.ok) throw new Error('Delete failed');
+          // Locally remove: card, lookups, open panel.
+          const card = document.querySelector(`.card[data-slug="${CSS.escape(slug)}"]`);
+          if (card) card.remove();
+          const idx = allItems.findIndex(i => i.slug === slug);
+          if (idx >= 0) allItems.splice(idx, 1);
+          delete itemsBySlug[slug];
+          renderStats();
+          PanelManager.close(panelIndex);
+          showToast('Deleted');
+        } catch (err) {
+          showToast('Delete failed: ' + (err.message || 'unknown'));
+          closeMenu();
+        }
+      });
+    }
   }
 
   function refreshSnippetsFrom(bodyEl, item) {
@@ -2187,6 +2290,8 @@
 
         // Wire up slider + capture form + snippet interactions.
         bindPanelBody(body, item);
+        // Wire up the three-dot footer menu (Enrich + Delete).
+        bindPanelFooterMenu(footer, item, i);
       });
 
       // Sync related-card highlights to open panels
