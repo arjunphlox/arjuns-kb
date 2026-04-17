@@ -1,16 +1,17 @@
-const puppeteerCore = require('puppeteer-core');
-
 /**
  * Full-page screenshots at three responsive widths, returned as WebP
  * buffers. Designed for /api/reenrich so the panel slider can surface
  * 1440w / 640w / 360w captures alongside OG + manual images.
  *
- * On Vercel / Lambda we rely on @sparticuz/chromium's bundled binary.
- * On macOS dev the package can't provide a binary, so we look for an
- * explicit `PUPPETEER_EXECUTABLE_PATH` (fallback: the default install
- * location of Chrome) and use puppeteer-core against it. If neither is
- * available the helper returns [] rather than throwing — Enrich
- * succeeds without screenshots.
+ * Every heavy dependency is lazy-required inside launchBrowser so the
+ * module loads even when puppeteer-core / @sparticuz/chromium aren't
+ * installed (e.g. Vercel bundles that exclude chromium for size). If
+ * the load throws, launchBrowser returns null and captureScreenshots
+ * returns [] — Enrich succeeds without screenshots.
+ *
+ * Set STELLO_DISABLE_SCREENSHOTS=1 to skip attempting the launch
+ * entirely (useful for Vercel Hobby where the bundle doesn't include
+ * chromium).
  */
 const DEFAULT_WIDTHS = [1440, 640, 360];
 
@@ -55,10 +56,17 @@ async function captureScreenshots(url, opts = {}) {
 }
 
 async function launchBrowser() {
+  if (process.env.STELLO_DISABLE_SCREENSHOTS === '1') return null;
   const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
   try {
+    let puppeteerCore;
+    try { puppeteerCore = require('puppeteer-core'); }
+    catch { console.warn('screenshots: puppeteer-core not installed'); return null; }
+
     if (isServerless) {
-      const chromium = require('@sparticuz/chromium');
+      let chromium;
+      try { chromium = require('@sparticuz/chromium'); }
+      catch { console.warn('screenshots: @sparticuz/chromium not installed'); return null; }
       return await puppeteerCore.launch({
         args: chromium.args,
         defaultViewport: { width: 1440, height: 900 },
