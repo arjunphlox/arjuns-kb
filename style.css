@@ -1233,7 +1233,8 @@ body.resizing .panel { transition: none; }
   pointer-events: none;
 }
 /* Cover-indicator dot sits on whichever thumb is currently is_primary,
-   so the user can always tell which image is the grid-card thumbnail. */
+   so the user can always tell which image is the grid-card thumbnail.
+   Moves only when the "Set as cover" pill is clicked. */
 .panel-image-thumb.is-cover::after {
   content: '';
   position: absolute;
@@ -1243,11 +1244,11 @@ body.resizing .panel { transition: none; }
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 2px var(--bg-secondary);
 }
 
-/* "Set as cover" pill — only appears when the previewed thumb is not
-   the current cover. Style mirrors .card-url-pill from the grid. */
+/* "Set as cover" pill — always visible on the main preview regardless
+   of which thumb is previewed. Clicking it promotes the previewed
+   image to the cover. Style mirrors .card-url-pill from the grid. */
 .panel-image-cover-btn {
   position: absolute;
   bottom: 8px;
@@ -1263,15 +1264,7 @@ body.resizing .panel { transition: none; }
   -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
   z-index: 3;
-  opacity: 0;
-  transform: translateY(4px);
-  pointer-events: none;
-  transition: opacity 0.15s, transform 0.15s, background 0.15s;
-}
-.panel-image-cover-btn.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  transition: background 0.15s, color 0.15s;
 }
 .panel-image-cover-btn:hover {
   background: var(--accent);

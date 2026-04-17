@@ -809,7 +809,7 @@
     return `<div class="panel-image-slider" data-slug="${item.slug}" data-cover-path="${escAttr(coverPath)}">
       <div class="panel-image-main">
         ${coverPath ? `<img src="${escAttr(previewPath)}" alt="${escAttr(cover?.label || '')}" data-preview-path="${escAttr(previewPath)}">` : ''}
-        ${renderSetAsCoverPillHTML(false)}
+        ${renderSetAsCoverPillHTML(true)}
       </div>
       <div class="panel-image-thumbs">${thumbs}</div>
     </div>`;
@@ -981,10 +981,9 @@
     if (!bodyEl || !item) return;
     const slug = item.slug;
 
-    // --- Slider: thumb click = preview only; second click on the
-    // already-previewed thumb sets it as cover. Candidates (extracted
-    // images) are silently promoted into images[] on first click so
-    // their thumb survives refresh — but they are NOT auto-covered. ---
+    // --- Slider: thumb click is always preview-only. Cover is set
+    // exclusively by the "Set as cover" pill. Candidate thumbs are
+    // silently promoted into images[] on click so they survive refresh. ---
     bodyEl.addEventListener('click', async (e) => {
       const coverBtn = e.target.closest('.panel-image-cover-btn');
       if (coverBtn) {
@@ -997,24 +996,15 @@
 
       const thumb = e.target.closest('.panel-image-thumb');
       if (!thumb) return;
-      // Upload tile is a <label>, not a .panel-image-thumb — skip here.
       if (thumb.classList.contains('panel-image-upload-tile')) return;
       const path = thumb.dataset.path;
       if (!path) return;
       e.preventDefault();
 
-      const wasAlreadyPreviewed = thumb.classList.contains('is-active');
-      if (wasAlreadyPreviewed) {
-        // Second click on active thumb -> set as cover.
-        await setAsCover(bodyEl, slug, path);
-        return;
-      }
-
-      // First click -> swap preview only (no server round-trip for cover).
+      // Swap preview only — never touch cover from a thumb click.
       previewThumb(bodyEl, path);
 
-      // If this was a candidate, silently add it to images[] so it
-      // survives refresh. Don't touch cover.
+      // Promote candidates to images[] so they stick (without changing cover).
       if (thumb.dataset.source === 'extracted') {
         thumb.classList.remove('is-candidate');
         const addBadge = thumb.querySelector('.panel-image-thumb-add');
@@ -1160,8 +1150,9 @@
   }
 
   // Swap the main preview image locally (no server call). Marks the
-  // matching thumb .is-active and shows the "Set as cover" pill when
-  // the previewed image isn't the current cover.
+  // matching thumb .is-active. The "Set as cover" pill is always visible
+  // (even when previewing the current cover) so the action is consistent
+  // for every image in the slider.
   function previewThumb(bodyEl, path) {
     const slider = bodyEl.querySelector('.panel-image-slider');
     if (!slider) return;
@@ -1178,10 +1169,6 @@
     }
     slider.querySelectorAll('.panel-image-thumb').forEach(t =>
       t.classList.toggle('is-active', t.dataset.path === path));
-
-    const coverPath = slider.dataset.coverPath || '';
-    const pill = slider.querySelector('.panel-image-cover-btn');
-    if (pill) pill.classList.toggle('is-visible', path !== coverPath);
   }
 
   async function setAsCover(bodyEl, slug, path) {
