@@ -937,7 +937,9 @@ body.resizing .panel { transition: none; }
 
 /* Panels responsive: under 1200px, only one panel at a time */
 @media (max-width: 1200px) {
-  .panels-container { position: static; height: auto; }
+  /* Drop sticky but keep viewport-tall so the panel body fills the column;
+     without min-height the flex-start alignment collapses it to content. */
+  .panels-container { position: static; height: auto; min-height: 100vh; align-self: stretch; }
 }
 /* Under 768px, panels become full-screen overlays */
 @media (max-width: 768px) {
