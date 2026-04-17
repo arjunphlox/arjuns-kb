@@ -9,14 +9,8 @@
     }
   ],
   "functions": {
-    "api/reenrich.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/enrich.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
+    "api/reenrich.js": { "maxDuration": 60 },
+    "api/enrich.js": { "maxDuration": 60 }
   },
   "headers": [
     {
