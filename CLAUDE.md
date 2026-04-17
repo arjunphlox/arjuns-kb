@@ -2,6 +2,23 @@
 
 Personal knowledge base — a rich item analysis and discovery tool with weighted tags, masonry grid UI, and content organization.
 
+## AI Coding Workflow
+
+This repo follows Arjun's hybrid AI coding workflow (Claude Code + Cursor + Codex). See the full spec: https://github.com/arjunphlox/arjun-ai-gems/blob/main/ai-workflow-orchestration.md
+
+**Tool-per-phase:**
+- **Claude Code** — research, planning, architecture, large refactors, MCP-heavy tasks, visual QA. Default tool.
+- **Cursor** — tight-loop IDE editing, UI polish, inline refactors where Tab / Cmd-K velocity matters.
+- **Codex** — async parallel work, mechanical-at-scale (test generation, dependency bumps, find/replace across many files).
+
+**Branch prefixes** (keeps parallel work from colliding):
+- `claude/*` — work done in Claude Code
+- `cursor/*` — work done in Cursor
+- `codex/*` — work done in Codex
+- `feature/*`, `fix/*` — human-authored or mixed
+
+**BACKLOG schema:** `| Task | Tool | Platform | Model | Status |` — every task gets tool / platform / reasoning-tier classified at capture time. Use `/to-do` to add tasks; it auto-classifies.
+
 ## Dev Commands
 
 - `npm run dev` (or `node scripts/local-dev.js`) — zero-dep router that serves static files and routes `/api/:path` to `api/:path.js` handlers. Loads env from `.env.local` (copy `.env.example`). Preferred for everyday dev — no Vercel login needed.
