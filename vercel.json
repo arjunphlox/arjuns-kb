@@ -8,6 +8,16 @@
       "schedule": "0 0 * * *"
     }
   ],
+  "functions": {
+    "api/reenrich.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/enrich.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
