@@ -56,6 +56,7 @@
           <p class="login-error" id="login-error" aria-live="polite"></p>
           <input type="email" class="login-input" id="login-email" placeholder="Email" required autocomplete="email">
           <input type="password" class="login-input" id="login-password" placeholder="Password" required autocomplete="current-password">
+          <button type="button" class="login-forgot" id="login-forgot">Forgot?</button>
           <button type="submit" class="login-submit" id="login-submit">Sign in</button>
         </form>
       </div>
@@ -81,6 +82,7 @@
   const $appleBtn = document.getElementById('apple-login');
   const $back = document.getElementById('login-back');
   const $action = document.getElementById('login-action');
+  const $forgot = document.getElementById('login-forgot');
 
   // --- Action-word shuffle in superscript ---
   // Gives the login page a hint at what Stello does without requiring
@@ -143,7 +145,34 @@
     isSignUp = !isSignUp;
     $submit.textContent = isSignUp ? 'Create account' : 'Sign in';
     $switch.textContent = isSignUp ? 'Already have an account?' : 'Create account';
+    // "Forgot?" only makes sense when signing in.
+    $forgot.style.display = isSignUp ? 'none' : '';
     $error.textContent = '';
+  });
+
+  // Forgot password — sends a recovery email to the address in the email
+  // field. Reuses the error slot to surface the success message in the
+  // accent-contrast color (same pattern as the sign-up "check your email"
+  // confirmation).
+  $forgot.addEventListener('click', async () => {
+    const email = $email.value.trim();
+    if (!email) {
+      $error.style.color = '';
+      $error.textContent = 'Enter your email first.';
+      $email.focus();
+      return;
+    }
+    $forgot.disabled = true;
+    $error.textContent = '';
+    const { error } = await Stello.requestPasswordReset(email);
+    $forgot.disabled = false;
+    if (error) {
+      $error.style.color = '';
+      $error.textContent = error;
+      return;
+    }
+    $error.style.color = 'var(--accent-contrast)';
+    $error.textContent = 'Check your email for a reset link.';
   });
 
   // Email form submit

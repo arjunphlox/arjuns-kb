@@ -115,6 +115,35 @@
   }
 
   /**
+   * Send a password-reset email. The link in the email points the user at
+   * `/reset-password.html`, where supabase-js auto-detects the recovery
+   * hash and sets up a temporary session for `updatePassword()`.
+   * Note: the redirect URL must be allowlisted in Supabase
+   * (Authentication → URL Configuration → Redirect URLs).
+   */
+  async function requestPasswordReset(email) {
+    const client = getClient();
+    if (!client) return { error: 'Client not initialized' };
+    const { error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password.html'
+    });
+    if (error) return { error: error.message };
+    return { error: null };
+  }
+
+  /**
+   * Update the current user's password. Used on `/reset-password.html`
+   * after a recovery link has established a session via the URL hash.
+   */
+  async function updatePassword(newPassword) {
+    const client = getClient();
+    if (!client) return { error: 'Client not initialized' };
+    const { error } = await client.auth.updateUser({ password: newPassword });
+    if (error) return { error: error.message };
+    return { error: null };
+  }
+
+  /**
    * Sign out and redirect to login.
    */
   async function signOut() {
@@ -172,6 +201,8 @@
     signInWithApple,
     signInWithEmail,
     signUpWithEmail,
+    requestPasswordReset,
+    updatePassword,
     signOut,
     checkForUpdate,
     initAuthListener
