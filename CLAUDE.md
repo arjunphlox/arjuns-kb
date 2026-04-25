@@ -102,3 +102,5 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 - 2026-04-17 · Image removal deletes from Supabase storage and from images[] together · storage orphans are cheap to clean up later, but a broken DB row isn't, so storage errors are logged but non-blocking
 - 2026-04-17 · Page body doesn't scroll; `.main-layout` is 100vh with `.main-content` as the scroll container · panels stay viewport-tall without sticky hacks, scroll position is independent from panel state
 - 2026-04-17 · Grid column right-padding collapses 24 → 12 when any panel is open (`:has(.panel)`) · the panels-container already adds 24px padding; stacking both gave a perceptual 48px gap
+- 2026-04-25 · Password reset is fully client-side via `auth.resetPasswordForEmail` + `auth.updateUser` · no new serverless function (Hobby cap is 12, we were at 12); `/reset-password.html` is the recovery-link landing
+- 2026-04-25 · `reset-password.html` enables submit on the `PASSWORD_RECOVERY` auth event with a 600ms session-check fallback · users who land directly (no hash, stale tab) see "invalid or expired" instead of a silently-disabled form
