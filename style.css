@@ -1855,6 +1855,23 @@ body.resizing .panel { transition: none; }
 .login-submit:hover { opacity: 0.9; }
 .login-submit:disabled { opacity: 0.5; cursor: default; }
 
+/* Inline "Forgot?" link sits between the password input and the submit
+   button. Ghost-link styling so it reads as secondary; mirrors the
+   .login-back-link visual language. */
+.login-forgot {
+  background: none;
+  border: none;
+  padding: 0 4px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.login-forgot:hover { color: var(--accent-contrast); }
+.login-forgot:disabled { opacity: 0.5; cursor: default; }
+
 /* "← Sign in options" top-left link — the back-to-choose control.
    Text-link style with a leading arrow, anchored to the header's top-left
    corner so it never crowds the Stello wordmark or the form row below.
@@ -1941,6 +1958,13 @@ body.resizing .panel { transition: none; }
     flex: 0 0 auto;
     width: 100%;
     height: 36px;
+  }
+  /* On narrow widths the form stacks; "Forgot?" reads better as a
+     right-aligned link above the submit button than as its own row. */
+  .login-forgot {
+    align-self: flex-end;
+    padding: 4px 0;
+    margin: -2px 0 -2px;
   }
   .login-actions {
     flex-direction: column;
