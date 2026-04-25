@@ -1890,6 +1890,7 @@ body.resizing .panel { transition: none; }
   font-size: 0.82rem;
   font-weight: 500;
   color: color-mix(in srgb, var(--accent-contrast) 65%, transparent);
+  text-decoration: none;  /* used as <a> on reset-password.html */
   cursor: pointer;
   transition: color 0.15s, transform 0.15s;
 }
