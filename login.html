@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css?v=1">
-  <link rel="stylesheet" href="style.css?v=51">
+  <link rel="stylesheet" href="style.css?v=52">
 </head>
 <body>
 
@@ -175,10 +175,24 @@
     $error.textContent = 'Check your email for a reset link.';
   });
 
+  // Show an error string in the floating slot, replaying the shake animation
+  // each time so consecutive failures still register as a fresh signal.
+  function showError(text, accent) {
+    $error.style.color = accent ? 'var(--accent-contrast)' : '';
+    $error.textContent = text;
+    $error.classList.remove('shake');
+    void $error.offsetWidth;
+    if (!accent) $error.classList.add('shake');
+  }
+
   // Email form submit
   $emailForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     $error.textContent = '';
+    $error.classList.remove('shake');
+    const idleLabel = isSignUp ? 'Create account' : 'Sign in';
+    $submit.dataset.idleLabel = idleLabel;
+    $submit.textContent = isSignUp ? 'Creating account…' : 'Signing in…';
     $submit.disabled = true;
 
     const email = $email.value.trim();
@@ -188,8 +202,8 @@
     if (isSignUp) {
       result = await Stello.signUpWithEmail(email, password);
       if (!result.error && result.needsConfirmation) {
-        $error.style.color = 'var(--accent-contrast)';
-        $error.textContent = 'Check your email to confirm your account.';
+        showError('Check your email to confirm your account.', true);
+        $submit.textContent = idleLabel;
         $submit.disabled = false;
         return;
       }
@@ -198,8 +212,8 @@
     }
 
     if (result.error) {
-      $error.style.color = '';
-      $error.textContent = result.error;
+      showError(result.error, false);
+      $submit.textContent = idleLabel;
       $submit.disabled = false;
       return;
     }
