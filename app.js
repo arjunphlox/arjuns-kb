@@ -238,12 +238,16 @@
     if (!session) return; // redirecting to login
     Stello.initAuthListener();
 
-    // Load items from Supabase, paging through results (default limit is 1000)
+    // Load items from Supabase, paging through results (default limit is 1000).
+    // First-page-first: render with the most recent 1000 items immediately,
+    // then stream older history in the background. Subsequent pages cover
+    // older weeks that are collapsed by default, so their headers can be
+    // appended without disturbing the already-rendered first weeks.
     const client = Stello.getClient();
     const userId = Stello.getUserId();
     const PAGE = 1000;
-    let all = [];
-    for (let from = 0; ; from += PAGE) {
+
+    async function fetchItemsPage(from) {
       const { data, error } = await client
         .from('items')
         .select('*')
@@ -252,21 +256,14 @@
         .range(from, from + PAGE - 1);
       if (error) {
         console.error('Failed to load items from Supabase:', error.message);
-        break;
+        return [];
       }
-      if (!data || data.length === 0) break;
-      all = all.concat(data);
-      if (data.length < PAGE) break;
+      return data || [];
     }
-    allItems = all.map(normalizeItem);
 
-    // Sort by date descending (most recent first)
-    allItems.sort((a, b) => {
-      const da = a.added_at ? new Date(a.added_at).getTime() : 0;
-      const db = b.added_at ? new Date(b.added_at).getTime() : 0;
-      return db - da;
-    });
-
+    const firstPage = await fetchItemsPage(0);
+    allItems = firstPage.map(normalizeItem);
+    sortItemsByAddedAt(allItems);
     itemsBySlug = {};
     allItems.forEach(item => { itemsBySlug[item.slug] = item; });
 
@@ -276,6 +273,25 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+
+    // Background-stream remaining pages. Only runs if the first page hit the
+    // limit — small libraries are done in a single round trip.
+    if (firstPage.length === PAGE) {
+      (async () => {
+        for (let from = PAGE; ; from += PAGE) {
+          const page = await fetchItemsPage(from);
+          if (page.length === 0) break;
+          const normalized = page.map(normalizeItem);
+          allItems = allItems.concat(normalized);
+          normalized.forEach(item => { itemsBySlug[item.slug] = item; });
+          if (page.length < PAGE) break;
+        }
+        sortItemsByAddedAt(allItems);
+        buildRelatedIndex();
+        renderStats();
+        appendOlderWeeks();
+      })();
+    }
 
     // Kick off silent backfill for items that predate the entity-decode
     // and rule-enrichment fixes. Runs in the background, two concurrent
@@ -601,6 +617,36 @@
   }
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
+
+  function sortItemsByAddedAt(arr) {
+    arr.sort((a, b) => {
+      const da = a.added_at ? new Date(a.added_at).getTime() : 0;
+      const db = b.added_at ? new Date(b.added_at).getTime() : 0;
+      return db - da;
+    });
+  }
+
+  // Append week headers for any week not yet present in the grid DOM. Used
+  // after background-loaded older pages land — extends history downward
+  // without re-rendering (and thus visually disturbing) the already-painted
+  // first weeks. Skipped while a search/filter is active because that mode
+  // re-renders the whole grid through renderGrid() anyway.
+  function appendOlderWeeks() {
+    if (isSearchActive()) { renderGrid(); return; }
+    const items = getFilteredItems();
+    const weeks = groupByWeek(items);
+    let html = '';
+    weeks.forEach(week => {
+      if ($grid.querySelector(`.date-section-header[data-week="${week.key}"]`)) return;
+      const isLoaded = loadedWeeks.has(week.key);
+      const caret = icon(isLoaded ? 'caret-up' : 'caret-down');
+      const aria = isLoaded ? 'Collapse week' : 'Expand week';
+      const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
+      html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
+      html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">${isLoaded ? week.items.map(e => renderCard(e.item, e.idx)).join('') : ''}</div>`;
+    });
+    if (html) $grid.insertAdjacentHTML('beforeend', html);
+  }
 
   function renderGrid() {
     const items = getFilteredItems();
