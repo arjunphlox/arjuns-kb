@@ -1305,7 +1305,7 @@
   }
 
   // ---- Three-dot footer menu (Enrich + Delete) ----
-  function bindPanelFooterMenu(footerEl, item, panelIndex) {
+  function bindPanelFooterMenu(footerEl, item) {
     const trigger = footerEl.querySelector('.panel-footer-menu-trigger');
     const popover = footerEl.querySelector('.panel-footer-menu-popover');
     const deleteBtn = footerEl.querySelector('.js-delete');
@@ -1390,7 +1390,7 @@
           if (idx >= 0) allItems.splice(idx, 1);
           delete itemsBySlug[slug];
           renderStats();
-          PanelManager.close(panelIndex);
+          PanelManager.close();
           showToast('Deleted');
         } catch (err) {
           showToast('Delete failed: ' + (err.message || 'unknown'));
@@ -1421,9 +1421,8 @@
 
   // ---- Capture queue (sequential panel curation) ----
   // Slugs of freshly captured items that deserve a curation panel. We
-  // open the first immediately; when its panel closes, the next advances.
-  // PanelManager.open({ fromCapture:true }) records the slug into
-  // captureFlowSlugs so close() knows when to advance.
+  // open the first immediately; when its panel closes, notifyCaptureSlugClosed
+  // pulls the next off the queue.
   const captureQueue = [];
   const captureFlowSlugs = new Set();
 
@@ -1437,7 +1436,7 @@
     const next = captureQueue.shift();
     if (!next) return;
     captureFlowSlugs.add(next);
-    PanelManager.open(next, { fromCapture: true });
+    PanelManager.open(next);
     // Existing poller refreshes the panel live as enrichment lands.
     if (typeof pollForEnrichment === 'function') pollForEnrichment(next);
     if (captureQueue.length) {
@@ -1639,18 +1638,18 @@
       clearTimeout(hoverTimeout);
       hoverTimeout = setTimeout(() => {
         if (!$grid.querySelector('.card:hover')) {
-          syncHighlightsToOpenPanels(PanelManager.getOpenSlugs());
+          const open = PanelManager.getOpenSlug();
+          syncHighlightsToOpenPanels(open ? [open] : []);
         }
       }, 100);
     }, true);
 
-    // Card click -> open item in a side panel
+    // Card click -> open item in the side panel
     $grid.addEventListener('click', function (e) {
       if (e.target.closest('a')) return;
       const card = e.target.closest('.card');
       if (!card || !card.dataset.slug) return;
-      const secondary = e.metaKey || e.ctrlKey;
-      PanelManager.open(card.dataset.slug, { secondary, originCard: card });
+      PanelManager.open(card.dataset.slug, { originCard: card });
     });
   }
 
@@ -2152,7 +2151,11 @@
   }
 
   // =========================================================================
-  // === PanelManager — owns up to 2 side panels, grid reflow, state sync ====
+  // === PanelManager — owns ONE side panel (item OR tool) ===================
+  // Dual-panel comparison was removed; it'll return on the item detail page
+  // later (see BACKLOG.md). Item and tool panels are mutually exclusive on
+  // the home grid — opening either implicitly closes the other so the grid
+  // never has to compete with two panels for width.
   // =========================================================================
   const PanelManager = (function () {
     const DEFAULT_WIDTH = 480;
@@ -2160,100 +2163,76 @@
     const STORAGE_KEY = 'stello.panels';
 
     const state = {
-      slugs: [],   // ordered [oldest, newest]; length 0–2
-      widths: [DEFAULT_WIDTH, DEFAULT_WIDTH],
-      originSlugs: [null, null], // which card slug triggered each panel (for focus return)
-      tool: null,   // 'filters' | 'settings' | 'import' | null
-      toolWidth: DEFAULT_WIDTH,
-      userResized: {},  // { 'item:0', 'item:1', 'tool' } → true once user drags that handle
+      slug: null,         // open item slug, or null
+      tool: null,         // 'filters' | 'settings' | 'import' | null
+      width: DEFAULT_WIDTH,
+      originSlug: null,   // card slug that triggered the item panel (for focus return)
+      userResized: false, // user has manually dragged the resize handle
     };
 
     let $container, $announcer;
-    const reducedMotion = () =>
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function maxPanels() { return window.innerWidth <= 1200 ? 1 : 2; }
-
-    function gridCols() {
-      const total = state.slugs.length + (state.tool ? 1 : 0);
-      return Math.max(2, 5 - total);
-    }
-
-    // ---- State <-> URL ----
-    function syncFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const s1 = params.get('panel1');
-      const s2 = params.get('panel2');
-      const slugs = [];
-      if (s1 && itemsBySlug[s1]) slugs.push(s1);
-      if (s2 && itemsBySlug[s2]) slugs.push(s2);
-      if (slugs.length > 0) { state.slugs = slugs; return true; }
-      return false;
-    }
-    function syncToURL(push) {
-      const params = new URLSearchParams(window.location.search);
-      params.delete('panel1'); params.delete('panel2');
-      state.slugs.forEach((slug, i) => params.set('panel' + (i + 1), slug));
-      const query = params.toString();
-      const newURL = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
-      const method = push ? 'pushState' : 'replaceState';
-      history[method]({ panels: state.slugs.slice() }, '', newURL);
-    }
-
-    // ---- State <-> localStorage ----
-    function syncFromStorage() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return false;
-        const data = JSON.parse(raw);
-        if (Array.isArray(data.slugs)) {
-          state.slugs = data.slugs.filter(s => itemsBySlug[s]).slice(0, maxPanels());
-        }
-        if (Array.isArray(data.widths)) {
-          state.widths = data.widths.map(w => clampWidth(w));
-          while (state.widths.length < 2) state.widths.push(DEFAULT_WIDTH);
-        }
-        if (typeof data.toolWidth === 'number') state.toolWidth = clampWidth(data.toolWidth);
-        // Tool panel is ephemeral per-session; don't auto-restore on page load
-        return state.slugs.length > 0;
-      } catch { return false; }
-    }
-    function syncToStorage() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          slugs: state.slugs.slice(),
-          widths: state.widths.slice(),
-          toolWidth: state.toolWidth,
-        }));
-      } catch { /* silent */ }
-    }
 
     function clampWidth(px) {
       const max = Math.floor(window.innerWidth * 0.5);
       return Math.max(MIN_WIDTH, Math.min(max, px | 0));
     }
 
-    // ---- Shared tags ----
-    function sharedTagSet() {
-      if (state.slugs.length < 2) return null;
-      const [a, b] = state.slugs.map(s => itemsBySlug[s]);
-      if (!a || !b) return null;
-      const setA = new Set(a.tags.map(t => t.category + ':' + t.tag));
-      const shared = new Set();
-      b.tags.forEach(t => {
-        const key = t.category + ':' + t.tag;
-        if (setA.has(key)) shared.add(key);
-      });
-      return shared.size ? shared : null;
+    // ---- State <-> URL ----
+    // `panel1` is read for back-compat with bookmarks from the dual-panel era;
+    // writes only ever emit the new `panel` key.
+    function syncFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const s = params.get('panel') || params.get('panel1');
+      if (s && itemsBySlug[s]) { state.slug = s; return true; }
+      return false;
+    }
+    function syncToURL(push) {
+      const params = new URLSearchParams(window.location.search);
+      params.delete('panel'); params.delete('panel1'); params.delete('panel2');
+      if (state.slug) params.set('panel', state.slug);
+      const query = params.toString();
+      const newURL = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
+      history[push ? 'pushState' : 'replaceState']({ panel: state.slug }, '', newURL);
+    }
+
+    // ---- State <-> localStorage ----
+    // Tolerates the legacy { slugs:[], widths:[], toolWidth } shape so users
+    // with the old key in localStorage still rehydrate cleanly the first
+    // time after this refactor.
+    function syncFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (typeof data.slug === 'string' && itemsBySlug[data.slug]) {
+          state.slug = data.slug;
+        } else if (Array.isArray(data.slugs) && data.slugs[0] && itemsBySlug[data.slugs[0]]) {
+          state.slug = data.slugs[0];
+        }
+        if (typeof data.width === 'number') state.width = clampWidth(data.width);
+        else if (Array.isArray(data.widths) && typeof data.widths[0] === 'number') {
+          state.width = clampWidth(data.widths[0]);
+        } else if (typeof data.toolWidth === 'number') {
+          state.width = clampWidth(data.toolWidth);
+        }
+        return !!state.slug;
+      } catch { return false; }
+    }
+    function syncToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          slug: state.slug,
+          width: state.width,
+        }));
+      } catch { /* silent */ }
     }
 
     // ---- Active card color line ----
     function updateActiveCards() {
-      const active = new Set(state.slugs);
       document.querySelectorAll('.card').forEach(card => {
         const slug = card.dataset.slug;
         if (!slug) return;
-        const isActive = active.has(slug);
+        const isActive = slug === state.slug;
         card.classList.toggle('card-active', isActive);
         if (isActive) {
           const color = dominantColor(itemsBySlug[slug]);
@@ -2264,150 +2243,134 @@
       });
     }
 
-    // ---- Grid column reflow ----
-    // Column-count layout reads --grid-cols from :root; just update the var.
-    function updateGridCols() {
-      document.documentElement.style.setProperty('--grid-cols', gridCols());
-    }
-
-    // ---- Render panels ----
+    // ---- Render ----
     function render() {
       if (!$container) return;
-      const shared = sharedTagSet();
 
-      // Remove everything
-      const existing = Array.from($container.children);
-      existing.forEach(el => el.remove());
+      // Tear down whatever's currently mounted. At most one panel can be open
+      // at a time (item OR tool), so this is a single create-and-replace pass.
+      Array.from($container.children).forEach(el => el.remove());
 
-      // Tool panel renders first (leftmost)
       if (state.tool) {
         const toolHandle = document.createElement('div');
         toolHandle.className = 'resize-handle';
         toolHandle.setAttribute('role', 'separator');
         toolHandle.setAttribute('aria-label', 'Resize tool panel');
         toolHandle.setAttribute('tabindex', '0');
-        toolHandle.dataset.toolHandle = '1';
-        bindToolResizeHandle(toolHandle);
+        bindResizeHandle(toolHandle);
         $container.appendChild(toolHandle);
 
         const toolPanel = renderToolPanel(state.tool);
         if (toolPanel) $container.appendChild(toolPanel);
+        syncHighlightsToOpenPanels([]);
+        return;
       }
 
-      // Item panels
-      state.slugs.forEach((slug, i) => {
-        const item = itemsBySlug[slug];
-        if (!item) return;
+      if (!state.slug) { syncHighlightsToOpenPanels([]); return; }
+      const item = itemsBySlug[state.slug];
+      if (!item) { syncHighlightsToOpenPanels([]); return; }
 
-        const handle = document.createElement('div');
-        handle.className = 'resize-handle';
-        handle.setAttribute('role', 'separator');
-        handle.setAttribute('aria-label', `Resize panel ${i + 1}`);
-        handle.setAttribute('tabindex', '0');
-        handle.dataset.panelIndex = String(i);
-        bindResizeHandle(handle, i);
-        $container.appendChild(handle);
+      const handle = document.createElement('div');
+      handle.className = 'resize-handle';
+      handle.setAttribute('role', 'separator');
+      handle.setAttribute('aria-label', 'Resize panel');
+      handle.setAttribute('tabindex', '0');
+      bindResizeHandle(handle);
+      $container.appendChild(handle);
 
-        const panel = document.createElement('aside');
-        panel.className = 'panel';
-        panel.dataset.index = String(i);
-        panel.dataset.slug = slug;
-        panel.setAttribute('role', 'region');
-        panel.setAttribute('aria-label', `Item detail ${i + 1}: ${item.title || slug}`);
-        panel.setAttribute('tabindex', '-1');
-        panel.style.setProperty('--panel-width', state.widths[i] + 'px');
+      const panel = document.createElement('aside');
+      panel.className = 'panel';
+      panel.dataset.slug = state.slug;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-label', `Item detail: ${item.title || state.slug}`);
+      panel.setAttribute('tabindex', '-1');
+      panel.style.setProperty('--panel-width', state.width + 'px');
 
-        // Header: title + source on left, icons on right (arrow-up-right, expand, close)
-        const header = document.createElement('header');
-        header.className = 'panel-header';
+      const header = document.createElement('header');
+      header.className = 'panel-header';
 
-        const info = document.createElement('div');
-        info.className = 'panel-header-info';
-        const titleEl = document.createElement('div');
-        titleEl.className = 'panel-header-title';
-        titleEl.textContent = item.title || '';
-        info.appendChild(titleEl);
-        if (item.domain) {
-          const sourceEl = document.createElement('div');
-          sourceEl.className = 'panel-header-source';
-          sourceEl.textContent = item.domain;
-          info.appendChild(sourceEl);
-        }
-        header.appendChild(info);
+      const info = document.createElement('div');
+      info.className = 'panel-header-info';
+      const titleEl = document.createElement('div');
+      titleEl.className = 'panel-header-title';
+      titleEl.textContent = item.title || '';
+      info.appendChild(titleEl);
+      if (item.domain) {
+        const sourceEl = document.createElement('div');
+        sourceEl.className = 'panel-header-source';
+        sourceEl.textContent = item.domain;
+        info.appendChild(sourceEl);
+      }
+      header.appendChild(info);
 
-        const actions = document.createElement('div');
-        actions.className = 'panel-header-actions';
+      const actions = document.createElement('div');
+      actions.className = 'panel-header-actions';
 
-        const shuffleBtn = document.createElement('button');
-        shuffleBtn.className = 'panel-shuffle';
-        shuffleBtn.type = 'button';
-        shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
-        shuffleBtn.title = 'Shuffle to related item';
-        shuffleBtn.innerHTML = icon('shuffle');
-        shuffleBtn.addEventListener('click', () => shuffle(i));
-        actions.appendChild(shuffleBtn);
+      const shuffleBtn = document.createElement('button');
+      shuffleBtn.className = 'panel-shuffle';
+      shuffleBtn.type = 'button';
+      shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
+      shuffleBtn.title = 'Shuffle to related item';
+      shuffleBtn.innerHTML = icon('shuffle');
+      shuffleBtn.addEventListener('click', shuffle);
+      actions.appendChild(shuffleBtn);
 
-        if (item.source_url) {
-          const openBtn = document.createElement('button');
-          openBtn.className = 'panel-open-source';
-          openBtn.type = 'button';
-          openBtn.setAttribute('aria-label', 'Open source in new tab');
-          openBtn.title = 'Open source';
-          openBtn.innerHTML = icon('arrow-up-right');
-          openBtn.addEventListener('click', () => {
-            window.open(item.source_url, '_blank', 'noopener');
-          });
-          actions.appendChild(openBtn);
-        }
-
-        const expandBtn = document.createElement('button');
-        expandBtn.className = 'panel-expand';
-        expandBtn.type = 'button';
-        expandBtn.setAttribute('aria-label', 'Open full page');
-        expandBtn.title = 'Full page';
-        expandBtn.innerHTML = icon('frame-corners');
-        expandBtn.addEventListener('click', () => {
-          syncToStorage();
-          window.location.href = 'detail.html?slug=' + encodeURIComponent(slug);
+      if (item.source_url) {
+        const openBtn = document.createElement('button');
+        openBtn.className = 'panel-open-source';
+        openBtn.type = 'button';
+        openBtn.setAttribute('aria-label', 'Open source in new tab');
+        openBtn.title = 'Open source';
+        openBtn.innerHTML = icon('arrow-up-right');
+        openBtn.addEventListener('click', () => {
+          window.open(item.source_url, '_blank', 'noopener');
         });
-        actions.appendChild(expandBtn);
+        actions.appendChild(openBtn);
+      }
 
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'panel-close';
-        closeBtn.type = 'button';
-        closeBtn.setAttribute('aria-label', 'Close panel');
-        closeBtn.title = 'Close';
-        closeBtn.innerHTML = icon('x');
-        closeBtn.addEventListener('click', () => close(i));
-        actions.appendChild(closeBtn);
-
-        header.appendChild(actions);
-        panel.appendChild(header);
-
-        const body = document.createElement('div');
-        body.className = 'panel-body';
-        body.innerHTML = buildPanelBodyHTML(item, shared);
-        panel.appendChild(body);
-
-        const footer = document.createElement('div');
-        footer.className = 'panel-footer';
-        footer.innerHTML = buildPanelFooterHTML(item, shared);
-        panel.appendChild(footer);
-
-        $container.appendChild(panel);
-
-        // Lazy-load markdown for this panel
-        const mdEl = body.querySelector('.card-expanded-md');
-        loadMarkdownInto(mdEl);
-
-        // Wire up slider + capture form + snippet interactions.
-        bindPanelBody(body, item);
-        // Wire up the three-dot footer menu (Enrich + Delete).
-        bindPanelFooterMenu(footer, item, i);
+      const expandBtn = document.createElement('button');
+      expandBtn.className = 'panel-expand';
+      expandBtn.type = 'button';
+      expandBtn.setAttribute('aria-label', 'Open full page');
+      expandBtn.title = 'Full page';
+      expandBtn.innerHTML = icon('frame-corners');
+      expandBtn.addEventListener('click', () => {
+        syncToStorage();
+        window.location.href = 'detail.html?slug=' + encodeURIComponent(state.slug);
       });
+      actions.appendChild(expandBtn);
 
-      // Sync related-card highlights to open panels
-      syncHighlightsToOpenPanels(state.slugs);
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'panel-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Close panel');
+      closeBtn.title = 'Close';
+      closeBtn.innerHTML = icon('x');
+      closeBtn.addEventListener('click', close);
+      actions.appendChild(closeBtn);
+
+      header.appendChild(actions);
+      panel.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'panel-body';
+      body.innerHTML = buildPanelBodyHTML(item, null);
+      panel.appendChild(body);
+
+      const footer = document.createElement('div');
+      footer.className = 'panel-footer';
+      footer.innerHTML = buildPanelFooterHTML(item, null);
+      panel.appendChild(footer);
+
+      $container.appendChild(panel);
+
+      const mdEl = body.querySelector('.card-expanded-md');
+      loadMarkdownInto(mdEl);
+
+      bindPanelBody(body, item);
+      bindPanelFooterMenu(footer, item);
+
+      syncHighlightsToOpenPanels([state.slug]);
     }
 
     // ---- Tool panel rendering ----
@@ -2424,7 +2387,7 @@
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', TOOL_TITLES[type]);
       panel.setAttribute('tabindex', '-1');
-      panel.style.setProperty('--panel-width', (state.toolWidth || DEFAULT_WIDTH) + 'px');
+      panel.style.setProperty('--panel-width', state.width + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2460,24 +2423,25 @@
 
     function openTool(type) {
       if (state.tool === type) { closeTool(); return; }
+      // Mutually exclusive with item panels.
+      const previousItem = state.slug;
+      state.slug = null;
+      state.originSlug = null;
       state.tool = type;
-      applyDefaultWidths();
+      syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       updateToolButtons();
       announce(`${TOOL_TITLES[type]} opened`);
+      if (previousItem) notifyCaptureSlugClosed(previousItem);
     }
 
     function closeTool() {
       if (!state.tool) return;
       state.tool = null;
-      if (state.userResized) delete state.userResized['tool'];
-      applyDefaultWidths();
       syncToStorage();
       render();
-      updateGridCols();
       updateToolButtons();
       announce('Tool panel closed');
     }
@@ -2487,56 +2451,11 @@
         const el = document.getElementById(id);
         if (el) el.classList.remove('is-active');
       });
-      const activeId = state.tool === 'filters' ? 'filter-panel-btn' : state.tool === 'import' ? 'import-btn' : state.tool === 'settings' ? 'settings-btn' : null;
+      const activeId = state.tool === 'filters' ? 'filter-panel-btn'
+        : state.tool === 'import' ? 'import-btn'
+        : state.tool === 'settings' ? 'settings-btn'
+        : null;
       if (activeId) document.getElementById(activeId)?.classList.add('is-active');
-    }
-
-    function bindToolResizeHandle(handle) {
-      let startX = 0, startW = 0, dragging = false, raf = null;
-      handle.addEventListener('mousedown', (e) => {
-        startX = e.clientX;
-        startW = state.toolWidth || DEFAULT_WIDTH;
-        dragging = true;
-        document.body.classList.add('resizing');
-        handle.classList.add('active');
-        e.preventDefault();
-      });
-      document.addEventListener('mousemove', (e) => {
-        if (!dragging) return;
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = null;
-          const delta = startX - e.clientX; // dragging left = bigger
-          const w = clampWidth(startW + delta);
-          state.toolWidth = w;
-          const p = $container.querySelector('.panel.panel-tool');
-          if (p) p.style.setProperty('--panel-width', w + 'px');
-        });
-      });
-      document.addEventListener('mouseup', () => {
-        if (!dragging) return;
-        dragging = false;
-        document.body.classList.remove('resizing');
-        handle.classList.remove('active');
-        state.userResized = state.userResized || {};
-        state.userResized['tool'] = true;
-        syncToStorage();
-      });
-    }
-
-    // ---- Default widths based on total panel count ----
-    // When 3 panels (tool + 2 items) are open, default each panel to
-    // viewport/4 so the main grid and every panel are equal columns.
-    // User resizes override this (tracked via state.userResized).
-    function applyDefaultWidths() {
-      const total = state.slugs.length + (state.tool ? 1 : 0);
-      const equal = Math.floor(window.innerWidth / 4);
-      const target = total >= 3 ? clampWidth(equal) : DEFAULT_WIDTH;
-      const ur = state.userResized || {};
-      state.widths = state.widths.map((w, i) =>
-        ur['item:' + i] ? w : target
-      );
-      if (!ur['tool']) state.toolWidth = target;
     }
 
     // ---- Announce ----
@@ -2552,64 +2471,48 @@
       opts = opts || {};
       if (!itemsBySlug[slug]) return;
 
-      const idx = state.slugs.indexOf(slug);
-      if (idx >= 0) {
-        // Already open — flash card line + focus panel
+      // Same item already open? Flash + focus.
+      if (state.slug === slug) {
         const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
         if (card) {
           card.classList.add('card-flash');
           setTimeout(() => card.classList.remove('card-flash'), 400);
         }
-        focus(idx);
+        focus();
         return;
       }
 
-      const max = maxPanels();
-      if (state.slugs.length < max && !opts.secondary) {
-        state.slugs.push(slug);
-        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
-      } else if (opts.secondary && state.slugs.length < max) {
-        state.slugs.push(slug);
-        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
-      } else {
-        // Full — FIFO replace oldest
-        state.slugs.shift();
-        state.slugs.push(slug);
-        state.originSlugs.shift();
-        state.originSlugs.push(opts.originCard ? opts.originCard.dataset.slug : null);
-        state.originSlugs.length = 2;
+      // Opening an item closes any open tool panel (mutually exclusive).
+      if (state.tool) {
+        state.tool = null;
+        updateToolButtons();
       }
 
-      applyDefaultWidths();
+      const previousSlug = state.slug;
+      state.slug = slug;
+      state.originSlug = opts.originCard ? opts.originCard.dataset.slug : null;
+
       syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       announce(`Panel opened: ${itemsBySlug[slug].title || slug}`);
-      focus(state.slugs.length - 1);
+      focus();
+
+      if (previousSlug && previousSlug !== slug) notifyCaptureSlugClosed(previousSlug);
     }
 
-    function close(index) {
-      if (index < 0 || index >= state.slugs.length) return;
-      const originSlug = state.originSlugs[index];
-      const closedSlug = state.slugs[index];
-      state.slugs.splice(index, 1);
-      state.originSlugs.splice(index, 1);
-      state.originSlugs.push(null);
-      // The closed panel's manual-resize flag no longer applies
-      if (state.userResized) delete state.userResized['item:' + index];
-      // Shift flag for the panel that moves into this slot, if any
-      if (state.userResized && state.userResized['item:1'] && index === 0) {
-        state.userResized['item:0'] = true;
-        delete state.userResized['item:1'];
-      }
+    function close() {
+      if (!state.slug) return;
+      const closedSlug = state.slug;
+      const originSlug = state.originSlug;
+      state.slug = null;
+      state.originSlug = null;
+      state.userResized = false;
 
-      applyDefaultWidths();
       syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       announce('Panel closed');
 
@@ -2618,26 +2521,17 @@
         if (card) card.focus({ preventScroll: false });
       }
 
-      // If this panel was a curation step, advance the queue.
-      if (closedSlug) notifyCaptureSlugClosed(closedSlug);
+      notifyCaptureSlugClosed(closedSlug);
     }
 
     function closeFocused() {
-      // If a tool panel is open, close it first (simplest UX)
       if (state.tool) { closeTool(); return; }
-      const el = document.activeElement;
-      if (!el) return;
-      const panel = el.closest && el.closest('.panel');
-      if (!panel) return;
-      const i = parseInt(panel.dataset.index, 10);
-      if (!isNaN(i)) close(i);
+      if (state.slug) close();
     }
 
-    // Replace the item in panel `index` with `newSlug` (used by Shuffle)
-    function replace(index, newSlug) {
-      if (index < 0 || index >= state.slugs.length) return;
-      if (!itemsBySlug[newSlug]) return;
-      state.slugs[index] = newSlug;
+    function replace(newSlug) {
+      if (!state.slug || !itemsBySlug[newSlug]) return;
+      state.slug = newSlug;
       syncToURL(false);
       syncToStorage();
       render();
@@ -2645,16 +2539,14 @@
       announce(`Panel shuffled to: ${itemsBySlug[newSlug].title || newSlug}`);
     }
 
-    // Find a random related slug (shares ≥1 tag). Excludes current item
-    // in this panel AND items open in sibling panels.
+    // Find a random slug that shares ≥1 tag with the open item.
     function randomRelatedSlug(currentSlug) {
       const item = itemsBySlug[currentSlug];
       if (!item) return null;
-      const exclude = new Set(state.slugs); // all open panels (including current)
       const tagKeys = new Set(item.tags.map(t => t.category + ':' + t.tag));
       const candidates = [];
       for (const other of allItems) {
-        if (exclude.has(other.slug)) continue;
+        if (other.slug === currentSlug) continue;
         for (const t of other.tags) {
           if (tagKeys.has(t.category + ':' + t.tag)) { candidates.push(other.slug); break; }
         }
@@ -2663,40 +2555,38 @@
       return candidates[Math.floor(Math.random() * candidates.length)];
     }
 
-    function shuffle(index) {
-      const currentSlug = state.slugs[index];
-      if (!currentSlug) return;
-      const next = randomRelatedSlug(currentSlug);
+    function shuffle() {
+      if (!state.slug) return;
+      const next = randomRelatedSlug(state.slug);
       if (!next) { announce('No related items available to shuffle to'); return; }
-      replace(index, next);
+      replace(next);
     }
 
-    function focus(index) {
-      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+    function focus() {
+      const panel = $container && $container.querySelector('.panel');
       if (panel) panel.focus({ preventScroll: false });
     }
 
-    function setWidth(index, px) {
-      state.widths[index] = clampWidth(px);
-      state.userResized = state.userResized || {};
-      state.userResized['item:' + index] = true;
-      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
-      if (panel) panel.style.setProperty('--panel-width', state.widths[index] + 'px');
+    function setWidth(px) {
+      state.width = clampWidth(px);
+      state.userResized = true;
+      const panel = $container && $container.querySelector('.panel');
+      if (panel) panel.style.setProperty('--panel-width', state.width + 'px');
       syncToStorage();
     }
 
-    // ---- Resize handles ----
-    function bindResizeHandle(handle, index) {
+    // ---- Resize handle ----
+    function bindResizeHandle(handle) {
       let startX = 0, startWidth = 0, rafPending = false, nextWidth = 0;
 
       function onMove(e) {
-        const dx = startX - e.clientX; // drag left => grows panel
+        const dx = startX - e.clientX; // drag left => grow panel
         nextWidth = clampWidth(startWidth + dx);
         if (!rafPending) {
           rafPending = true;
           requestAnimationFrame(() => {
             rafPending = false;
-            const panel = $container.querySelector(`.panel[data-index="${index}"]`);
+            const panel = $container.querySelector('.panel');
             if (panel) panel.style.setProperty('--panel-width', nextWidth + 'px');
           });
         }
@@ -2706,12 +2596,12 @@
         document.removeEventListener('mouseup', onUp);
         document.body.classList.remove('resizing');
         handle.classList.remove('active');
-        setWidth(index, nextWidth || startWidth);
+        setWidth(nextWidth || startWidth);
       }
       handle.addEventListener('mousedown', (e) => {
         e.preventDefault();
         startX = e.clientX;
-        startWidth = state.widths[index];
+        startWidth = state.width;
         nextWidth = startWidth;
         document.body.classList.add('resizing');
         handle.classList.add('active');
@@ -2719,8 +2609,8 @@
         document.addEventListener('mouseup', onUp);
       });
       handle.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { setWidth(index, state.widths[index] + 20); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { setWidth(index, state.widths[index] - 20); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { setWidth(state.width + 20); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { setWidth(state.width - 20); e.preventDefault(); }
       });
     }
 
@@ -2729,8 +2619,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.target && e.target.matches && e.target.matches('input, textarea')) return;
         if (e.key === 'Escape') { closeFocused(); return; }
-        if (e.key === '1') { focus(0); }
-        if (e.key === '2') { focus(1); }
+        if (e.key === '1') { focus(); return; }
         if (e.key === '0') {
           const first = document.querySelector('.card');
           if (first) first.focus();
@@ -2743,23 +2632,9 @@
     function onWindowResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        const max = maxPanels();
-        let dirty = false;
-        while (state.slugs.length > max) {
-          state.slugs.shift();
-          state.originSlugs.shift();
-          state.originSlugs.push(null);
-          dirty = true;
-        }
-        // Clamp widths
-        state.widths = state.widths.map(w => clampWidth(w));
-        if (dirty) {
-          syncToURL(false);
-          syncToStorage();
-          render();
-          updateGridCols();
-          updateActiveCards();
-        }
+        state.width = clampWidth(state.width);
+        const panel = $container && $container.querySelector('.panel');
+        if (panel) panel.style.setProperty('--panel-width', state.width + 'px');
       }, 120);
     }
 
@@ -2769,21 +2644,18 @@
       $announcer = document.getElementById('panel-announcer');
       if (!$container) return;
 
-      // Load precedence: URL first, else localStorage.
+      // Load precedence: URL first, else localStorage. Tool panel is
+      // session-ephemeral and never auto-restored.
       if (!syncFromURL()) syncFromStorage();
 
-      // Clamp to current maxPanels
-      state.slugs = state.slugs.slice(0, maxPanels());
-
       render();
-      updateGridCols();
       updateActiveCards();
 
       window.addEventListener('popstate', () => {
-        syncFromURL() || (state.slugs = []);
+        if (!syncFromURL()) { state.slug = null; state.tool = null; }
         render();
-        updateGridCols();
         updateActiveCards();
+        updateToolButtons();
       });
       window.addEventListener('resize', onWindowResize);
       bindKeys();
@@ -2795,25 +2667,21 @@
     }
 
     function refreshAfterGridRender() {
-      updateGridCols();
       updateActiveCards();
     }
 
-    function getOpenSlugs() { return [...state.slugs]; }
+    function getOpenSlug() { return state.slug; }
 
-    // Re-renders a single open panel's body + footer from the current
+    // Re-renders the open panel's body + footer from the current
     // itemsBySlug snapshot. Called by pollForEnrichment when background
     // vision writes land — lets tag pills and the image update live
     // without re-mounting the whole panel.
     function refreshItem(slug) {
-      if (!$container) return;
-      const idx = state.slugs.indexOf(slug);
-      if (idx < 0) return;
+      if (!$container || state.slug !== slug) return;
       const item = itemsBySlug[slug];
       if (!item) return;
-      const panel = $container.querySelector(`.panel[data-index="${idx}"]`);
+      const panel = $container.querySelector('.panel');
       if (!panel) return;
-      const shared = sharedTagSet();
       const body = panel.querySelector('.panel-body');
       const footer = panel.querySelector('.panel-footer');
 
@@ -2872,7 +2740,7 @@
         bindPanelBody(body, item);
       }
       if (footer) {
-        footer.innerHTML = buildPanelFooterHTML(item, shared);
+        footer.innerHTML = buildPanelFooterHTML(item, null);
       }
     }
 
@@ -2905,7 +2773,7 @@
     return {
       init, open, close, focus, shuffle,
       openTool, closeTool,
-      gridCols, getOpenSlugs,
+      getOpenSlug,
       refreshAfterGridRender, refreshItem,
       state, // expose for debugging
     };

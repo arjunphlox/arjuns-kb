@@ -748,9 +748,12 @@ body.resizing .panel { transition: none; }
   display: block;
 }
 
-/* Masonry — CSS column-count, true top-to-bottom flow per column */
+/* Masonry — CSS column-count, true top-to-bottom flow per column.
+   Column count is overridden by @container queries on .content-inner
+   (see RESPONSIVE block below) so the grid responds to its actual
+   available width rather than the viewport. */
 .masonry-section {
-  column-count: var(--grid-cols, 5);
+  column-count: 5;
   column-gap: 24px;
   margin-bottom: 16px;
 }

@@ -19,6 +19,7 @@
 | **Semantic search** — embeddings + vector search for fuzzy retrieval; needs architecture decision: client-side vs server-side, which embedding model | Claude Code | Either | Opus | Open |
 | **Smart ranking** — boost items by tag weight + retrieval frequency; needs click tracking, storage, ranking algorithm | Claude Code | Either | Opus | Open |
 | **Progressive automation** — paste URL to fully analyzed item with zero manual steps; end-to-end pipeline | Claude Code | Either | Opus | Open |
+| **Item-to-item comparison on the detail page** — bring back dual-panel side-by-side comparison (removed from home grid May 2026); needs a layout that doesn't crowd the masonry, shared-tag highlighting (`.tag-shared`, `sharedTagSet`), and a way to enter compare from a card or related-items list | Claude Code | Desktop | Opus | Open |
 
 ## Quick Wins
 
