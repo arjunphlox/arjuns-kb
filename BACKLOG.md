@@ -39,6 +39,7 @@
 | **Link check** — `python3 scripts/link_check.py run` (every 7 days; reads local `_items/` backup mirror) | Claude Code | Either | Sonnet | Open |
 | **Refetch images** — `python3 scripts/refetch.py run` for items without images (reads local `_items/` backup mirror) | Claude Code | Either | Sonnet | Open |
 | **Verify Supabase setup** — `node scripts/verify-supabase.js` after any schema change or key rotation | Claude Code | Either | Sonnet | Open |
+| **Backfill image dimensions (one-time)** — `node scripts/backfill-image-dimensions.js` sniffs each stored image's width/height and writes them into items.images[]. Eliminates the column-count reflow on legacy items so card thumbnails never appear cut off across columns. Run once with env vars set | Claude Code | Either | Sonnet | Open |
 
 ---
 

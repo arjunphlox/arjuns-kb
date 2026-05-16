@@ -53,6 +53,8 @@ async function handleUrlCapture(client, user, url, res) {
 
   // Download and upload OG image
   let ogImagePath = null;
+  let ogImageWidth = null;
+  let ogImageHeight = null;
   let hasImage = false;
 
   if (ogImageUrl) {
@@ -88,6 +90,8 @@ async function handleUrlCapture(client, user, url, res) {
           .from('item-images')
           .getPublicUrl(storagePath);
         ogImagePath = urlData.publicUrl;
+        ogImageWidth = img.width || null;
+        ogImageHeight = img.height || null;
         hasImage = true;
       }
     } else {
@@ -103,6 +107,16 @@ async function handleUrlCapture(client, user, url, res) {
 
   // Insert item — mark text enrichment done here; vision/enrich.js flips
   // this to 'vision_done' when the image analysis completes.
+  // Seed images[] with the OG entry (including width/height) so the
+  // frontend can render the card thumbnail with an exact aspect-ratio
+  // slot from t=0 — no column-count reflow when pixels arrive.
+  const ogImageEntry = ogImagePath ? [{
+    path: ogImagePath,
+    source: 'og',
+    is_primary: true,
+    width: ogImageWidth,
+    height: ogImageHeight,
+  }] : [];
   const item = {
     user_id: user.id,
     slug,
@@ -113,6 +127,7 @@ async function handleUrlCapture(client, user, url, res) {
     summary: (summary || '').slice(0, 200),
     body_markdown: bodyMarkdown,
     og_image_path: ogImagePath,
+    images: JSON.stringify(ogImageEntry),
     status: 'active',
     location: null,
     needs_review: true,

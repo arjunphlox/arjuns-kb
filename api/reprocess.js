@@ -127,6 +127,19 @@ module.exports = async function handler(req, res) {
           .getPublicUrl(storagePath);
         ogImagePath = urlData.publicUrl;
         updates.og_image_path = ogImagePath;
+        // Seed images[] with the freshly-fetched OG entry. If the row already
+        // has manual edits in images[], skip — we never want to clobber
+        // curated state. Same rationale as api/capture.js.
+        const existingImages = (() => {
+          try { return typeof item.images === 'string' ? JSON.parse(item.images) : (item.images || []); }
+          catch { return []; }
+        })();
+        if (existingImages.length === 0) {
+          updates.images = JSON.stringify([{
+            path: ogImagePath, source: 'og', is_primary: true,
+            width: img.width || null, height: img.height || null,
+          }]);
+        }
       }
     } else {
       console.warn('reprocess: image download returned null', item.source_url, fullImageUrl);

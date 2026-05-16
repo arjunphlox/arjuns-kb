@@ -94,6 +94,8 @@ async function captureUrl(client, user, url) {
   const now = new Date().toISOString();
 
   let ogImagePath = null;
+  let ogImageWidth = null;
+  let ogImageHeight = null;
   if (ogImageUrl) {
     let fullImageUrl = ogImageUrl;
     if (ogImageUrl.startsWith('//')) fullImageUrl = 'https:' + ogImageUrl;
@@ -118,6 +120,8 @@ async function captureUrl(client, user, url) {
           .from('item-images')
           .getPublicUrl(storagePath);
         ogImagePath = urlData.publicUrl;
+        ogImageWidth = img.width || null;
+        ogImageHeight = img.height || null;
       }
     } else {
       console.warn('capture-bulk: image download returned null', url, fullImageUrl);
@@ -126,6 +130,14 @@ async function captureUrl(client, user, url) {
 
   const tags = generateTagsFromMetadata({ title, domain, description: summary, sourceUrl: url });
 
+  // Seed images[] with the OG entry (including width/height) so the
+  // frontend can render the card thumbnail at the exact aspect-ratio
+  // from t=0 — see api/capture.js for the rationale.
+  const ogImageEntry = ogImagePath ? [{
+    path: ogImagePath, source: 'og', is_primary: true,
+    width: ogImageWidth, height: ogImageHeight,
+  }] : [];
+
   const { data: inserted, error: insertErr } = await client
     .from('items')
     .insert({
@@ -133,7 +145,9 @@ async function captureUrl(client, user, url) {
       source_url: url, domain, author: null,
       summary: (summary || '').slice(0, 200),
       body_markdown: `## Summary\n${summary || ''}`,
-      og_image_path: ogImagePath, status: 'active',
+      og_image_path: ogImagePath,
+      images: JSON.stringify(ogImageEntry),
+      status: 'active',
       location: null, needs_review: true,
       added_at: now, enrichment_status: 'text_done',
       tags: JSON.stringify(tags),

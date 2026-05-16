@@ -20,11 +20,16 @@ module.exports = async function handler(req, res) {
     return jsonResponse(res, 400, { error: 'No image data received' });
   }
 
-  const ct = req.headers['content-type'] || 'image/png';
-  const ext = ct.includes('jpeg') || ct.includes('jpg') ? '.jpg'
-    : ct.includes('webp') ? '.webp' : '.png';
-  const mimeType = ext === '.jpg' ? 'image/jpeg'
-    : ext === '.webp' ? 'image/webp' : 'image/png';
+  // Convert to WebP via sharp — also returns the output dimensions so
+  // images[] can carry width/height and the frontend renders without
+  // an aspect-ratio reflow.
+  const { ensureWebp } = require('./_lib/webp');
+  let converted;
+  try {
+    converted = await ensureWebp(buffer, { maxWidth: 2400 });
+  } catch (err) {
+    return jsonResponse(res, 400, { error: 'Image conversion failed', detail: err.message });
+  }
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -32,11 +37,10 @@ module.exports = async function handler(req, res) {
   const slug = generateSlug(title);
   const isoNow = now.toISOString();
 
-  // Upload image to Supabase Storage
-  const storagePath = `${user.id}/${slug}/og-image${ext}`;
+  const storagePath = `${user.id}/${slug}/og-image${converted.ext}`;
   const { error: uploadErr } = await client.storage
     .from('item-images')
-    .upload(storagePath, buffer, { contentType: mimeType, upsert: true });
+    .upload(storagePath, converted.buffer, { contentType: converted.mime, upsert: true });
 
   if (uploadErr) {
     return jsonResponse(res, 500, { error: 'Image upload failed', detail: uploadErr.message });
@@ -48,6 +52,11 @@ module.exports = async function handler(req, res) {
 
   const tags = [{ tag: 'image-upload', category: 'format', weight: 0.4 }];
 
+  const imagesEntry = [{
+    path: urlData.publicUrl, source: 'og', is_primary: true,
+    width: converted.width || null, height: converted.height || null,
+  }];
+
   const item = {
     user_id: user.id,
     slug,
@@ -58,6 +67,7 @@ module.exports = async function handler(req, res) {
     summary: 'Image pasted from clipboard',
     body_markdown: '## Summary\nImage pasted from clipboard',
     og_image_path: urlData.publicUrl,
+    images: JSON.stringify(imagesEntry),
     status: 'active',
     location: null,
     needs_review: true,

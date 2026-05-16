@@ -388,6 +388,12 @@
     const enrichment_candidates = parseJsonField(row.enrichment_candidates, {});
     const primary = images.find(i => i && i.is_primary) || images[0] || null;
     const image_path = primary?.path || row.og_image_path || null;
+    // When the primary image entry carries width/height (populated by the
+    // server-side sharp pipeline), surface them so renderCard can emit them
+    // as <img width=W height=H> — locks the card's aspect-ratio slot before
+    // pixels arrive, preventing column-count reflow on load.
+    const image_width = primary?.width || null;
+    const image_height = primary?.height || null;
     return {
       ...row,
       tags,
@@ -396,6 +402,8 @@
       enrichment_candidates,
       has_image: !!image_path,
       image_path,
+      image_width,
+      image_height,
     };
   }
 
@@ -733,7 +741,14 @@
       && !item.summary.startsWith('Saved from');
 
     if (hasImage) {
-      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy" style="view-transition-name:${vtName}" onerror="this.parentElement.classList.add('img-error')">`;
+      // Emit width/height when known so the browser reserves the exact slot
+      // before the image loads — eliminates the column-count reflow that
+      // can otherwise visually fragment cards across columns. Falls back to
+      // the CSS aspect-ratio: auto rule for items that predate dimension
+      // capture.
+      const dims = (item.image_width && item.image_height)
+        ? ` width="${item.image_width}" height="${item.image_height}"` : '';
+      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt=""${dims} loading="lazy" style="view-transition-name:${vtName}" onerror="this.parentElement.classList.add('img-error')">`;
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
