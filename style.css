@@ -366,6 +366,12 @@ html.arriving-from-login .header {
   flex-direction: column;
   gap: 16px;
   transition: padding-right 200ms ease;
+  /* Container query context for the masonry column count. Lets the grid
+     respond to its actual available width (which shrinks when a panel is
+     open) instead of the viewport — otherwise opening a side panel can
+     leave 5 columns squeezed into ~600px of content area. */
+  container-type: inline-size;
+  container-name: grid;
 }
 /* Halve the right inset whenever a panel (item or tool) is open, so the
    perceived gap between the grid and the panel stays ~24px instead of
@@ -1009,27 +1015,31 @@ body.resizing .panel { transition: none; }
   font-size: 1rem;
 }
 
-/* === RESPONSIVE === */
-/* Large: keep 5 cols but allow wider container */
+/* === RESPONSIVE ===
+   Column count is driven by `.content-inner`'s container width (see
+   `container-name: grid` above) so it shrinks correctly when a side panel
+   takes part of the viewport. Mobile-only rules (panel overlay, header
+   inset, padding) stay on viewport @media queries because they reflect
+   device characteristics, not available grid width. */
 @media (min-width: 1840px) {
   .content-inner { max-width: 2200px; }
 }
-/* Medium: 4 cols */
-@media (max-width: 1200px) {
+@container grid (max-width: 1200px) {
   .masonry-section { column-count: 4; }
 }
-/* Tablet: 3 cols */
-@media (max-width: 768px) {
+@container grid (max-width: 768px) {
   .masonry-section { column-count: 3; }
+}
+@container grid (max-width: 500px) {
+  .masonry-section { column-count: 2; column-gap: 12px; }
+  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
+}
+@media (max-width: 768px) {
   .modal-panel { width: 100vw; }
   .content-inner { padding: 16px 16px 0; }
   .header { top: 16px; }
 }
-/* Mobile: 2 cols. Keep the Stello wordmark at its full 3rem on mobile to
-   match desktop — the brand type doesn't need to shrink on small screens. */
 @media (max-width: 500px) {
-  .masonry-section { column-count: 2; column-gap: 12px; }
-  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
   .content-inner { padding: 12px 12px 0; }
   .header { top: 12px; }
 }
