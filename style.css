@@ -842,12 +842,18 @@ body.resizing .panel { transition: none; }
   color: var(--pill-color-hover, var(--bg));
 }
 
-/* Image cards — preserve natural aspect ratio */
+/* Image cards — preserve natural aspect ratio.
+   `aspect-ratio: auto 1200 / 630` reserves a 1.91:1 OG-default slot on
+   first paint, then yields to the image's intrinsic ratio once it loads.
+   Without this, Safari reflows the column-count masonry every time a
+   thumb's natural height resolves — visible as cards jumping between
+   columns on initial load. */
 .card-thumb {
   width: 100%;
   display: block;
   background: var(--bg-secondary);
   border-radius: 4px;
+  aspect-ratio: auto 1200 / 630;
 }
 
 /* Placeholder for non-image cards */
