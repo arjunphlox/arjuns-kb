@@ -935,6 +935,11 @@ body.resizing .panel { transition: none; }
   border: 2px solid var(--accent);
   border-radius: 4px;
   pointer-events: none;
+  /* Stack above .card-overlay (z:1), .card-title-badge (z:2), and
+     .card-url-pill (z:3) so the highlight ring stays visible on hover —
+     the dark hover overlay would otherwise hide the ring on the card
+     the user is hovering. */
+  z-index: 4;
 }
 
 /* === EXPAND ICON (top-right of card) === */
