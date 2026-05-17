@@ -784,16 +784,17 @@ body.resizing .panel { transition: none; }
 }
 
 /* Dark hover overlay between image and title.
-   `inset: 0 -1px -1px 0` over-covers the right and bottom edges by 1px
-   so the overlay still hides the image at sub-pixel column widths —
-   where the browser rounds an <img>'s right/bottom edges outward but
-   a CSS background's edges inward, leaving a 1px strip of image
-   visible under a strict `inset: 0` overlay. The parent
-   (.card-visual-area) has `overflow: hidden` so the extra pixel gets
-   clipped exactly at the card edge. */
+   `inset: -2px` over-covers every edge by 2px. At sub-pixel column
+   widths the browser rounds an <img>'s edges and a CSS background's
+   edges differently, leaving a 1-ish-pixel strip of image visible
+   under a strict `inset: 0` overlay. The parent (.card-visual-area)
+   has `overflow: hidden` so the extra paint outside the card gets
+   clipped exactly at the visible card edge — over-covering on all
+   four sides costs nothing visually and removes the asymmetric
+   rounding chance entirely. */
 .card-overlay {
   position: absolute;
-  inset: 0 -1px -1px 0;
+  inset: -2px;
   background: var(--overlay-bg);
   opacity: 0;
   transition: opacity 0.18s ease-out;
