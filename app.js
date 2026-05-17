@@ -1658,17 +1658,34 @@
   }
 
   // --- Related card highlighting ---
-  let hoverTimeout = null;
-
+  // Triggered on panel open/close only (no hover-delayed highlight) to keep
+  // class mutations rare and predictable. Updates are diff-based — only the
+  // cards whose focused state actually changes get touched — so Safari
+  // can't blame the highlight for a mass DOM mutation that would otherwise
+  // briefly invalidate its column-count layout.
   function highlightRelated(slugs) {
     if (!Array.isArray(slugs)) slugs = [slugs];
-    const related = new Set();
+    const next = new Set();
     slugs.forEach(s => {
-      related.add(s);
-      (relatedIndex[s] || new Set()).forEach(r => related.add(r));
+      if (!s) return;
+      next.add(s);
+      (relatedIndex[s] || new Set()).forEach(r => next.add(r));
     });
-    $grid.querySelectorAll('.card').forEach(card => {
-      card.classList.toggle('card-focused', related.has(card.dataset.slug));
+    const prev = new Set();
+    $grid.querySelectorAll('.card.card-focused').forEach(c => {
+      if (c.dataset.slug) prev.add(c.dataset.slug);
+    });
+    // Remove cards that fell out of the related set.
+    prev.forEach(slug => {
+      if (next.has(slug)) return;
+      const card = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+      if (card) card.classList.remove('card-focused');
+    });
+    // Add cards that newly entered the related set.
+    next.forEach(slug => {
+      if (prev.has(slug)) return;
+      const card = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+      if (card) card.classList.add('card-focused');
     });
   }
 
@@ -1817,28 +1834,6 @@
       if (loadedWeeks.has(key)) collapseWeek(key);
       else renderWeekCards(key);
     });
-
-    // Card hover -> highlight related (falls back to panel highlights on leave)
-    $grid.addEventListener('mouseenter', function (e) {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        highlightRelated(card.dataset.slug);
-      }, 2000);
-    }, true);
-
-    $grid.addEventListener('mouseleave', function (e) {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        if (!$grid.querySelector('.card:hover')) {
-          const open = PanelManager.getOpenSlug();
-          syncHighlightsToOpenPanels(open ? [open] : []);
-        }
-      }, 100);
-    }, true);
 
     // Card click -> open item in the side panel
     $grid.addEventListener('click', function (e) {
