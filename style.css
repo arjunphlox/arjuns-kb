@@ -356,10 +356,14 @@ html.arriving-from-login .header {
   overflow-y: auto;
 }
 
-/* === MAIN CONTENT INNER (header + grid share this wrapper's width/padding) === */
+/* === MAIN CONTENT INNER (header + grid share this wrapper's width/padding) ===
+   No max-width cap — the grid fills whatever main-content gives it so
+   wide viewports don't show empty gutters around the cards. The
+   masonry distribution still reads `--grid-cols` from JS, which is
+   capped at 5; column count can be raised separately if cards start
+   feeling too wide on large displays. */
 .content-inner {
   padding: 24px 24px 0;
-  max-width: 1800px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -1041,9 +1045,6 @@ html.arriving-from-login .header {
    redistribute of cards). CSS doesn't need to participate. Mobile-only
    rules (panel overlay, header inset, padding) stay on viewport @media
    queries because they reflect device characteristics, not grid width. */
-@media (min-width: 1840px) {
-  .content-inner { max-width: 2200px; }
-}
 @media (max-width: 768px) {
   .modal-panel { width: 100vw; }
   .content-inner { padding: 16px 16px 0; }
