@@ -761,6 +761,23 @@ body.resizing .panel { transition: none; }
   margin-bottom: 16px;
 }
 
+/* Native CSS Grid masonry — Safari 17.4+. Replaces the column-count
+   layout in browsers that support it, because column-count's reflow
+   on every panel-open / week-expand / hover briefly shows transitional
+   single-column state in WebKit. Grid masonry has its own paint path
+   that doesn't have that flicker. Browsers without support (Chromium
+   stable, older Safari, Firefox without the flag) fall through to the
+   column-count rules above, which work fine in those engines. */
+@supports (grid-template-rows: masonry) {
+  .masonry-section {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols, 5), 1fr);
+    grid-template-rows: masonry;
+    column-gap: 24px;
+    row-gap: 0; /* per-card margin-bottom drives vertical spacing */
+  }
+}
+
 /* Card — transparent, no container */
 .card {
   position: relative;
