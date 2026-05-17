@@ -2409,23 +2409,22 @@
   // never has to compete with two panels for width.
   // =========================================================================
   const PanelManager = (function () {
-    const DEFAULT_WIDTH = 480;
     const MIN_WIDTH = 320;
+    const MAX_WIDTH = 480;
     const STORAGE_KEY = 'stello.panels';
 
     const state = {
       slug: null,         // open item slug, or null
       tool: null,         // 'filters' | 'settings' | 'import' | null
-      width: DEFAULT_WIDTH,
       originSlug: null,   // card slug that triggered the item panel (for focus return)
-      userResized: false, // user has manually dragged the resize handle
     };
 
     let $container, $announcer;
 
-    function clampWidth(px) {
-      const max = Math.floor(window.innerWidth * 0.5);
-      return Math.max(MIN_WIDTH, Math.min(max, px | 0));
+    // Panel width is always 25% of viewport (rounded), clamped to [320, 480].
+    // No user-resize affordance — viewport drives it, simple and predictable.
+    function computePanelWidth() {
+      return Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, Math.round(window.innerWidth * 0.25)));
     }
 
     // ---- State <-> URL ----
@@ -2447,9 +2446,9 @@
     }
 
     // ---- State <-> localStorage ----
-    // Tolerates the legacy { slugs:[], widths:[], toolWidth } shape so users
-    // with the old key in localStorage still rehydrate cleanly the first
-    // time after this refactor.
+    // Stores only the open slug now — panel width is derived from viewport
+    // at render time. Tolerates legacy keys (`slugs[]`, `width`, `widths[]`,
+    // `toolWidth`) on read so old localStorage entries rehydrate cleanly.
     function syncFromStorage() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -2460,12 +2459,6 @@
         } else if (Array.isArray(data.slugs) && data.slugs[0] && itemsBySlug[data.slugs[0]]) {
           state.slug = data.slugs[0];
         }
-        if (typeof data.width === 'number') state.width = clampWidth(data.width);
-        else if (Array.isArray(data.widths) && typeof data.widths[0] === 'number') {
-          state.width = clampWidth(data.widths[0]);
-        } else if (typeof data.toolWidth === 'number') {
-          state.width = clampWidth(data.toolWidth);
-        }
         return !!state.slug;
       } catch { return false; }
     }
@@ -2473,7 +2466,6 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           slug: state.slug,
-          width: state.width,
         }));
       } catch { /* silent */ }
     }
@@ -2503,14 +2495,6 @@
       Array.from($container.children).forEach(el => el.remove());
 
       if (state.tool) {
-        const toolHandle = document.createElement('div');
-        toolHandle.className = 'resize-handle';
-        toolHandle.setAttribute('role', 'separator');
-        toolHandle.setAttribute('aria-label', 'Resize tool panel');
-        toolHandle.setAttribute('tabindex', '0');
-        bindResizeHandle(toolHandle);
-        $container.appendChild(toolHandle);
-
         const toolPanel = renderToolPanel(state.tool);
         if (toolPanel) $container.appendChild(toolPanel);
         syncHighlightsToOpenPanels([]);
@@ -2521,21 +2505,13 @@
       const item = itemsBySlug[state.slug];
       if (!item) { syncHighlightsToOpenPanels([]); return; }
 
-      const handle = document.createElement('div');
-      handle.className = 'resize-handle';
-      handle.setAttribute('role', 'separator');
-      handle.setAttribute('aria-label', 'Resize panel');
-      handle.setAttribute('tabindex', '0');
-      bindResizeHandle(handle);
-      $container.appendChild(handle);
-
       const panel = document.createElement('aside');
       panel.className = 'panel';
       panel.dataset.slug = state.slug;
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', `Item detail: ${item.title || state.slug}`);
       panel.setAttribute('tabindex', '-1');
-      panel.style.setProperty('--panel-width', state.width + 'px');
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2638,7 +2614,7 @@
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', TOOL_TITLES[type]);
       panel.setAttribute('tabindex', '-1');
-      panel.style.setProperty('--panel-width', state.width + 'px');
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2759,7 +2735,6 @@
       const originSlug = state.originSlug;
       state.slug = null;
       state.originSlug = null;
-      state.userResized = false;
 
       syncToURL(true);
       syncToStorage();
@@ -2818,53 +2793,6 @@
       if (panel) panel.focus({ preventScroll: false });
     }
 
-    function setWidth(px) {
-      state.width = clampWidth(px);
-      state.userResized = true;
-      const panel = $container && $container.querySelector('.panel');
-      if (panel) panel.style.setProperty('--panel-width', state.width + 'px');
-      syncToStorage();
-    }
-
-    // ---- Resize handle ----
-    function bindResizeHandle(handle) {
-      let startX = 0, startWidth = 0, rafPending = false, nextWidth = 0;
-
-      function onMove(e) {
-        const dx = startX - e.clientX; // drag left => grow panel
-        nextWidth = clampWidth(startWidth + dx);
-        if (!rafPending) {
-          rafPending = true;
-          requestAnimationFrame(() => {
-            rafPending = false;
-            const panel = $container.querySelector('.panel');
-            if (panel) panel.style.setProperty('--panel-width', nextWidth + 'px');
-          });
-        }
-      }
-      function onUp() {
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        document.body.classList.remove('resizing');
-        handle.classList.remove('active');
-        setWidth(nextWidth || startWidth);
-      }
-      handle.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startX = e.clientX;
-        startWidth = state.width;
-        nextWidth = startWidth;
-        document.body.classList.add('resizing');
-        handle.classList.add('active');
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-      handle.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { setWidth(state.width + 20); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { setWidth(state.width - 20); e.preventDefault(); }
-      });
-    }
-
     // ---- Keyboard shortcuts ----
     function bindKeys() {
       document.addEventListener('keydown', (e) => {
@@ -2879,13 +2807,14 @@
     }
 
     // ---- Window resize ----
+    // Panel width is 25% of viewport (clamped to [320, 480]). When the
+    // viewport changes, recompute and apply to whatever panel is open.
     let resizeTimeout = null;
     function onWindowResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        state.width = clampWidth(state.width);
         const panel = $container && $container.querySelector('.panel');
-        if (panel) panel.style.setProperty('--panel-width', state.width + 'px');
+        if (panel) panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
       }, 120);
     }
 
