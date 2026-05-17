@@ -835,6 +835,14 @@
       section.innerHTML = renderColumnsHTML(entries, colCount);
     });
     PanelManager.refreshAfterGridRender();
+    // refreshAfterGridRender re-applies .card-active for the open item,
+    // but not .card-focused (related-card outlines). Reapply those too —
+    // otherwise the first panel-open at a viewport where the column
+    // count drops would wipe the freshly-applied highlights, because
+    // ResizeObserver fires AFTER PanelManager.render() has already set
+    // them on the previous DOM nodes that we just rewrote.
+    const openSlug = PanelManager.getOpenSlug();
+    syncHighlightsToOpenPanels(openSlug ? [openSlug] : []);
   }
   let lastGridCols = null;
   function updateGridCols() {
