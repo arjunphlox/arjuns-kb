@@ -913,16 +913,16 @@ body.resizing .panel { transition: none; }
 }
 
 /* === RELATED CARD HIGHLIGHT ===
-   Dim non-focused cards instead of decorating focused ones. Safari has
-   a column-count rebalance bug that fires whenever many children
-   simultaneously gain an outset paint (outline, drop shadow, outset
-   box-shadow) — and `.card-focused` is added to every related card on
-   hover, which collapsed the grid to a single column. Opacity changes
-   are compositor-only and never reflow, so they can't trigger the bug.
-   The `:has()` selector lets this rule scope itself: it only kicks in
-   when at least one card in the grid is focused. */
-#masonry-grid:has(.card-focused) .card:not(.card-focused) {
-  opacity: 0.35;
+   Uses a double box-shadow (background-colored "spacer" ring + accent
+   ring) instead of outline + outline-offset because Safari clips outline
+   paint at column-count column boundaries when a card sits at the top or
+   bottom edge of its column. box-shadow paints within the element's
+   own stacking context and isn't clipped the same way. */
+.card-focused .card-visual-area {
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 5px var(--accent);
 }
 
 /* === EXPAND ICON (top-right of card) === */
