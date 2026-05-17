@@ -273,6 +273,7 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+    startGridColsObserver();
 
     // Background-stream remaining pages. Only runs if the first page hit the
     // limit — small libraries are done in a single round trip.
@@ -773,6 +774,38 @@
   }
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
+
+  // ---- Grid column-count observer ----
+  // Drives `--grid-cols` from `.main-content`'s actual width so the
+  // masonry responds to the available grid area, not the viewport.
+  // Safari has flaky container-query support on flex children (e.g.,
+  // .content-inner nested inside `.main-content { flex: 1 1 auto }`),
+  // so this JS path is the canonical source of truth — the @container
+  // queries in style.css are a secondary signal. Idempotent: setting
+  // the same value is a no-op for the renderer.
+  function computeGridCols(width) {
+    if (width <= 500) return 2;
+    if (width <= 768) return 3;
+    if (width <= 1200) return 4;
+    return 5;
+  }
+  function updateGridCols() {
+    const mc = document.querySelector('.main-content');
+    if (!mc) return;
+    const cols = computeGridCols(mc.offsetWidth);
+    document.documentElement.style.setProperty('--grid-cols', String(cols));
+  }
+  function startGridColsObserver() {
+    updateGridCols();
+    const mc = document.querySelector('.main-content');
+    if (!mc) return;
+    if (typeof ResizeObserver === 'function') {
+      const ro = new ResizeObserver(updateGridCols);
+      ro.observe(mc);
+    } else {
+      window.addEventListener('resize', updateGridCols);
+    }
+  }
 
   function sortItemsByAddedAt(arr) {
     arr.sort((a, b) => {

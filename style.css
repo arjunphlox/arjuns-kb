@@ -749,11 +749,14 @@ body.resizing .panel { transition: none; }
 }
 
 /* Masonry — CSS column-count, true top-to-bottom flow per column.
-   Column count is overridden by @container queries on .content-inner
-   (see RESPONSIVE block below) so the grid responds to its actual
-   available width rather than the viewport. */
+   `--grid-cols` is driven by JS (see updateGridCols / ResizeObserver in
+   app.js) so the column count tracks the actual grid width instead of
+   the viewport — needed because Safari has flaky container-query
+   support on flex children. The @container queries below are kept as a
+   secondary signal for browsers/builds where the JS path hasn't run
+   yet (e.g., between first paint and DOMContentLoaded). */
 .masonry-section {
-  column-count: 5;
+  column-count: var(--grid-cols, 5);
   column-gap: 24px;
   margin-bottom: 16px;
 }
@@ -909,11 +912,17 @@ body.resizing .panel { transition: none; }
   font-weight: 500;
 }
 
-/* === RELATED CARD HIGHLIGHT === */
+/* === RELATED CARD HIGHLIGHT ===
+   Uses a double box-shadow (background-colored "spacer" ring + accent
+   ring) instead of outline + outline-offset because Safari clips outline
+   paint at column-count column boundaries when a card sits at the top or
+   bottom edge of its column. box-shadow paints within the element's
+   own stacking context and isn't clipped the same way. */
 .card-focused .card-visual-area {
-  outline: 1px solid var(--accent);
-  outline-offset: 4px;
   border-radius: 4px;
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 5px var(--accent);
 }
 
 /* === EXPAND ICON (top-right of card) === */
