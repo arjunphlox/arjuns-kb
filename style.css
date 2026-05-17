@@ -797,6 +797,12 @@ body.resizing .panel { transition: none; }
   transition: opacity 0.18s ease-out;
   pointer-events: none;
   z-index: 1;
+  /* Promote to compositor layer so hover-triggered opacity transitions
+     run off the main thread. Without this, Safari has been observed to
+     invalidate the parent .masonry-section's column-count layout when
+     a child opacity/transform changes — visible as a brief column
+     collapse and restore during the 0.18s transition. */
+  will-change: opacity;
 }
 .card:hover .card-overlay { opacity: 1; }
 
@@ -822,6 +828,10 @@ body.resizing .panel { transition: none; }
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 99;
   text-overflow: ellipsis;
+  /* Compositor-layer promotion — see .card-overlay note. The transform
+     transition here is the primary trigger for Safari's column-count
+     re-layout flicker on hover. */
+  will-change: opacity, transform;
 }
 .card:hover .card-title-badge {
   opacity: 1;
@@ -955,6 +965,7 @@ body.resizing .panel { transition: none; }
   transition: opacity 0.2s ease, color 0.15s ease;
   z-index: 2;
   text-decoration: none;
+  will-change: opacity;
 }
 .card:hover .card-expand-icon {
   opacity: 1;
