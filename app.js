@@ -1019,7 +1019,6 @@
     return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1">
       <div class="card-visual-area">
         ${thumbHtml}
-        <div class="card-overlay"></div>
         <div class="card-title-badge">${escHtml(item.title || '')}</div>
         ${urlPill}
       </div>

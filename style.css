@@ -783,25 +783,24 @@ body.resizing .panel { transition: none; }
   overflow: hidden;
 }
 
-/* Dark hover overlay between image and title.
-   `inset: -2px` over-covers every edge by 2px. At sub-pixel column
-   widths the browser rounds an <img>'s edges and a CSS background's
-   edges differently, leaving a 1-ish-pixel strip of image visible
-   under a strict `inset: 0` overlay. The parent (.card-visual-area)
-   has `overflow: hidden` so the extra paint outside the card gets
-   clipped exactly at the visible card edge — over-covering on all
-   four sides costs nothing visually and removes the asymmetric
-   rounding chance entirely. */
-.card-overlay {
-  position: absolute;
-  inset: -2px;
-  background: var(--overlay-bg);
-  opacity: 0;
-  transition: opacity 0.18s ease-out;
-  pointer-events: none;
-  z-index: 1;
+/* Hover dim — darkens the card's visual content (image / text-card
+   typography / placeholder) directly via CSS `filter`. Replaces a
+   former absolutely-positioned overlay div, which had pixel-snapping
+   issues at fractional column widths (the overlay's edges and the
+   <img>'s edges rounded differently, leaving a 1px gap on some
+   cards). Applying the dim as a filter on the content itself means
+   the same pixels that draw the image also get darkened — no
+   alignment to manage. */
+.card-thumb,
+.card-text-content,
+.card-placeholder {
+  transition: filter 0.18s ease-out;
 }
-.card:hover .card-overlay { opacity: 1; }
+.card:hover .card-thumb,
+.card:hover .card-text-content,
+.card:hover .card-placeholder {
+  filter: brightness(0.35);
+}
 
 /* Title badge (overlay on hover). Spans full card width; bottom 40px is
    reserved for the URL pill so the title never touches the card edge. */
