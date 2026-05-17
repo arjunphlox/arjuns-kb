@@ -873,7 +873,6 @@
     syncHighlightsToOpenPanels(openSlug ? [openSlug] : []);
   }
   let lastGridCols = null;
-  let redistributeTimer = null;
   function updateGridCols() {
     const mc = document.querySelector('.main-content');
     if (!mc) return;
@@ -881,14 +880,7 @@
     if (cols === lastGridCols) return;
     lastGridCols = cols;
     document.documentElement.style.setProperty('--grid-cols', String(cols));
-    // Defer redistribute past the 0.6s panel-open/close transition so we
-    // don't rewrite masonry-section.innerHTML mid-animation (which would
-    // produce a visible card jump). 650ms = 600ms transition + 50ms slack.
-    clearTimeout(redistributeTimer);
-    redistributeTimer = setTimeout(() => {
-      redistributeTimer = null;
-      redistributeLoadedWeeks();
-    }, 650);
+    redistributeLoadedWeeks();
   }
   function startGridColsObserver() {
     updateGridCols();
@@ -2457,15 +2449,10 @@
 
     let $container, $announcer;
 
-    // Panel width is 25% of viewport (rounded), clamped to [360, 480].
-    // The computed value is also published as `--panel-width` on
-    // document.documentElement so the `.panels-container` flex-basis
-    // transition (in style.css) can read it.
+    // Panel width is always 25% of viewport (rounded), clamped to [320, 480].
+    // No user-resize affordance — viewport drives it, simple and predictable.
     function computePanelWidth() {
       return Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, Math.round(window.innerWidth * 0.25)));
-    }
-    function publishPanelWidth() {
-      document.documentElement.style.setProperty('--panel-width', computePanelWidth() + 'px');
     }
 
     // ---- State <-> URL ----
@@ -2552,9 +2539,7 @@
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', `Item detail: ${item.title || state.slug}`);
       panel.setAttribute('tabindex', '-1');
-      // No inline --panel-width — the var inherits from document.documentElement
-      // (set by publishPanelWidth()), so the panel and the .panels-container
-      // animation stay in sync on viewport resize.
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2657,7 +2642,7 @@
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', TOOL_TITLES[type]);
       panel.setAttribute('tabindex', '-1');
-      // --panel-width inherits from documentElement (publishPanelWidth()).
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2850,14 +2835,14 @@
     }
 
     // ---- Window resize ----
-    // Panel width tracks viewport (25%, clamped). Republish the CSS var
-    // so both the .panel and the .panels-container slide-in transition
-    // read the new value.
+    // Panel width is 25% of viewport (clamped to [320, 480]). When the
+    // viewport changes, recompute and apply to whatever panel is open.
     let resizeTimeout = null;
     function onWindowResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        publishPanelWidth();
+        const panel = $container && $container.querySelector('.panel');
+        if (panel) panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
       }, 120);
     }
 
@@ -2866,8 +2851,6 @@
       $container = document.getElementById('panels-container');
       $announcer = document.getElementById('panel-announcer');
       if (!$container) return;
-
-      publishPanelWidth();
 
       // Load precedence: URL first, else localStorage. Tool panel is
       // session-ephemeral and never auto-restored.
