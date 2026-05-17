@@ -776,15 +776,11 @@ body.resizing .panel { transition: none; }
   transition: opacity 0.3s ease;
 }
 
-/* Visual area wraps image + overlay + badges.
-   `border: 2px solid transparent` is always present so the related-card
-   highlight (.card-focused below) can flip just the border-color
-   without causing the content area to shift by 4px on toggle. */
+/* Visual area wraps image + overlay + badges */
 .card-visual-area {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
-  border: 2px solid transparent;
 }
 
 /* Dark hover overlay between image and title */
@@ -917,14 +913,14 @@ body.resizing .panel { transition: none; }
    paint at column-count column boundaries when a card sits at the top or
    bottom edge of its column. box-shadow paints within the element's
    own stacking context and isn't clipped the same way. */
-/* Related-card highlight: flip the always-present 2px transparent
-   border on .card-visual-area to the accent colour. No layout shift
-   (border space is reserved baseline), no outset paint, no z-index
-   dance with the hover overlay (border paints inside the
-   visual-area's outer edge and on top of any inner content via the
-   normal box-painting order). */
+/* Related-card highlight: outline floats 4px outside the visual-area
+   so the ring has breathing room from the image edge. Outline doesn't
+   take layout space, so toggling it doesn't shift adjacent cards.
+   This used to trigger Safari's column-count rebalance bug, but flex
+   masonry doesn't care about outset paint. */
 .card-focused .card-visual-area {
-  border-color: var(--accent);
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
 }
 
 /* === EXPAND ICON (top-right of card) === */
