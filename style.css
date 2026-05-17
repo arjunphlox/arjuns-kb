@@ -410,7 +410,10 @@ html.arriving-from-login .header {
 
 /* Panel width is computed in JS (`computePanelWidth`): 25% of viewport,
    clamped to [320, 480]. The CSS `transition: width` smooths the
-   recompute when the viewport resizes while a panel is open. */
+   recompute when the viewport resizes while a panel is open.
+   `animation: panel-slide-in` plays on every mount — PanelManager.render()
+   tears down and rebuilds the .panel element each open, so the
+   keyframe fires reliably without needing JS to toggle classes. */
 .panel {
   display: flex;
   flex-direction: column;
@@ -419,10 +422,15 @@ html.arriving-from-login .header {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;
-  transition: transform 250ms ease-out, opacity 250ms ease-out, width 150ms ease-out;
+  transition: width 150ms ease-out;
   overflow: hidden;
   height: 100%;
   flex-shrink: 0;
+  animation: panel-slide-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes panel-slide-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 
 
