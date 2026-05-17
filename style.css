@@ -920,12 +920,21 @@ body.resizing .panel { transition: none; }
    own stacking context and isn't clipped the same way. */
 .card-focused .card-visual-area {
   border-radius: 4px;
-  /* Inset ring (paints inside the visual-area's border-box) avoids
-     Safari's column-count rebalance bug: when many cards simultaneously
-     gain outset paint (outline, drop shadow, outset box-shadow), Safari
-     collapses the grid to a single column on hover. An inset shadow
-     never paints outside the element, so it can't trigger the bug. */
-  box-shadow: inset 0 0 0 2px var(--accent);
+}
+/* Related-card highlight ring. Drawn as an absolutely-positioned
+   pseudo-element sitting on TOP of the image content (inset box-shadow
+   paints below content in most browsers, so it'd be hidden by the
+   opaque image). `inset: 0` keeps the pseudo within the visual-area's
+   box — no outside paint, so Safari's column-count rebalance bug
+   (which fires when many cards simultaneously gain outset paint on
+   hover) doesn't trigger. */
+.card-focused .card-visual-area::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  pointer-events: none;
 }
 
 /* === EXPAND ICON (top-right of card) === */
