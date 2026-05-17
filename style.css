@@ -786,11 +786,15 @@ body.resizing .panel { transition: none; }
   contain: layout;
 }
 
-/* Visual area wraps image + overlay + badges */
+/* Visual area wraps image + overlay + badges.
+   `border: 2px solid transparent` is always present so the related-card
+   highlight (.card-focused below) can flip just the border-color
+   without causing the content area to shift by 4px on toggle. */
 .card-visual-area {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  border: 2px solid transparent;
 }
 
 /* Dark hover overlay between image and title */
@@ -933,28 +937,14 @@ body.resizing .panel { transition: none; }
    paint at column-count column boundaries when a card sits at the top or
    bottom edge of its column. box-shadow paints within the element's
    own stacking context and isn't clipped the same way. */
+/* Related-card highlight: flip the always-present 2px transparent
+   border on .card-visual-area to the accent colour. No layout shift
+   (border space is reserved baseline), no outset paint, no z-index
+   dance with the hover overlay (border paints inside the
+   visual-area's outer edge and on top of any inner content via the
+   normal box-painting order). */
 .card-focused .card-visual-area {
-  border-radius: 4px;
-}
-/* Related-card highlight ring. Drawn as an absolutely-positioned
-   pseudo-element sitting on TOP of the image content (inset box-shadow
-   paints below content in most browsers, so it'd be hidden by the
-   opaque image). `inset: 0` keeps the pseudo within the visual-area's
-   box — no outside paint, so Safari's column-count rebalance bug
-   (which fires when many cards simultaneously gain outset paint on
-   hover) doesn't trigger. */
-.card-focused .card-visual-area::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 2px solid var(--accent);
-  border-radius: 4px;
-  pointer-events: none;
-  /* Stack above .card-overlay (z:1), .card-title-badge (z:2), and
-     .card-url-pill (z:3) so the highlight ring stays visible on hover —
-     the dark hover overlay would otherwise hide the ring on the card
-     the user is hovering. */
-  z-index: 4;
+  border-color: var(--accent);
 }
 
 /* === EXPAND ICON (top-right of card) === */
