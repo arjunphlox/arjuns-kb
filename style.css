@@ -779,6 +779,11 @@ body.resizing .panel { transition: none; }
   /* column-count layout applies width automatically */
   display: inline-block;
   width: 100%;
+  /* Self-contain layout so hover-triggered opacity/transform changes
+     inside the card can't cause the parent .masonry-section's
+     column-count engine to re-evaluate. Safari without this hint
+     briefly collapses the grid to a single column during hover. */
+  contain: layout;
 }
 
 /* Visual area wraps image + overlay + badges */
