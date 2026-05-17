@@ -743,8 +743,9 @@
 
     const items = getFilteredItems();
     const weekItems = items.filter(i => getWeekKey(i.added_at) === weekKey);
+    const entries = weekItems.map((item, idx) => ({ item, idx }));
 
-    container.innerHTML = weekItems.map((item, idx) => renderCard(item, idx)).join('');
+    container.innerHTML = renderColumnsHTML(entries, currentGridCols());
     container.style.display = '';
     loadedWeeks.add(weekKey);
     header?.classList.add('is-expanded');
@@ -775,25 +776,75 @@
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
 
-  // ---- Grid column-count observer ----
-  // Drives `--grid-cols` from `.main-content`'s actual width so the
-  // masonry responds to the available grid area, not the viewport.
-  // Safari has flaky container-query support on flex children (e.g.,
-  // .content-inner nested inside `.main-content { flex: 1 1 auto }`),
-  // so this JS path is the canonical source of truth — the @container
-  // queries in style.css are a secondary signal. Idempotent: setting
-  // the same value is a no-op for the renderer.
+  // ---- Grid column-count observer + flex-masonry distribution ----
+  // The grid is N flex columns (`.masonry-col`), each a vertical stack of
+  // cards. `distributeIntoColumns` packs cards greedily into the
+  // currently-shortest column so the column heights end up balanced —
+  // same visual result as column-count masonry, but with rock-solid
+  // flex layout instead of WebKit's flicker-prone column engine.
+  //
+  // `updateGridCols` watches `.main-content`'s width via ResizeObserver
+  // and re-renders loaded weeks when the column count changes.
   function computeGridCols(width) {
     if (width <= 500) return 2;
     if (width <= 768) return 3;
     if (width <= 1200) return 4;
     return 5;
   }
+  const COL_WIDTH_ESTIMATE = 250; // px; rough enough for column-balance
+  function estimateCardHeight(item) {
+    if (item.image_width && item.image_height) {
+      return COL_WIDTH_ESTIMATE * (item.image_height / item.image_width);
+    }
+    if (item.has_image) {
+      // OG default 1200/630 aspect ratio
+      return COL_WIDTH_ESTIMATE * (630 / 1200);
+    }
+    // Text/placeholder cards are clamped by CSS to ~242px regardless of width.
+    return 242;
+  }
+  function distributeIntoColumns(entries, colCount) {
+    const cols = Array.from({ length: colCount }, () => ({ entries: [], height: 0 }));
+    for (const entry of entries) {
+      let shortest = cols[0];
+      for (const c of cols) if (c.height < shortest.height) shortest = c;
+      shortest.entries.push(entry);
+      shortest.height += estimateCardHeight(entry.item);
+    }
+    return cols.map(c => c.entries);
+  }
+  function renderColumnsHTML(entries, colCount) {
+    const cols = distributeIntoColumns(entries, colCount);
+    return cols
+      .map(colEntries => `<div class="masonry-col">${colEntries.map(e => renderCard(e.item, e.idx)).join('')}</div>`)
+      .join('');
+  }
+  function currentGridCols() {
+    const v = document.documentElement.style.getPropertyValue('--grid-cols');
+    const n = parseInt(v, 10);
+    return Number.isFinite(n) && n > 0 ? n : 5;
+  }
+  function redistributeLoadedWeeks() {
+    const colCount = currentGridCols();
+    const items = getFilteredItems();
+    loadedWeeks.forEach(weekKey => {
+      const section = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
+      if (!section) return;
+      const weekItems = items.filter(i => getWeekKey(i.added_at) === weekKey);
+      const entries = weekItems.map((item, idx) => ({ item, idx }));
+      section.innerHTML = renderColumnsHTML(entries, colCount);
+    });
+    PanelManager.refreshAfterGridRender();
+  }
+  let lastGridCols = null;
   function updateGridCols() {
     const mc = document.querySelector('.main-content');
     if (!mc) return;
     const cols = computeGridCols(mc.offsetWidth);
+    if (cols === lastGridCols) return;
+    lastGridCols = cols;
     document.documentElement.style.setProperty('--grid-cols', String(cols));
+    redistributeLoadedWeeks();
   }
   function startGridColsObserver() {
     updateGridCols();
@@ -824,6 +875,7 @@
     if (isSearchActive()) { renderGrid(); return; }
     const items = getFilteredItems();
     const weeks = groupByWeek(items);
+    const colCount = currentGridCols();
     let html = '';
     weeks.forEach(week => {
       if ($grid.querySelector(`.date-section-header[data-week="${week.key}"]`)) return;
@@ -832,7 +884,7 @@
       const aria = isLoaded ? 'Collapse week' : 'Expand week';
       const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
       html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
-      html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">${isLoaded ? week.items.map(e => renderCard(e.item, e.idx)).join('') : ''}</div>`;
+      html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">${isLoaded ? renderColumnsHTML(week.items, colCount) : ''}</div>`;
     });
     if (html) $grid.insertAdjacentHTML('beforeend', html);
   }
@@ -857,6 +909,7 @@
       if (weeks.length > 0) loadedWeeks.add(weeks[0].key);
     }
 
+    const colCount = currentGridCols();
     let html = '';
     weeks.forEach((week, wi) => {
       const isLoaded = loadedWeeks.has(week.key);
@@ -866,7 +919,7 @@
       html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
-        html += week.items.map(e => renderCard(e.item, e.idx)).join('');
+        html += renderColumnsHTML(week.items, colCount);
       }
       html += '</div>';
     });
@@ -875,12 +928,12 @@
 
     // Tag each direct child with a --idx so the post-login stagger reveal
     // (style.css) can cascade in. Cheap enough to run on every render.
+    // Cards now live inside `.masonry-col` wrappers — walk descendants
+    // instead of direct children.
     const children = $grid.children;
     for (let i = 0; i < children.length; i++) {
       children[i].style.setProperty('--idx', i);
-      // Cards inside each week section also stagger independently so the first
-      // row appears without waiting for the whole list.
-      const cards = children[i].querySelectorAll(':scope > .card');
+      const cards = children[i].querySelectorAll('.card');
       for (let j = 0; j < cards.length; j++) {
         cards[j].style.setProperty('--idx', j);
       }

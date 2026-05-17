@@ -366,12 +366,6 @@ html.arriving-from-login .header {
   flex-direction: column;
   gap: 16px;
   transition: padding-right 200ms ease;
-  /* Container query context for the masonry column count. Lets the grid
-     respond to its actual available width (which shrinks when a panel is
-     open) instead of the viewport — otherwise opening a side panel can
-     leave 5 columns squeezed into ~600px of content area. */
-  container-type: inline-size;
-  container-name: grid;
 }
 /* Halve the right inset whenever a panel (item or tool) is open, so the
    perceived gap between the grid and the panel stays ~24px instead of
@@ -748,37 +742,31 @@ body.resizing .panel { transition: none; }
   display: block;
 }
 
-/* Masonry — CSS column-count, true top-to-bottom flow per column.
-   `--grid-cols` is driven by JS (see updateGridCols / ResizeObserver in
-   app.js) so the column count tracks the actual grid width instead of
-   the viewport — needed because Safari has flaky container-query
-   support on flex children. The @container queries below are kept as a
-   secondary signal for browsers/builds where the JS path hasn't run
-   yet (e.g., between first paint and DOMContentLoaded). */
+/* Masonry — flex-column stacks. Each `.masonry-section` is a row of N
+   flex columns (`.masonry-col`), each a flex-column stack of cards.
+   Cards are distributed across columns in JS (`distributeIntoColumns`
+   in app.js) using a shortest-column-wins greedy algorithm so the
+   columns end up balanced in height. Reason for not using
+   `column-count`: WebKit's column engine recomputes the layout on
+   every panel-open, week-expand, and even on hover, briefly showing
+   transitional single-column state. Flex layout has no such recompute. */
 .masonry-section {
-  column-count: var(--grid-cols, 5);
-  column-gap: 24px;
+  display: flex;
+  gap: 24px;
   margin-bottom: 16px;
 }
-
-/* Native CSS Grid masonry — Safari 17.4+. Replaces the column-count
-   layout in browsers that support it, because column-count's reflow
-   on every panel-open / week-expand / hover briefly shows transitional
-   single-column state in WebKit. Grid masonry has its own paint path
-   that doesn't have that flicker. Browsers without support (Chromium
-   stable, older Safari, Firefox without the flag) fall through to the
-   column-count rules above, which work fine in those engines. */
-@supports (grid-template-rows: masonry) {
-  .masonry-section {
-    display: grid;
-    grid-template-columns: repeat(var(--grid-cols, 5), 1fr);
-    grid-template-rows: masonry;
-    column-gap: 24px;
-    row-gap: 0; /* per-card margin-bottom drives vertical spacing */
-  }
+.masonry-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* Card — transparent, no container */
+/* Card — transparent, no container. Inside a `.masonry-col` flex stack,
+   the card's width is set by the column's flex track; height follows
+   the image's natural aspect ratio (or the OG-default fallback for
+   un-backfilled items). No column-count properties needed any more. */
 .card {
   position: relative;
   background: transparent;
@@ -786,20 +774,8 @@ body.resizing .panel { transition: none; }
   overflow: visible;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  /* Triple-barreled break control: modern + WebKit legacy + page-level fallback.
-     Without all three, Safari and long cards with ::before indicators can still
-     fragment across columns when the selection state changes layout. */
-  break-inside: avoid-column;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  margin-bottom: 24px;
-  /* column-count layout applies width automatically */
-  display: inline-block;
-  width: 100%;
   /* Self-contain layout so hover-triggered opacity/transform changes
-     inside the card can't cause the parent .masonry-section's
-     column-count engine to re-evaluate. Safari without this hint
-     briefly collapses the grid to a single column during hover. */
+     inside the card can't propagate out to siblings. */
   contain: layout;
 }
 
@@ -1077,28 +1053,20 @@ body.resizing .panel { transition: none; }
 }
 
 /* === RESPONSIVE ===
-   Column count is driven by `.content-inner`'s container width (see
-   `container-name: grid` above) so it shrinks correctly when a side panel
-   takes part of the viewport. Mobile-only rules (panel overlay, header
-   inset, padding) stay on viewport @media queries because they reflect
-   device characteristics, not available grid width. */
+   Column count is driven entirely by JS now (`updateGridCols` in app.js
+   sets `--grid-cols` from `.main-content`'s width and triggers a
+   redistribute of cards). CSS doesn't need to participate. Mobile-only
+   rules (panel overlay, header inset, padding) stay on viewport @media
+   queries because they reflect device characteristics, not grid width. */
 @media (min-width: 1840px) {
   .content-inner { max-width: 2200px; }
-}
-@container grid (max-width: 1200px) {
-  .masonry-section { column-count: 4; }
-}
-@container grid (max-width: 768px) {
-  .masonry-section { column-count: 3; }
-}
-@container grid (max-width: 500px) {
-  .masonry-section { column-count: 2; column-gap: 12px; }
-  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
 }
 @media (max-width: 768px) {
   .modal-panel { width: 100vw; }
   .content-inner { padding: 16px 16px 0; }
   .header { top: 16px; }
+  .masonry-section { gap: 12px; }
+  .masonry-col { gap: 12px; }
 }
 @media (max-width: 500px) {
   .content-inner { padding: 12px 12px 0; }
@@ -2148,7 +2116,7 @@ body.just-logged-in .search-input { animation-delay: 60ms; }
 body.just-logged-in .active-filters { animation-delay: 90ms; }
 body.just-logged-in .grid-container { animation-delay: 110ms; }
 body.just-logged-in #masonry-grid > .date-section-header,
-body.just-logged-in #masonry-grid > .masonry-section > .card {
+body.just-logged-in #masonry-grid .masonry-section .card {
   opacity: 0;
   animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
   animation-delay: calc(150ms + min(var(--idx, 0), 8) * 30ms);
@@ -2162,7 +2130,7 @@ body.just-logged-in #masonry-grid > .masonry-section > .card {
   body.just-logged-in .active-filters,
   body.just-logged-in .grid-container,
   body.just-logged-in #masonry-grid > .date-section-header,
-  body.just-logged-in #masonry-grid > .masonry-section > .card {
+  body.just-logged-in #masonry-grid .masonry-section .card {
     opacity: 1;
     animation: none;
     transform: none;
