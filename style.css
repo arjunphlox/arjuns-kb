@@ -856,9 +856,18 @@ body.resizing .panel { transition: none; }
    first paint, then yields to the image's intrinsic ratio once it loads.
    Without this, Safari reflows the column-count masonry every time a
    thumb's natural height resolves — visible as cards jumping between
-   columns on initial load. */
+   columns on initial load.
+   `height: auto` is critical: when items.images[] carries the image's
+   width/height (so the card can render at the right aspect-ratio from
+   t=0), we emit them as <img width=W height=H>. The HTML height attr
+   becomes a presentational hint and applies as literal pixels if no CSS
+   rule overrides it — which makes every card render at the natural
+   image height instead of the column-scaled height. `height: auto`
+   forces the browser to compute height from the intrinsic ratio + the
+   CSS width: 100%. */
 .card-thumb {
   width: 100%;
+  height: auto;
   display: block;
   background: var(--bg-secondary);
   border-radius: 4px;
