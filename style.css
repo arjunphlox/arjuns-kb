@@ -799,7 +799,7 @@ body.resizing .panel { transition: none; }
 .card:hover .card-thumb,
 .card:hover .card-text-content,
 .card:hover .card-placeholder {
-  filter: brightness(0.35);
+  filter: brightness(0.175);
 }
 
 /* Title badge (overlay on hover). Spans full card width; bottom 40px is
