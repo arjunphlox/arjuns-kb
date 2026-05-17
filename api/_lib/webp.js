@@ -2,7 +2,12 @@ const sharp = require('sharp');
 
 /**
  * Convert an arbitrary image buffer to WebP. Optionally resize the
- * longest side to `maxWidth`. Returns `{ buffer, ext, mime }`.
+ * longest side to `maxWidth`. Returns `{ buffer, ext, mime, width, height }`.
+ *
+ * width/height reflect the *output* image dimensions (post-resize). Stored
+ * alongside the image so the frontend can render the thumbnail with the
+ * exact aspect-ratio slot from t=0 — no column-count reflow when the
+ * pixels eventually arrive.
  *
  * Uses sharp (libvips + libwebp). Preserves animated GIFs as animated
  * WebP. Caps effort at 4 for a reasonable speed/size trade-off during
@@ -20,11 +25,17 @@ async function toWebp(buffer, opts = {}) {
     }
   }
 
-  const out = await pipeline
+  const { data: out, info } = await pipeline
     .webp({ quality, lossless, effort: 4 })
-    .toBuffer();
+    .toBuffer({ resolveWithObject: true });
 
-  return { buffer: out, ext: '.webp', mime: 'image/webp' };
+  return {
+    buffer: out,
+    ext: '.webp',
+    mime: 'image/webp',
+    width: info.width || null,
+    height: info.height || null,
+  };
 }
 
 /**
@@ -44,9 +55,19 @@ function isWebp(buffer) {
  * If the buffer is already WebP, return it unchanged. Otherwise
  * convert. Shortcut used for manual uploads where we want to skip
  * a sharp pass for files the user already pre-converted.
+ * Either way, we read width/height from sharp metadata so callers
+ * can persist them.
  */
 async function ensureWebp(buffer, opts = {}) {
-  if (isWebp(buffer)) return { buffer, ext: '.webp', mime: 'image/webp' };
+  if (isWebp(buffer)) {
+    let width = null, height = null;
+    try {
+      const meta = await sharp(buffer, { failOnError: false }).metadata();
+      width = meta.width || null;
+      height = meta.height || null;
+    } catch { /* dimensions unknown — frontend falls back to aspect-ratio: auto */ }
+    return { buffer, ext: '.webp', mime: 'image/webp', width, height };
+  }
   return toWebp(buffer, opts);
 }
 

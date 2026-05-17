@@ -42,7 +42,16 @@ async function captureScreenshots(url, opts = {}) {
           type: 'webp',
           quality: 78,
         });
-        out.push({ width, buffer });
+        // Read actual output dimensions so the frontend can reserve the
+        // exact aspect-ratio slot without waiting for the WebP to load.
+        let outW = width, outH = null;
+        try {
+          const sharp = require('sharp');
+          const meta = await sharp(buffer).metadata();
+          outW = meta.width || width;
+          outH = meta.height || null;
+        } catch { /* dims optional */ }
+        out.push({ width, buffer, outWidth: outW, outHeight: outH });
       } catch (err) {
         console.warn('screenshots: shot failed', url, width, err.message);
       }

@@ -80,6 +80,8 @@ module.exports = async function handler(req, res) {
             label: body.manual_image_upload.label || null,
             source: 'manual',
             is_primary: images.length === 0,
+            width: converted.width || null,
+            height: converted.height || null,
           });
         }
       } else {
@@ -95,7 +97,7 @@ module.exports = async function handler(req, res) {
     const have = new Set(images.map(i => i.path));
     for (const path of body.add_image_paths) {
       if (!path || have.has(path)) continue;
-      // Look up source label from candidates.images if we have it
+      // Look up source label + dimensions from candidates.images if we have it
       const candMatch = Array.isArray(candidates.images)
         ? candidates.images.find(c => c.path === path || c.url === path)
         : null;
@@ -104,6 +106,8 @@ module.exports = async function handler(req, res) {
         label: candMatch?.label || null,
         source: candMatch ? (candMatch.source || 'extracted') : 'extracted',
         is_primary: images.length === 0,
+        width: candMatch?.width || null,
+        height: candMatch?.height || null,
       });
       have.add(path);
     }
@@ -149,6 +153,8 @@ module.exports = async function handler(req, res) {
         label: candMatch?.label || null,
         source: candMatch ? (candMatch.source || 'extracted') : 'extracted',
         is_primary: true,
+        width: candMatch?.width || null,
+        height: candMatch?.height || null,
       });
     }
   }

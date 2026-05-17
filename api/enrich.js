@@ -390,7 +390,10 @@ async function harvestImageCandidates({ html, sourceUrl, client, userId, slug, e
     }
     const { data: urlData } = client.storage.from('item-images').getPublicUrl(storagePath);
     if (urlData?.publicUrl) {
-      out.push({ path: urlData.publicUrl, label: cand.label, source: 'extracted' });
+      out.push({
+        path: urlData.publicUrl, label: cand.label, source: 'extracted',
+        width: img.width || null, height: img.height || null,
+      });
       n++;
     }
   }

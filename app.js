@@ -238,12 +238,16 @@
     if (!session) return; // redirecting to login
     Stello.initAuthListener();
 
-    // Load items from Supabase, paging through results (default limit is 1000)
+    // Load items from Supabase, paging through results (default limit is 1000).
+    // First-page-first: render with the most recent 1000 items immediately,
+    // then stream older history in the background. Subsequent pages cover
+    // older weeks that are collapsed by default, so their headers can be
+    // appended without disturbing the already-rendered first weeks.
     const client = Stello.getClient();
     const userId = Stello.getUserId();
     const PAGE = 1000;
-    let all = [];
-    for (let from = 0; ; from += PAGE) {
+
+    async function fetchItemsPage(from) {
       const { data, error } = await client
         .from('items')
         .select('*')
@@ -252,21 +256,14 @@
         .range(from, from + PAGE - 1);
       if (error) {
         console.error('Failed to load items from Supabase:', error.message);
-        break;
+        return [];
       }
-      if (!data || data.length === 0) break;
-      all = all.concat(data);
-      if (data.length < PAGE) break;
+      return data || [];
     }
-    allItems = all.map(normalizeItem);
 
-    // Sort by date descending (most recent first)
-    allItems.sort((a, b) => {
-      const da = a.added_at ? new Date(a.added_at).getTime() : 0;
-      const db = b.added_at ? new Date(b.added_at).getTime() : 0;
-      return db - da;
-    });
-
+    const firstPage = await fetchItemsPage(0);
+    allItems = firstPage.map(normalizeItem);
+    sortItemsByAddedAt(allItems);
     itemsBySlug = {};
     allItems.forEach(item => { itemsBySlug[item.slug] = item; });
 
@@ -276,6 +273,33 @@
     injectHeaderIcons();
     bindEvents();
     PanelManager.init();
+    startGridColsObserver();
+
+    // Background-stream remaining pages. Only runs if the first page hit the
+    // limit — small libraries are done in a single round trip.
+    if (firstPage.length === PAGE) {
+      (async () => {
+        for (let from = PAGE; ; from += PAGE) {
+          const page = await fetchItemsPage(from);
+          if (page.length === 0) break;
+          const normalized = page.map(normalizeItem);
+          allItems = allItems.concat(normalized);
+          normalized.forEach(item => { itemsBySlug[item.slug] = item; });
+          if (page.length < PAGE) break;
+        }
+        sortItemsByAddedAt(allItems);
+        buildRelatedIndex();
+        renderStats();
+        appendOlderWeeks();
+        // Re-run dimensions backfill now that older pages are in memory.
+        // Use setTimeout rather than requestIdleCallback because the
+        // initial backfill keeps the main thread fairly busy (image
+        // probes + Supabase writes), so an idle callback can be starved.
+        // backfillImageDimensions is idempotent and self-locking so
+        // overlapping calls coalesce safely.
+        setTimeout(() => backfillImageDimensions(), 500);
+      })();
+    }
 
     // Kick off silent backfill for items that predate the entity-decode
     // and rule-enrichment fixes. Runs in the background, two concurrent
@@ -284,6 +308,19 @@
       requestIdleCallback(() => backfillEnrichment(), { timeout: 4000 });
     } else {
       setTimeout(() => backfillEnrichment(), 2500);
+    }
+
+    // Backfill image dimensions for legacy items (captured before sharp
+    // started storing width/height). Sniffs naturalWidth/naturalHeight
+    // from the loaded image and persists via the user's session — the
+    // RLS policy `Users can update own items` covers this. After enough
+    // sessions every card has explicit width/height, eliminating the
+    // column-count reflow that caused thumbnails to fragment across
+    // columns.
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => backfillImageDimensions(), { timeout: 8000 });
+    } else {
+      setTimeout(() => backfillImageDimensions(), 6000);
     }
   }
 
@@ -364,6 +401,134 @@
     console.log(`[stello] backfill: done (${processed}/${queue.length})`);
   }
 
+  // --- Lazy image-dimensions backfill ---
+  // Sniffs naturalWidth/naturalHeight from each legacy image and persists
+  // them into items.images[] so subsequent renders emit <img width=W
+  // height=H> and the column-count engine never reflows on image-load.
+  // Runs at idle priority, two concurrent fetches at a time, capped at
+  // 50 items per session to avoid hammering Supabase on first visit.
+  function loadImageDimensions(url) {
+    return new Promise(resolve => {
+      const probe = new Image();
+      let done = false;
+      const finish = (val) => { if (done) return; done = true; resolve(val); };
+      probe.onload = () => finish({ width: probe.naturalWidth || 0, height: probe.naturalHeight || 0 });
+      probe.onerror = () => finish(null);
+      probe.src = url;
+      // Guard against images that never resolve so we don't hold a worker forever.
+      setTimeout(() => finish(null), 8000);
+    });
+  }
+
+  let dimsBackfillRunning = false;
+  let dimsBackfillPending = false;
+  async function backfillImageDimensions() {
+    if (dimsBackfillRunning) {
+      // A call arrived mid-run — likely after background pages added more
+      // items. Mark for re-run once the current pass releases the lock.
+      dimsBackfillPending = true;
+      return;
+    }
+    if (!window.Stello) return;
+    const client = Stello.getClient();
+    const userId = Stello.getUserId();
+    if (!client || !userId) return;
+
+    // Items qualify if they have a renderable image (either an entry in
+    // images[] or just og_image_path from a legacy capture) and that
+    // image lacks dimensions. Legacy rows often have only og_image_path,
+    // so we synthesise an images[] entry here — same shape as the seeding
+    // step in api/item-update.js.
+    const queue = allItems.filter(item => {
+      if (!item.has_image) return false;
+      const imgs = item.images || [];
+      const primary = imgs.find(i => i && i.is_primary) || imgs[0];
+      if (primary && primary.path) {
+        return !(primary.width && primary.height);
+      }
+      // No images[] entry — fall back to og_image_path. Caller will seed.
+      return !!item.og_image_path;
+    });
+    if (queue.length === 0) return;
+    dimsBackfillRunning = true;
+
+    // No per-session cap — runs at idle priority so it's harmless to let
+    // the whole queue drain. 4 concurrent fetches is well below Supabase
+    // storage's per-IP rate limits.
+    const work = queue;
+    const CONCURRENCY = 4;
+    let next = 0;
+    let processed = 0;
+
+    async function worker() {
+      while (true) {
+        const slot = next++;
+        if (slot >= work.length) return;
+        const item = work[slot];
+        try {
+          let imgs = (item.images || []).slice();
+          let primaryIdx = imgs.findIndex(i => i && i.is_primary);
+          // Legacy row: synthesise the OG entry into images[] so the
+          // dimensions can ride along on the same JSON shape we use for
+          // every other image source.
+          if (primaryIdx < 0 && (!imgs.length || !imgs[0]?.path)) {
+            if (!item.og_image_path) continue;
+            imgs = [{ path: item.og_image_path, source: 'og', is_primary: true }];
+            primaryIdx = 0;
+          }
+          const idx = primaryIdx >= 0 ? primaryIdx : 0;
+          const entry = imgs[idx];
+          if (!entry || !entry.path) continue;
+
+          const dims = await loadImageDimensions(entry.path);
+          if (!dims || !dims.width || !dims.height) continue;
+
+          imgs[idx] = { ...entry, width: dims.width, height: dims.height };
+          const { error } = await client.from('items')
+            .update({ images: JSON.stringify(imgs) })
+            .eq('slug', item.slug)
+            .eq('user_id', userId);
+          if (error) continue;
+
+          // Update in-memory state so subsequent renders pick up the dims.
+          item.images = imgs;
+          item.image_width = dims.width;
+          item.image_height = dims.height;
+          itemsBySlug[item.slug] = item;
+
+          // Patch the live <img> attrs in case the card is currently mounted —
+          // doesn't change layout (image already loaded), but keeps the DOM
+          // accurate and helps tools that introspect it.
+          const cardEl = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(item.slug)}"] .card-thumb`);
+          if (cardEl) {
+            cardEl.setAttribute('width', String(dims.width));
+            cardEl.setAttribute('height', String(dims.height));
+          }
+          processed++;
+        } catch { /* keep working */ }
+      }
+    }
+
+    const workers = [];
+    for (let i = 0; i < CONCURRENCY; i++) workers.push(worker());
+    await Promise.all(workers);
+    dimsBackfillRunning = false;
+
+    if (processed > 0) console.log(`[stello] image-dims backfill: ${processed}/${work.length} items`);
+
+    // If another call arrived mid-run (likely from the background-page
+    // loader handing off more items), pick those up now.
+    if (dimsBackfillPending) {
+      dimsBackfillPending = false;
+      backfillImageDimensions();
+    }
+  }
+
+  function cssSelectorEscape(s) {
+    if (window.CSS && CSS.escape) return CSS.escape(s);
+    return String(s).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
+  }
+
   /** Normalize a Supabase item row to match the frontend shape */
   function normalizeItem(row) {
     const tags = parseJsonField(row.tags, []);
@@ -372,6 +537,12 @@
     const enrichment_candidates = parseJsonField(row.enrichment_candidates, {});
     const primary = images.find(i => i && i.is_primary) || images[0] || null;
     const image_path = primary?.path || row.og_image_path || null;
+    // When the primary image entry carries width/height (populated by the
+    // server-side sharp pipeline), surface them so renderCard can emit them
+    // as <img width=W height=H> — locks the card's aspect-ratio slot before
+    // pixels arrive, preventing column-count reflow on load.
+    const image_width = primary?.width || null;
+    const image_height = primary?.height || null;
     return {
       ...row,
       tags,
@@ -380,6 +551,8 @@
       enrichment_candidates,
       has_image: !!image_path,
       image_path,
+      image_width,
+      image_height,
     };
   }
 
@@ -399,33 +572,61 @@
   }
 
   // --- Relatedness Index ---
+  // Item B is related to item A if BOTH:
+  //   • A and B share a tag in category `format` OR `domain` (category match)
+  //   • A and B share ≥ 3 tags with weight ≥ 0.5 (any category)
+  // A category match alone isn't enough; tag overlap alone isn't enough.
   function buildRelatedIndex() {
-    const tagToSlugs = {};
+    const slugsByFormat = {};
+    const slugsByDomain = {};
+    const slugsByHeavyTag = {};
+
     allItems.forEach(item => {
       item.tags.forEach(t => {
-        if (t.category === 'format' || t.weight < 0.5) return;
-        const key = t.category + ':' + t.tag;
-        if (!tagToSlugs[key]) tagToSlugs[key] = [];
-        tagToSlugs[key].push(item.slug);
+        if (t.category === 'format') {
+          (slugsByFormat[t.tag] || (slugsByFormat[t.tag] = [])).push(item.slug);
+        }
+        if (t.category === 'domain') {
+          (slugsByDomain[t.tag] || (slugsByDomain[t.tag] = [])).push(item.slug);
+        }
+        if (t.weight >= 0.5) {
+          const key = t.category + ':' + t.tag;
+          (slugsByHeavyTag[key] || (slugsByHeavyTag[key] = [])).push(item.slug);
+        }
       });
     });
 
     relatedIndex = {};
     allItems.forEach(item => {
-      const candidates = {};
+      // Candidate pool: items sharing the item's format or domain.
+      const candidates = new Set();
       item.tags.forEach(t => {
-        if (t.category === 'format' || t.weight < 0.5) return;
+        if (t.category === 'format') {
+          (slugsByFormat[t.tag] || []).forEach(slug => {
+            if (slug !== item.slug) candidates.add(slug);
+          });
+        }
+        if (t.category === 'domain') {
+          (slugsByDomain[t.tag] || []).forEach(slug => {
+            if (slug !== item.slug) candidates.add(slug);
+          });
+        }
+      });
+
+      // Tag-overlap counts, scoped to the candidate pool.
+      const overlap = {};
+      item.tags.forEach(t => {
+        if (t.weight < 0.5) return;
         const key = t.category + ':' + t.tag;
-        const siblings = tagToSlugs[key] || [];
-        siblings.forEach(slug => {
-          if (slug !== item.slug) {
-            candidates[slug] = (candidates[slug] || 0) + 1;
-          }
+        (slugsByHeavyTag[key] || []).forEach(slug => {
+          if (slug === item.slug || !candidates.has(slug)) return;
+          overlap[slug] = (overlap[slug] || 0) + 1;
         });
       });
+
       const related = new Set();
-      for (const [slug, count] of Object.entries(candidates)) {
-        if (count >= 2) related.add(slug);
+      for (const [slug, count] of Object.entries(overlap)) {
+        if (count >= 3) related.add(slug);
       }
       relatedIndex[item.slug] = related;
     });
@@ -570,8 +771,9 @@
 
     const items = getFilteredItems();
     const weekItems = items.filter(i => getWeekKey(i.added_at) === weekKey);
+    const entries = weekItems.map((item, idx) => ({ item, idx }));
 
-    container.innerHTML = weekItems.map((item, idx) => renderCard(item, idx)).join('');
+    container.innerHTML = renderColumnsHTML(entries, currentGridCols());
     container.style.display = '';
     loadedWeeks.add(weekKey);
     header?.classList.add('is-expanded');
@@ -602,6 +804,127 @@
 
   const isSearchActive = () => searchQuery || activeTags.length > 0;
 
+  // ---- Grid column-count observer + flex-masonry distribution ----
+  // The grid is N flex columns (`.masonry-col`), each a vertical stack of
+  // cards. `distributeIntoColumns` packs cards greedily into the
+  // currently-shortest column so the column heights end up balanced —
+  // same visual result as column-count masonry, but with rock-solid
+  // flex layout instead of WebKit's flicker-prone column engine.
+  //
+  // `updateGridCols` watches `.main-content`'s width via ResizeObserver
+  // and re-renders loaded weeks when the column count changes.
+  function computeGridCols(width) {
+    if (width <= 500) return 2;
+    if (width <= 768) return 3;
+    if (width <= 1200) return 4;
+    return 5;
+  }
+  const COL_WIDTH_ESTIMATE = 250; // px; rough enough for column-balance
+  function estimateCardHeight(item) {
+    if (item.image_width && item.image_height) {
+      return COL_WIDTH_ESTIMATE * (item.image_height / item.image_width);
+    }
+    if (item.has_image) {
+      // OG default 1200/630 aspect ratio
+      return COL_WIDTH_ESTIMATE * (630 / 1200);
+    }
+    // Text/placeholder cards are clamped by CSS to ~242px regardless of width.
+    return 242;
+  }
+  function distributeIntoColumns(entries, colCount) {
+    const cols = Array.from({ length: colCount }, () => ({ entries: [], height: 0 }));
+    for (const entry of entries) {
+      let shortest = cols[0];
+      for (const c of cols) if (c.height < shortest.height) shortest = c;
+      shortest.entries.push(entry);
+      shortest.height += estimateCardHeight(entry.item);
+    }
+    return cols.map(c => c.entries);
+  }
+  function renderColumnsHTML(entries, colCount) {
+    const cols = distributeIntoColumns(entries, colCount);
+    return cols
+      .map(colEntries => `<div class="masonry-col">${colEntries.map(e => renderCard(e.item, e.idx)).join('')}</div>`)
+      .join('');
+  }
+  function currentGridCols() {
+    const v = document.documentElement.style.getPropertyValue('--grid-cols');
+    const n = parseInt(v, 10);
+    return Number.isFinite(n) && n > 0 ? n : 5;
+  }
+  function redistributeLoadedWeeks() {
+    const colCount = currentGridCols();
+    const items = getFilteredItems();
+    loadedWeeks.forEach(weekKey => {
+      const section = $grid.querySelector(`.masonry-section[data-week="${weekKey}"]`);
+      if (!section) return;
+      const weekItems = items.filter(i => getWeekKey(i.added_at) === weekKey);
+      const entries = weekItems.map((item, idx) => ({ item, idx }));
+      section.innerHTML = renderColumnsHTML(entries, colCount);
+    });
+    PanelManager.refreshAfterGridRender();
+    // refreshAfterGridRender re-applies .card-active for the open item,
+    // but not .card-focused (related-card outlines). Reapply those too —
+    // otherwise the first panel-open at a viewport where the column
+    // count drops would wipe the freshly-applied highlights, because
+    // ResizeObserver fires AFTER PanelManager.render() has already set
+    // them on the previous DOM nodes that we just rewrote.
+    const openSlug = PanelManager.getOpenSlug();
+    syncHighlightsToOpenPanels(openSlug ? [openSlug] : []);
+  }
+  let lastGridCols = null;
+  function updateGridCols() {
+    const mc = document.querySelector('.main-content');
+    if (!mc) return;
+    const cols = computeGridCols(mc.offsetWidth);
+    if (cols === lastGridCols) return;
+    lastGridCols = cols;
+    document.documentElement.style.setProperty('--grid-cols', String(cols));
+    redistributeLoadedWeeks();
+  }
+  function startGridColsObserver() {
+    updateGridCols();
+    const mc = document.querySelector('.main-content');
+    if (!mc) return;
+    if (typeof ResizeObserver === 'function') {
+      const ro = new ResizeObserver(updateGridCols);
+      ro.observe(mc);
+    } else {
+      window.addEventListener('resize', updateGridCols);
+    }
+  }
+
+  function sortItemsByAddedAt(arr) {
+    arr.sort((a, b) => {
+      const da = a.added_at ? new Date(a.added_at).getTime() : 0;
+      const db = b.added_at ? new Date(b.added_at).getTime() : 0;
+      return db - da;
+    });
+  }
+
+  // Append week headers for any week not yet present in the grid DOM. Used
+  // after background-loaded older pages land — extends history downward
+  // without re-rendering (and thus visually disturbing) the already-painted
+  // first weeks. Skipped while a search/filter is active because that mode
+  // re-renders the whole grid through renderGrid() anyway.
+  function appendOlderWeeks() {
+    if (isSearchActive()) { renderGrid(); return; }
+    const items = getFilteredItems();
+    const weeks = groupByWeek(items);
+    const colCount = currentGridCols();
+    let html = '';
+    weeks.forEach(week => {
+      if ($grid.querySelector(`.date-section-header[data-week="${week.key}"]`)) return;
+      const isLoaded = loadedWeeks.has(week.key);
+      const caret = icon(isLoaded ? 'caret-up' : 'caret-down');
+      const aria = isLoaded ? 'Collapse week' : 'Expand week';
+      const headerClass = 'date-section-header' + (isLoaded ? ' is-expanded' : '');
+      html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
+      html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">${isLoaded ? renderColumnsHTML(week.items, colCount) : ''}</div>`;
+    });
+    if (html) $grid.insertAdjacentHTML('beforeend', html);
+  }
+
   function renderGrid() {
     const items = getFilteredItems();
 
@@ -622,6 +945,7 @@
       if (weeks.length > 0) loadedWeeks.add(weeks[0].key);
     }
 
+    const colCount = currentGridCols();
     let html = '';
     weeks.forEach((week, wi) => {
       const isLoaded = loadedWeeks.has(week.key);
@@ -631,7 +955,7 @@
       html += `<div class="${headerClass}" data-week="${week.key}" role="button" tabindex="0" aria-expanded="${isLoaded}" aria-label="${aria}" style="grid-column: 1 / -1"><span>${week.label}</span><span class="week-show-link" aria-hidden="true">${caret}</span></div>`;
       html += `<div class="masonry-section" data-week="${week.key}" style="${isLoaded ? '' : 'display:none'}">`;
       if (isLoaded) {
-        html += week.items.map(e => renderCard(e.item, e.idx)).join('');
+        html += renderColumnsHTML(week.items, colCount);
       }
       html += '</div>';
     });
@@ -640,12 +964,12 @@
 
     // Tag each direct child with a --idx so the post-login stagger reveal
     // (style.css) can cascade in. Cheap enough to run on every render.
+    // Cards now live inside `.masonry-col` wrappers — walk descendants
+    // instead of direct children.
     const children = $grid.children;
     for (let i = 0; i < children.length; i++) {
       children[i].style.setProperty('--idx', i);
-      // Cards inside each week section also stagger independently so the first
-      // row appears without waiting for the whole list.
-      const cards = children[i].querySelectorAll(':scope > .card');
+      const cards = children[i].querySelectorAll('.card');
       for (let j = 0; j < cards.length; j++) {
         cards[j].style.setProperty('--idx', j);
       }
@@ -687,7 +1011,14 @@
       && !item.summary.startsWith('Saved from');
 
     if (hasImage) {
-      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt="" loading="lazy" style="view-transition-name:${vtName}" onerror="this.parentElement.classList.add('img-error')">`;
+      // Emit width/height when known so the browser reserves the exact slot
+      // before the image loads — eliminates the column-count reflow that
+      // can otherwise visually fragment cards across columns. Falls back to
+      // the CSS aspect-ratio: auto rule for items that predate dimension
+      // capture.
+      const dims = (item.image_width && item.image_height)
+        ? ` width="${item.image_width}" height="${item.image_height}"` : '';
+      thumbHtml = `<img class="card-thumb" src="${item.image_path}" alt=""${dims} loading="lazy" style="view-transition-name:${vtName}" onerror="this.parentElement.classList.add('img-error')">`;
     } else if (hasTextContent) {
       const hue = PLACEHOLDER_HUES[idx % PLACEHOLDER_HUES.length];
       const truncated = escHtml(truncateWords(cleanSummary(item.summary), 200));
@@ -716,7 +1047,6 @@
     return `<div class="card${cardClass}" data-slug="${item.slug}" tabindex="-1">
       <div class="card-visual-area">
         ${thumbHtml}
-        <div class="card-overlay"></div>
         <div class="card-title-badge">${escHtml(item.title || '')}</div>
         ${urlPill}
       </div>
@@ -1259,7 +1589,7 @@
   }
 
   // ---- Three-dot footer menu (Enrich + Delete) ----
-  function bindPanelFooterMenu(footerEl, item, panelIndex) {
+  function bindPanelFooterMenu(footerEl, item) {
     const trigger = footerEl.querySelector('.panel-footer-menu-trigger');
     const popover = footerEl.querySelector('.panel-footer-menu-popover');
     const deleteBtn = footerEl.querySelector('.js-delete');
@@ -1344,7 +1674,7 @@
           if (idx >= 0) allItems.splice(idx, 1);
           delete itemsBySlug[slug];
           renderStats();
-          PanelManager.close(panelIndex);
+          PanelManager.close();
           showToast('Deleted');
         } catch (err) {
           showToast('Delete failed: ' + (err.message || 'unknown'));
@@ -1375,9 +1705,8 @@
 
   // ---- Capture queue (sequential panel curation) ----
   // Slugs of freshly captured items that deserve a curation panel. We
-  // open the first immediately; when its panel closes, the next advances.
-  // PanelManager.open({ fromCapture:true }) records the slug into
-  // captureFlowSlugs so close() knows when to advance.
+  // open the first immediately; when its panel closes, notifyCaptureSlugClosed
+  // pulls the next off the queue.
   const captureQueue = [];
   const captureFlowSlugs = new Set();
 
@@ -1391,7 +1720,7 @@
     const next = captureQueue.shift();
     if (!next) return;
     captureFlowSlugs.add(next);
-    PanelManager.open(next, { fromCapture: true });
+    PanelManager.open(next);
     // Existing poller refreshes the panel live as enrichment lands.
     if (typeof pollForEnrichment === 'function') pollForEnrichment(next);
     if (captureQueue.length) {
@@ -1417,17 +1746,34 @@
   }
 
   // --- Related card highlighting ---
-  let hoverTimeout = null;
-
+  // Triggered on panel open/close only (no hover-delayed highlight) to keep
+  // class mutations rare and predictable. Updates are diff-based — only the
+  // cards whose focused state actually changes get touched — so Safari
+  // can't blame the highlight for a mass DOM mutation that would otherwise
+  // briefly invalidate its column-count layout.
   function highlightRelated(slugs) {
     if (!Array.isArray(slugs)) slugs = [slugs];
-    const related = new Set();
+    const next = new Set();
     slugs.forEach(s => {
-      related.add(s);
-      (relatedIndex[s] || new Set()).forEach(r => related.add(r));
+      if (!s) return;
+      next.add(s);
+      (relatedIndex[s] || new Set()).forEach(r => next.add(r));
     });
-    $grid.querySelectorAll('.card').forEach(card => {
-      card.classList.toggle('card-focused', related.has(card.dataset.slug));
+    const prev = new Set();
+    $grid.querySelectorAll('.card.card-focused').forEach(c => {
+      if (c.dataset.slug) prev.add(c.dataset.slug);
+    });
+    // Remove cards that fell out of the related set.
+    prev.forEach(slug => {
+      if (next.has(slug)) return;
+      const card = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+      if (card) card.classList.remove('card-focused');
+    });
+    // Add cards that newly entered the related set.
+    next.forEach(slug => {
+      if (prev.has(slug)) return;
+      const card = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
+      if (card) card.classList.add('card-focused');
     });
   }
 
@@ -1577,34 +1923,12 @@
       else renderWeekCards(key);
     });
 
-    // Card hover -> highlight related (falls back to panel highlights on leave)
-    $grid.addEventListener('mouseenter', function (e) {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        highlightRelated(card.dataset.slug);
-      }, 2000);
-    }, true);
-
-    $grid.addEventListener('mouseleave', function (e) {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(() => {
-        if (!$grid.querySelector('.card:hover')) {
-          syncHighlightsToOpenPanels(PanelManager.getOpenSlugs());
-        }
-      }, 100);
-    }, true);
-
-    // Card click -> open item in a side panel
+    // Card click -> open item in the side panel
     $grid.addEventListener('click', function (e) {
       if (e.target.closest('a')) return;
       const card = e.target.closest('.card');
       if (!card || !card.dataset.slug) return;
-      const secondary = e.metaKey || e.ctrlKey;
-      PanelManager.open(card.dataset.slug, { secondary, originCard: card });
+      PanelManager.open(card.dataset.slug, { originCard: card });
     });
   }
 
@@ -2106,108 +2430,80 @@
   }
 
   // =========================================================================
-  // === PanelManager — owns up to 2 side panels, grid reflow, state sync ====
+  // === PanelManager — owns ONE side panel (item OR tool) ===================
+  // Dual-panel comparison was removed; it'll return on the item detail page
+  // later (see BACKLOG.md). Item and tool panels are mutually exclusive on
+  // the home grid — opening either implicitly closes the other so the grid
+  // never has to compete with two panels for width.
   // =========================================================================
   const PanelManager = (function () {
-    const DEFAULT_WIDTH = 480;
-    const MIN_WIDTH = 320;
+    const MIN_WIDTH = 360;
+    const MAX_WIDTH = 480;
     const STORAGE_KEY = 'stello.panels';
 
     const state = {
-      slugs: [],   // ordered [oldest, newest]; length 0–2
-      widths: [DEFAULT_WIDTH, DEFAULT_WIDTH],
-      originSlugs: [null, null], // which card slug triggered each panel (for focus return)
-      tool: null,   // 'filters' | 'settings' | 'import' | null
-      toolWidth: DEFAULT_WIDTH,
-      userResized: {},  // { 'item:0', 'item:1', 'tool' } → true once user drags that handle
+      slug: null,         // open item slug, or null
+      tool: null,         // 'filters' | 'settings' | 'import' | null
+      originSlug: null,   // card slug that triggered the item panel (for focus return)
     };
 
     let $container, $announcer;
-    const reducedMotion = () =>
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function maxPanels() { return window.innerWidth <= 1200 ? 1 : 2; }
-
-    function gridCols() {
-      const total = state.slugs.length + (state.tool ? 1 : 0);
-      return Math.max(2, 5 - total);
+    // Panel width is always 25% of viewport (rounded), clamped to [320, 480].
+    // No user-resize affordance — viewport drives it, simple and predictable.
+    function computePanelWidth() {
+      return Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, Math.round(window.innerWidth * 0.25)));
     }
 
     // ---- State <-> URL ----
+    // `panel1` is read for back-compat with bookmarks from the dual-panel era;
+    // writes only ever emit the new `panel` key.
     function syncFromURL() {
       const params = new URLSearchParams(window.location.search);
-      const s1 = params.get('panel1');
-      const s2 = params.get('panel2');
-      const slugs = [];
-      if (s1 && itemsBySlug[s1]) slugs.push(s1);
-      if (s2 && itemsBySlug[s2]) slugs.push(s2);
-      if (slugs.length > 0) { state.slugs = slugs; return true; }
+      const s = params.get('panel') || params.get('panel1');
+      if (s && itemsBySlug[s]) { state.slug = s; return true; }
       return false;
     }
     function syncToURL(push) {
       const params = new URLSearchParams(window.location.search);
-      params.delete('panel1'); params.delete('panel2');
-      state.slugs.forEach((slug, i) => params.set('panel' + (i + 1), slug));
+      params.delete('panel'); params.delete('panel1'); params.delete('panel2');
+      if (state.slug) params.set('panel', state.slug);
       const query = params.toString();
       const newURL = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
-      const method = push ? 'pushState' : 'replaceState';
-      history[method]({ panels: state.slugs.slice() }, '', newURL);
+      history[push ? 'pushState' : 'replaceState']({ panel: state.slug }, '', newURL);
     }
 
     // ---- State <-> localStorage ----
+    // Stores only the open slug now — panel width is derived from viewport
+    // at render time. Tolerates legacy keys (`slugs[]`, `width`, `widths[]`,
+    // `toolWidth`) on read so old localStorage entries rehydrate cleanly.
     function syncFromStorage() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return false;
         const data = JSON.parse(raw);
-        if (Array.isArray(data.slugs)) {
-          state.slugs = data.slugs.filter(s => itemsBySlug[s]).slice(0, maxPanels());
+        if (typeof data.slug === 'string' && itemsBySlug[data.slug]) {
+          state.slug = data.slug;
+        } else if (Array.isArray(data.slugs) && data.slugs[0] && itemsBySlug[data.slugs[0]]) {
+          state.slug = data.slugs[0];
         }
-        if (Array.isArray(data.widths)) {
-          state.widths = data.widths.map(w => clampWidth(w));
-          while (state.widths.length < 2) state.widths.push(DEFAULT_WIDTH);
-        }
-        if (typeof data.toolWidth === 'number') state.toolWidth = clampWidth(data.toolWidth);
-        // Tool panel is ephemeral per-session; don't auto-restore on page load
-        return state.slugs.length > 0;
+        return !!state.slug;
       } catch { return false; }
     }
     function syncToStorage() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          slugs: state.slugs.slice(),
-          widths: state.widths.slice(),
-          toolWidth: state.toolWidth,
+          slug: state.slug,
         }));
       } catch { /* silent */ }
     }
 
-    function clampWidth(px) {
-      const max = Math.floor(window.innerWidth * 0.5);
-      return Math.max(MIN_WIDTH, Math.min(max, px | 0));
-    }
-
-    // ---- Shared tags ----
-    function sharedTagSet() {
-      if (state.slugs.length < 2) return null;
-      const [a, b] = state.slugs.map(s => itemsBySlug[s]);
-      if (!a || !b) return null;
-      const setA = new Set(a.tags.map(t => t.category + ':' + t.tag));
-      const shared = new Set();
-      b.tags.forEach(t => {
-        const key = t.category + ':' + t.tag;
-        if (setA.has(key)) shared.add(key);
-      });
-      return shared.size ? shared : null;
-    }
-
     // ---- Active card color line ----
     function updateActiveCards() {
-      const active = new Set(state.slugs);
       document.querySelectorAll('.card').forEach(card => {
         const slug = card.dataset.slug;
         if (!slug) return;
-        const isActive = active.has(slug);
+        const isActive = slug === state.slug;
         card.classList.toggle('card-active', isActive);
         if (isActive) {
           const color = dominantColor(itemsBySlug[slug]);
@@ -2218,150 +2514,118 @@
       });
     }
 
-    // ---- Grid column reflow ----
-    // Column-count layout reads --grid-cols from :root; just update the var.
-    function updateGridCols() {
-      document.documentElement.style.setProperty('--grid-cols', gridCols());
-    }
-
-    // ---- Render panels ----
+    // ---- Render ----
     function render() {
       if (!$container) return;
-      const shared = sharedTagSet();
 
-      // Remove everything
-      const existing = Array.from($container.children);
-      existing.forEach(el => el.remove());
+      // Tear down whatever's currently mounted. At most one panel can be open
+      // at a time (item OR tool), so this is a single create-and-replace pass.
+      Array.from($container.children).forEach(el => el.remove());
 
-      // Tool panel renders first (leftmost)
       if (state.tool) {
-        const toolHandle = document.createElement('div');
-        toolHandle.className = 'resize-handle';
-        toolHandle.setAttribute('role', 'separator');
-        toolHandle.setAttribute('aria-label', 'Resize tool panel');
-        toolHandle.setAttribute('tabindex', '0');
-        toolHandle.dataset.toolHandle = '1';
-        bindToolResizeHandle(toolHandle);
-        $container.appendChild(toolHandle);
-
         const toolPanel = renderToolPanel(state.tool);
         if (toolPanel) $container.appendChild(toolPanel);
+        syncHighlightsToOpenPanels([]);
+        return;
       }
 
-      // Item panels
-      state.slugs.forEach((slug, i) => {
-        const item = itemsBySlug[slug];
-        if (!item) return;
+      if (!state.slug) { syncHighlightsToOpenPanels([]); return; }
+      const item = itemsBySlug[state.slug];
+      if (!item) { syncHighlightsToOpenPanels([]); return; }
 
-        const handle = document.createElement('div');
-        handle.className = 'resize-handle';
-        handle.setAttribute('role', 'separator');
-        handle.setAttribute('aria-label', `Resize panel ${i + 1}`);
-        handle.setAttribute('tabindex', '0');
-        handle.dataset.panelIndex = String(i);
-        bindResizeHandle(handle, i);
-        $container.appendChild(handle);
+      const panel = document.createElement('aside');
+      panel.className = 'panel';
+      panel.dataset.slug = state.slug;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-label', `Item detail: ${item.title || state.slug}`);
+      panel.setAttribute('tabindex', '-1');
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
-        const panel = document.createElement('aside');
-        panel.className = 'panel';
-        panel.dataset.index = String(i);
-        panel.dataset.slug = slug;
-        panel.setAttribute('role', 'region');
-        panel.setAttribute('aria-label', `Item detail ${i + 1}: ${item.title || slug}`);
-        panel.setAttribute('tabindex', '-1');
-        panel.style.setProperty('--panel-width', state.widths[i] + 'px');
+      const header = document.createElement('header');
+      header.className = 'panel-header';
 
-        // Header: title + source on left, icons on right (arrow-up-right, expand, close)
-        const header = document.createElement('header');
-        header.className = 'panel-header';
+      const info = document.createElement('div');
+      info.className = 'panel-header-info';
+      const titleEl = document.createElement('div');
+      titleEl.className = 'panel-header-title';
+      titleEl.textContent = item.title || '';
+      info.appendChild(titleEl);
+      if (item.domain) {
+        const sourceEl = document.createElement('div');
+        sourceEl.className = 'panel-header-source';
+        sourceEl.textContent = item.domain;
+        info.appendChild(sourceEl);
+      }
+      header.appendChild(info);
 
-        const info = document.createElement('div');
-        info.className = 'panel-header-info';
-        const titleEl = document.createElement('div');
-        titleEl.className = 'panel-header-title';
-        titleEl.textContent = item.title || '';
-        info.appendChild(titleEl);
-        if (item.domain) {
-          const sourceEl = document.createElement('div');
-          sourceEl.className = 'panel-header-source';
-          sourceEl.textContent = item.domain;
-          info.appendChild(sourceEl);
-        }
-        header.appendChild(info);
+      const actions = document.createElement('div');
+      actions.className = 'panel-header-actions';
 
-        const actions = document.createElement('div');
-        actions.className = 'panel-header-actions';
+      const shuffleBtn = document.createElement('button');
+      shuffleBtn.className = 'panel-shuffle';
+      shuffleBtn.type = 'button';
+      shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
+      shuffleBtn.title = 'Shuffle to related item';
+      shuffleBtn.innerHTML = icon('shuffle');
+      shuffleBtn.addEventListener('click', shuffle);
+      actions.appendChild(shuffleBtn);
 
-        const shuffleBtn = document.createElement('button');
-        shuffleBtn.className = 'panel-shuffle';
-        shuffleBtn.type = 'button';
-        shuffleBtn.setAttribute('aria-label', 'Shuffle to related item');
-        shuffleBtn.title = 'Shuffle to related item';
-        shuffleBtn.innerHTML = icon('shuffle');
-        shuffleBtn.addEventListener('click', () => shuffle(i));
-        actions.appendChild(shuffleBtn);
-
-        if (item.source_url) {
-          const openBtn = document.createElement('button');
-          openBtn.className = 'panel-open-source';
-          openBtn.type = 'button';
-          openBtn.setAttribute('aria-label', 'Open source in new tab');
-          openBtn.title = 'Open source';
-          openBtn.innerHTML = icon('arrow-up-right');
-          openBtn.addEventListener('click', () => {
-            window.open(item.source_url, '_blank', 'noopener');
-          });
-          actions.appendChild(openBtn);
-        }
-
-        const expandBtn = document.createElement('button');
-        expandBtn.className = 'panel-expand';
-        expandBtn.type = 'button';
-        expandBtn.setAttribute('aria-label', 'Open full page');
-        expandBtn.title = 'Full page';
-        expandBtn.innerHTML = icon('frame-corners');
-        expandBtn.addEventListener('click', () => {
-          syncToStorage();
-          window.location.href = 'detail.html?slug=' + encodeURIComponent(slug);
+      if (item.source_url) {
+        const openBtn = document.createElement('button');
+        openBtn.className = 'panel-open-source';
+        openBtn.type = 'button';
+        openBtn.setAttribute('aria-label', 'Open source in new tab');
+        openBtn.title = 'Open source';
+        openBtn.innerHTML = icon('arrow-up-right');
+        openBtn.addEventListener('click', () => {
+          window.open(item.source_url, '_blank', 'noopener');
         });
-        actions.appendChild(expandBtn);
+        actions.appendChild(openBtn);
+      }
 
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'panel-close';
-        closeBtn.type = 'button';
-        closeBtn.setAttribute('aria-label', 'Close panel');
-        closeBtn.title = 'Close';
-        closeBtn.innerHTML = icon('x');
-        closeBtn.addEventListener('click', () => close(i));
-        actions.appendChild(closeBtn);
-
-        header.appendChild(actions);
-        panel.appendChild(header);
-
-        const body = document.createElement('div');
-        body.className = 'panel-body';
-        body.innerHTML = buildPanelBodyHTML(item, shared);
-        panel.appendChild(body);
-
-        const footer = document.createElement('div');
-        footer.className = 'panel-footer';
-        footer.innerHTML = buildPanelFooterHTML(item, shared);
-        panel.appendChild(footer);
-
-        $container.appendChild(panel);
-
-        // Lazy-load markdown for this panel
-        const mdEl = body.querySelector('.card-expanded-md');
-        loadMarkdownInto(mdEl);
-
-        // Wire up slider + capture form + snippet interactions.
-        bindPanelBody(body, item);
-        // Wire up the three-dot footer menu (Enrich + Delete).
-        bindPanelFooterMenu(footer, item, i);
+      const expandBtn = document.createElement('button');
+      expandBtn.className = 'panel-expand';
+      expandBtn.type = 'button';
+      expandBtn.setAttribute('aria-label', 'Open full page');
+      expandBtn.title = 'Full page';
+      expandBtn.innerHTML = icon('frame-corners');
+      expandBtn.addEventListener('click', () => {
+        syncToStorage();
+        window.location.href = 'detail.html?slug=' + encodeURIComponent(state.slug);
       });
+      actions.appendChild(expandBtn);
 
-      // Sync related-card highlights to open panels
-      syncHighlightsToOpenPanels(state.slugs);
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'panel-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Close panel');
+      closeBtn.title = 'Close';
+      closeBtn.innerHTML = icon('x');
+      closeBtn.addEventListener('click', close);
+      actions.appendChild(closeBtn);
+
+      header.appendChild(actions);
+      panel.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'panel-body';
+      body.innerHTML = buildPanelBodyHTML(item, null);
+      panel.appendChild(body);
+
+      const footer = document.createElement('div');
+      footer.className = 'panel-footer';
+      footer.innerHTML = buildPanelFooterHTML(item, null);
+      panel.appendChild(footer);
+
+      $container.appendChild(panel);
+
+      const mdEl = body.querySelector('.card-expanded-md');
+      loadMarkdownInto(mdEl);
+
+      bindPanelBody(body, item);
+      bindPanelFooterMenu(footer, item);
+
+      syncHighlightsToOpenPanels([state.slug]);
     }
 
     // ---- Tool panel rendering ----
@@ -2378,7 +2642,7 @@
       panel.setAttribute('role', 'region');
       panel.setAttribute('aria-label', TOOL_TITLES[type]);
       panel.setAttribute('tabindex', '-1');
-      panel.style.setProperty('--panel-width', (state.toolWidth || DEFAULT_WIDTH) + 'px');
+      panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
 
       const header = document.createElement('header');
       header.className = 'panel-header';
@@ -2414,24 +2678,25 @@
 
     function openTool(type) {
       if (state.tool === type) { closeTool(); return; }
+      // Mutually exclusive with item panels.
+      const previousItem = state.slug;
+      state.slug = null;
+      state.originSlug = null;
       state.tool = type;
-      applyDefaultWidths();
+      syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       updateToolButtons();
       announce(`${TOOL_TITLES[type]} opened`);
+      if (previousItem) notifyCaptureSlugClosed(previousItem);
     }
 
     function closeTool() {
       if (!state.tool) return;
       state.tool = null;
-      if (state.userResized) delete state.userResized['tool'];
-      applyDefaultWidths();
       syncToStorage();
       render();
-      updateGridCols();
       updateToolButtons();
       announce('Tool panel closed');
     }
@@ -2441,56 +2706,11 @@
         const el = document.getElementById(id);
         if (el) el.classList.remove('is-active');
       });
-      const activeId = state.tool === 'filters' ? 'filter-panel-btn' : state.tool === 'import' ? 'import-btn' : state.tool === 'settings' ? 'settings-btn' : null;
+      const activeId = state.tool === 'filters' ? 'filter-panel-btn'
+        : state.tool === 'import' ? 'import-btn'
+        : state.tool === 'settings' ? 'settings-btn'
+        : null;
       if (activeId) document.getElementById(activeId)?.classList.add('is-active');
-    }
-
-    function bindToolResizeHandle(handle) {
-      let startX = 0, startW = 0, dragging = false, raf = null;
-      handle.addEventListener('mousedown', (e) => {
-        startX = e.clientX;
-        startW = state.toolWidth || DEFAULT_WIDTH;
-        dragging = true;
-        document.body.classList.add('resizing');
-        handle.classList.add('active');
-        e.preventDefault();
-      });
-      document.addEventListener('mousemove', (e) => {
-        if (!dragging) return;
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = null;
-          const delta = startX - e.clientX; // dragging left = bigger
-          const w = clampWidth(startW + delta);
-          state.toolWidth = w;
-          const p = $container.querySelector('.panel.panel-tool');
-          if (p) p.style.setProperty('--panel-width', w + 'px');
-        });
-      });
-      document.addEventListener('mouseup', () => {
-        if (!dragging) return;
-        dragging = false;
-        document.body.classList.remove('resizing');
-        handle.classList.remove('active');
-        state.userResized = state.userResized || {};
-        state.userResized['tool'] = true;
-        syncToStorage();
-      });
-    }
-
-    // ---- Default widths based on total panel count ----
-    // When 3 panels (tool + 2 items) are open, default each panel to
-    // viewport/4 so the main grid and every panel are equal columns.
-    // User resizes override this (tracked via state.userResized).
-    function applyDefaultWidths() {
-      const total = state.slugs.length + (state.tool ? 1 : 0);
-      const equal = Math.floor(window.innerWidth / 4);
-      const target = total >= 3 ? clampWidth(equal) : DEFAULT_WIDTH;
-      const ur = state.userResized || {};
-      state.widths = state.widths.map((w, i) =>
-        ur['item:' + i] ? w : target
-      );
-      if (!ur['tool']) state.toolWidth = target;
     }
 
     // ---- Announce ----
@@ -2506,64 +2726,47 @@
       opts = opts || {};
       if (!itemsBySlug[slug]) return;
 
-      const idx = state.slugs.indexOf(slug);
-      if (idx >= 0) {
-        // Already open — flash card line + focus panel
+      // Same item already open? Flash + focus.
+      if (state.slug === slug) {
         const card = document.querySelector(`.card[data-slug="${cssSelectorEscape(slug)}"]`);
         if (card) {
           card.classList.add('card-flash');
           setTimeout(() => card.classList.remove('card-flash'), 400);
         }
-        focus(idx);
+        focus();
         return;
       }
 
-      const max = maxPanels();
-      if (state.slugs.length < max && !opts.secondary) {
-        state.slugs.push(slug);
-        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
-      } else if (opts.secondary && state.slugs.length < max) {
-        state.slugs.push(slug);
-        state.originSlugs[state.slugs.length - 1] = opts.originCard ? opts.originCard.dataset.slug : null;
-      } else {
-        // Full — FIFO replace oldest
-        state.slugs.shift();
-        state.slugs.push(slug);
-        state.originSlugs.shift();
-        state.originSlugs.push(opts.originCard ? opts.originCard.dataset.slug : null);
-        state.originSlugs.length = 2;
+      // Opening an item closes any open tool panel (mutually exclusive).
+      if (state.tool) {
+        state.tool = null;
+        updateToolButtons();
       }
 
-      applyDefaultWidths();
+      const previousSlug = state.slug;
+      state.slug = slug;
+      state.originSlug = opts.originCard ? opts.originCard.dataset.slug : null;
+
       syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       announce(`Panel opened: ${itemsBySlug[slug].title || slug}`);
-      focus(state.slugs.length - 1);
+      focus();
+
+      if (previousSlug && previousSlug !== slug) notifyCaptureSlugClosed(previousSlug);
     }
 
-    function close(index) {
-      if (index < 0 || index >= state.slugs.length) return;
-      const originSlug = state.originSlugs[index];
-      const closedSlug = state.slugs[index];
-      state.slugs.splice(index, 1);
-      state.originSlugs.splice(index, 1);
-      state.originSlugs.push(null);
-      // The closed panel's manual-resize flag no longer applies
-      if (state.userResized) delete state.userResized['item:' + index];
-      // Shift flag for the panel that moves into this slot, if any
-      if (state.userResized && state.userResized['item:1'] && index === 0) {
-        state.userResized['item:0'] = true;
-        delete state.userResized['item:1'];
-      }
+    function close() {
+      if (!state.slug) return;
+      const closedSlug = state.slug;
+      const originSlug = state.originSlug;
+      state.slug = null;
+      state.originSlug = null;
 
-      applyDefaultWidths();
       syncToURL(true);
       syncToStorage();
       render();
-      updateGridCols();
       updateActiveCards();
       announce('Panel closed');
 
@@ -2572,26 +2775,17 @@
         if (card) card.focus({ preventScroll: false });
       }
 
-      // If this panel was a curation step, advance the queue.
-      if (closedSlug) notifyCaptureSlugClosed(closedSlug);
+      notifyCaptureSlugClosed(closedSlug);
     }
 
     function closeFocused() {
-      // If a tool panel is open, close it first (simplest UX)
       if (state.tool) { closeTool(); return; }
-      const el = document.activeElement;
-      if (!el) return;
-      const panel = el.closest && el.closest('.panel');
-      if (!panel) return;
-      const i = parseInt(panel.dataset.index, 10);
-      if (!isNaN(i)) close(i);
+      if (state.slug) close();
     }
 
-    // Replace the item in panel `index` with `newSlug` (used by Shuffle)
-    function replace(index, newSlug) {
-      if (index < 0 || index >= state.slugs.length) return;
-      if (!itemsBySlug[newSlug]) return;
-      state.slugs[index] = newSlug;
+    function replace(newSlug) {
+      if (!state.slug || !itemsBySlug[newSlug]) return;
+      state.slug = newSlug;
       syncToURL(false);
       syncToStorage();
       render();
@@ -2599,16 +2793,14 @@
       announce(`Panel shuffled to: ${itemsBySlug[newSlug].title || newSlug}`);
     }
 
-    // Find a random related slug (shares ≥1 tag). Excludes current item
-    // in this panel AND items open in sibling panels.
+    // Find a random slug that shares ≥1 tag with the open item.
     function randomRelatedSlug(currentSlug) {
       const item = itemsBySlug[currentSlug];
       if (!item) return null;
-      const exclude = new Set(state.slugs); // all open panels (including current)
       const tagKeys = new Set(item.tags.map(t => t.category + ':' + t.tag));
       const candidates = [];
       for (const other of allItems) {
-        if (exclude.has(other.slug)) continue;
+        if (other.slug === currentSlug) continue;
         for (const t of other.tags) {
           if (tagKeys.has(t.category + ':' + t.tag)) { candidates.push(other.slug); break; }
         }
@@ -2617,65 +2809,16 @@
       return candidates[Math.floor(Math.random() * candidates.length)];
     }
 
-    function shuffle(index) {
-      const currentSlug = state.slugs[index];
-      if (!currentSlug) return;
-      const next = randomRelatedSlug(currentSlug);
+    function shuffle() {
+      if (!state.slug) return;
+      const next = randomRelatedSlug(state.slug);
       if (!next) { announce('No related items available to shuffle to'); return; }
-      replace(index, next);
+      replace(next);
     }
 
-    function focus(index) {
-      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
+    function focus() {
+      const panel = $container && $container.querySelector('.panel');
       if (panel) panel.focus({ preventScroll: false });
-    }
-
-    function setWidth(index, px) {
-      state.widths[index] = clampWidth(px);
-      state.userResized = state.userResized || {};
-      state.userResized['item:' + index] = true;
-      const panel = $container && $container.querySelector(`.panel[data-index="${index}"]`);
-      if (panel) panel.style.setProperty('--panel-width', state.widths[index] + 'px');
-      syncToStorage();
-    }
-
-    // ---- Resize handles ----
-    function bindResizeHandle(handle, index) {
-      let startX = 0, startWidth = 0, rafPending = false, nextWidth = 0;
-
-      function onMove(e) {
-        const dx = startX - e.clientX; // drag left => grows panel
-        nextWidth = clampWidth(startWidth + dx);
-        if (!rafPending) {
-          rafPending = true;
-          requestAnimationFrame(() => {
-            rafPending = false;
-            const panel = $container.querySelector(`.panel[data-index="${index}"]`);
-            if (panel) panel.style.setProperty('--panel-width', nextWidth + 'px');
-          });
-        }
-      }
-      function onUp() {
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        document.body.classList.remove('resizing');
-        handle.classList.remove('active');
-        setWidth(index, nextWidth || startWidth);
-      }
-      handle.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startX = e.clientX;
-        startWidth = state.widths[index];
-        nextWidth = startWidth;
-        document.body.classList.add('resizing');
-        handle.classList.add('active');
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-      handle.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { setWidth(index, state.widths[index] + 20); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { setWidth(index, state.widths[index] - 20); e.preventDefault(); }
-      });
     }
 
     // ---- Keyboard shortcuts ----
@@ -2683,8 +2826,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.target && e.target.matches && e.target.matches('input, textarea')) return;
         if (e.key === 'Escape') { closeFocused(); return; }
-        if (e.key === '1') { focus(0); }
-        if (e.key === '2') { focus(1); }
+        if (e.key === '1') { focus(); return; }
         if (e.key === '0') {
           const first = document.querySelector('.card');
           if (first) first.focus();
@@ -2693,27 +2835,14 @@
     }
 
     // ---- Window resize ----
+    // Panel width is 25% of viewport (clamped to [320, 480]). When the
+    // viewport changes, recompute and apply to whatever panel is open.
     let resizeTimeout = null;
     function onWindowResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        const max = maxPanels();
-        let dirty = false;
-        while (state.slugs.length > max) {
-          state.slugs.shift();
-          state.originSlugs.shift();
-          state.originSlugs.push(null);
-          dirty = true;
-        }
-        // Clamp widths
-        state.widths = state.widths.map(w => clampWidth(w));
-        if (dirty) {
-          syncToURL(false);
-          syncToStorage();
-          render();
-          updateGridCols();
-          updateActiveCards();
-        }
+        const panel = $container && $container.querySelector('.panel');
+        if (panel) panel.style.setProperty('--panel-width', computePanelWidth() + 'px');
       }, 120);
     }
 
@@ -2723,21 +2852,18 @@
       $announcer = document.getElementById('panel-announcer');
       if (!$container) return;
 
-      // Load precedence: URL first, else localStorage.
+      // Load precedence: URL first, else localStorage. Tool panel is
+      // session-ephemeral and never auto-restored.
       if (!syncFromURL()) syncFromStorage();
 
-      // Clamp to current maxPanels
-      state.slugs = state.slugs.slice(0, maxPanels());
-
       render();
-      updateGridCols();
       updateActiveCards();
 
       window.addEventListener('popstate', () => {
-        syncFromURL() || (state.slugs = []);
+        if (!syncFromURL()) { state.slug = null; state.tool = null; }
         render();
-        updateGridCols();
         updateActiveCards();
+        updateToolButtons();
       });
       window.addEventListener('resize', onWindowResize);
       bindKeys();
@@ -2749,25 +2875,21 @@
     }
 
     function refreshAfterGridRender() {
-      updateGridCols();
       updateActiveCards();
     }
 
-    function getOpenSlugs() { return [...state.slugs]; }
+    function getOpenSlug() { return state.slug; }
 
-    // Re-renders a single open panel's body + footer from the current
+    // Re-renders the open panel's body + footer from the current
     // itemsBySlug snapshot. Called by pollForEnrichment when background
     // vision writes land — lets tag pills and the image update live
     // without re-mounting the whole panel.
     function refreshItem(slug) {
-      if (!$container) return;
-      const idx = state.slugs.indexOf(slug);
-      if (idx < 0) return;
+      if (!$container || state.slug !== slug) return;
       const item = itemsBySlug[slug];
       if (!item) return;
-      const panel = $container.querySelector(`.panel[data-index="${idx}"]`);
+      const panel = $container.querySelector('.panel');
       if (!panel) return;
-      const shared = sharedTagSet();
       const body = panel.querySelector('.panel-body');
       const footer = panel.querySelector('.panel-footer');
 
@@ -2826,7 +2948,7 @@
         bindPanelBody(body, item);
       }
       if (footer) {
-        footer.innerHTML = buildPanelFooterHTML(item, shared);
+        footer.innerHTML = buildPanelFooterHTML(item, null);
       }
     }
 
@@ -2859,7 +2981,7 @@
     return {
       init, open, close, focus, shuffle,
       openTool, closeTool,
-      gridCols, getOpenSlugs,
+      getOpenSlug,
       refreshAfterGridRender, refreshItem,
       state, // expose for debugging
     };

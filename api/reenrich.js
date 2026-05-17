@@ -92,7 +92,23 @@ module.exports = async function handler(req, res) {
             });
           if (!upErr) {
             const { data: urlData } = client.storage.from('item-images').getPublicUrl(storagePath);
-            if (urlData?.publicUrl) updates.og_image_path = urlData.publicUrl;
+            if (urlData?.publicUrl) {
+              updates.og_image_path = urlData.publicUrl;
+              // Seed images[] with the OG entry when the row has no curated
+              // images yet — see api/capture.js. Width/height come from
+              // sharp so the frontend can reserve the exact aspect-ratio
+              // slot at render time.
+              const existingImages = (() => {
+                try { return typeof item.images === 'string' ? JSON.parse(item.images) : (item.images || []); }
+                catch { return []; }
+              })();
+              if (existingImages.length === 0) {
+                updates.images = JSON.stringify([{
+                  path: urlData.publicUrl, source: 'og', is_primary: true,
+                  width: img.width || null, height: img.height || null,
+                }]);
+              }
+            }
           }
         }
       }
@@ -146,6 +162,8 @@ module.exports = async function handler(req, res) {
             label: `Screenshot — ${shot.width}w`,
             source: 'screenshot',
             is_primary: false,
+            width: shot.outWidth || shot.width || null,
+            height: shot.outHeight || null,
           };
           if (idx >= 0) {
             // Preserve is_primary if the user had set an old screenshot

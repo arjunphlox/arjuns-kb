@@ -19,6 +19,7 @@
 | **Semantic search** — embeddings + vector search for fuzzy retrieval; needs architecture decision: client-side vs server-side, which embedding model | Claude Code | Either | Opus | Open |
 | **Smart ranking** — boost items by tag weight + retrieval frequency; needs click tracking, storage, ranking algorithm | Claude Code | Either | Opus | Open |
 | **Progressive automation** — paste URL to fully analyzed item with zero manual steps; end-to-end pipeline | Claude Code | Either | Opus | Open |
+| **Item-to-item comparison on the detail page** — bring back dual-panel side-by-side comparison (removed from home grid May 2026); needs a layout that doesn't crowd the masonry, shared-tag highlighting (`.tag-shared`, `sharedTagSet`), and a way to enter compare from a card or related-items list | Claude Code | Desktop | Opus | Open |
 
 ## Quick Wins
 
@@ -38,6 +39,7 @@
 | **Link check** — `python3 scripts/link_check.py run` (every 7 days; reads local `_items/` backup mirror) | Claude Code | Either | Sonnet | Open |
 | **Refetch images** — `python3 scripts/refetch.py run` for items without images (reads local `_items/` backup mirror) | Claude Code | Either | Sonnet | Open |
 | **Verify Supabase setup** — `node scripts/verify-supabase.js` after any schema change or key rotation | Claude Code | Either | Sonnet | Open |
+| **Backfill image dimensions (one-time)** — `node scripts/backfill-image-dimensions.js` sniffs each stored image's width/height and writes them into items.images[]. Eliminates the column-count reflow on legacy items so card thumbnails never appear cut off across columns. Run once with env vars set | Claude Code | Either | Sonnet | Open |
 
 ---
 

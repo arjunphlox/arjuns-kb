@@ -408,48 +408,23 @@ html.arriving-from-login .header {
 }
 .panels-container:empty { display: none; }
 
-.resize-handle {
-  width: 8px;
-  cursor: default;
-  flex-shrink: 0;
-  background: transparent;
-  transition: background 0.15s;
-  position: relative;
-  align-self: stretch;
-}
-.resize-handle:hover,
-.resize-handle:focus-visible,
-body.resizing .resize-handle.active {
-  background: var(--accent-subtle);
-  cursor: col-resize;
-  outline: none;
-}
-
-body.resizing { user-select: none; cursor: col-resize; }
-
+/* Panel width is computed in JS (`computePanelWidth`): 25% of viewport,
+   clamped to [320, 480]. The CSS `transition: width` smooths the
+   recompute when the viewport resizes while a panel is open. */
 .panel {
   display: flex;
   flex-direction: column;
   width: var(--panel-width, 480px);
-  min-width: 320px;
+  min-width: 360px;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;
-  transition: transform 250ms ease-out, opacity 250ms ease-out;
+  transition: transform 250ms ease-out, opacity 250ms ease-out, width 150ms ease-out;
   overflow: hidden;
   height: 100%;
   flex-shrink: 0;
 }
-body.resizing .panel { transition: none; }
 
-.panel.panel-entering {
-  transform: translateX(100%);
-  opacity: 0;
-}
-.panel.panel-leaving {
-  transform: translateX(100%);
-  opacity: 0;
-}
 
 .panel-header {
   display: flex;
@@ -742,14 +717,31 @@ body.resizing .panel { transition: none; }
   display: block;
 }
 
-/* Masonry — CSS column-count, true top-to-bottom flow per column */
+/* Masonry — flex-column stacks. Each `.masonry-section` is a row of N
+   flex columns (`.masonry-col`), each a flex-column stack of cards.
+   Cards are distributed across columns in JS (`distributeIntoColumns`
+   in app.js) using a shortest-column-wins greedy algorithm so the
+   columns end up balanced in height. Reason for not using
+   `column-count`: WebKit's column engine recomputes the layout on
+   every panel-open, week-expand, and even on hover, briefly showing
+   transitional single-column state. Flex layout has no such recompute. */
 .masonry-section {
-  column-count: var(--grid-cols, 5);
-  column-gap: 24px;
+  display: flex;
+  gap: 24px;
   margin-bottom: 16px;
 }
+.masonry-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
-/* Card — transparent, no container */
+/* Card — transparent, no container. Inside a `.masonry-col` flex stack,
+   the card's width is set by the column's flex track; height follows
+   the image's natural aspect ratio (or the OG-default fallback for
+   un-backfilled items). */
 .card {
   position: relative;
   background: transparent;
@@ -757,16 +749,6 @@ body.resizing .panel { transition: none; }
   overflow: visible;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  /* Triple-barreled break control: modern + WebKit legacy + page-level fallback.
-     Without all three, Safari and long cards with ::before indicators can still
-     fragment across columns when the selection state changes layout. */
-  break-inside: avoid-column;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  margin-bottom: 24px;
-  /* column-count layout applies width automatically */
-  display: inline-block;
-  width: 100%;
 }
 
 /* Visual area wraps image + overlay + badges */
@@ -776,17 +758,24 @@ body.resizing .panel { transition: none; }
   overflow: hidden;
 }
 
-/* Dark hover overlay between image and title */
-.card-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--overlay-bg);
-  opacity: 0;
-  transition: opacity 0.18s ease-out;
-  pointer-events: none;
-  z-index: 1;
+/* Hover dim — darkens the card's visual content (image / text-card
+   typography / placeholder) directly via CSS `filter`. Replaces a
+   former absolutely-positioned overlay div, which had pixel-snapping
+   issues at fractional column widths (the overlay's edges and the
+   <img>'s edges rounded differently, leaving a 1px gap on some
+   cards). Applying the dim as a filter on the content itself means
+   the same pixels that draw the image also get darkened — no
+   alignment to manage. */
+.card-thumb,
+.card-text-content,
+.card-placeholder {
+  transition: filter 0.18s ease-out;
 }
-.card:hover .card-overlay { opacity: 1; }
+.card:hover .card-thumb,
+.card:hover .card-text-content,
+.card:hover .card-placeholder {
+  filter: brightness(0.175);
+}
 
 /* Title badge (overlay on hover). Spans full card width; bottom 40px is
    reserved for the URL pill so the title never touches the card edge. */
@@ -842,12 +831,27 @@ body.resizing .panel { transition: none; }
   color: var(--pill-color-hover, var(--bg));
 }
 
-/* Image cards — preserve natural aspect ratio */
+/* Image cards — preserve natural aspect ratio.
+   `aspect-ratio: auto 1200 / 630` reserves a 1.91:1 OG-default slot on
+   first paint, then yields to the image's intrinsic ratio once it loads.
+   Without this, Safari reflows the column-count masonry every time a
+   thumb's natural height resolves — visible as cards jumping between
+   columns on initial load.
+   `height: auto` is critical: when items.images[] carries the image's
+   width/height (so the card can render at the right aspect-ratio from
+   t=0), we emit them as <img width=W height=H>. The HTML height attr
+   becomes a presentational hint and applies as literal pixels if no CSS
+   rule overrides it — which makes every card render at the natural
+   image height instead of the column-scaled height. `height: auto`
+   forces the browser to compute height from the intrinsic ratio + the
+   CSS width: 100%. */
 .card-thumb {
   width: 100%;
+  height: auto;
   display: block;
   background: var(--bg-secondary);
   border-radius: 4px;
+  aspect-ratio: auto 1200 / 630;
 }
 
 /* Placeholder for non-image cards */
@@ -885,11 +889,20 @@ body.resizing .panel { transition: none; }
   font-weight: 500;
 }
 
-/* === RELATED CARD HIGHLIGHT === */
+/* === RELATED CARD HIGHLIGHT ===
+   Uses a double box-shadow (background-colored "spacer" ring + accent
+   ring) instead of outline + outline-offset because Safari clips outline
+   paint at column-count column boundaries when a card sits at the top or
+   bottom edge of its column. box-shadow paints within the element's
+   own stacking context and isn't clipped the same way. */
+/* Related-card highlight: outline floats 4px outside the visual-area
+   so the ring has breathing room from the image edge. Outline doesn't
+   take layout space, so toggling it doesn't shift adjacent cards.
+   This used to trigger Safari's column-count rebalance bug, but flex
+   masonry doesn't care about outset paint. */
 .card-focused .card-visual-area {
   outline: 1px solid var(--accent);
   outline-offset: 4px;
-  border-radius: 4px;
 }
 
 /* === EXPAND ICON (top-right of card) === */
@@ -1003,27 +1016,23 @@ body.resizing .panel { transition: none; }
   font-size: 1rem;
 }
 
-/* === RESPONSIVE === */
-/* Large: keep 5 cols but allow wider container */
+/* === RESPONSIVE ===
+   Column count is driven entirely by JS now (`updateGridCols` in app.js
+   sets `--grid-cols` from `.main-content`'s width and triggers a
+   redistribute of cards). CSS doesn't need to participate. Mobile-only
+   rules (panel overlay, header inset, padding) stay on viewport @media
+   queries because they reflect device characteristics, not grid width. */
 @media (min-width: 1840px) {
   .content-inner { max-width: 2200px; }
 }
-/* Medium: 4 cols */
-@media (max-width: 1200px) {
-  .masonry-section { column-count: 4; }
-}
-/* Tablet: 3 cols */
 @media (max-width: 768px) {
-  .masonry-section { column-count: 3; }
   .modal-panel { width: 100vw; }
   .content-inner { padding: 16px 16px 0; }
   .header { top: 16px; }
+  .masonry-section { gap: 12px; }
+  .masonry-col { gap: 12px; }
 }
-/* Mobile: 2 cols. Keep the Stello wordmark at its full 3rem on mobile to
-   match desktop — the brand type doesn't need to shrink on small screens. */
 @media (max-width: 500px) {
-  .masonry-section { column-count: 2; column-gap: 12px; }
-  .card { margin-bottom: 12px; }  /* column-count has no vertical gap */
   .content-inner { padding: 12px 12px 0; }
   .header { top: 12px; }
 }
@@ -1039,7 +1048,6 @@ body.resizing .panel { transition: none; }
     background: var(--bg);
   }
   .panel { width: 100vw !important; }
-  .resize-handle { display: none; }
 }
 
 /* Respect reduced motion */
@@ -2071,7 +2079,7 @@ body.just-logged-in .search-input { animation-delay: 60ms; }
 body.just-logged-in .active-filters { animation-delay: 90ms; }
 body.just-logged-in .grid-container { animation-delay: 110ms; }
 body.just-logged-in #masonry-grid > .date-section-header,
-body.just-logged-in #masonry-grid > .masonry-section > .card {
+body.just-logged-in #masonry-grid .masonry-section .card {
   opacity: 0;
   animation: stello-login-reveal 0.2s cubic-bezier(0.2, 0, 0, 1) forwards;
   animation-delay: calc(150ms + min(var(--idx, 0), 8) * 30ms);
@@ -2085,7 +2093,7 @@ body.just-logged-in #masonry-grid > .masonry-section > .card {
   body.just-logged-in .active-filters,
   body.just-logged-in .grid-container,
   body.just-logged-in #masonry-grid > .date-section-header,
-  body.just-logged-in #masonry-grid > .masonry-section > .card {
+  body.just-logged-in #masonry-grid .masonry-section .card {
     opacity: 1;
     animation: none;
     transform: none;
