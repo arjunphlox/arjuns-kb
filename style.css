@@ -394,26 +394,38 @@ html.arriving-from-login .header {
   width: 100%;
 }
 
-/* === COMPARISON PANELS ===
-   Height is dictated by the 100vh .main-layout; individual .panel-body
-   elements scroll internally when their content overflows. No sticky
-   positioning needed — align-items: stretch on the flex parent does it. */
+/* === SIDE PANEL ===
+   Height is dictated by the 100vh .main-layout; the .panel-body
+   scrolls internally when its content overflows. The container
+   always renders (no `:empty { display:none }`); we animate its
+   flex-basis from 0 → `--panel-width` so opening the panel makes
+   main-content shrink smoothly in sync with the panel's reveal.
+   The 24px right padding is also animated so the gap to the
+   viewport edge fades in alongside the panel itself. */
 .panels-container {
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
+  flex-basis: 0;
   height: 100%;
-  padding: 24px 24px 24px 0;
+  padding: 24px 0 24px 0;
   box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    flex-basis 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    padding-right 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.panels-container:empty { display: none; }
+.main-layout:has(.panel) .panels-container {
+  flex-basis: var(--panel-width, 480px);
+  padding-right: 24px;
+}
 
 /* Panel width is computed in JS (`computePanelWidth`): 25% of viewport,
-   clamped to [320, 480]. The CSS `transition: width` smooths the
-   recompute when the viewport resizes while a panel is open.
-   `animation: panel-slide-in` plays on every mount — PanelManager.render()
-   tears down and rebuilds the .panel element each open, so the
-   keyframe fires reliably without needing JS to toggle classes. */
+   clamped to [320, 480]. CSS `transition: width` smooths the recompute
+   when the viewport resizes while a panel is open. The slide-in effect
+   itself is driven by `.panels-container`'s flex-basis transition above
+   — the container grows from 0 to panel-width over the same 0.6s ease,
+   revealing the panel from right to left as the grid shrinks. */
 .panel {
   display: flex;
   flex-direction: column;
@@ -426,11 +438,6 @@ html.arriving-from-login .header {
   overflow: hidden;
   height: 100%;
   flex-shrink: 0;
-  animation: panel-slide-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-@keyframes panel-slide-in {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
 }
 
 
