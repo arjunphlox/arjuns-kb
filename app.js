@@ -572,17 +572,13 @@
   }
 
   // --- Relatedness Index ---
-  // Item B is considered related to item A if ANY of:
-  //   1. Same format     — A and B share a tag in category `format`
-  //   2. Same domain     — A and B share a tag in category `domain`
-  //   3. Tag overlap     — A and B share ≥ 2 tags with weight ≥ 0.5
-  //                        (any category, format/domain included)
+  // Item B is related to item A if BOTH:
+  //   • A and B share a tag in category `format` OR `domain` (category match)
+  //   • A and B share ≥ 3 tags with weight ≥ 0.5 (any category)
+  // A category match alone isn't enough; tag overlap alone isn't enough.
   function buildRelatedIndex() {
-    // Group slugs by format-tag and domain-tag for fast same-format /
-    // same-domain lookup.
     const slugsByFormat = {};
     const slugsByDomain = {};
-    // Inverse index: high-weight tag -> [slug] for the "≥2 shared tags" check.
     const slugsByHeavyTag = {};
 
     allItems.forEach(item => {
@@ -602,36 +598,36 @@
 
     relatedIndex = {};
     allItems.forEach(item => {
-      const related = new Set();
-      // Tag-overlap count for the third rule.
-      const overlap = {};
-
+      // Candidate pool: items sharing the item's format or domain.
+      const candidates = new Set();
       item.tags.forEach(t => {
-        // Rule 1 — same format.
         if (t.category === 'format') {
           (slugsByFormat[t.tag] || []).forEach(slug => {
-            if (slug !== item.slug) related.add(slug);
+            if (slug !== item.slug) candidates.add(slug);
           });
         }
-        // Rule 2 — same domain.
         if (t.category === 'domain') {
           (slugsByDomain[t.tag] || []).forEach(slug => {
-            if (slug !== item.slug) related.add(slug);
-          });
-        }
-        // Rule 3 — accumulate ≥0.5-weight tag overlap counts.
-        if (t.weight >= 0.5) {
-          const key = t.category + ':' + t.tag;
-          (slugsByHeavyTag[key] || []).forEach(slug => {
-            if (slug !== item.slug) overlap[slug] = (overlap[slug] || 0) + 1;
+            if (slug !== item.slug) candidates.add(slug);
           });
         }
       });
 
-      for (const [slug, count] of Object.entries(overlap)) {
-        if (count >= 2) related.add(slug);
-      }
+      // Tag-overlap counts, scoped to the candidate pool.
+      const overlap = {};
+      item.tags.forEach(t => {
+        if (t.weight < 0.5) return;
+        const key = t.category + ':' + t.tag;
+        (slugsByHeavyTag[key] || []).forEach(slug => {
+          if (slug === item.slug || !candidates.has(slug)) return;
+          overlap[slug] = (overlap[slug] || 0) + 1;
+        });
+      });
 
+      const related = new Set();
+      for (const [slug, count] of Object.entries(overlap)) {
+        if (count >= 3) related.add(slug);
+      }
       relatedIndex[item.slug] = related;
     });
   }
