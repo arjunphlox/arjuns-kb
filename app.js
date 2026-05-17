@@ -290,6 +290,13 @@
         buildRelatedIndex();
         renderStats();
         appendOlderWeeks();
+        // Re-run dimensions backfill now that older pages are in memory.
+        // Use setTimeout rather than requestIdleCallback because the
+        // initial backfill keeps the main thread fairly busy (image
+        // probes + Supabase writes), so an idle callback can be starved.
+        // backfillImageDimensions is idempotent and self-locking so
+        // overlapping calls coalesce safely.
+        setTimeout(() => backfillImageDimensions(), 500);
       })();
     }
 
@@ -300,6 +307,19 @@
       requestIdleCallback(() => backfillEnrichment(), { timeout: 4000 });
     } else {
       setTimeout(() => backfillEnrichment(), 2500);
+    }
+
+    // Backfill image dimensions for legacy items (captured before sharp
+    // started storing width/height). Sniffs naturalWidth/naturalHeight
+    // from the loaded image and persists via the user's session — the
+    // RLS policy `Users can update own items` covers this. After enough
+    // sessions every card has explicit width/height, eliminating the
+    // column-count reflow that caused thumbnails to fragment across
+    // columns.
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => backfillImageDimensions(), { timeout: 8000 });
+    } else {
+      setTimeout(() => backfillImageDimensions(), 6000);
     }
   }
 
@@ -378,6 +398,134 @@
 
     buildRelatedIndex();
     console.log(`[stello] backfill: done (${processed}/${queue.length})`);
+  }
+
+  // --- Lazy image-dimensions backfill ---
+  // Sniffs naturalWidth/naturalHeight from each legacy image and persists
+  // them into items.images[] so subsequent renders emit <img width=W
+  // height=H> and the column-count engine never reflows on image-load.
+  // Runs at idle priority, two concurrent fetches at a time, capped at
+  // 50 items per session to avoid hammering Supabase on first visit.
+  function loadImageDimensions(url) {
+    return new Promise(resolve => {
+      const probe = new Image();
+      let done = false;
+      const finish = (val) => { if (done) return; done = true; resolve(val); };
+      probe.onload = () => finish({ width: probe.naturalWidth || 0, height: probe.naturalHeight || 0 });
+      probe.onerror = () => finish(null);
+      probe.src = url;
+      // Guard against images that never resolve so we don't hold a worker forever.
+      setTimeout(() => finish(null), 8000);
+    });
+  }
+
+  let dimsBackfillRunning = false;
+  let dimsBackfillPending = false;
+  async function backfillImageDimensions() {
+    if (dimsBackfillRunning) {
+      // A call arrived mid-run — likely after background pages added more
+      // items. Mark for re-run once the current pass releases the lock.
+      dimsBackfillPending = true;
+      return;
+    }
+    if (!window.Stello) return;
+    const client = Stello.getClient();
+    const userId = Stello.getUserId();
+    if (!client || !userId) return;
+
+    // Items qualify if they have a renderable image (either an entry in
+    // images[] or just og_image_path from a legacy capture) and that
+    // image lacks dimensions. Legacy rows often have only og_image_path,
+    // so we synthesise an images[] entry here — same shape as the seeding
+    // step in api/item-update.js.
+    const queue = allItems.filter(item => {
+      if (!item.has_image) return false;
+      const imgs = item.images || [];
+      const primary = imgs.find(i => i && i.is_primary) || imgs[0];
+      if (primary && primary.path) {
+        return !(primary.width && primary.height);
+      }
+      // No images[] entry — fall back to og_image_path. Caller will seed.
+      return !!item.og_image_path;
+    });
+    if (queue.length === 0) return;
+    dimsBackfillRunning = true;
+
+    // No per-session cap — runs at idle priority so it's harmless to let
+    // the whole queue drain. 4 concurrent fetches is well below Supabase
+    // storage's per-IP rate limits.
+    const work = queue;
+    const CONCURRENCY = 4;
+    let next = 0;
+    let processed = 0;
+
+    async function worker() {
+      while (true) {
+        const slot = next++;
+        if (slot >= work.length) return;
+        const item = work[slot];
+        try {
+          let imgs = (item.images || []).slice();
+          let primaryIdx = imgs.findIndex(i => i && i.is_primary);
+          // Legacy row: synthesise the OG entry into images[] so the
+          // dimensions can ride along on the same JSON shape we use for
+          // every other image source.
+          if (primaryIdx < 0 && (!imgs.length || !imgs[0]?.path)) {
+            if (!item.og_image_path) continue;
+            imgs = [{ path: item.og_image_path, source: 'og', is_primary: true }];
+            primaryIdx = 0;
+          }
+          const idx = primaryIdx >= 0 ? primaryIdx : 0;
+          const entry = imgs[idx];
+          if (!entry || !entry.path) continue;
+
+          const dims = await loadImageDimensions(entry.path);
+          if (!dims || !dims.width || !dims.height) continue;
+
+          imgs[idx] = { ...entry, width: dims.width, height: dims.height };
+          const { error } = await client.from('items')
+            .update({ images: JSON.stringify(imgs) })
+            .eq('slug', item.slug)
+            .eq('user_id', userId);
+          if (error) continue;
+
+          // Update in-memory state so subsequent renders pick up the dims.
+          item.images = imgs;
+          item.image_width = dims.width;
+          item.image_height = dims.height;
+          itemsBySlug[item.slug] = item;
+
+          // Patch the live <img> attrs in case the card is currently mounted —
+          // doesn't change layout (image already loaded), but keeps the DOM
+          // accurate and helps tools that introspect it.
+          const cardEl = $grid.querySelector(`.card[data-slug="${cssSelectorEscape(item.slug)}"] .card-thumb`);
+          if (cardEl) {
+            cardEl.setAttribute('width', String(dims.width));
+            cardEl.setAttribute('height', String(dims.height));
+          }
+          processed++;
+        } catch { /* keep working */ }
+      }
+    }
+
+    const workers = [];
+    for (let i = 0; i < CONCURRENCY; i++) workers.push(worker());
+    await Promise.all(workers);
+    dimsBackfillRunning = false;
+
+    if (processed > 0) console.log(`[stello] image-dims backfill: ${processed}/${work.length} items`);
+
+    // If another call arrived mid-run (likely from the background-page
+    // loader handing off more items), pick those up now.
+    if (dimsBackfillPending) {
+      dimsBackfillPending = false;
+      backfillImageDimensions();
+    }
+  }
+
+  function cssSelectorEscape(s) {
+    if (window.CSS && CSS.escape) return CSS.escape(s);
+    return String(s).replace(/([^a-zA-Z0-9_-])/g, '\\$1');
   }
 
   /** Normalize a Supabase item row to match the frontend shape */
