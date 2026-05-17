@@ -415,7 +415,7 @@ html.arriving-from-login .header {
   display: flex;
   flex-direction: column;
   width: var(--panel-width, 480px);
-  min-width: 320px;
+  min-width: 360px;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;

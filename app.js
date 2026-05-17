@@ -2409,7 +2409,7 @@
   // never has to compete with two panels for width.
   // =========================================================================
   const PanelManager = (function () {
-    const MIN_WIDTH = 320;
+    const MIN_WIDTH = 360;
     const MAX_WIDTH = 480;
     const STORAGE_KEY = 'stello.panels';
 
