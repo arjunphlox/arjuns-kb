@@ -5,7 +5,6 @@ index.json
 *.py
 *.pyc
 __pycache__/
-commands/
 .claude/
 CLAUDE.md
 BACKLOG.md
