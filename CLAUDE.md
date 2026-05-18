@@ -57,7 +57,7 @@ Items have weighted tags across categories: `format`, `domain`, `style`, `subjec
 
 ## Content Structure
 
-Items stored as markdown files in `_items/` directory with YAML frontmatter metadata. Indexed in `index.json`. Topic collections also exist as top-level `.md` files and directories (e.g., `Figma.md`, `Typography/`).
+Items stored as markdown files in `_items/` directory with YAML frontmatter metadata. Indexed in `index.json`. Topic collections live under `notes/` as `.md` files and themed sub-directories (e.g., `notes/Figma.md`, `notes/Typography/`) — content only, not consumed by the app.
 
 ## Maintenance Scripts
 
@@ -113,3 +113,4 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 - 2026-05-17 · Related-items lights up on panel open only (no 2s hover delay); rule is `(format OR domain) AND ≥3 shared high-weight tags` · hover trigger was mass-class-toggling which Safari column-count engine misinterpreted as relayout signal; diff-based updates keep DOM mutations minimal.
 - 2026-05-17 · `--grid-cols` is driven by JS (ResizeObserver on `.main-content`), not CSS container queries · Safari has unreliable container-query support on flex children; JS path is the canonical source, container queries removed entirely.
 - 2026-05-17 · Panel width is `clamp(360px, round(viewport*0.25), 480px)` — no resize handle · single-panel UX doesn't need user-controlled width; localStorage just stores the open slug, not panel dimensions.
+- 2026-05-18 · Topic content (~80 `.md` + ~30 dirs) moved out of repo root into `notes/`; added to `.vercelignore` · root is now app code + meta only, deploys no longer ship ~100MB of unused user notes. App was already Supabase-only post-PR #5, so no code changes needed.
