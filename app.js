@@ -2883,6 +2883,13 @@
 
     function refreshAfterGridRender() {
       updateActiveCards();
+      // Also re-apply the related-items outline. `highlightRelated` only
+      // ran inside `render()` (panel open/close), so cards that came into
+      // existence later — when a week is expanded for the first time or a
+      // capture inserts a fresh card — never picked up `.card-focused`.
+      // The highlight algorithm is already diff-based, so re-running it
+      // on every grid render is cheap.
+      syncHighlightsToOpenPanels(state.slug ? [state.slug] : []);
     }
 
     function getOpenSlug() { return state.slug; }
