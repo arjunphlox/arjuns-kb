@@ -57,7 +57,7 @@ Items have weighted tags across categories: `format`, `domain`, `style`, `subjec
 
 ## Content Structure
 
-Items stored as markdown files in `_items/` directory with YAML frontmatter metadata. Indexed in `index.json`. Topic collections also exist as top-level `.md` files and directories (e.g., `Figma.md`, `Typography/`).
+Items stored as markdown files in `_items/` directory with YAML frontmatter metadata. Indexed in `index.json`. Topic collections live under `cosmos/` as `.md` files and themed sub-directories (e.g., `cosmos/Figma.md`, `cosmos/Typography/`) — content only, not consumed by the app.
 
 ## Maintenance Scripts
 
@@ -113,3 +113,5 @@ Items stored as markdown files in `_items/` directory with YAML frontmatter meta
 - 2026-05-17 · Related-items lights up on panel open only (no 2s hover delay); rule is `(format OR domain) AND ≥3 shared high-weight tags` · hover trigger was mass-class-toggling which Safari column-count engine misinterpreted as relayout signal; diff-based updates keep DOM mutations minimal.
 - 2026-05-17 · `--grid-cols` is driven by JS (ResizeObserver on `.main-content`), not CSS container queries · Safari has unreliable container-query support on flex children; JS path is the canonical source, container queries removed entirely.
 - 2026-05-17 · Panel width is `clamp(360px, round(viewport*0.25), 480px)` — no resize handle · single-panel UX doesn't need user-controlled width; localStorage just stores the open slug, not panel dimensions.
+- 2026-05-18 · Topic content (~80 `.md` + ~30 dirs) moved out of repo root into `cosmos/`; added to `.vercelignore` · root is now app code + meta only, deploys no longer ship ~100MB of unused user notes. App was already Supabase-only post-PR #5, so no code changes needed.
+- 2026-05-20 · Enrich now captures one 1440×900 viewport screenshot per item, not three full-page widths (1440/640/360) · supersedes the 2026-04-17 entry. Three widths produced three `source: 'screenshot'` entries per item with wildly varying aspect ratios, and the panel slider had to render each separately. Fixed viewport = predictable slider thumbnail. Re-enrichment drops legacy multi-width entries from `images[]` and `storage.remove`s the orphan `screenshot-1440w.webp` / `-640w.webp` / `-360w.webp` files in-band so the bucket self-cleans.

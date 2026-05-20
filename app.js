@@ -1980,13 +1980,18 @@
   }
 
   function insertPlaceholder(id) {
-    const firstSection = $grid.querySelector('.masonry-section');
-    if (!firstSection) return;
+    // Target the first `.masonry-col` so the placeholder sits inside a
+    // flex column track (correct width). Direct prepend onto the section
+    // would make the card a sibling flex-track with no `flex: 1 1 0`
+    // constraint \u2014 it then consumes its image's natural width, visible
+    // as an oversized "Adding\u2026" card.
+    const firstCol = $grid.querySelector('.masonry-section .masonry-col');
+    if (!firstCol) return;
     const ph = document.createElement('div');
     ph.className = 'card card-adding';
     ph.dataset.placeholderId = id;
     ph.innerHTML = `<div class="card-visual-area"><div class="card-placeholder adding-pulse"><span>Adding\u2026</span></div></div>`;
-    firstSection.prepend(ph);
+    firstCol.prepend(ph);
   }
 
   function replacePlaceholder(id, rawItem) {
@@ -1998,9 +2003,11 @@
     if (ph) {
       ph.outerHTML = renderCard(item, 0);
     } else {
-      // Fallback: prepend to first section
-      const firstSection = $grid.querySelector('.masonry-section');
-      if (firstSection) firstSection.insertAdjacentHTML('afterbegin', renderCard(item, 0));
+      // Fallback: prepend to the first masonry column (same reason as
+      // insertPlaceholder — must live inside a .masonry-col, not directly
+      // under .masonry-section).
+      const firstCol = $grid.querySelector('.masonry-section .masonry-col');
+      if (firstCol) firstCol.insertAdjacentHTML('afterbegin', renderCard(item, 0));
     }
     // Keep both the array and the lookup in sync
     allItems.unshift(item);
@@ -2876,6 +2883,13 @@
 
     function refreshAfterGridRender() {
       updateActiveCards();
+      // Also re-apply the related-items outline. `highlightRelated` only
+      // ran inside `render()` (panel open/close), so cards that came into
+      // existence later — when a week is expanded for the first time or a
+      // capture inserts a fresh card — never picked up `.card-focused`.
+      // The highlight algorithm is already diff-based, so re-running it
+      // on every grid render is cheap.
+      syncHighlightsToOpenPanels(state.slug ? [state.slug] : []);
     }
 
     function getOpenSlug() { return state.slug; }

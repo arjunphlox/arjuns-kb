@@ -1,5 +1,7 @@
 .DS_Store
+Icon?
 .claude/
+.conductor/
 __pycache__/
 *.pyc
 node_modules/

@@ -117,64 +117,70 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // --- Full-page screenshots at 1440/640/360 widths.
-  // Done synchronously so they land in images[] before this endpoint
-  // returns; the poller can then pick them up in its next tick.
+  // --- Single 1440×900 viewport screenshot.
+  // Done synchronously so it lands in images[] before this endpoint
+  // returns; the poller can then pick it up in its next tick.
+  //
+  // Consolidates legacy items that have up to three `source: 'screenshot'`
+  // entries (Screenshot — 1440w/640w/360w from the previous full-page
+  // pipeline) down to a single entry. The old multi-width files in
+  // storage are deleted in-band so the bucket doesn't accumulate orphans.
   if (item.source_url) {
     try {
-      const { captureScreenshots } = require('./_lib/screenshots');
-      const shots = await captureScreenshots(item.source_url);
-      if (shots.length) {
-        // Load current images[] (may have been updated by OG backfill above
-        // if we set updates.og_image_path, but that's not in images[] yet
-        // until item-update touches it — keep it simple and read from DB).
-        const existingImages = typeof item.images === 'string'
-          ? JSON.parse(item.images)
-          : (item.images || []);
-        const have = new Set(existingImages.map(i => i.path));
-        const newImages = existingImages.slice();
-
-        for (const shot of shots) {
-          const storagePath = `${user.id}/${item.slug}/screenshot-${shot.width}w.webp`;
-          const { error: upErr } = await client.storage
-            .from('item-images')
-            .upload(storagePath, shot.buffer, {
-              contentType: 'image/webp',
-              upsert: true,
-            });
-          if (upErr) {
-            console.warn('reenrich: screenshot upload failed', item.slug, shot.width, upErr.message);
-            continue;
-          }
+      const { captureScreenshot } = require('./_lib/screenshots');
+      const shot = await captureScreenshot(item.source_url);
+      if (shot) {
+        const storagePath = `${user.id}/${item.slug}/screenshot.webp`;
+        const { error: upErr } = await client.storage
+          .from('item-images')
+          .upload(storagePath, shot.buffer, {
+            contentType: 'image/webp',
+            upsert: true,
+          });
+        if (upErr) {
+          console.warn('reenrich: screenshot upload failed', item.slug, upErr.message);
+        } else {
           const { data: urlData } = client.storage
             .from('item-images')
             .getPublicUrl(storagePath);
-          if (!urlData?.publicUrl) continue;
-          if (have.has(urlData.publicUrl)) continue;
-          have.add(urlData.publicUrl);
-          // Replace any prior screenshot entry for the same width so
-          // re-enriching doesn't accumulate duplicates.
-          const idx = newImages.findIndex(i =>
-            i.source === 'screenshot' && i.label === `Screenshot — ${shot.width}w`
-          );
-          const entry = {
-            path: urlData.publicUrl,
-            label: `Screenshot — ${shot.width}w`,
-            source: 'screenshot',
-            is_primary: false,
-            width: shot.outWidth || shot.width || null,
-            height: shot.outHeight || null,
-          };
-          if (idx >= 0) {
-            // Preserve is_primary if the user had set an old screenshot
-            // of this width as cover.
-            entry.is_primary = newImages[idx].is_primary === true;
-            newImages[idx] = entry;
-          } else {
-            newImages.push(entry);
+          const publicUrl = urlData?.publicUrl;
+          if (publicUrl) {
+            const existingImages = typeof item.images === 'string'
+              ? JSON.parse(item.images)
+              : (item.images || []);
+            // Preserve is_primary across the consolidation: if any prior
+            // screenshot entry was the cover, the new entry inherits it.
+            const wasPrimary = existingImages.some(
+              i => i.source === 'screenshot' && i.is_primary === true
+            );
+            // Drop all prior screenshot entries, then append the new one.
+            const newImages = existingImages
+              .filter(i => i.source !== 'screenshot')
+              .concat([{
+                path: publicUrl,
+                label: 'Screenshot',
+                source: 'screenshot',
+                is_primary: wasPrimary,
+                width: shot.width,
+                height: shot.height,
+              }]);
+            updates.images = JSON.stringify(newImages);
+
+            // Delete orphan files from the previous multi-width pipeline.
+            // Safe to call unconditionally — storage.remove is a no-op for
+            // paths that don't exist.
+            const orphanPaths = [
+              `${user.id}/${item.slug}/screenshot-1440w.webp`,
+              `${user.id}/${item.slug}/screenshot-640w.webp`,
+              `${user.id}/${item.slug}/screenshot-360w.webp`,
+            ];
+            try {
+              await client.storage.from('item-images').remove(orphanPaths);
+            } catch (cleanupErr) {
+              console.warn('reenrich: orphan screenshot cleanup failed', item.slug, cleanupErr.message);
+            }
           }
         }
-        updates.images = JSON.stringify(newImages);
       }
     } catch (err) {
       console.warn('reenrich: screenshot pipeline failed', item.slug, err.message);
