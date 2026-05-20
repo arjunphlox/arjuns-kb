@@ -1,67 +1,52 @@
 /**
- * Full-page screenshots at three responsive widths, returned as WebP
- * buffers. Designed for /api/reenrich so the panel slider can surface
- * 1440w / 640w / 360w captures alongside OG + manual images.
+ * Single viewport screenshot at 1440×900, returned as a WebP buffer.
+ * Designed for /api/reenrich so the panel slider gets a predictable
+ * desktop-viewport thumbnail alongside OG + manual + extracted images.
+ *
+ * Previous version captured three full-page widths (1440/640/360). That
+ * produced three slider entries per item with wildly variable aspect
+ * ratios — slider layout had to handle each separately. Switched to one
+ * fixed viewport so the slider thumbnail size is predictable.
  *
  * Every heavy dependency is lazy-required inside launchBrowser so the
  * module loads even when puppeteer-core / @sparticuz/chromium aren't
  * installed (e.g. Vercel bundles that exclude chromium for size). If
- * the load throws, launchBrowser returns null and captureScreenshots
- * returns [] — Enrich succeeds without screenshots.
+ * the load throws, launchBrowser returns null and captureScreenshot
+ * returns null — re-enrichment succeeds without a screenshot.
  *
  * Set STELLO_DISABLE_SCREENSHOTS=1 to skip attempting the launch
  * entirely (useful for Vercel Hobby where the bundle doesn't include
  * chromium).
  */
-const DEFAULT_WIDTHS = [1440, 640, 360];
+const SHOT_WIDTH = 1440;
+const SHOT_HEIGHT = 900;
 
-async function captureScreenshots(url, opts = {}) {
-  const widths = Array.isArray(opts.widths) ? opts.widths : DEFAULT_WIDTHS;
+async function captureScreenshot(url) {
   const browser = await launchBrowser();
-  if (!browser) return [];
+  if (!browser) return null;
 
-  const out = [];
   try {
     const page = await browser.newPage();
     await page.setUserAgent(
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
     );
-    // Single load; we resize viewport between shots so layout reflows
-    // correctly without triple-navigation cost.
+    await page.setViewport({ width: SHOT_WIDTH, height: SHOT_HEIGHT, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 25000 });
     // Small settle for lazy-loaded assets above the fold.
     await page.waitForTimeout?.(400).catch(() => {});
 
-    for (const width of widths) {
-      await page.setViewport({ width, height: 900, deviceScaleFactor: 1 });
-      // A reflow + short settle after viewport change so responsive CSS lands.
-      await new Promise(r => setTimeout(r, 250));
-      try {
-        const buffer = await page.screenshot({
-          fullPage: true,
-          type: 'webp',
-          quality: 78,
-        });
-        // Read actual output dimensions so the frontend can reserve the
-        // exact aspect-ratio slot without waiting for the WebP to load.
-        let outW = width, outH = null;
-        try {
-          const sharp = require('sharp');
-          const meta = await sharp(buffer).metadata();
-          outW = meta.width || width;
-          outH = meta.height || null;
-        } catch { /* dims optional */ }
-        out.push({ width, buffer, outWidth: outW, outHeight: outH });
-      } catch (err) {
-        console.warn('screenshots: shot failed', url, width, err.message);
-      }
-    }
+    const buffer = await page.screenshot({
+      fullPage: false,
+      type: 'webp',
+      quality: 78,
+    });
+    return { buffer, width: SHOT_WIDTH, height: SHOT_HEIGHT };
   } catch (err) {
-    console.warn('screenshots: top-level failure', url, err.message);
+    console.warn('screenshots: capture failed', url, err.message);
+    return null;
   } finally {
     try { await browser.close(); } catch {}
   }
-  return out;
 }
 
 async function launchBrowser() {
@@ -78,7 +63,7 @@ async function launchBrowser() {
       catch { console.warn('screenshots: @sparticuz/chromium not installed'); return null; }
       return await puppeteerCore.launch({
         args: chromium.args,
-        defaultViewport: { width: 1440, height: 900 },
+        defaultViewport: { width: SHOT_WIDTH, height: SHOT_HEIGHT },
         executablePath: await chromium.executablePath(),
         headless: 'shell',
       });
@@ -91,7 +76,7 @@ async function launchBrowser() {
     return await puppeteerCore.launch({
       executablePath: exec,
       headless: 'shell',
-      defaultViewport: { width: 1440, height: 900 },
+      defaultViewport: { width: SHOT_WIDTH, height: SHOT_HEIGHT },
     });
   } catch (err) {
     console.warn('screenshots: browser launch failed', err.message);
@@ -99,4 +84,4 @@ async function launchBrowser() {
   }
 }
 
-module.exports = { captureScreenshots, DEFAULT_WIDTHS };
+module.exports = { captureScreenshot, SHOT_WIDTH, SHOT_HEIGHT };
